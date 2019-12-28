@@ -1,16 +1,18 @@
 ## Как и обещал, список библиотек/туториалов, которые вам **могут** понадобиться
 * [React](https://reactjs.org/docs/getting-started.html#learn-react)
-* [React Hooks(ну не классами же писать, в конце-то концов)](https://reactjs.org/docs/hooks-intro.html)
+* [React Hooks (ну не классами же писать, в конце-то концов)](https://reactjs.org/docs/hooks-intro.html)
 * [React Hooks на Хабре](https://habr.com/ru/post/429712/)
-* [Material UI for React(почему бы и нет?)](https://material-ui.com/)
-* [MobX(может не пригодится, фиг его знает)](https://mobx.js.org/README.html)
-* [React Redux(ну на совсем крайний случай)](https://redux.js.org/)
-* [React Fetch Hook(у MobX вроде своя реализация есть, так что смотрите по ситуации)](https://marcin-piela.github.io/react-fetching-library/#/)
+* [Material UI for React (почему бы и нет?)](https://material-ui.com/)
+* [MobX (может не пригодится, фиг его знает)](https://mobx.js.org/README.html)
+* [React Redux (ну на совсем крайний случай)](https://redux.js.org/)
+* [React Fetch Hook (у MobX вроде своя реализация есть, так что смотрите по ситуации)](https://marcin-piela.github.io/react-fetching-library/#/)
 * [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
-* [RESTful API(ну так, чтобы знать, как вообще это все работает)](https://en.wikipedia.org/wiki/Representational_state_transfer)
+* [RESTful API (ну так, чтобы знать, как вообще это все работает)](https://en.wikipedia.org/wiki/Representational_state_transfer)
 * [Cookies в JavaScript](https://developer.mozilla.org/ru/docs/Web/API/Document/cookie)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# Автосгенерированная фигня React'а
 
 ## Available Scripts
 
