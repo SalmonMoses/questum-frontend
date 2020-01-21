@@ -107,7 +107,7 @@ export default function SignIn() {
           <Icon>lock</Icon>
           </Grid>
           <Grid item className={classes.input}>
-          <FormControl className={clsx(classes.margin)}>
+          <FormControl className={classes.margin}>
           <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
           <Input
             fullWidth
