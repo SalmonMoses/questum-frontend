@@ -39,6 +39,8 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: theme.palette.primary.main, // пример использования темы
+    color: theme.palette.primary.contrastText
   },
   input: {
     width: '90%',
@@ -135,7 +137,7 @@ export default function SignIn() {
             type="submit"
             variant="contained"
             fullWidth
-            color="inherit"
+            // backgroundColor="inherit"
           >Sign In</Button>
           <Typography component='div'>
             <Box textAlign="center" fontSize="h7.fontSize" m={0}>
