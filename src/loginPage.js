@@ -24,7 +24,7 @@ import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(15),
+    marginTop: theme.spacing(30),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
