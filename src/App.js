@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import SignIn from './loginPage'
+import LoginUser from "./loginUser"
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core';
 
 // Просто набросок, чтобы потом менять было удобнее. Тему удобно создавать с помощью вот этого: https://material.io/resources/color/#!/?view.left=0&view.right=0
@@ -34,7 +35,7 @@ const theme = createMuiTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <SignIn />
+      <LoginUser />
     </ThemeProvider>
   );
 }
