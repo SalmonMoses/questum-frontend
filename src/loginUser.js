@@ -89,7 +89,7 @@ export default function LoginUser() {
                     setButton({ label: 'LOG IN', icon: 'how_to_reg' });
                     setValues({ ...values, showAlert: false, error: 'Token', disabled: true });
                 } else {
-                    setValues({ ...values, showAlert: true, error: 'Token has not found', disabled: false });
+                    setValues({ ...values, showAlert: true, error: 'Token not found', disabled: false });
                 }
             })
             .catch(error => console.log('error', error));
@@ -117,7 +117,6 @@ export default function LoginUser() {
             .then(result => {
                 console.log(result);
                 if(result === undefined){
-                    console.log("!!@!@!@")
                     setValues({ ...values, titleEror: true });
                 }
             })
