@@ -136,7 +136,7 @@ export default function LoginUser() {
         event.preventDefault();
     };
     return (
-        <div className={classes.root}>
+        <div className={classes.paper}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
