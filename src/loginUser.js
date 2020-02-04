@@ -49,15 +49,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
+
 export default function LoginUser() {
     const classes = useStyles();
 
     const [values, setValues] = React.useState({
-        amount: '',
+        email: '',
+        token: '',
         password: '',
-        weight: '',
-        weightRange: '',
         showPassword: false,
+        showAlert: false,
+        error: 'Token',
+        disabled: false,
+        login: false,
+        titleEror: false,
+        title: "Убедитесь, что вы правильно ввели почту или пароль",
     });
 
     const [checked, setChecked] = React.useState(false);
@@ -67,14 +73,61 @@ export default function LoginUser() {
         icon: 'group_add',
     });
 
-    const handleChangeButt = () => {
-        setChecked(prev => true);
-        setButton({ label: 'LOG IN', icon: 'how_to_reg' });
+
+
+    const handleSubmit = () => {
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch(`http://localhost:8080/check/group?id=${values.token}`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.exists) {
+                    setChecked(prev => true);
+                    setButton({ label: 'LOG IN', icon: 'how_to_reg' });
+                    setValues({ ...values, showAlert: false, error: 'Token', disabled: true });
+                } else {
+                    setValues({ ...values, showAlert: true, error: 'Token has not found', disabled: false });
+                }
+            })
+            .catch(error => console.log('error', error));
+
+
     };
+
+    const handleSubmitFull = () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({ "groupId" : values.token, "email": values.email, "password": values.password });
+
+        var requestOptions1 = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/login/user", requestOptions1)
+            .then(response => {
+                response.text();
+            })
+            .then(result => {
+                console.log(result);
+                if(result === undefined){
+                    console.log("!!@!@!@")
+                    setValues({ ...values, titleEror: true });
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
     };
+
 
     const handleClickShowPassword = () => {
         setValues({ ...values, showPassword: !values.showPassword });
@@ -93,12 +146,22 @@ export default function LoginUser() {
                             Log in
                         </Box>
                     </Typography>
+                    <Typography component="div" color="secondary">
+                        <Box fontSize="h7.fontSize" m={1}>
+                            {values.titleEror ? values.title : " "}
+                        </Box>
+                    </Typography>
                     <TextField
+                        disabled={values.disabled}
+                        error={values.showAlert}
+                        onChange={handleChange('token')}
+                        value={values.token}
                         fullWidth
                         color="primary"
                         variant="outlined"
                         id="input-with-icon-textfield"
-                        label="Token"
+                        label={values.error}
+
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -113,6 +176,8 @@ export default function LoginUser() {
                             <TextField
                                 className={classes.paper1}
                                 fullWidth
+                                value={values.email}
+                                onChange={handleChange('email')}
                                 color="primary"
                                 variant="outlined"
                                 id="email"
@@ -163,7 +228,7 @@ export default function LoginUser() {
                     color="primary"
                     href="#next"
                     startIcon={<Icon>{button.icon}</Icon>}
-                    onClick={handleChangeButt}
+                    onClick={values.disabled ? handleSubmitFull : handleSubmit}
                 >{button.label}</Button>
 
             </Container>
