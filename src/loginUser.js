@@ -101,7 +101,9 @@ export default function LoginUser() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({ "groupId" : values.token, "email": values.email, "password": values.password });
+        var raw = JSON.stringify({ "groupId": values.token, "email": values.email, "password": values.password });
+
+        console.dir(raw);
 
         var requestOptions1 = {
             method: 'POST',
@@ -111,12 +113,10 @@ export default function LoginUser() {
         };
 
         fetch("http://localhost:8080/login/user", requestOptions1)
-            .then(response => {
-                response.text();
-            })
+            .then(response => response.json())
             .then(result => {
                 console.log(result);
-                if(result === undefined){
+                if (result === undefined) {
                     setValues({ ...values, titleEror: true });
                 }
             })
