@@ -13,6 +13,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Slide from '@material-ui/core/Slide';
+import Link from '@material-ui/core/Link'
+import { useSnackbar } from 'notistack';
 
 
 
@@ -62,8 +64,6 @@ export default function LoginUser() {
         error: 'Token',
         disabled: false,
         login: false,
-        titleEror: false,
-        title: "Убедитесь, что вы правильно ввели почту или пароль",
     });
 
     const [checked, setChecked] = React.useState(false);
@@ -72,6 +72,8 @@ export default function LoginUser() {
         label: 'SUBMIT',
         icon: 'group_add',
     });
+
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 
 
@@ -89,7 +91,7 @@ export default function LoginUser() {
                     setButton({ label: 'LOG IN', icon: 'how_to_reg' });
                     setValues({ ...values, showAlert: false, error: 'Token', disabled: true });
                 } else {
-                    setValues({ ...values, showAlert: true, error: 'Token not found', disabled: false });
+                    setValues({ ...values, showAlert: true, error: 'Token has not found', disabled: false });
                 }
             })
             .catch(error => console.log('error', error));
@@ -101,9 +103,7 @@ export default function LoginUser() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({ "groupId": values.token, "email": values.email, "password": values.password });
-
-        console.dir(raw);
+        var raw = JSON.stringify({ "groupId" : values.token, "email": values.email, "password": values.password });
 
         var requestOptions1 = {
             method: 'POST',
@@ -113,11 +113,16 @@ export default function LoginUser() {
         };
 
         fetch("http://localhost:8080/login/user", requestOptions1)
-            .then(response => response.json())
+            .then(response => {
+                response.text();
+            })
             .then(result => {
                 console.log(result);
-                if (result === undefined) {
-                    setValues({ ...values, titleEror: true });
+                if(result === undefined){
+                    enqueueSnackbar("Убедитесь, что вы правильно ввели почту или пароль", {
+                        variant: 'error',
+                    });
+                    
                 }
             })
             .catch(error => console.log('error', error));
@@ -143,11 +148,6 @@ export default function LoginUser() {
                     <Typography component="div" color="primary">
                         <Box fontSize="h4.fontSize" m={2}>
                             Log in
-                        </Box>
-                    </Typography>
-                    <Typography component="div" color="secondary">
-                        <Box fontSize="h7.fontSize" m={1}>
-                            {values.titleEror ? values.title : " "}
                         </Box>
                     </Typography>
                     <TextField
@@ -225,10 +225,21 @@ export default function LoginUser() {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    href="#next"
                     startIcon={<Icon>{button.icon}</Icon>}
                     onClick={values.disabled ? handleSubmitFull : handleSubmit}
                 >{button.label}</Button>
+                 <Typography component='div'>
+            <Box textAlign="center" fontSize="h7.fontSize" m={0}>
+            {/* <Router>
+              <Link to="/loginOwner" >
+                Sing in as a group owner.
+             </Link>
+             </Router> */}
+             <Link href="/loginOwner" >
+                Sing in as a group owner.
+             </Link>
+            </Box>
+          </Typography>
 
             </Container>
         </div>
