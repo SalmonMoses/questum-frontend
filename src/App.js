@@ -4,6 +4,15 @@ import './App.css';
 import SignIn from './loginPage'
 import LoginUser from "./loginUser"
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core';
+import LoginUser from "./loginUser"
+import SignUp from "./SignUp"
+import { SnackbarProvider } from 'notistack';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom"
+
 
 // Просто набросок, чтобы потом менять было удобнее. Тему удобно создавать с помощью вот этого: https://material.io/resources/color/#!/?view.left=0&view.right=0
 const theme = createMuiTheme({
@@ -34,9 +43,17 @@ const theme = createMuiTheme({
 
 function App() {
   return (
+     <Router>
     <ThemeProvider theme={theme}>
-      <LoginUser />
+    <SnackbarProvider maxSnack={4}>
+      <Switch>
+        <Route exact path="/" component={LoginUser} />
+        <Route exact path="/loginOwner" component={SignIn} />
+        <Route exact path="/SignUp" component={SignUp} />
+      </Switch> 
+      </SnackbarProvider>
     </ThemeProvider>
+    </Router>
   );
 }
 
