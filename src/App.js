@@ -4,7 +4,6 @@ import './App.css';
 import SignIn from './loginPage'
 import LoginUser from "./loginUser"
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core';
-import LoginUser from "./loginUser"
 import SignUp from "./SignUp"
 import { SnackbarProvider } from 'notistack';
 import {
