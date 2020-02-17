@@ -11,8 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+import { useRouteMatch } from "react-router-dom";
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -47,7 +49,9 @@ export default function SignIn() {
         errorPassword: false,
         showPassword: false,
         titleEror: false,
+        logged: false,
     });
+
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
@@ -71,6 +75,8 @@ export default function SignIn() {
 
     const signUp = () => {
         let error = false;
+
+        window.location.href = "http://localhost:3000/"
 
         if (values.name.length < 3) {
             enqueueSnackbar("Имя должно быть длинее 3 символов!", {
@@ -114,7 +120,7 @@ export default function SignIn() {
 
         // console.dir(values);
 
-        if(error) {
+        if (error) {
             return;
         }
 
@@ -152,6 +158,10 @@ export default function SignIn() {
                     enqueueSnackbar("Регистрация успешно завершена", {
                         variant: 'success'
                     });
+                    setValues({...values, logged: true });
+                    // var url = document.getElementById('root');
+                    // console.log(url.value);
+                    // document.location.href = "http://localhost:3000/";
                 }
             })
             .catch(error => console.log('error', error));
@@ -259,9 +269,11 @@ export default function SignIn() {
                         type="button"
                         variant="contained"
                         fullWidth
+                        href="#next"
                         color="primary"
                         onClick={signUp}
                     >SIGN UP</Button>
+                    <Redirect to={values.logged ? "/home" : ""}/>
 
                 </form>
             </div>
