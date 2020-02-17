@@ -75,7 +75,6 @@ export default function SignIn() {
     const signUp = () => {
         let error = false;
 
-        window.location.href = "http://localhost:3000/"
 
         if (values.name.length < 3) {
             enqueueSnackbar("Имя должно быть длинее 3 символов!", {
