@@ -11,7 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
-import { useRouteMatch } from "react-router-dom";
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { Redirect } from "react-router-dom";
@@ -70,7 +69,7 @@ export default function SignIn() {
         return r.test(String(email).toLowerCase());
     }
 
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
 
     const signUp = () => {
@@ -214,7 +213,6 @@ export default function SignIn() {
                             ),
                         }}
                     />
-
 
                     <FormControl className={classes.margin} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
