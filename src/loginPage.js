@@ -110,19 +110,27 @@ export default function SignIn() {
         // password: "WTF"
       }),
     })
-      .then(res => res.text())
-      .then(json => {
-        if (json === "") {
+      .then(res => {
+        if (res.status === 401) {
           console.log("Authorization error")
           enqueueSnackbar("Убедитесь, что вы правильно ввели почту или пароль", {
             variant: 'error',
-        });
-        } else {
-          let result = JSON.parse(json);
-          console.log(result);
-          setValues({ ...values, showAlert: false });
+          });
+          return;
         }
-        console.log(json)
+        return res.json();
+      })
+      .then(json => {
+        if (json === undefined) {
+          return;
+        } else {
+          console.dir(json);
+          setValues({ ...values, showAlert: false });
+          enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
+            variant: 'success',
+          });
+        }
+        // console.log(json)
       })
       .catch(console.log);
   }
@@ -202,7 +210,7 @@ export default function SignIn() {
              </Link>
             </Box>
             <Box textAlign="center" fontSize="h7.fontSize" m={1}>
-              <Link href="/SignUp" color="primary" >
+              <Link href="/signup" color="primary" >
                 Don`t have a group-creater account?
              </Link>
             </Box>

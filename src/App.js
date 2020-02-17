@@ -1,10 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import SignIn from './loginPage'
-import LoginUser from "./loginUser"
+import SignIn from './loginPage';
+import LoginUser from "./loginUser";
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core';
-import SignUp from "./SignUp"
+import SignUp from "./SignUp";
+import MainPage from "./components/mainPage";
 import { SnackbarProvider } from 'notistack';
 import {
   BrowserRouter as Router,
@@ -46,9 +45,10 @@ function App() {
     <ThemeProvider theme={theme}>
     <SnackbarProvider maxSnack={4}>
       <Switch>
-        <Route exact path="/" component={LoginUser} />
-        <Route exact path="/loginOwner" component={SignIn} />
-        <Route exact path="/SignUp" component={SignUp} />
+        <Route exact path="/" component={MainPage} />
+        <Route exact path="/login/user" component={LoginUser} />
+        <Route exact path="/login/owner" component={SignIn} />
+        <Route exact path="/signup" component={SignUp} />
       </Switch> 
       </SnackbarProvider>
     </ThemeProvider>

@@ -13,6 +13,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -47,7 +48,9 @@ export default function SignIn() {
         errorPassword: false,
         showPassword: false,
         titleEror: false,
+        logged: false,
     });
+
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
@@ -70,21 +73,26 @@ export default function SignIn() {
 
 
     const signUp = () => {
+        let error = false;
+
+        window.location.href = "http://localhost:3000/"
 
         if (values.name.length < 3) {
             enqueueSnackbar("Имя должно быть длинее 3 символов!", {
                 variant: 'error',
             });
             setValues({ ...values, errorName: true });
+            error = true;
         } else {
             setValues({ ...values, errorName: false });
         }
         if (!validateEmail(values.email)) {
-            console.log("Uncorrect email!");
+            console.log("Incorrect email!");
             enqueueSnackbar("Проверьте правильность вашей почты", {
                 variant: 'error',
             });
             setValues({ ...values, errorEmail: true });
+            error = true;
         } else {
             setValues({ ...values, errorEmail: false });
         }
@@ -94,6 +102,7 @@ export default function SignIn() {
                 variant: 'error',
             });
             setValues({ ...values, errorPassword: true });
+            error = true;
         } else {
             setValues({ ...values, errorPassword: false });
         }
@@ -103,11 +112,16 @@ export default function SignIn() {
                 variant: 'error',
             });
             setValues({ ...values, errorPassword: true });
-
+            error = true;
         } else {
             setValues({ ...values, errorPassword: false });
         }
 
+        // console.dir(values);
+
+        if (error) {
+            return;
+        }
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -122,15 +136,31 @@ export default function SignIn() {
         };
 
         fetch("http://localhost:8080/signup/owner", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                if (result.owner === null) {
+            .then(response => {
+                if (response.status === 409) {
                     enqueueSnackbar("Данная почта уже зарегистрирована", {
                         variant: 'warning',
                     });
                     setValues({ ...values, errorEmail: true });
+                    return;
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (result.owner === null) {
+                    // enqueueSnackbar("Данная почта уже зарегистрирована", {
+                    //     variant: 'warning',
+                    // });
+                    // setValues({ ...values, errorEmail: true });
                 } else {
-                    console.log(result);
+                    console.dir(result);
+                    enqueueSnackbar("Регистрация успешно завершена", {
+                        variant: 'success'
+                    });
+                    setValues({...values, logged: true });
+                    // var url = document.getElementById('root');
+                    // console.log(url.value);
+                    // document.location.href = "http://localhost:3000/";
                 }
             })
             .catch(error => console.log('error', error));
@@ -183,7 +213,6 @@ export default function SignIn() {
                             ),
                         }}
                     />
-
 
                     <FormControl className={classes.margin} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
@@ -238,9 +267,11 @@ export default function SignIn() {
                         type="button"
                         variant="contained"
                         fullWidth
+                        href="#next"
                         color="primary"
                         onClick={signUp}
                     >SIGN UP</Button>
+                    <Redirect to={values.logged ? "/home" : ""}/>
 
                 </form>
             </div>

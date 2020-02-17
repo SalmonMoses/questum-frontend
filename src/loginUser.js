@@ -103,7 +103,7 @@ export default function LoginUser() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({ "groupId" : values.token, "email": values.email, "password": values.password });
+        var raw = JSON.stringify({ "groupId": values.token, "email": values.email, "password": values.password });
 
         var requestOptions1 = {
             method: 'POST',
@@ -114,15 +114,23 @@ export default function LoginUser() {
 
         fetch("http://localhost:8080/login/user", requestOptions1)
             .then(response => {
-                response.text();
-            })
-            .then(result => {
-                console.log(result);
-                if(result === undefined){
+                if (response.status === 401) {
+                    console.log("Authorization error")
                     enqueueSnackbar("Убедитесь, что вы правильно ввели почту или пароль", {
                         variant: 'error',
                     });
-                    
+                    return;
+                }
+                return response.json();
+            })
+            .then(result => {
+                console.dir(result);
+                if (result === undefined) {
+                    return;
+                } else {
+                    enqueueSnackbar(`Вы вошли как ${result.user.name}`, {
+                        variant: 'success',
+                    });
                 }
             })
             .catch(error => console.log('error', error));
@@ -228,18 +236,18 @@ export default function LoginUser() {
                     startIcon={<Icon>{button.icon}</Icon>}
                     onClick={values.disabled ? handleSubmitFull : handleSubmit}
                 >{button.label}</Button>
-                 <Typography component='div'>
-            <Box textAlign="center" fontSize="h7.fontSize" m={0}>
-            {/* <Router>
+                <Typography component='div'>
+                    <Box textAlign="center" fontSize="h7.fontSize" m={0}>
+                        {/* <Router>
               <Link to="/loginOwner" >
                 Sing in as a group owner.
              </Link>
              </Router> */}
-             <Link href="/loginOwner" >
-                Sing in as a group owner.
+                        <Link href="/login/owner" >
+                            Sing in as a group owner.
              </Link>
-            </Box>
-          </Typography>
+                    </Box>
+                </Typography>
 
             </Container>
         </div>
