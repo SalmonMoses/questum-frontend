@@ -1,26 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-// import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-// import MailIcon from '@material-ui/icons/Mail';
-// import MenuIcon from '@material-ui/icons/Menu';
+import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Badge from '@material-ui/core/Badge';
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles(theme => ({
+  icons: {
+    marginRight: theme.spacing(1),
+  },
   root: {
     display: 'flex',
   },
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
@@ -46,11 +47,20 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth,
   },
-  content: {
+  title: {
+    marginTop: theme.spacing(-7),
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  grow: {
     flexGrow: 1,
-    padding: theme.spacing(3),
   },
 }));
+
 
 function ResponsiveDrawer(props) {
   const { container } = props;
@@ -62,26 +72,74 @@ function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
+
+  const menuId = 'primary-search-account-menu';
+
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />
+      <div className={classes.title}>
+        <Typography component="div" color="primary">
+          <Box fontSize="h4.fontSize" m={1}>
+            Questerium
+        </Box>
+        </Typography>
+      </div>
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <Icon>move_to_inbox</Icon> : <Icon>mail</Icon>}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key="My account">
+          <ListItemIcon>
+            <Icon color="primary">account_box</Icon>
+          </ListItemIcon>
+          <ListItemText primary={<Typography color="primary">My account</Typography>} />
+        </ListItem>
+
+        <ListItem button key="Account settings">
+          <ListItemIcon>
+            <Icon color="primary">settings</Icon>
+          </ListItemIcon>
+          <ListItemText primary="Account settings" />
+        </ListItem>
+
+        <ListItem button key="Log out">
+          <ListItemIcon>
+            <Icon color="primary">exit_to_app</Icon>
+          </ListItemIcon>
+          <ListItemText primary="Log out" />
+        </ListItem>
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <Icon>move_to_inbox</Icon> : <Icon>mail</Icon>}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key="My groups">
+          <ListItemIcon>
+            <Icon color="primary">people_alt</Icon>
+          </ListItemIcon>
+          <ListItemText primary="My groups" />
+        </ListItem>
+
+        <ListItem button key="Pending quests">
+          <ListItemIcon>
+            <Icon color="primary">hourglass_full</Icon>
+          </ListItemIcon>
+          <ListItemText primary="Pending quests" />
+        </ListItem>
+
+        <ListItem button key="Help">
+          <ListItemIcon>
+            <Icon color="primary">help</Icon>
+          </ListItemIcon>
+          <ListItemText primary="Help" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem button key="Donate">
+          <ListItemIcon>
+            <Icon color="primary">monetization_on</Icon>
+          </ListItemIcon>
+          <ListItemText primary="Donate" />
+        </ListItem>
       </List>
     </div>
   );
@@ -101,8 +159,35 @@ function ResponsiveDrawer(props) {
             <Icon>menu</Icon>
           </IconButton>
           <Typography variant="h6" noWrap>
-            Responsive drawer
+          Questerium - круто, стильно и по новому!
           </Typography>
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+          <IconButton
+          className={classes.icons}
+            edge="end"
+            aria-label="change language"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <Icon>translate</Icon>
+          </IconButton>
+          <IconButton className={classes.icons} edge="end" aria-label="show 17 new notifications" color="inherit">
+            <Badge badgeContent={17} color="secondary">
+              <Icon>notifications</Icon>
+            </Badge>
+          </IconButton>
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <Icon>account_circle</Icon>
+          </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
@@ -136,42 +221,8 @@ function ResponsiveDrawer(props) {
           </Drawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </main>
     </div>
   );
 }
-
-ResponsiveDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  container: PropTypes.any,
-};
 
 export default ResponsiveDrawer;

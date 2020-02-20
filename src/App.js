@@ -3,7 +3,8 @@ import SignIn from './loginPage';
 import LoginUser from "./loginUser";
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core';
 import SignUp from "./SignUp";
-import MainPage from "./components/mainPage";
+import MainPage from "./components/ResponsiveDrawer";
+import MainPageAdmin from "./components/mainPageAdmin"
 import { SnackbarProvider } from 'notistack';
 import {
   BrowserRouter as Router,
@@ -45,7 +46,7 @@ function App() {
     <ThemeProvider theme={theme}>
     <SnackbarProvider maxSnack={4}>
       <Switch>
-        <Route exact path="/" component={MainPage} />
+        <Route exact path="/" component={MainPageAdmin} />
         <Route exact path="/login/user" component={LoginUser} />
         <Route exact path="/login/owner" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />

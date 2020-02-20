@@ -266,7 +266,7 @@ export default function SignIn() {
                         type="button"
                         variant="contained"
                         fullWidth
-                        href="#next"
+                        href="/home"
                         color="primary"
                         onClick={signUp}
                     >SIGN UP</Button>
