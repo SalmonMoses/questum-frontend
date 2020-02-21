@@ -2,8 +2,9 @@ import React from 'react';
 import ResponsiveDrawer from "./ResponsiveDrawer"
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MediaCard from "./card"
+import Leadboard from "./leadboard"
 import AppBarAdmin from "./AppBarAdmin"
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, Grid } from '@material-ui/core';
 
 const drawerWidth = 200;
 
@@ -37,7 +38,17 @@ export default function MainPageAdmin() {
             <ResponsiveDrawer />
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <MediaCard />
+                <Grid container spacing={5} >
+                    <Grid item >
+                        <MediaCard />
+                    </Grid>
+                    <Grid item >
+                        <Leadboard />
+                    </Grid>
+                </Grid>
+                {/* <MediaCard />
+                <Leadboard /> */}
+
             </main>
         </div>
     );

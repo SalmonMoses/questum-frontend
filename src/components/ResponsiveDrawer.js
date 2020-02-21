@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   appBar: {
+    backgroundColor: theme.palette.primary.dark,
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -96,22 +97,6 @@ function ResponsiveDrawer(props) {
           <ListItemText primary={<Typography color="primary">My account</Typography>} />
         </ListItem>
 
-        <ListItem button key="Account settings">
-          <ListItemIcon>
-            <Icon color="primary">settings</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Account settings" />
-        </ListItem>
-
-        <ListItem button key="Log out">
-          <ListItemIcon>
-            <Icon color="primary">exit_to_app</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Log out" />
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
         <ListItem button key="My groups">
           <ListItemIcon>
             <Icon color="primary">people_alt</Icon>
@@ -125,12 +110,28 @@ function ResponsiveDrawer(props) {
           </ListItemIcon>
           <ListItemText primary="Pending quests" />
         </ListItem>
+      </List>
+      <Divider />
+      <List>
+      <ListItem button key="Account settings">
+          <ListItemIcon>
+            <Icon color="primary">settings</Icon>
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </ListItem>
 
         <ListItem button key="Help">
           <ListItemIcon>
             <Icon color="primary">help</Icon>
           </ListItemIcon>
           <ListItemText primary="Help" />
+        </ListItem>
+
+        <ListItem button key="Log out">
+          <ListItemIcon>
+            <Icon color="primary">exit_to_app</Icon>
+          </ListItemIcon>
+          <ListItemText primary="Log out" />
         </ListItem>
       </List>
       <Divider />
@@ -201,6 +202,8 @@ function ResponsiveDrawer(props) {
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
+
+              
               paper: classes.drawerPaper,
             }}
             ModalProps={{
@@ -211,7 +214,7 @@ function ResponsiveDrawer(props) {
           </SwipeableDrawer>
         </Hidden>
         <Hidden xsDown implementation="css">
-          <Drawer
+          <SwipeableDrawer
             classes={{
               paper: classes.drawerPaper,
             }}
@@ -219,7 +222,7 @@ function ResponsiveDrawer(props) {
             open
           >
             {drawer}
-          </Drawer>
+          </SwipeableDrawer>
         </Hidden>
       </nav>
     </div>

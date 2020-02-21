@@ -1,51 +1,44 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import GroupPaper from './groupPaper';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: 345,
+    width: theme.spacing(75),
+    height: theme.spacing(70),
+    backgroundColor: theme.palette.primary.main,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  media: {
-    height: 140,
+  text:{
+    marginTop: theme.spacing(30)
+
   },
-});
+}));
 
 export default function MediaCard() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
+    <Card className={classes.root} raised="true" >
+     <CardContent >
+        <Typography variant="h6">
+          Your groups:
+        </Typography>
+      </CardContent>
+    <GroupPaper />
+    <GroupPaper />
+    <GroupPaper />
+    <GroupPaper />
+      {/* <CardContent className={classes.text}>
+        <Typography variant="h4">
+          You have no groups yet
+        </Typography>
+      </CardContent> */}
     </Card>
   );
 }
