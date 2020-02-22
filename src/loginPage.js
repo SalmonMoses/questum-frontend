@@ -9,13 +9,13 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//
 import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
+import { useHistory } from "react-router-dom";
 
 // function Copyright() {
 //   return (
@@ -46,11 +46,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 4, 2),
-    width: '90%',
+    margin: theme.spacing(3, 0, 0),
+    width: '100%',
   },
   input: {
-    width: '90%',
+    width: '100%',
   },
   margin: {
     margin: theme.spacing(0),
@@ -96,6 +96,8 @@ export default function SignIn() {
     event.preventDefault();
   };
 
+  let history = useHistory();
+
   const login = () => {
     console.log(values.email + " " + values.password)
     fetch('http://localhost:8080/login/owner', {
@@ -129,6 +131,7 @@ export default function SignIn() {
           enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
             variant: 'success',
           });
+          history.push('/');
         }
         // console.log(json)
       })
@@ -147,9 +150,9 @@ export default function SignIn() {
         </Typography>
         <form className={classes.form}>
           <Grid container spacing={1} alignItems="flex-end">
-            <Grid item className={classes.icons}>
+            {/* <Grid item className={classes.icons}>
               <Icon color="primary">account_circle</Icon>
-            </Grid>
+            </Grid> */}
             <Grid item className={classes.input}>
               <TextField
                 onChange={handleChange('email')}
@@ -160,15 +163,22 @@ export default function SignIn() {
                 label="E-mail"
                 fullWidth
                 margin="normal"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Icon color="primary" fontSize="default">email</Icon>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
           </Grid>
 
 
           <Grid container spacing={1} alignItems="flex-end">
-            <Grid item className={classes.icons2}>
+            {/* <Grid item className={classes.icons2}>
               <Icon color="primary" >lock</Icon>
-            </Grid>
+            </Grid> */}
             <Grid item className={classes.input}>
               <FormControl className={classes.margin} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>

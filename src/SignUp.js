@@ -13,7 +13,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -71,10 +71,11 @@ export default function SignIn() {
 
     const { enqueueSnackbar } = useSnackbar();
 
+    let history = useHistory();
+
 
     const signUp = () => {
         let error = false;
-
 
         if (values.name.length < 3) {
             enqueueSnackbar("Имя должно быть длинее 3 символов!", {
@@ -157,6 +158,7 @@ export default function SignIn() {
                         variant: 'success'
                     });
                     setValues({...values, logged: true });
+                    history.push('/');
                     // var url = document.getElementById('root');
                     // console.log(url.value);
                     // document.location.href = "http://localhost:3000/";
@@ -266,11 +268,9 @@ export default function SignIn() {
                         type="button"
                         variant="contained"
                         fullWidth
-                        href="/home"
                         color="primary"
                         onClick={signUp}
                     >SIGN UP</Button>
-                    <Redirect to={values.logged ? "/home" : ""}/>
 
                 </form>
             </div>

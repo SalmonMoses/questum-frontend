@@ -3,9 +3,9 @@ import SignIn from './loginPage';
 import LoginUser from "./loginUser";
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core';
 import SignUp from "./SignUp";
-import MainPage from "./components/ResponsiveDrawer";
 import MainPageAdmin from "./components/mainPageAdmin"
 import { SnackbarProvider } from 'notistack';
+import { useHistory } from "react-router-dom";
 import {
   BrowserRouter as Router,
   Switch,
@@ -41,12 +41,13 @@ const theme = createMuiTheme({
 })
 
 function App() {
+
   return (
      <Router>
     <ThemeProvider theme={theme}>
     <SnackbarProvider maxSnack={4}>
       <Switch>
-        <Route exact path="/" component={MainPageAdmin} />
+        <Route exact path="/home/:id" component={MainPageAdmin} />
         <Route exact path="/login/user" component={LoginUser} />
         <Route exact path="/login/owner" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />

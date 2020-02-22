@@ -7,6 +7,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import MemberPaper from "./member"
+import Quests from "./quests"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,7 +44,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: theme.spacing(75),
-    height:theme.spacing(70),
+    height: theme.spacing(70),
+  },
+  margin: {
+    marginTop: theme.spacing(-1),
   },
 }));
 
@@ -81,13 +86,21 @@ export default function Leadboard() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          You have no members yet
+          <div className={classes.margin}>
+            <MemberPaper />
+            <MemberPaper />
+          </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-        You have no quests yet
+        <div className={classes.margin}>
+        <Quests />
+          </div>
+         
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-        You have no leaders yet
+        <div className={classes.margin}>
+        <MemberPaper />
+          </div>
         </TabPanel>
       </SwipeableViews>
     </div>

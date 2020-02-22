@@ -3,8 +3,12 @@ import ResponsiveDrawer from "./ResponsiveDrawer"
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MediaCard from "./card"
 import Leadboard from "./leadboard"
-import AppBarAdmin from "./AppBarAdmin"
-import { CssBaseline, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+  } from "react-router-dom"
 
 const drawerWidth = 200;
 
@@ -12,9 +16,6 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
     },
-    // card: {
-    //     margin: theme.spacing(20, 20, 20)
-    // },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
@@ -28,6 +29,27 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+function MyGroups() {
+
+    const classes = useStyles();
+
+    return (
+        <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Grid container spacing={5} >
+                <Grid item >
+                    <MediaCard />
+                </Grid>
+                <Grid item >
+                    <Leadboard />
+                </Grid>
+            </Grid>
+            {/* <MediaCard />
+                <Leadboard /> */}
+        </main>
+    );
+}
+
 
 export default function MainPageAdmin() {
 
@@ -36,7 +58,13 @@ export default function MainPageAdmin() {
     return (
         <div className={classes.root}>
             <ResponsiveDrawer />
-            <main className={classes.content}>
+            <Router>
+             <Switch>
+                 <Route exact path="/home/groups" component={MyGroups} />
+                 {/* <Route exact path="/home/" component={MainPageAdmin} /> */}
+             </Switch>
+            </Router>
+            {/* <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Grid container spacing={5} >
                     <Grid item >
@@ -46,10 +74,10 @@ export default function MainPageAdmin() {
                         <Leadboard />
                     </Grid>
                 </Grid>
-                {/* <MediaCard />
-                <Leadboard /> */}
+                <MediaCard />
+                <Leadboard />
 
-            </main>
+            </main> */}
         </div>
     );
 }
