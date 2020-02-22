@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: theme.spacing(70),
     height: theme.spacing(70),
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.background.default,
   },
   media: {
     height: 140,
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(27),
   },
   paper:{
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.background.default,
   },
 }));
 

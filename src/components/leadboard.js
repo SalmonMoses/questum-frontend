@@ -40,7 +40,7 @@ function a11yProps(index) {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.background.paper,
     width: theme.spacing(75),
     height:theme.spacing(70),
   },
@@ -61,7 +61,7 @@ export default function Leadboard() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="primary">
+      <AppBar position="static" color="default">
         <Tabs
           value={value}
           onChange={handleChange}
@@ -70,9 +70,9 @@ export default function Leadboard() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Members" {...a11yProps(0)} />
+          <Tab label="Quests" {...a11yProps(1)} />
+          <Tab label="Leaderboard" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -81,13 +81,13 @@ export default function Leadboard() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+          You have no members yet
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+        You have no quests yet
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+        You have no leaders yet
         </TabPanel>
       </SwipeableViews>
     </div>

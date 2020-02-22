@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: theme.spacing(75),
     height: theme.spacing(70),
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.background.paper,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -24,7 +24,7 @@ export default function MediaCard() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root} raised="true" >
+    <Card className={classes.root} raised="false" >
      <CardContent >
         <Typography variant="h6">
           Your groups:
