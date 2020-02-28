@@ -76,13 +76,11 @@ export default function SignIn() {
     email: '',
     token: '',
     password: '',
-    weight: '',
-    weightRange: '',
     showAlert: false,
     showPassword: false,
   });
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
@@ -100,6 +98,7 @@ export default function SignIn() {
 
   const login = () => {
     console.log(values.email + " " + values.password)
+
     fetch('http://localhost:8080/login/owner', {
       method: 'POST',
       headers: {
@@ -131,9 +130,8 @@ export default function SignIn() {
           enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
             variant: 'success',
           });
-          history.push('/');
+          history.push('/home/groups');
         }
-        // console.log(json)
       })
       .catch(console.log);
   }
@@ -220,7 +218,7 @@ export default function SignIn() {
              </Link>
             </Box>
             <Box textAlign="center" fontSize="h7.fontSize" m={1}>
-              <Link href="/signup" color="primary" >
+              <Link href="/signup/owner" color="primary" >
                 Don`t have a group-creater account?
              </Link>
             </Box>

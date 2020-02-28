@@ -70,8 +70,8 @@ export default function Leadboard() {
         <Tabs
           value={value}
           onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="secondary"
+          indicatorColor="primary"
+          textColor="primary"
           variant="fullWidth"
           aria-label="full width tabs example"
         >

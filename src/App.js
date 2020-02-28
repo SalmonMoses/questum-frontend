@@ -5,28 +5,55 @@ import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core';
 import SignUp from "./SignUp";
 import MainPageAdmin from "./components/mainPageAdmin"
 import { SnackbarProvider } from 'notistack';
-import { useHistory } from "react-router-dom";
+import NoMatch from "./components/NoMatch";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom"
 
 
 // Просто набросок, чтобы потом менять было удобнее. Тему удобно создавать с помощью вот этого: https://material.io/resources/color/#!/?view.left=0&view.right=0
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: {
+//       light: '#a6a55c',
+//       main: '#767630',
+//       dark: '#484b02',
+//       contrastText: fade('#ffffff', 0.85)
+//     },
+//     secondary: {
+//       light: '#ffb851',
+//       main: '#aa0d0a',
+//       dark: '#b2741a',
+//       contrastText: fade('#ffffff', 0.73)
+//     },
+//     background: {
+//       default: '#e1e2e1',
+
+//     },
+//     text: {
+//       primary: fade('#000000', 0.55),
+//       secondary: fade('#000000', 0.55),
+//       hint: fade('#000000', 0.55)
+//     }
+//   }
+// })
+
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#a6a55c',
-      main: '#767630',
-      dark: '#484b02',
-      contrastText: fade('#ffffff', 0.85)
-    },
-    secondary: {
       light: '#ffb851',
       main: '#aa0d0a',
       dark: '#b2741a',
       contrastText: fade('#ffffff', 0.73)
+    },
+    secondary: {
+      light: '#a6a55c',
+      main: '#767630',
+      dark: '#484b02',
+      contrastText: fade('#ffffff', 0.85)
     },
     background: {
       default: '#e1e2e1',
@@ -47,10 +74,15 @@ function App() {
     <ThemeProvider theme={theme}>
     <SnackbarProvider maxSnack={4}>
       <Switch>
-        <Route exact path="/home/:id" component={MainPageAdmin} />
+      <Route exact path="/">
+          <Redirect to="/groups" />
+        </Route>
+        {/* <Route exact path="/" component={MainPageAdmin} /> */}
+        <Route exact path="/:id" component={MainPageAdmin} />
         <Route exact path="/login/user" component={LoginUser} />
         <Route exact path="/login/owner" component={SignIn} />
-        <Route exact path="/signup" component={SignUp} />
+        <Route path="/signup/owner" component={SignUp} />
+        <Route path="*" component={NoMatch} />
       </Switch> 
       </SnackbarProvider>
     </ThemeProvider>

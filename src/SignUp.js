@@ -240,7 +240,7 @@ export default function SignIn() {
                     </FormControl>
 
                     <FormControl className={classes.margin} variant="outlined" style={{ marginTop: 9 }} >
-                        <InputLabel htmlFor="outlined-adornment-password">Repit your password</InputLabel>
+                        <InputLabel htmlFor="outlined-adornment-password">Repeat your password</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"
                             type={values.showPassword ? 'text' : 'password'}
@@ -259,7 +259,7 @@ export default function SignIn() {
                                     </IconButton>
                                 </InputAdornment>
                             }
-                            labelWidth={150}
+                            labelWidth={160}
                         />
                     </FormControl>
 

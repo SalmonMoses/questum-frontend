@@ -1,8 +1,10 @@
 import React from 'react';
-import ResponsiveDrawer from "./ResponsiveDrawer"
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MediaCard from "./card"
-import Leadboard from "./leadboard"
+import ResponsiveDrawer from "./ResponsiveDrawer";
+import { makeStyles } from '@material-ui/core/styles';
+import MediaCard from "./card";
+import Leadboard from "./leadboard";
+import Sittings from "./settings";
+import NoMatch from "./NoMatch";
 import { Grid } from '@material-ui/core';
 import {
     BrowserRouter as Router,
@@ -10,19 +12,11 @@ import {
     Route,
   } from "react-router-dom"
 
-const drawerWidth = 200;
-
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
     },
     toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    title: {
-        marginTop: theme.spacing(-7),
-    },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
@@ -44,8 +38,6 @@ function MyGroups() {
                     <Leadboard />
                 </Grid>
             </Grid>
-            {/* <MediaCard />
-                <Leadboard /> */}
         </main>
     );
 }
@@ -56,14 +48,15 @@ export default function MainPageAdmin() {
     const classes = useStyles();
 
     return (
+        <Router>
         <div className={classes.root}>
             <ResponsiveDrawer />
-            <Router>
              <Switch>
-                 <Route exact path="/home/groups" component={MyGroups} />
-                 {/* <Route exact path="/home/" component={MainPageAdmin} /> */}
+                 <Route exact path="/groups" component={MyGroups} />
+                 <Route exact path="/settings" component={Sittings} />
+                 <Route path="*" component={NoMatch} />
              </Switch>
-            </Router>
+             </div>
             {/* <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Grid container spacing={5} >
@@ -76,8 +69,7 @@ export default function MainPageAdmin() {
                 </Grid>
                 <MediaCard />
                 <Leadboard />
-
             </main> */}
-        </div>
+            </Router>
     );
 }

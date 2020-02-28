@@ -6,6 +6,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
+import Link from '@material-ui/core/Link';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -15,6 +16,8 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
+import { useHistory } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 const drawerWidth = 200;
 
@@ -32,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   appBar: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.main,
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -62,6 +65,30 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+function ListItemLink(props) {
+  const { icon, primary, to } = props;
+
+  const renderLink = React.useMemo(
+    () => React.forwardRef((itemProps, ref) => <Link href={to} ref={ref} {...itemProps} />),
+    [to],
+  );
+
+  return (
+    <li>
+      <ListItem button component={renderLink}>
+        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+        <ListItemText primary={primary} />
+      </ListItem>
+    </li>
+  );
+}
+
+ListItemLink.propTypes = {
+  icon: PropTypes.element,
+  primary: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+};
+
 
 function ResponsiveDrawer(props) {
   const { container } = props;
@@ -75,6 +102,8 @@ function ResponsiveDrawer(props) {
 
 
   const menuId = 'primary-search-account-menu';
+
+  let history = useHistory();
 
 
   const drawer = (
@@ -96,12 +125,20 @@ function ResponsiveDrawer(props) {
           <ListItemText primary={<Typography color="primary">My account</Typography>} />
         </ListItem>
 
-        <ListItem button key="My groups">
+        <ListItemLink
+          to={"/groups"}
+          icon={<Icon color="primary">people_alt</Icon>}
+          primary={"My groups"} />
+
+        {/* <ListItem
+          button
+          key="My groups"
+          onClick={handleClick('groups')}>
           <ListItemIcon>
             <Icon color="primary">people_alt</Icon>
           </ListItemIcon>
           <ListItemText primary="My groups" />
-        </ListItem>
+        </ListItem> */}
 
         <ListItem button key="Pending quests">
           <ListItemIcon>
@@ -112,12 +149,20 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-      <ListItem button key="Account settings">
+      <ListItemLink
+          to={"/settings"}
+          icon={<Icon color="primary">settings</Icon>}
+          primary={"Settings"} />
+        {/* <ListItem
+          button
+          key="Account settings"
+        // onClick={handleClick('sittings')}>
+        >
           <ListItemIcon>
             <Icon color="primary">settings</Icon>
           </ListItemIcon>
           <ListItemText primary="Settings" />
-        </ListItem>
+        </ListItem> */}
 
         <ListItem button key="Help">
           <ListItemIcon>
@@ -160,34 +205,34 @@ function ResponsiveDrawer(props) {
             <Icon>menu</Icon>
           </IconButton>
           <Typography variant="h6" noWrap>
-          Questerium - круто, стильно и по новому!
+            Questerium - круто, стильно и по новому!
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-          <IconButton
-          className={classes.icons}
-            edge="end"
-            aria-label="change language"
-            aria-controls={menuId}
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <Icon>translate</Icon>
-          </IconButton>
-          <IconButton className={classes.icons} edge="end" aria-label="show 17 new notifications" color="inherit">
-            <Badge badgeContent={17} color="secondary">
-              <Icon>notifications</Icon>
-            </Badge>
-          </IconButton>
-          <IconButton
-            edge="end"
-            aria-label="account of current user"
-            aria-controls={menuId}
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <Icon>account_circle</Icon>
-          </IconButton>
+            <IconButton
+              className={classes.icons}
+              edge="end"
+              aria-label="change language"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <Icon>translate</Icon>
+            </IconButton>
+            <IconButton className={classes.icons} edge="end" aria-label="show 17 new notifications" color="inherit">
+              <Badge badgeContent={17} color="secondary">
+                <Icon>notifications</Icon>
+              </Badge>
+            </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <Icon>account_circle</Icon>
+            </IconButton>
           </div>
         </Toolbar>
       </AppBar>
@@ -202,7 +247,7 @@ function ResponsiveDrawer(props) {
             onClose={handleDrawerToggle}
             classes={{
 
-              
+
               paper: classes.drawerPaper,
             }}
             ModalProps={{
