@@ -18,6 +18,8 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const drawerWidth = 200;
 
@@ -65,6 +67,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+//Компенет, заменяющий ListItem, чтоб можно было просто указать путь ссылки
+
 function ListItemLink(props) {
   const { icon, primary, to } = props;
 
@@ -98,6 +102,16 @@ function ResponsiveDrawer(props) {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
 
@@ -149,7 +163,7 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-      <ListItemLink
+        <ListItemLink
           to={"/settings"}
           icon={<Icon color="primary">settings</Icon>}
           primary={"Settings"} />
@@ -180,12 +194,16 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        <ListItem button key="Donate">
+        <ListItemLink
+          to={"/donate"}
+          icon={<Icon color="primary">monetization_on</Icon>}
+          primary={"Donate"} />
+        {/* <ListItem button key="Donate">
           <ListItemIcon>
             <Icon color="primary">monetization_on</Icon>
           </ListItemIcon>
           <ListItemText primary="Donate" />
-        </ListItem>
+        </ListItem> */}
       </List>
     </div>
   );
@@ -213,18 +231,30 @@ function ResponsiveDrawer(props) {
               className={classes.icons}
               edge="end"
               aria-label="change language"
-              aria-controls={menuId}
+              aria-controls="lang"
               aria-haspopup="true"
               color="inherit"
+              onClick={handleClick}
             >
               <Icon>translate</Icon>
             </IconButton>
+            <Menu
+              id="lang"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem value={"Russian"} onClick={handleClose}>Russian</MenuItem>
+              <MenuItem value={"English"} onClick={handleClose}>English</MenuItem>
+            </Menu>
             <IconButton className={classes.icons} edge="end" aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 <Icon>notifications</Icon>
               </Badge>
             </IconButton>
             <IconButton
+            href="/settings"
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}

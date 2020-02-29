@@ -9,6 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import MemberPaper from "./member"
 import Quests from "./quests"
+import clsx from 'clsx';
+import Zoom from '@material-ui/core/Zoom';
+import Fab from '@material-ui/core/Fab';
+import Icon from '@material-ui/core/Icon';
+import { green } from '@material-ui/core/colors';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,10 +49,22 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     // width: theme.spacing(75),
-    height: theme.spacing(70),
+    height: theme.spacing(170),
   },
   margin: {
     marginTop: theme.spacing(-1),
+  },
+  fab: {
+    position: "fixed",
+    top: 600,
+    right: 80,
+  },
+  fabGreen: {
+    color: theme.palette.common.white,
+    backgroundColor: green[500],
+    '&:hover': {
+      backgroundColor: green[600],
+    },
   },
 }));
 
@@ -63,6 +80,32 @@ export default function Leadboard() {
   const handleChangeIndex = index => {
     setValue(index);
   };
+
+  const transitionDuration = {
+    enter: theme.transitions.duration.enteringScreen,
+    exit: theme.transitions.duration.leavingScreen,
+  };
+
+  const fabs = [
+    {
+      color: 'primary',
+      className: classes.fab,
+      icon: <Icon>add</Icon>,
+      label: 'Add',
+    },
+    {
+      color: 'secondary',
+      className: classes.fab,
+      icon: <Icon>edit</Icon>,
+      label: 'Edit',
+    },
+    {
+      color: 'inherit',
+      className: clsx(classes.fab, classes.fabGreen),
+      icon: <Icon>keyboard_arrow_up</Icon>,
+      label: 'Expand',
+    },
+  ];
 
   return (
     <div className={classes.root}>
@@ -103,6 +146,21 @@ export default function Leadboard() {
           </div>
         </TabPanel>
       </SwipeableViews>
+      {fabs.map((fab, index) => (
+        <Zoom
+          key={fab.color}
+          in={value === index}
+          timeout={transitionDuration}
+          style={{
+            transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
+          }}
+          unmountOnExit
+        >
+          <Fab aria-label={fab.label} className={fab.className} color={fab.color}>
+            {fab.icon}
+          </Fab>
+        </Zoom>
+      ))}
     </div>
   );
 }

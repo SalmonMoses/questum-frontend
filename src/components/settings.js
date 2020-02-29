@@ -1,28 +1,14 @@
 import React, { useState } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Icon from '@material-ui/core/Icon';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Badge from '@material-ui/core/Badge';
-import { useHistory } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -69,14 +55,7 @@ export default function Sittings() {
     // passEdit: false,
   });
 
-  // const [lang, setlang] = useState('rus');
-
   const classes = useStyles();
-
-  const handleClick = () => {
-    setValues({ ...values, edit: true })
-  }
-
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })

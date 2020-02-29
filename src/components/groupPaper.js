@@ -59,7 +59,7 @@ export default function GroupPaper() {
   let history = useHistory();
 
   const handleClick = () =>{
-    history.push("/group/id");
+    history.push("/group");
   }
 
   return (

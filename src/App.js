@@ -6,6 +6,7 @@ import SignUp from "./SignUp";
 import MainPageAdmin from "./components/mainPageAdmin"
 import { SnackbarProvider } from 'notistack';
 import NoMatch from "./components/NoMatch";
+import { ruRU } from '@material-ui/core/locale';
 import {
   BrowserRouter as Router,
   Switch,
@@ -65,7 +66,7 @@ const theme = createMuiTheme({
       hint: fade('#000000', 0.55)
     }
   }
-})
+}, ruRU)
 
 function App() {
 

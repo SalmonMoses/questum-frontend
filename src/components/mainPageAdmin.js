@@ -5,6 +5,8 @@ import MediaCard from "./card";
 import Leadboard from "./leadboard";
 import Sittings from "./settings";
 import NoMatch from "./NoMatch";
+import Donate from "./donate";
+import GroupId from "./groupID"
 import { Grid } from '@material-ui/core';
 import {
     BrowserRouter as Router,
@@ -21,6 +23,10 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    leadboard:{
+        width: theme.spacing(75),
+        height: theme.spacing(70),
+    },
 }));
 
 function MyGroups() {
@@ -34,7 +40,7 @@ function MyGroups() {
                 <Grid item >
                     <MediaCard />
                 </Grid>
-                <Grid item >
+                <Grid item className={classes.leadboard}>
                     <Leadboard />
                 </Grid>
             </Grid>
@@ -54,6 +60,8 @@ export default function MainPageAdmin() {
              <Switch>
                  <Route exact path="/groups" component={MyGroups} />
                  <Route exact path="/settings" component={Sittings} />
+                 <Route exact path="/donate" component={Donate} />
+                 <Route path="/group" component={GroupId} />
                  <Route path="*" component={NoMatch} />
              </Switch>
              </div>
