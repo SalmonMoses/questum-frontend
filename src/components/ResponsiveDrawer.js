@@ -20,6 +20,7 @@ import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import DonateButton from './DonateButton';
 
 const drawerWidth = 200;
 
@@ -184,11 +185,7 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-      <a href="https://www.buymeacoffee.com/LYUxBdy" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style={{height: 51, width: 200}} /></a>
-        {/* <ListItemLink
-          to={"https://www.buymeacoffee.com/LYUxBdy"}
-          icon={<Icon color="primary">monetization_on</Icon>}
-          primary={"Donate"} /> */}
+          <DonateButton></DonateButton>
         {/* <ListItem button key="Donate">
           <ListItemIcon>
             <Icon color="primary">monetization_on</Icon>
