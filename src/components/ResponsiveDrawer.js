@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
   sectionDesktop: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       display: 'flex',
     },
   },
@@ -158,16 +158,6 @@ function ResponsiveDrawer(props) {
           to={"/settings"}
           icon={<Icon color="primary">settings</Icon>}
           primary={"Settings"} />
-        {/* <ListItem
-          button
-          key="Account settings"
-        // onClick={handleClick('sittings')}>
-        >
-          <ListItemIcon>
-            <Icon color="primary">settings</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Settings" />
-        </ListItem> */}
 
         <ListItem button key="Help">
           <ListItemIcon>
@@ -186,12 +176,6 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
           <DonateButton></DonateButton>
-        {/* <ListItem button key="Donate">
-          <ListItemIcon>
-            <Icon color="primary">monetization_on</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Donate" />
-        </ListItem> */}
       </List>
     </div>
   );
@@ -211,7 +195,7 @@ function ResponsiveDrawer(props) {
             <Icon>menu</Icon>
           </IconButton>
           <Typography variant="h6" noWrap>
-            Questerium - круто, стильно и по новому!
+            Questerium 
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
@@ -259,13 +243,11 @@ function ResponsiveDrawer(props) {
         <Hidden smUp implementation="css">
           <SwipeableDrawer
             container={container}
-            variant="temporary"
+            variant="permanent"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
-
-
               paper: classes.drawerPaper,
             }}
             ModalProps={{

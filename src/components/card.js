@@ -13,17 +13,50 @@ import TextField from '@material-ui/core/TextField';
 import GroupPaper from './groupPaper';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    position: "fixed",
-    Top: 200,
-    Left: 30,
-    width: theme.spacing(75),
-    height: theme.spacing(70),
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+  [theme.breakpoints.down('sm')]: {
+    root: {
+      width: theme.spacing(75),
+      height: theme.spacing(70),
+      backgroundColor: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
   },
+  [theme.breakpoints.up('md')]: {
+    root: {
+      width: theme.spacing(75),
+      height: theme.spacing(70),
+      backgroundColor: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+  },
+  [theme.breakpoints.up('lg')]: {
+    root: {
+      position: "fixed",
+      Top: 200,
+      Left: 30,
+      width: theme.spacing(75),
+      height: theme.spacing(70),
+      backgroundColor: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+  },
+  // root: {
+  //   position: "fixed",
+  //   Top: 200,
+  //   Left: 30,
+  //   width: theme.spacing(75),
+  //   height: theme.spacing(70),
+  //   backgroundColor: theme.palette.background.paper,
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  // },
   text: {
     marginTop: theme.spacing(15)
   },

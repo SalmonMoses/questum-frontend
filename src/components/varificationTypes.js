@@ -19,8 +19,6 @@ export default function VarificationTypes() {
   const classes = useStyles();
   const [type, setType] = React.useState('');
 
-
-
   const handleChange = event => {
     setType(event.target.value);
   };
