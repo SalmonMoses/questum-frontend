@@ -14,6 +14,9 @@ import GroupPaper from './groupPaper';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    position: "fixed",
+    Top: 200,
+    Left: 30,
     width: theme.spacing(75),
     height: theme.spacing(70),
     backgroundColor: theme.palette.background.paper,

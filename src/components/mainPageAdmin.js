@@ -3,11 +3,13 @@ import ResponsiveDrawer from "./ResponsiveDrawer";
 import { makeStyles } from '@material-ui/core/styles';
 import MediaCard from "./card";
 import Leadboard from "./leadboard";
+import { green } from '@material-ui/core/colors';
 import Sittings from "./settings";
 import NoMatch from "./NoMatch";
 import Donate from "./donate";
 import GroupId from "./groupID"
 import { Grid } from '@material-ui/core';
+import LeadboardMain from "./leadboardMain";
 import {
     BrowserRouter as Router,
     Switch,
@@ -26,7 +28,15 @@ const useStyles = makeStyles(theme => ({
     leadboard:{
         width: theme.spacing(75),
         height: theme.spacing(70),
+        marginLeft: theme.spacing(75),
     },
+    fabGreen: {
+        color: theme.palette.common.white,
+        backgroundColor: green[500],
+        '&:hover': {
+          backgroundColor: green[600],
+        },
+      },
 }));
 
 function MyGroups() {
@@ -41,7 +51,7 @@ function MyGroups() {
                     <MediaCard />
                 </Grid>
                 <Grid item className={classes.leadboard}>
-                    <Leadboard />
+                    <LeadboardMain />
                 </Grid>
             </Grid>
         </main>
@@ -60,7 +70,6 @@ export default function MainPageAdmin() {
              <Switch>
                  <Route exact path="/groups" component={MyGroups} />
                  <Route exact path="/settings" component={Sittings} />
-                 {/* <Route exact path="/donate" component={Donate} /> */}
                  <Route path="/group" component={GroupId} />
                  <Route path="*" component={NoMatch} />
              </Switch>

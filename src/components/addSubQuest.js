@@ -8,17 +8,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from "@material-ui/core/Grid"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import VarificationTypes from "./varificationTypes"
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        backgroundColor: theme.palette.background.paper,
-        // width: theme.spacing(75),
-        height: theme.spacing(170),
-    },
-    margin: {
-        marginTop: theme.spacing(-1),
-    },
     area: {
         width: theme.spacing(60),
     },
@@ -38,16 +31,17 @@ export default function AddQuest(props) {
                     <Grid container direction="column" spacing={5}>
                         <Grid item>
                             <DialogContentText>
-                                Enter a title.
+                                Chose type of varification
                             </DialogContentText>
-                            <TextField
+                            <VarificationTypes />
+                            {/* <TextField
                                 autoFocus
                                 margin="dense"
                                 id="title"
                                 label="Title"
                                 type="title"
                                 fullWidth
-                            />
+                            /> */}
                         </Grid>
                         <Grid item>
                             <DialogContentText>

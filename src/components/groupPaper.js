@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { Icon } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import { deepOrange, deepPurple } from '@material-ui/core/colors';
+import { deepOrange, deepPurple, green } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from "react-router-dom";
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   area: {
     marginTop: theme.spacing(0),
     margin: theme.spacing(2),
-    width: theme.spacing(66),
+    width: theme.spacing(55),
     height: theme.spacing(7),
   },
   area2: {
@@ -39,17 +39,17 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: theme.palette.background.paper,
   },
   icon: {
-    marginLeft: theme.spacing(19),
+    marginLeft: theme.spacing(15),
   },
-  paper:{
+  paper: {
     backgroundColor: theme.palette.background.default,
   },
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
-  action:{
-    width:theme.spacing(62),
+  action: {
+    width: theme.spacing(62),
   },
 }));
 
@@ -58,50 +58,59 @@ export default function GroupPaper() {
 
   let history = useHistory();
 
-  const handleClick = () =>{
+  const handleClick = () => {
     history.push("/group");
   }
 
   return (
+    <Grid container direction="row">
+      <Grid item>
       <Card className={classes.area}>
-        <CardActionArea onClick={handleClick}>
-          <Paper className={classes.paper}>
-            <Grid container spacing={0} >
-              <Grid item className={classes.margin}>
-                <CardContent>
-                  <Avatar className={classes.purple}>N</Avatar>
-                </CardContent>
-              </Grid>
-              <Grid item className={classes.margin2} xs={4}>
-                <CardContent>
-                {/* Длина не больше 15 символов!*/}
-                  <Typography gutterBottom variant="h5" component="h2">
-                    GroupName
-             </Typography>
-                </CardContent>
-              </Grid>
-              <Grid item className={classes.icon}>
-                <CardContent>
-                  <Icon color="inherit">people_alt</Icon>
-                </CardContent>
-              </Grid>
-              <Grid item className={classes.margin2}>
-                <CardContent>
-                  <Typography variant="h5" component="h2">
-                    0/4
-             </Typography>
-                </CardContent>
-              </Grid>
-              <Grid item className={classes.margin3}>
-                <CardContent>
-                  <IconButton aria-label="edit">
-                    <Icon color="inherit">edit</Icon>
-                  </IconButton>
-                </CardContent>
-              </Grid>
+      <CardActionArea onClick={handleClick}>
+        <Paper className={classes.paper}>
+          <Grid container spacing={0} >
+            <Grid item className={classes.margin}>
+              <CardContent>
+                <Avatar className={classes.purple}>N</Avatar>
+              </CardContent>
             </Grid>
-          </Paper>
-        </CardActionArea>
-      </Card>
+            <Grid item className={classes.margin2} xs={4}>
+              <CardContent>
+                {/* Длина не больше 15 символов!*/}
+                <Typography gutterBottom variant="h5" component="h2">
+                  GroupName
+             </Typography>
+              </CardContent>
+            </Grid>
+            <Grid item className={classes.icon}>
+              <CardContent>
+                <Icon color="inherit">people_alt</Icon>
+              </CardContent>
+            </Grid>
+            <Grid item className={classes.margin2}>
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  0/4
+             </Typography>
+              </CardContent>
+            </Grid>
+            <Grid item className={classes.margin3}>
+            </Grid>
+          </Grid>
+        </Paper>
+      </CardActionArea>
+    </Card>
+      </Grid>
+      <Grid item>
+      <IconButton aria-label="edit">
+          <Icon color="inherit">edit</Icon>
+        </IconButton>
+      </Grid>
+      <Grid item>
+      <IconButton aria-label="edit">
+          <Icon color="primary">delete</Icon>
+        </IconButton>
+      </Grid>
+    </Grid>
   );
 }

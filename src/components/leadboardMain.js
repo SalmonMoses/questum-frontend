@@ -1,5 +1,4 @@
 import React from 'react';
-import useEffect from 'react'
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -16,7 +15,14 @@ import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import { green } from '@material-ui/core/colors';
 import AddMember from "./addMember"
-import AddQuest from "./addQuest"
+import AddSubQuest from "./addSubQuest"
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,16 +57,19 @@ function a11yProps(index) {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    // width: theme.spacing(75),
-    height: theme.spacing(170),
+    width: theme.spacing(75),
+    minHeight: theme.spacing(70),
   },
   margin: {
     marginTop: theme.spacing(-1),
   },
   fab: {
     position: "fixed",
-    top: 600,
-    right: 80,
+    top: 590,
+    right: 75,
+  },
+  button:{
+    marginLeft: 10,
   },
   fabGreen: {
     color: theme.palette.common.white,
@@ -70,6 +79,51 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
+
+function CreateQuest() {
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Create new quest
+      </Button>
+      <Dialog open={open} fullWidth onClose={handleClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Create</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Enter a title.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Group Name"
+            type="name"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            create
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Create
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
 
 export default function Leadboard() {
   const classes = useStyles();
@@ -105,6 +159,11 @@ export default function Leadboard() {
     setOpenEdit(true);
   };
 
+  const arr = [];
+  for(let i=0; i<17; i++){
+    arr.push( <MemberPaper />);
+  }
+
   const handleCloseEdit = () => {
     setOpenEdit(false);
   };
@@ -115,14 +174,12 @@ export default function Leadboard() {
       className: classes.fab,
       icon: <Icon>add</Icon>,
       label: 'Add',
-      // onClick: setOpen({ ...open, add: true }),
     },
     {
       color: 'secondary',
       className: classes.fab,
       icon: <Icon>edit</Icon>,
       label: 'Edit',
-      // onClick: setOpen({ ...open, edit: true }),
     },
     {
       color: 'inherit',
@@ -156,15 +213,16 @@ export default function Leadboard() {
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           <div className={classes.margin}>
-            <MemberPaper />
-            <MemberPaper />
+          {arr.map((elem) =>(
+            elem
+          ))}
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <div className={classes.margin}>
             <Quests />
+            <CreateQuest className={classes.button}/>
           </div>
-
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
@@ -191,7 +249,7 @@ export default function Leadboard() {
           </Fab>
         </Zoom>
       ))}
-      <AddQuest open={openEdit} onClick={handleCloseEdit} onClose={handleCloseEdit} />
+      <AddSubQuest open={openEdit} onClick={handleCloseEdit} onClose={handleCloseEdit} />
       <AddMember open={open} onClick={handleClose} onClose={handleClose}/>
     </div>
   );
