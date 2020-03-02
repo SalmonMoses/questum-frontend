@@ -118,8 +118,6 @@ function ResponsiveDrawer(props) {
 
   const menuId = 'primary-search-account-menu';
 
-  let history = useHistory();
-
 
   const drawer = (
     <div>
@@ -243,7 +241,7 @@ function ResponsiveDrawer(props) {
         <Hidden smUp implementation="css">
           <SwipeableDrawer
             container={container}
-            variant="permanent"
+            variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
