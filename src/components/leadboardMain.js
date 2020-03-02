@@ -1,4 +1,5 @@
 import React from 'react';
+import useEffect from 'react'
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -14,6 +15,8 @@ import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import { green } from '@material-ui/core/colors';
+import AddMember from "./addMember"
+import AddQuest from "./addQuest"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -86,18 +89,40 @@ export default function Leadboard() {
     exit: theme.transitions.duration.leavingScreen,
   };
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [openEdit, setOpenEdit] = React.useState(false);
+
+  const handleClickOpenEdit = () => {
+    setOpenEdit(true);
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  };
+
   const fabs = [
     {
       color: 'primary',
       className: classes.fab,
       icon: <Icon>add</Icon>,
       label: 'Add',
+      // onClick: setOpen({ ...open, add: true }),
     },
     {
       color: 'secondary',
       className: classes.fab,
       icon: <Icon>edit</Icon>,
       label: 'Edit',
+      // onClick: setOpen({ ...open, edit: true }),
     },
     {
       color: 'inherit',
@@ -106,6 +131,7 @@ export default function Leadboard() {
       label: 'Expand',
     },
   ];
+
 
   return (
     <div className={classes.root}>
@@ -135,14 +161,14 @@ export default function Leadboard() {
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-        <div className={classes.margin}>
-        <Quests />
+          <div className={classes.margin}>
+            <Quests />
           </div>
-         
+
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-        <div className={classes.margin}>
-        <MemberPaper />
+          <div className={classes.margin}>
+            <MemberPaper />
           </div>
         </TabPanel>
       </SwipeableViews>
@@ -156,11 +182,17 @@ export default function Leadboard() {
           }}
           unmountOnExit
         >
-          <Fab aria-label={fab.label} className={fab.className} color={fab.color}>
+          <Fab
+            aria-label={fab.label}
+            className={fab.className}
+            color={fab.color}
+            onClick={fab.label === "Add" ? handleClickOpen : handleClickOpenEdit}>
             {fab.icon}
           </Fab>
         </Zoom>
       ))}
+      <AddQuest open={openEdit} onClick={handleCloseEdit} onClose={handleCloseEdit} />
+      <AddMember open={open} onClick={handleClose} onClose={handleClose}/>
     </div>
   );
 }

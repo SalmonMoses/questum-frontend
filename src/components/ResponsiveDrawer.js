@@ -144,16 +144,6 @@ function ResponsiveDrawer(props) {
           icon={<Icon color="primary">people_alt</Icon>}
           primary={"My groups"} />
 
-        {/* <ListItem
-          button
-          key="My groups"
-          onClick={handleClick('groups')}>
-          <ListItemIcon>
-            <Icon color="primary">people_alt</Icon>
-          </ListItemIcon>
-          <ListItemText primary="My groups" />
-        </ListItem> */}
-
         <ListItem button key="Pending quests">
           <ListItemIcon>
             <Icon color="primary">hourglass_full</Icon>
@@ -194,10 +184,11 @@ function ResponsiveDrawer(props) {
       </List>
       <Divider />
       <List>
-        <ListItemLink
-          to={"/donate"}
+      <a href="https://www.buymeacoffee.com/LYUxBdy" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style={{height: 51, width: 200}} /></a>
+        {/* <ListItemLink
+          to={"https://www.buymeacoffee.com/LYUxBdy"}
           icon={<Icon color="primary">monetization_on</Icon>}
-          primary={"Donate"} />
+          primary={"Donate"} /> */}
         {/* <ListItem button key="Donate">
           <ListItemIcon>
             <Icon color="primary">monetization_on</Icon>

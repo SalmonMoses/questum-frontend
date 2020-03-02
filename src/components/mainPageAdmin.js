@@ -60,7 +60,7 @@ export default function MainPageAdmin() {
              <Switch>
                  <Route exact path="/groups" component={MyGroups} />
                  <Route exact path="/settings" component={Sittings} />
-                 <Route exact path="/donate" component={Donate} />
+                 {/* <Route exact path="/donate" component={Donate} /> */}
                  <Route path="/group" component={GroupId} />
                  <Route path="*" component={NoMatch} />
              </Switch>

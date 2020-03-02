@@ -2,30 +2,8 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Toolbar from '@material-ui/core/Toolbar';
-import Icon from '@material-ui/core/Icon';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Badge from '@material-ui/core/Badge';
-import { useHistory } from "react-router-dom";
-import { Paper } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
-import Container from '@material-ui/core/Container';
+import { makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField'
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 const useStyles = makeStyles(theme => ({
@@ -46,6 +24,14 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(5)
     }
 }));
+
+function Coffee(){
+    return(
+        <head>
+            <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="LYUxBdy" data-description="Support me on Buy me a coffee!" data-message="Thank you for visiting. You can now buy me a coffee!" data-color="#FF813F" data-position="right" data-x_margin="18" data-y_margin="18"></script>
+        </head>
+    );
+}
 
 export default function Donate() {
 
@@ -73,6 +59,7 @@ export default function Donate() {
                 <Button variant="contained" color="primary">
                     Donate
                 </Button>
+                <Coffee />
             </div>
         </main>
     );
