@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MediaCard from "./card";
 import Leadboard from "./leadboard";
 import { green } from '@material-ui/core/colors';
-import Sittings from "./settings";
+import Settings from "./settings";
 import NoMatch from "./NoMatch";
 import Donate from "./donate";
 import GroupId from "./groupID"
@@ -91,7 +91,7 @@ export default function MainPageAdmin() {
             <ResponsiveDrawer />
              <Switch>
                  <Route exact path="/groups" component={MyGroups} />
-                 <Route exact path="/settings" component={Sittings} />
+                 <Route exact path="/settings" component={Settings} />
                  <Route path="/group" component={GroupId} />
                  <Route path="*" component={NoMatch} />
              </Switch>

@@ -59,6 +59,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     width: theme.spacing(75),
     minHeight: theme.spacing(70),
+    maxHeight: '100%',
+    overflow: 'auto'
   },
   margin: {
     marginTop: theme.spacing(-1),
@@ -68,7 +70,7 @@ const useStyles = makeStyles(theme => ({
     top: 590,
     right: 75,
   },
-  button:{
+  button: {
     marginLeft: 10,
   },
   fabGreen: {
@@ -160,8 +162,8 @@ export default function Leadboard() {
   };
 
   const arr = [];
-  for(let i=0; i<17; i++){
-    arr.push( <MemberPaper />);
+  for (let i = 0; i < 17; i++) {
+    arr.push(<MemberPaper />);
   }
 
   const handleCloseEdit = () => {
@@ -191,8 +193,8 @@ export default function Leadboard() {
 
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default" >
+    <div className={classes.root} >
+      <AppBar position="sticky" color="default" >
         <Tabs
           value={value}
           onChange={handleChange}
@@ -211,17 +213,17 @@ export default function Leadboard() {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        <TabPanel value={value} index={0} dir={theme.direction}>
+        <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin}>
-          {arr.map((elem) =>(
-            elem
-          ))}
+            {arr.map((elem) => (
+              elem
+            ))}
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <div className={classes.margin}>
             <Quests />
-            <CreateQuest className={classes.button}/>
+            <CreateQuest className={classes.button} />
           </div>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
@@ -250,7 +252,7 @@ export default function Leadboard() {
         </Zoom>
       ))}
       <AddSubQuest open={openEdit} onClick={handleCloseEdit} onClose={handleCloseEdit} />
-      <AddMember open={open} onClick={handleClose} onClose={handleClose}/>
+      <AddMember open={open} onClick={handleClose} onClose={handleClose} />
     </div>
   );
 }
