@@ -16,6 +16,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
+import { setCookie } from "./Cookie";
 
 // function Copyright() {
 //   return (
@@ -125,12 +126,15 @@ export default function SignIn() {
         if (json === undefined) {
           return;
         } else {
-          console.dir(json);
+          console.dir(json.refreshToken);
+          setCookie("refreshToken", json.refreshToken, 10);
+          // alert(document.cookie);
+          console.dir(document.cookie);
           setValues({ ...values, showAlert: false });
           enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
             variant: 'success',
           });
-          history.push('/home/groups');
+          history.push('/groups');
         }
       })
       .catch(console.log);
