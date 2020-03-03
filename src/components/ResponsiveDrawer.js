@@ -39,14 +39,15 @@ const useStyles = makeStyles(theme => ({
   },
   appBar: {
     backgroundColor: theme.palette.primary.main,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
+    zIndex: theme.zIndex.drawer + 1,
+    // [theme.breakpoints.up('sm')]: {
+    //   // width: `calc(100% - ${drawerWidth}px)`,
+    //   // marginLeft: drawerWidth,
+    // },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
   },
@@ -55,7 +56,18 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
   },
   title: {
-    marginTop: theme.spacing(-7),
+    [theme.breakpoints.up('xs')]: {
+      marginTop: theme.spacing(-7),
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginTop: theme.spacing(-7),
+    },
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(-9),
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginTop: theme.spacing(-9),
+    },
   },
   sectionDesktop: {
     display: 'none',

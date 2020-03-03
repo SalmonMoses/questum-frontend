@@ -23,6 +23,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,11 +68,15 @@ const useStyles = makeStyles(theme => ({
   },
   fab: {
     position: "fixed",
-    top: 590,
-    right: 75,
+    top: 580,
+    right: 90,
   },
   button: {
     marginLeft: 10,
+  },
+  box:{
+    margin:theme.spacing(0.3),
+    minHeight: theme.spacing(70),
   },
   fabGreen: {
     color: theme.palette.common.white,
@@ -80,6 +85,19 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: green[600],
     },
   },
+  shadow:{
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 1
+    },
+  },
+  card:{
+    width: theme.spacing(75),
+    maxHeight: '100%',
+  }
 }));
 
 function CreateQuest() {
@@ -208,6 +226,7 @@ export default function Leadboard() {
           <Tab label="Leaderboard" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
+      {/* <Box boxShadow={15} className={classes.box}> */}
       <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
@@ -232,6 +251,7 @@ export default function Leadboard() {
           </div>
         </TabPanel>
       </SwipeableViews>
+      {/* </Box> */}
       {fabs.map((fab, index) => (
         <Zoom
           key={fab.color}

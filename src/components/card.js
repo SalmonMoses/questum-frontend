@@ -110,7 +110,7 @@ export default function MediaCard() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root} raised="false" >
+    <Card className={classes.root}>
       <CardContent >
         <Typography variant="h6">
           Your groups:
