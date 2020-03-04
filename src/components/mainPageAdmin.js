@@ -10,7 +10,7 @@ import Donate from "./donate";
 import GroupId from "./groupID"
 import { Grid, Button } from '@material-ui/core';
 import LeadboardMain from "./leadboardMain";
-import { getCookie, deleteCookie } from "../Cookie"
+import { getCookie, deleteCookie, setCookie } from "../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import {
@@ -164,44 +164,45 @@ export default function MainPageAdmin() {
 
         console.dir(document.cookie);
     
-        // var myHeaders = new Headers();
+        var myHeaders = new Headers();
     
-        // myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Content-Type", "application/json");
     
-        // var raw = JSON.stringify({"refreshToken": cookie});
+        var raw = JSON.stringify({"refreshToken": cookie});
     
-        // var requestOptions = {
-        //     method: 'POST',
-        //     headers: myHeaders,
-        //     body: raw,
-        //     redirect: 'follow'
-        // };
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
     
-        // fetch("http://localhost:8080/login/owner", requestOptions)
-        //     .then(response => {
-        //         if (response.status === 401) {
-        //             console.log("Authorization error");
-        //             // alert("Время сессии истекло, войдите заново.");
-        //             history.push("/login/owner");
-        //             enqueueSnackbar("Время сессии истекло, войдите заново.", {
-        //               variant: 'error',
-        //             });
-        //             return;
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(json => {
-        //         if (json === undefined) {
-        //             return;
-        //         } else {
-        //             console.dir(json.refreshToken + 'SUCCES');
-        //             // alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
-        //             // enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
-        //             //   variant: 'success',
-        //             // });
-        //         }
-        //     })
-        //     .catch(console.log);
+        fetch("http://localhost:8080/login/owner", requestOptions)
+            .then(response => {
+                if (response.status === 401) {
+                    console.log("Authorization error");
+                    // alert("Время сессии истекло, войдите заново.");
+                    history.push("/login/owner");
+                    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+                      variant: 'error',
+                    });
+                    return;
+                }
+                return response.json();
+            })
+            .then(json => {
+                if (json === undefined) {
+                    return;
+                } else {
+                    console.dir(json.refreshToken + 'SUCCES');
+                    setCookie("refreshToken", json.refreshToken, 10);
+                    // alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
+                    // enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
+                    //   variant: 'success',
+                    // });
+                }
+            })
+            .catch(console.log);
     }
 
     const deleteC = () =>{
