@@ -81,7 +81,7 @@ function App() {
         {/* <Route exact path="/" component={MainPageAdmin} /> */}
         <Route exact path="/:id" component={MainPageAdmin} />
         <Route exact path="/login/user" component={LoginUser} />
-        <Route exact path="/login/owner" component={SignIn} />
+        <Route path="/login/owner" component={SignIn} />
         <Route path="/signup/owner" component={SignUp} />
         <Route path="*" component={NoMatch} />
       </Switch> 

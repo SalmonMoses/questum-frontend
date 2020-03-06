@@ -10,7 +10,11 @@ import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import { getCookie, deleteCookie, setCookie } from "../Cookie"
 import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
+import { useSnackbar } from 'notistack';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -43,22 +47,194 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Sittings() {
+// async function check() {
+
+//   let cookie = getCookie("refreshToken");
+//   var myHeaders = new Headers();
+
+//   myHeaders.append("Content-Type", "application/json");
+
+//   // alert(cookie);
+
+//   var raw = JSON.stringify({ "refreshToken": cookie });
+
+//   var requestOptions = {
+//     method: 'POST',
+//     headers: myHeaders,
+//     body: raw,
+//     redirect: 'follow'
+//   };
+
+//   let response = await fetch("http://localhost:8080/login/owner", requestOptions);
+//   if (response.status === 401) {
+//     console.log("Authorization error");
+//     alert("Время сессии истекло, войдите заново.");
+//     // history.push("/login/owner");
+//     // enqueueSnackbar("Время сессии истекло, войдите заново.", {
+//     //     variant: 'error',
+//     // });
+//     return;
+//   }
+//   const json = await response.json();
+
+//   if (json === undefined) {
+//     console.log("json = undefined");
+//     return;
+//   } else {
+//     console.dir(json.refreshToken + 'SUCCES');
+//     setCookie("refreshToken", json.refreshToken, 10);
+//     console.dir(json.owner.name + " " + json.owner.email);
+//     // setValues({ ...values, "name": json.owner.name, "email":json.owner.email })
+//     alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
+//     // enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
+//     //   variant: 'success',
+//     // });
+//   }
+//   return json.owner.name;
+// }
+
+// async function check() {
+
+//   let cookie = getCookie("refreshToken");
+
+//   // if(cookie === undefined){
+//   //     history.push("/login/owner");
+//   //     enqueueSnackbar("Время сессии истекло, войдите заново.", {
+//   //       variant: 'error',
+//   //     });
+//   // }
+
+//   console.dir(document.cookie);
+
+//   var myHeaders = new Headers();
+
+//   myHeaders.append("Content-Type", "application/json");
+
+//   var raw = JSON.stringify({ "refreshToken": cookie });
+
+//   var requestOptions = {
+//     method: 'POST',
+//     headers: myHeaders,
+//     body: raw,
+//     redirect: 'follow'
+//   };
+
+//   let response = await fetch("http://localhost:8080/login/owner", requestOptions);
+//   if (response.status === 401) {
+//     console.log("Authorization error");
+//     // alert("Время сессии истекло, войдите заново.");
+//     // history.push("/login/owner");
+//     // enqueueSnackbar("Время сессии истекло, войдите заново.", {
+//     //   variant: 'error',
+//     // });
+//     return;
+//   }
+//   let result = await response.json();
+//   if (result === undefined) {
+//     return;
+//   } else {
+//     console.dir(result.refreshToken + 'SUCCES');
+//     setCookie("refreshToken", result.refreshToken, 10);
+//     // setCookie("id", result.owner.id, 10);
+//     // alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
+//     // enqueueSnackbar(document.cookie, {
+//     //   variant: 'success',
+//     // });
+//   }
+//   return result;
+// }
+
+export default function Sittings(props) {
+
+  // let name = check();
+
+  // console.dir(name);
 
   const [values, setValues] = useState({
-    name: "name",
+    name: props.name,
     edit: false,
-    email: "email",
+    email: props.email,
     // emailEdit: false,
-    password: "password",
+    password: "*************",
     lang: "Russian",
     // passEdit: false,
   });
+
+
+  let history = useHistory();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  let cookie = getCookie("refreshToken");
+
+  if (cookie === undefined) {
+    history.push("/login/owner");
+    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+      variant: 'error',
+    });
+  }
+
+
+  // let id = getCookie("id");
+
+  // var requestOptions = {
+  //   method: 'GET',
+  //   redirect: 'follow',
+  //   mode: 'no-cors',
+  // };
+
+  // fetch(`http://localhost:8080/owners/${id}`, requestOptions)
+  //   .then(response => response.json())
+  //   .then(result => console.dir(result))
+  //   .catch(error => console.log('error', error));
+
 
   const classes = useStyles();
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
+  }
+
+  const handleClick = () => {
+
+    let token = getCookie("refreshToken");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json", "Authorization", "Bearer " + token);
+
+    var raw = JSON.stringify({ "name": props.name, "email": props.email, "password": props.password });
+
+    var requestOptions = {
+      method: 'PUT',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    fetch(`http://localhost:8080/owners/${getCookie("id")}`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          // alert("Время сессии истекло, войдите заново.");
+          // history.push("/login/owner");
+          enqueueSnackbar("Ошибка обработки изменений :(", {
+            variant: 'error',
+          });
+          return;
+        }
+        return response.json();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          console.log(result);
+          setCookie("name", result.name, 30);
+          setCookie("email", result.email, 30);
+        }
+      })
+      .catch(error => console.log('error', error));
   }
 
 
@@ -69,23 +245,6 @@ export default function Sittings() {
         <Container className={classes.cont}>
 
           <Grid container spacing={4} direction="column">
-            {/* <Grid container spacing={3} direction="row">
-          <Grid item className={classes.area3}>
-              
-            </Grid>
-          <Grid item >
-              <Typography >
-                <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
-                  Account settings
-                </Box>
-              </Typography>
-            </Grid>
-            <Grid item >
-            <IconButton aria-label="edit">
-                <Icon color="inherit">edit</Icon>
-              </IconButton>
-            </Grid>
-          </Grid> */}
             <Grid item className={classes.area1}>
               <Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
@@ -125,7 +284,7 @@ export default function Sittings() {
                 fullWidth
                 id="standard-disabled"
                 label="Password"
-                defaultValue="пароль" />
+                defaultValue={values.password} />
             </Grid>
 
             <Divider />
@@ -152,6 +311,9 @@ export default function Sittings() {
                   <MenuItem value={"English"}>English</MenuItem>
                 </Select>
               </FormControl>
+            </Grid>
+            <Grid item>
+              <Button onClick={handleClick} variant="contained" color="primary">Save changes</Button>
             </Grid>
           </Grid>
         </Container>

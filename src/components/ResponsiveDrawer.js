@@ -17,6 +17,7 @@ import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
 import { useHistory } from "react-router-dom";
+import { getCookie, deleteCookie, setCookie } from "../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -83,7 +84,8 @@ const useStyles = makeStyles(theme => ({
 //Компенет, заменяющий ListItem, чтоб можно было просто указать путь ссылки
 
 function ListItemLink(props) {
-  const { icon, primary, to } = props;
+
+  const { icon, primary, to, onClick } = props;
 
   const renderLink = React.useMemo(
     () => React.forwardRef((itemProps, ref) => <Link href={to} ref={ref} {...itemProps} />),
@@ -92,7 +94,7 @@ function ListItemLink(props) {
 
   return (
     <li>
-      <ListItem button component={renderLink}>
+      <ListItem button component={renderLink} onClick={onClick}>
         {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
         <ListItemText primary={primary} />
       </ListItem>
@@ -126,6 +128,17 @@ function ResponsiveDrawer(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const logout = () =>{
+    deleteCookie("refreshToken");
+    deleteCookie("id");
+    deleteCookie("name");
+    deleteCookie("email");
+    alert("deleted...")
+
+    // history.replace("/login/owner");
+    // document.location.reload(true);
+  }
 
 
   const menuId = 'primary-search-account-menu';
@@ -176,12 +189,12 @@ function ResponsiveDrawer(props) {
           <ListItemText primary="Help" />
         </ListItem>
 
-        <ListItem button key="Log out">
-          <ListItemIcon>
-            <Icon color="primary">exit_to_app</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Log out" />
-        </ListItem>
+        <ListItemLink
+          to={"/login/owner"}
+          icon={<Icon color="primary">exit_to_app</Icon>}
+          primary={"Log out"} 
+          onClick={logout}
+          />
       </List>
       <Divider />
       <List>

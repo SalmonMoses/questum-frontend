@@ -8,6 +8,7 @@ import Settings from "./settings";
 import NoMatch from "./NoMatch";
 import Donate from "./donate";
 import GroupId from "./groupID"
+import SignIn from '../loginPage';
 import { Grid, Button } from '@material-ui/core';
 import LeadboardMain from "./leadboardMain";
 import { getCookie, deleteCookie, setCookie } from "../Cookie"
@@ -67,61 +68,6 @@ const useStyles = makeStyles(theme => ({
 
 const path = "http://localhost:8080";
 
-
-// const checkToken = () => {
-
-//     let history = useHistory();
-
-//     var myHeaders = new Headers();
-
-//     myHeaders.append("Content-Type", "application/json");
-
-//     let cookie = getCookie("refreshToken");
-
-//     alert(cookie);
-
-//     var raw = JSON.stringify({ "refreshToken": cookie });
-
-//     var requestOptions = {
-//         method: 'POST',
-//         headers: myHeaders,
-//         body: raw,
-//         redirect: 'follow'
-//     };
-
-//     fetch(path + "/login/owner", requestOptions)
-//         .then(response => {
-//             if (response.status === 401) {
-//                 console.log("Authorization error");
-//                 alert("Время сессии истекло, войдите заново.");
-//                 history.push("/login/owner");
-//                 // enqueueSnackbar("Время сессии истекло, войдите заново.", {
-//                 //   variant: 'error',
-//                 // });
-//                 return;
-//             }
-//             return response.json();
-//         })
-//         .then(json => {
-//             if (json === undefined) {
-//                 return;
-//             } else {
-//                 console.dir(json.refreshToken);
-//                 alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
-//                 // enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
-//                 //   variant: 'success',
-//                 // });
-//             }
-//         })
-//         .catch(console.log);
-// }
-
-// checkToken();
-
-
-//     response.json())
-//   .then(result => console.log(result))
-//   .catch(error => console.log('error', error));
 
 function MyGroups() {
 
@@ -196,14 +142,19 @@ export default function MainPageAdmin() {
                 } else {
                     console.dir(json.refreshToken + 'SUCCES');
                     setCookie("refreshToken", json.refreshToken, 10);
+                    setCookie("id", json.owner.id, 10);
+                    setCookie("name", json.owner.name, 10);
+                    setCookie("email", json.owner.email, 10);
                     // alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
-                    // enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
-                    //   variant: 'success',
-                    // });
+                    enqueueSnackbar(document.cookie, {
+                      variant: 'success',
+                    });
                 }
             })
             .catch(console.log);
     }
+
+    // console.dir(user);
 
     const deleteC = () =>{
         deleteCookie("refreshToken");
@@ -217,7 +168,9 @@ export default function MainPageAdmin() {
                 <ResponsiveDrawer />
                 <Switch>
                     <Route exact path="/groups" component={MyGroups} />
-                    <Route exact path="/settings" component={Settings} />
+                    <Route exact path="/settings">
+                        <Settings name={getCookie("name")} email={getCookie("email")}/>
+                    </Route>
                     <Route path="/group" component={GroupId} />
                     <Route path="*" component={NoMatch} />
                 </Switch>
