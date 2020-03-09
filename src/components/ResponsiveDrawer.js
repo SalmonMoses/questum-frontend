@@ -133,6 +133,7 @@ function ResponsiveDrawer(props) {
     deleteCookie("refreshToken");
     deleteCookie("id");
     deleteCookie("name");
+    deleteCookie("token");
     deleteCookie("email");
     alert("deleted...")
 

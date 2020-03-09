@@ -123,7 +123,7 @@ export default function MainPageAdmin() {
             redirect: 'follow'
         };
     
-        fetch("http://localhost:8080/login/owner", requestOptions)
+        fetch("http://localhost:8088/login/owner", requestOptions)
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error");
@@ -141,8 +141,10 @@ export default function MainPageAdmin() {
                     return;
                 } else {
                     console.dir(json.refreshToken + 'SUCCES');
+                    console.dir(json.token + ' - token');
                     setCookie("refreshToken", json.refreshToken, 10);
                     setCookie("id", json.owner.id, 10);
+                    setCookie("token", json.token, 10);
                     setCookie("name", json.owner.name, 10);
                     setCookie("email", json.owner.email, 10);
                     // alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
@@ -155,10 +157,6 @@ export default function MainPageAdmin() {
     }
 
     // console.dir(user);
-
-    const deleteC = () =>{
-        deleteCookie("refreshToken");
-    }
 
     checkToken();
 

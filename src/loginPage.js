@@ -100,7 +100,7 @@ export default function SignIn() {
   const login = () => {
     console.log(values.email + " " + values.password)
 
-    fetch('http://localhost:8080/login/owner', {
+    fetch('http://localhost:8088/login/owner', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -128,6 +128,7 @@ export default function SignIn() {
         } else {
           console.dir(json.refreshToken);
           setCookie("refreshToken", json.refreshToken, 10);
+          setCookie("token", json.token, 30);
           // alert(document.cookie);
           console.dir(document.cookie);
           setValues({ ...values, showAlert: false });

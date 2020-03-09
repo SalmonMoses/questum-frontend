@@ -10,11 +10,17 @@ import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { getCookie, deleteCookie, setCookie } from "../Cookie"
+import { getCookie, setCookie } from "../Cookie"
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
+import PasswordConfirm from "./passwordConfirm"
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -47,118 +53,29 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// async function check() {
-
-//   let cookie = getCookie("refreshToken");
-//   var myHeaders = new Headers();
-
-//   myHeaders.append("Content-Type", "application/json");
-
-//   // alert(cookie);
-
-//   var raw = JSON.stringify({ "refreshToken": cookie });
-
-//   var requestOptions = {
-//     method: 'POST',
-//     headers: myHeaders,
-//     body: raw,
-//     redirect: 'follow'
-//   };
-
-//   let response = await fetch("http://localhost:8080/login/owner", requestOptions);
-//   if (response.status === 401) {
-//     console.log("Authorization error");
-//     alert("Время сессии истекло, войдите заново.");
-//     // history.push("/login/owner");
-//     // enqueueSnackbar("Время сессии истекло, войдите заново.", {
-//     //     variant: 'error',
-//     // });
-//     return;
-//   }
-//   const json = await response.json();
-
-//   if (json === undefined) {
-//     console.log("json = undefined");
-//     return;
-//   } else {
-//     console.dir(json.refreshToken + 'SUCCES');
-//     setCookie("refreshToken", json.refreshToken, 10);
-//     console.dir(json.owner.name + " " + json.owner.email);
-//     // setValues({ ...values, "name": json.owner.name, "email":json.owner.email })
-//     alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
-//     // enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
-//     //   variant: 'success',
-//     // });
-//   }
-//   return json.owner.name;
-// }
-
-// async function check() {
-
-//   let cookie = getCookie("refreshToken");
-
-//   // if(cookie === undefined){
-//   //     history.push("/login/owner");
-//   //     enqueueSnackbar("Время сессии истекло, войдите заново.", {
-//   //       variant: 'error',
-//   //     });
-//   // }
-
-//   console.dir(document.cookie);
-
-//   var myHeaders = new Headers();
-
-//   myHeaders.append("Content-Type", "application/json");
-
-//   var raw = JSON.stringify({ "refreshToken": cookie });
-
-//   var requestOptions = {
-//     method: 'POST',
-//     headers: myHeaders,
-//     body: raw,
-//     redirect: 'follow'
-//   };
-
-//   let response = await fetch("http://localhost:8080/login/owner", requestOptions);
-//   if (response.status === 401) {
-//     console.log("Authorization error");
-//     // alert("Время сессии истекло, войдите заново.");
-//     // history.push("/login/owner");
-//     // enqueueSnackbar("Время сессии истекло, войдите заново.", {
-//     //   variant: 'error',
-//     // });
-//     return;
-//   }
-//   let result = await response.json();
-//   if (result === undefined) {
-//     return;
-//   } else {
-//     console.dir(result.refreshToken + 'SUCCES');
-//     setCookie("refreshToken", result.refreshToken, 10);
-//     // setCookie("id", result.owner.id, 10);
-//     // alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
-//     // enqueueSnackbar(document.cookie, {
-//     //   variant: 'success',
-//     // });
-//   }
-//   return result;
-// }
-
 export default function Sittings(props) {
-
-  // let name = check();
-
-  // console.dir(name);
 
   const [values, setValues] = useState({
     name: props.name,
     edit: false,
     email: props.email,
-    // emailEdit: false,
-    password: "*************",
+    password: "",
+    password2: "",
+    errorPassword: false,
     lang: "Russian",
-    // passEdit: false,
+    showPassword: false,
+    error: false,
+    text: "",
+    dis: "",
   });
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
 
 
   let history = useHistory();
@@ -174,67 +91,109 @@ export default function Sittings(props) {
     });
   }
 
-
-  // let id = getCookie("id");
-
-  // var requestOptions = {
-  //   method: 'GET',
-  //   redirect: 'follow',
-  //   mode: 'no-cors',
-  // };
-
-  // fetch(`http://localhost:8080/owners/${id}`, requestOptions)
-  //   .then(response => response.json())
-  //   .then(result => console.dir(result))
-  //   .catch(error => console.log('error', error));
-
-
   const classes = useStyles();
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
   }
 
-  const handleClick = () => {
+  const [open, setOpen] = React.useState(false);
 
-    let token = getCookie("refreshToken");
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const fetching = (ob, string) =>{
+
+    let token = getCookie("token");
 
     var myHeaders = new Headers();
 
-    myHeaders.append("Content-Type", "application/json", "Authorization", "Bearer " + token);
+    myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({ "name": props.name, "email": props.email, "password": props.password });
+    myHeaders.append("Authorization", "Bearer " + token);
 
-    var requestOptions = {
-      method: 'PUT',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
+    var raw = JSON.stringify(ob);
 
-    fetch(`http://localhost:8080/owners/${getCookie("id")}`, requestOptions)
-      .then(response => {
-        if (response.status === 401) {
-          console.log("Authorization error");
-          // alert("Время сессии истекло, войдите заново.");
-          // history.push("/login/owner");
-          enqueueSnackbar("Ошибка обработки изменений :(", {
-            variant: 'error',
-          });
-          return;
-        }
-        return response.json();
-      })
-      .then(result => {
-        if (result === undefined) {
-          return;
-        } else {
-          console.log(result);
-          setCookie("name", result.name, 30);
-          setCookie("email", result.email, 30);
-        }
-      })
-      .catch(error => console.log('error', error));
+      var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow',
+
+      };
+
+      fetch(`http://localhost:8088/owners/${getCookie("id")}`, requestOptions)
+        .then(response => {
+          if (response.status === 401) {
+            console.log("Authorization error");
+            enqueueSnackbar("Ошибка обработки изменений :(", {
+              variant: 'error',
+            });
+            return;
+          }
+          return response.json();
+        })
+        .then(result => {
+          if (result === undefined) {
+            return;
+          } else {
+            console.log(result);
+            setCookie("name", result.name, 30);
+            enqueueSnackbar(string, {
+              variant: 'success',
+            });
+          }
+        })
+        .catch(error => console.log('error', error));
+  }
+
+  const handleClick = () => {
+
+    let ob = {}
+
+    let error = false;
+
+    if (values.name !== props.name) {
+
+      ob.name = values.name;
+
+      fetching(ob, "Имя успешно изменено");
+    }
+    if (values.password !== "" && values.password2 !== "") {
+      if (values.password.length < 5) {
+        console.log("Password should be more the 5 simbols!");
+        enqueueSnackbar("Пароль должен быть длинее 5 символов!", {
+          variant: 'error',
+        });
+        setValues({ ...values, errorPassword: true });
+        error = true;
+      } else {
+        setValues({ ...values, errorPassword: false });
+      }
+      if (values.password !== values.password2) {
+        console.log("Passwords should be equal!");
+        enqueueSnackbar("Пароли не совпадают", {
+          variant: 'error',
+        });
+        setValues({ ...values, errorPassword: true });
+        error = true;
+      } else {
+        setValues({ ...values, errorPassword: false });
+      }
+
+      if(!error){
+        fetching({"password": values.password}, "Пароль успешно изменен");
+        document.location.reload()
+      }
+    }
+    if (values.email !== props.email) {
+      handleClickOpen();
+    }
   }
 
 
@@ -254,37 +213,76 @@ export default function Sittings(props) {
             </Grid>
             <Divider />
 
-
             <Grid item className={classes.area}>
               <TextField
                 fullWidth
                 id="standard-disabled"
                 label="Name"
                 defaultValue="имя"
-                value={values.name} />
-              {/* <IconButton aria-label="edit">
-                <Icon color="inherit">edit</Icon>
-              </IconButton> */}
+                value={values.name}
+                onChange={handleChange("name")}
+              />
             </Grid>
 
             <Grid item className={classes.area}>
-              <TextField
-                fullWidth
-                id="standard-disabled"
-                label="E-Mail"
-                defaultValue="почта"
-                value={values.email} />
-              {/* <IconButton aria-label="edit">
-                <Icon color="inherit">edit</Icon>
-              </IconButton> */}
-            </Grid>
 
+              <FormControl error={values.error} fullWidth>
+                <InputLabel htmlFor="component-error">Name</InputLabel>
+                <Input
+                  id="component-error"
+                  value={values.email}
+                  onChange={handleChange("email")}
+                  aria-describedby="component-error-text"
+                />
+                <FormHelperText id="component-error-text">{values.text}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Divider />
             <Grid item className={classes.area}>
-              <TextField
-                fullWidth
-                id="standard-disabled"
-                label="Password"
-                defaultValue={values.password} />
+              <FormControl fullWidth disabled={values.dis}>
+                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                <Input
+                  error={values.errorPassword}
+                  id="standard-adornment-password"
+                  type={values.showPassword ? 'text' : 'password'}
+                  value={values.password}
+                  onChange={handleChange('password')}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {values.showPassword ? <Icon color="primary">visibility</Icon> : <Icon color="primary">visibility_off</Icon>}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Grid>
+            <Grid item className={classes.area}>
+              <FormControl fullWidth disabled={values.dis}>
+                <InputLabel htmlFor="standard-adornment-password">Repeat Password</InputLabel>
+                <Input
+                  error={values.errorPassword}
+                  id="standard-adornment-password"
+                  type={values.showPassword ? 'text' : 'password'}
+                  value={values.password2}
+                  onChange={handleChange('password2')}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {values.showPassword ? <Icon color="primary">visibility</Icon> : <Icon color="primary">visibility_off</Icon>}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
             </Grid>
 
             <Divider />
@@ -318,6 +316,7 @@ export default function Sittings(props) {
           </Grid>
         </Container>
       </Paper>
+      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} />
     </main>
   );
 }
