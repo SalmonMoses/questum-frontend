@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,7 +10,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Box from '@material-ui/core/Box';
 import GroupPaper from './groupPaper';
+import { getCookie, setCookie } from "../Cookie"
 
 const useStyles = makeStyles(theme => ({
   [theme.breakpoints.down('sm')]: {
@@ -73,6 +75,40 @@ function FormDialog() {
     setOpen(false);
   };
 
+  const [values, setValues] = useState({
+    name: "",
+  });
+
+  const handleChange = prop => event => {
+    setValues({ ...values, [prop]: event.target.value })
+  }
+
+  let token = getCookie("token");
+
+  const handleClick = () => {
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var raw = JSON.stringify({ "name": values.name });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:8088/groups", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+    handleClose();
+  }
+
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -91,13 +127,15 @@ function FormDialog() {
             label="Group Name"
             type="name"
             fullWidth
+            value={values.name}
+            onChange={handleChange("name")}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClick} color="primary">
             Create
           </Button>
         </DialogActions>
@@ -109,6 +147,45 @@ function FormDialog() {
 export default function MediaCard() {
   const classes = useStyles();
 
+  const  groupList = () => {
+
+    let token = getCookie("token");
+
+    let length = 100;
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+      headers: myHeaders,
+    };
+
+    fetch(`http://localhost:8088/owners/${getCookie("id")}/groups`, requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        console.log(result)
+        length = result.length;
+        console.log("Lenght = " + length);
+      })
+      .catch(error => console.log('error', error));
+
+      console.log("Lenght2 = " + length);
+
+    return length;
+  }
+
+  const list = (
+    <Typography>
+      {groupList}
+    </Typography>
+    );
+
+
   return (
     <Card className={classes.root}>
       <CardContent >
@@ -116,8 +193,9 @@ export default function MediaCard() {
           Your groups:
         </Typography>
       </CardContent>
-      <GroupPaper />
-    {/* <GroupPaper />
+      <GroupPaper name="name" />
+      {list}
+      {/* <GroupPaper />
     <GroupPaper />
     <GroupPaper /> */}
       <CardContent className={classes.text}>

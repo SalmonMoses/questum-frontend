@@ -157,12 +157,12 @@ function ResponsiveDrawer(props) {
       </div>
       <Divider />
       <List>
-        <ListItem button key="My account">
+        {/* <ListItem button key="My account">
           <ListItemIcon>
             <Icon color="primary">account_box</Icon>
           </ListItemIcon>
           <ListItemText primary={<Typography color="primary">My account</Typography>} />
-        </ListItem>
+        </ListItem> */}
 
         <ListItemLink
           to={"/groups"}

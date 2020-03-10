@@ -12,8 +12,13 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Icon from '@material-ui/core/Icon';
 import { getCookie, setCookie } from "../Cookie"
-import Select from '@material-ui/core/Select';
 import { useSnackbar } from 'notistack';
+
+function sha512(str) {
+    return crypto.subtle.digest("SHA-512", new TextEncoder("utf-8").encode(str)).then(buf => {
+        return Array.prototype.map.call(new Uint8Array(buf), x => (('00' + x.toString(16)).slice(-2))).join('');
+    });
+}
 
 export default function PasswordConfirm(props) {
 
@@ -44,13 +49,11 @@ export default function PasswordConfirm(props) {
             email: props.email,
         }
 
-        // handleClickOpen();
         var myHeaders2 = new Headers();
 
         myHeaders2.append("Content-Type", "application/json");
-        myHeaders2.append("Authorization", "Bearer " + token);
 
-        // var raw2 = JSON.stringify({ "type": 0, "id": getCookie("id"), "password": values.password });
+        myHeaders2.append("Authorization", "Bearer " + token);
 
         var requestOptions2 = {
             method: 'GET',
@@ -59,7 +62,72 @@ export default function PasswordConfirm(props) {
             redirect: 'follow'
         };
 
-        fetch(`http://localhost:8088/check/password?type=0&id=${getCookie("id")}&password=${values.password}`, requestOptions2)
+        console.log(values.password + getCookie("email"));
+
+        // fetch(`http://localhost:8088/check/password?hash=${sha512(values.password + props.email)}`, requestOptions2)
+        //     .then(response => response.json())
+        //     .then(result => {
+        //         console.log(result)
+        //         if (result.correct === false) {
+        //             enqueueSnackbar("Пароль введен неправильно", {
+        //                 variant: 'error',
+        //             });
+        //             console.log("Password Error");
+        //         }
+        //         else {
+        //             console.log("pass is right");
+        //             ob.password = values.password;
+        //             console.dir(ob);
+        //             /////////////////////////////////////////////////////////////////////////
+        //             //фетч в фетче чтоб избежать ассинхронности
+        //             var raw = JSON.stringify(ob);
+
+        //             var requestOptions = {
+        //                 method: 'PUT',
+        //                 headers: myHeaders2,
+        //                 body: raw,
+        //                 redirect: 'follow',
+
+        //             };
+
+        //             fetch(`http://localhost:8088/owners/${getCookie("id")}`, requestOptions)
+        //                 .then(response => {
+        //                     if (response.status === 401) {
+        //                         console.log("Authorization error");
+        //                         // alert("Время сессии истекло, войдите заново.");
+        //                         // history.push("/login/owner");
+        //                         enqueueSnackbar("Ошибка обработки изменений :(", {
+        //                             variant: 'error',
+        //                         });
+        //                         return;
+        //                     }
+        //                     return response.json();
+        //                 })
+        //                 .then(result => {
+        //                     if (result === undefined) {
+        //                         return;
+        //                     } else {
+        //                         console.log(result);
+        //                         setCookie("name", result.name, 30);
+        //                         setCookie("email", result.email, 30);
+        //                         enqueueSnackbar("Данные успешно изменены", {
+        //                             variant: 'success',
+        //                         });
+        //                         console.log(sha512(values.password + values.email));
+        //                         props.onClick();
+        //                     }
+        //                 })
+        //                 .catch(error => console.log('error', error));
+        //             /////////////////////////////////////////////////////////////////////////
+        //         }
+        //     })
+        //     .catch(error => console.log('error', error));
+        //     console.dir(ob);
+
+        sha512(values.password + getCookie("email")).then(value => {
+            // console.log("sha1: " + sha512(values.password + getCookie("email")));
+            // console.log("sha2: " + value);
+            fetch(`http://localhost:8088/check/password?hash=${value}`, requestOptions2)
             .then(response => response.json())
             .then(result => {
                 console.log(result)
@@ -89,8 +157,6 @@ export default function PasswordConfirm(props) {
                         .then(response => {
                             if (response.status === 401) {
                                 console.log("Authorization error");
-                                // alert("Время сессии истекло, войдите заново.");
-                                // history.push("/login/owner");
                                 enqueueSnackbar("Ошибка обработки изменений :(", {
                                     variant: 'error',
                                 });
@@ -108,7 +174,9 @@ export default function PasswordConfirm(props) {
                                 enqueueSnackbar("Данные успешно изменены", {
                                     variant: 'success',
                                 });
+                                console.log(sha512(values.password + values.email));
                                 props.onClick();
+                                document.location.reload();
                             }
                         })
                         .catch(error => console.log('error', error));
@@ -116,7 +184,8 @@ export default function PasswordConfirm(props) {
                 }
             })
             .catch(error => console.log('error', error));
-        console.dir(ob);
+            console.dir(ob);
+        })
     }
 
 

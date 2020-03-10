@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function GroupPaper() {
+export default function GroupPaper(props) {
   const classes = useStyles();
 
   let history = useHistory();
@@ -78,7 +78,7 @@ export default function GroupPaper() {
               <CardContent>
                 {/* Длина не больше 15 символов!*/}
                 <Typography gutterBottom variant="h5" component="h2">
-                  GroupName
+                  {props.name}
              </Typography>
               </CardContent>
             </Grid>

@@ -77,7 +77,6 @@ export default function Sittings(props) {
     event.preventDefault();
   };
 
-
   let history = useHistory();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -107,7 +106,7 @@ export default function Sittings(props) {
     setOpen(false);
   };
 
-  const fetching = (ob, string) =>{
+  const fetching = (ob, string) => {
 
     let token = getCookie("token");
 
@@ -119,37 +118,38 @@ export default function Sittings(props) {
 
     var raw = JSON.stringify(ob);
 
-      var requestOptions = {
-        method: 'PUT',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow',
+    var requestOptions = {
+      method: 'PUT',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
 
-      };
+    };
 
-      fetch(`http://localhost:8088/owners/${getCookie("id")}`, requestOptions)
-        .then(response => {
-          if (response.status === 401) {
-            console.log("Authorization error");
-            enqueueSnackbar("Ошибка обработки изменений :(", {
-              variant: 'error',
-            });
-            return;
-          }
-          return response.json();
-        })
-        .then(result => {
-          if (result === undefined) {
-            return;
-          } else {
-            console.log(result);
-            setCookie("name", result.name, 30);
-            enqueueSnackbar(string, {
-              variant: 'success',
-            });
-          }
-        })
-        .catch(error => console.log('error', error));
+    fetch(`http://localhost:8088/owners/${getCookie("id")}`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar("Ошибка обработки изменений :(", {
+            variant: 'error',
+          });
+          return;
+        }
+        return response.json();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          console.log(result);
+          setCookie("name", result.name, 30);
+          setCookie("email", result.email, 30);
+          enqueueSnackbar(string, {
+            variant: 'success',
+          });
+        }
+      })
+      .catch(error => console.log('error', error));
   }
 
   const handleClick = () => {
@@ -186,8 +186,8 @@ export default function Sittings(props) {
         setValues({ ...values, errorPassword: false });
       }
 
-      if(!error){
-        fetching({"password": values.password}, "Пароль успешно изменен");
+      if (!error) {
+        fetching({ "password": values.password }, "Пароль успешно изменен");
         document.location.reload()
       }
     }
@@ -227,7 +227,7 @@ export default function Sittings(props) {
             <Grid item className={classes.area}>
 
               <FormControl error={values.error} fullWidth>
-                <InputLabel htmlFor="component-error">Name</InputLabel>
+                <InputLabel htmlFor="component-error">Email</InputLabel>
                 <Input
                   id="component-error"
                   value={values.email}
