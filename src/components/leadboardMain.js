@@ -23,7 +23,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

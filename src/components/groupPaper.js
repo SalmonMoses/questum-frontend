@@ -7,16 +7,18 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { Icon } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import { deepOrange, deepPurple, green } from '@material-ui/core/colors';
+import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from "react-router-dom";
+import { getCookie } from "../Cookie"
+import ChangeGroupName from "./DialogChangeName"
 
 const useStyles = makeStyles(theme => ({
   area: {
     marginTop: theme.spacing(0),
     margin: theme.spacing(2),
-    width: theme.spacing(55),
+    width: theme.spacing(52),
     height: theme.spacing(7),
   },
   area2: {
@@ -62,22 +64,46 @@ export default function GroupPaper(props) {
     history.push("/group");
   }
 
+  const handleGroupDelete = async () =>{
+
+    let token = getCookie("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'DELETE',
+      redirect: 'follow',
+      headers: myHeaders,
+    };
+    
+   await fetch(`http://localhost:8088/groups/${props.id}`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+      props.refresh();
+  }
+
   return (
     <Grid container direction="row">
       <Grid item>
       <Card className={classes.area}>
       <CardActionArea onClick={handleClick}>
         <Paper className={classes.paper}>
-          <Grid container spacing={0} >
+          <Grid container spacing={0}>
             <Grid item className={classes.margin}>
               <CardContent>
-                <Avatar className={classes.purple}>N</Avatar>
+                <Avatar className={classes.purple}>{props.name[0]}</Avatar>
               </CardContent>
             </Grid>
             <Grid item className={classes.margin2} xs={4}>
               <CardContent>
                 {/* Длина не больше 15 символов!*/}
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h6" component="h2">
                   {props.name}
              </Typography>
               </CardContent>
@@ -102,12 +128,10 @@ export default function GroupPaper(props) {
     </Card>
       </Grid>
       <Grid item>
-      <IconButton aria-label="edit">
-          <Icon color="inherit">edit</Icon>
-        </IconButton>
+      <ChangeGroupName id={props.id} refresh={() => props.refresh()}/>
       </Grid>
       <Grid item>
-      <IconButton aria-label="edit">
+      <IconButton aria-label="edit" onClick={() => handleGroupDelete()}>
           <Icon color="primary">delete</Icon>
         </IconButton>
       </Grid>

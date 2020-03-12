@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import GroupPaper from './groupPaper';
-import { getCookie, setCookie } from "../Cookie"
+import IconButton from "@material-ui/core/IconButton"
+import Icon from "@material-ui/core/Icon"
+import { getCookie } from "../Cookie"
+import AddGroup from "./addGroup"
 
 const useStyles = makeStyles(theme => ({
   [theme.breakpoints.down('sm')]: {
@@ -23,6 +20,8 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      maxHeight: '100%',
+      overflow: 'auto'
     },
   },
   [theme.breakpoints.up('md')]: {
@@ -33,6 +32,8 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      maxHeight: '100%',
+      overflow: 'auto'
     },
   },
   [theme.breakpoints.up('lg')]: {
@@ -46,145 +47,153 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      maxHeight: '100%',
+      overflow: 'auto'
     },
   },
-  // root: {
-  //   position: "fixed",
-  //   Top: 200,
-  //   Left: 30,
-  //   width: theme.spacing(75),
-  //   height: theme.spacing(70),
-  //   backgroundColor: theme.palette.background.paper,
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  // },
   text: {
     marginTop: theme.spacing(15)
   },
+  refresh:{
+    marginRight: theme.spacing(-65),
+    marginTop: theme.spacing(-7)
+  },
+  addGroup:{
+    marginBottom:theme.spacing(5),
+  }
 }));
 
-function FormDialog() {
-  const [open, setOpen] = React.useState(false);
+// function FormDialog(props) {
+//   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+//   const handleClickOpen = () => {
+//     setOpen(true);
+//     props.onClick();
+//   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+//   const handleClose = () => {
+//     setOpen(false);
+//     props.onClick();
+//   };
 
-  const [values, setValues] = useState({
-    name: "",
-  });
+//   const [values, setValues] = useState({
+//     name: "",
+//   });
 
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+//   const handleChange = prop => event => {
+//     setValues({ ...values, [prop]: event.target.value })
+//   }
 
-  let token = getCookie("token");
+//   let token = getCookie("token");
 
-  const handleClick = () => {
+//   const handleClick = async () => {
 
-    var myHeaders = new Headers();
+//     var myHeaders = new Headers();
 
-    myHeaders.append("Content-Type", "application/json");
+//     myHeaders.append("Content-Type", "application/json");
 
-    myHeaders.append("Authorization", "Bearer " + token);
+//     myHeaders.append("Authorization", "Bearer " + token);
 
-    var raw = JSON.stringify({ "name": values.name });
+//     var raw = JSON.stringify({ "name": values.name });
 
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
+//     var requestOptions = {
+//       method: 'POST',
+//       headers: myHeaders,
+//       body: raw,
+//       redirect: 'follow'
+//     };
 
-    fetch("http://localhost:8088/groups", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-    handleClose();
-  }
+//     await fetch("http://localhost:8088/groups", requestOptions)
+//       .then(response => response.text())
+//       .then(result => {
+//         console.log(result)
+//       })
+//       .catch(error => console.log('error', error));
+//     handleClose();
+//     props.onClick();
+//   }
 
-  return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Create new group
-      </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Create</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Enter a name of your new group.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Group Name"
-            type="name"
-            fullWidth
-            value={values.name}
-            onChange={handleChange("name")}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClick} color="primary">
-            Create
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
+//   return (
+//     <div>
+//       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+//         Create new group
+//       </Button>
+//       <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+//         <DialogTitle id="form-dialog-title">Create</DialogTitle>
+//         <DialogContent>
+//           <DialogContentText>
+//             Enter a name of your new group.
+//           </DialogContentText>
+//           <TextField
+//             autoFocus
+//             margin="dense"
+//             id="name"
+//             label="Group Name"
+//             type="name"
+//             fullWidth
+//             value={values.name}
+//             onChange={handleChange("name")}
+//           />
+//         </DialogContent>
+//         <DialogActions>
+//           <Button onClick={handleClose} color="primary">
+//             Cancel
+//           </Button>
+//           <Button onClick={() => handleClick()} color="primary">
+//             Create
+//           </Button>
+//         </DialogActions>
+//       </Dialog>
+//     </div>
+//   );
+// }
 
-export default function MediaCard() {
+export default function MediaCard(props) {
   const classes = useStyles();
 
-  const  groupList = () => {
+  const [values, setValues] = useState([]);
+  const [valuesLast, setValuesLast] = useState([]);
 
-    let token = getCookie("token");
+  console.log("done")
 
-    let length = 100;
-
-    var myHeaders = new Headers();
-
-    myHeaders.append("Content-Type", "application/json");
-
-    myHeaders.append("Authorization", "Bearer " + token);
-
-    var requestOptions = {
-      method: 'GET',
-      redirect: 'follow',
-      headers: myHeaders,
-    };
-
-    fetch(`http://localhost:8088/owners/${getCookie("id")}/groups`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        console.log(result)
-        length = result.length;
-        console.log("Lenght = " + length);
-      })
-      .catch(error => console.log('error', error));
-
-      console.log("Lenght2 = " + length);
-
-    return length;
+  const refresh = () => {
+    setValuesLast(values);
+    console.log("refreshhhhhh.......");
   }
 
-  const list = (
-    <Typography>
-      {groupList}
-    </Typography>
-    );
+  window.onload = function(){ refresh()}
 
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      let token = getCookie("token");
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: myHeaders,
+      };
+      await fetch(`http://localhost:8088/owners/${getCookie("id")}/groups`, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          // if (data === valuesLast) {
+          //   console.log("======");
+          //   return fetchData();
+          // } else {
+          console.log(data);
+          setValues(data);
+          // setValuesLast({ "groups": data })
+          // }
+        })
+        .catch(err => console.log(err));
+    }
+    fetchData();
+  }, [valuesLast]);
+
+  console.log(values[0]);
 
   return (
     <Card className={classes.root}>
@@ -193,17 +202,23 @@ export default function MediaCard() {
           Your groups:
         </Typography>
       </CardContent>
-      <GroupPaper name="name" />
-      {list}
-      {/* <GroupPaper />
-    <GroupPaper />
-    <GroupPaper /> */}
-      <CardContent className={classes.text}>
-        <Typography variant="h4">
-          You have no groups yet
-        </Typography>
-      </CardContent>
-      <FormDialog />
+      <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{"marginLeft": 0}}>
+          <Icon color="primary">cached</Icon>
+        </IconButton>
+      {/* <Button id="elemm" onClick={refresh} variant="contained" color="primary">refresh</Button> */}
+      <List dense="true">
+        {values.map((item, count) => (
+          <ListItem key={count} >
+            <GroupPaper name={item.name} id={item.id} refresh={() => refresh()} />
+          </ListItem>
+        ))}
+      </List>
+      <AddGroup onClick={() => refresh()}/>
+      <div className={classes.addGroup}>
+      </div>
+      {/* <Typography>
+        Questerium
+      </Typography> */}
     </Card>
   );
 }

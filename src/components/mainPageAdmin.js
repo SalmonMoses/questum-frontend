@@ -2,16 +2,13 @@ import React from 'react';
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { makeStyles } from '@material-ui/core/styles';
 import MediaCard from "./card";
-import Leadboard from "./leadboard";
 import { green } from '@material-ui/core/colors';
 import Settings from "./settings";
 import NoMatch from "./NoMatch";
-import Donate from "./donate";
 import GroupId from "./groupID"
-import SignIn from '../loginPage';
-import { Grid, Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import LeadboardMain from "./leadboardMain";
-import { getCookie, deleteCookie, setCookie } from "../Cookie"
+import { getCookie, setCookie } from "../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import {
@@ -66,10 +63,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const path = "http://localhost:8080";
-
-
-function MyGroups() {
+function MyGroups(props) {
 
     const classes = useStyles();
 
@@ -78,7 +72,7 @@ function MyGroups() {
             <div className={classes.toolbar} />
             <Grid container spacing={5} >
                 <Grid item >
-                    <MediaCard />
+                    <MediaCard token={props.token}/>
                 </Grid>
                 <Grid item className={classes.leadboard}>
                     <LeadboardMain />
@@ -142,12 +136,11 @@ export default function MainPageAdmin() {
                 } else {
                     console.dir(json.refreshToken + 'SUCCES');
                     console.dir(json.token + ' - token');
-                    setCookie("refreshToken", json.refreshToken, 10);
-                    setCookie("id", json.owner.id, 10);
-                    setCookie("token", json.token, 10);
-                    setCookie("name", json.owner.name, 10);
-                    setCookie("email", json.owner.email, 10);
-                    // alert(document.cookie + ` Вы вошли как ${json.owner.name}`);
+                    setCookie("refreshToken", json.refreshToken, 30);
+                    setCookie("id", json.owner.id, 30);
+                    setCookie("token", json.token, 30);
+                    setCookie("name", json.owner.name, 30);
+                    setCookie("email", json.owner.email, 30);
                     enqueueSnackbar(document.cookie, {
                       variant: 'success',
                     });
@@ -156,8 +149,6 @@ export default function MainPageAdmin() {
             .catch(console.log);
     }
 
-    // console.dir(user);
-
     checkToken();
 
     return (
@@ -165,30 +156,16 @@ export default function MainPageAdmin() {
             <div className={classes.root}>
                 <ResponsiveDrawer />
                 <Switch>
-                    <Route exact path="/groups" component={MyGroups} />
+                    <Route exact path="/groups">
+                        <MyGroups token />
+                    </Route>
                     <Route exact path="/settings">
                         <Settings name={getCookie("name")} email={getCookie("email")}/>
                     </Route>
                     <Route path="/group" component={GroupId} />
                     <Route path="*" component={NoMatch} />
                 </Switch>
-                {/* <Button onClick={deleteC}>
-                    DELETE COOKIE
-                    </Button> */}
             </div>
-            {/* <main className={classes.content}>
-                <div className={classes.toolbar} />
-                <Grid container spacing={5} >
-                    <Grid item >
-                        <MediaCard />
-                    </Grid>
-                    <Grid item >
-                        <Leadboard />
-                    </Grid>
-                </Grid>
-                <MediaCard />
-                <Leadboard />
-            </main> */}
         </Router>
     );
 }
