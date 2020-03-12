@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getCookie} from "../Cookie"
+import { getCookie, setCookie} from "../Cookie"
 
 export default function AddGroup(props) {
     const [open, setOpen] = React.useState(false);
@@ -49,9 +49,10 @@ export default function AddGroup(props) {
       };
   
       await fetch("http://localhost:8088/groups", requestOptions)
-        .then(response => response.text())
+        .then(response => response.json())
         .then(result => {
           console.log(result)
+          setCookie("groupId", result.id)
         })
         .catch(error => console.log('error', error));
       handleClose();

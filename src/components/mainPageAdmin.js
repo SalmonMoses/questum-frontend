@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { makeStyles } from '@material-ui/core/styles';
 import MediaCard from "./card";
@@ -67,6 +67,23 @@ function MyGroups(props) {
 
     const classes = useStyles();
 
+    const [values, setValues] = useState(false);
+
+    const [url, setUrl] = useState(false);
+
+    let history = useHistory();
+
+    useEffect(()=>{
+        if(!isFinite(history.location.search.slice(4))){
+            if(url !== history.location.search.slice(4)){
+                setValues(true);
+            }
+            setUrl(history.location.search.slice(4))
+        }else{
+            setValues(false);
+        } 
+    },[url]);
+
     return (
         <main className={classes.content}>
             <div className={classes.toolbar} />
@@ -75,7 +92,7 @@ function MyGroups(props) {
                     <MediaCard token={props.token}/>
                 </Grid>
                 <Grid item className={classes.leadboard}>
-                    <LeadboardMain />
+                    <LeadboardMain flag={values}/>
                 </Grid>
             </Grid>
         </main>

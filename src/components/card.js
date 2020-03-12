@@ -63,98 +63,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// function FormDialog(props) {
-//   const [open, setOpen] = React.useState(false);
-
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//     props.onClick();
-//   };
-
-//   const handleClose = () => {
-//     setOpen(false);
-//     props.onClick();
-//   };
-
-//   const [values, setValues] = useState({
-//     name: "",
-//   });
-
-//   const handleChange = prop => event => {
-//     setValues({ ...values, [prop]: event.target.value })
-//   }
-
-//   let token = getCookie("token");
-
-//   const handleClick = async () => {
-
-//     var myHeaders = new Headers();
-
-//     myHeaders.append("Content-Type", "application/json");
-
-//     myHeaders.append("Authorization", "Bearer " + token);
-
-//     var raw = JSON.stringify({ "name": values.name });
-
-//     var requestOptions = {
-//       method: 'POST',
-//       headers: myHeaders,
-//       body: raw,
-//       redirect: 'follow'
-//     };
-
-//     await fetch("http://localhost:8088/groups", requestOptions)
-//       .then(response => response.text())
-//       .then(result => {
-//         console.log(result)
-//       })
-//       .catch(error => console.log('error', error));
-//     handleClose();
-//     props.onClick();
-//   }
-
-//   return (
-//     <div>
-//       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-//         Create new group
-//       </Button>
-//       <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-//         <DialogTitle id="form-dialog-title">Create</DialogTitle>
-//         <DialogContent>
-//           <DialogContentText>
-//             Enter a name of your new group.
-//           </DialogContentText>
-//           <TextField
-//             autoFocus
-//             margin="dense"
-//             id="name"
-//             label="Group Name"
-//             type="name"
-//             fullWidth
-//             value={values.name}
-//             onChange={handleChange("name")}
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleClose} color="primary">
-//             Cancel
-//           </Button>
-//           <Button onClick={() => handleClick()} color="primary">
-//             Create
-//           </Button>
-//         </DialogActions>
-//       </Dialog>
-//     </div>
-//   );
-// }
-
 export default function MediaCard(props) {
   const classes = useStyles();
 
   const [values, setValues] = useState([]);
-  const [valuesLast, setValuesLast] = useState([]);
 
-  console.log("done")
+  const [valuesLast, setValuesLast] = useState([]);
 
   const refresh = () => {
     setValuesLast(values);
@@ -162,7 +76,6 @@ export default function MediaCard(props) {
   }
 
   window.onload = function(){ refresh()}
-
 
   useEffect(() => {
 
@@ -193,8 +106,6 @@ export default function MediaCard(props) {
     fetchData();
   }, [valuesLast]);
 
-  console.log(values[0]);
-
   return (
     <Card className={classes.root}>
       <CardContent >
@@ -205,7 +116,6 @@ export default function MediaCard(props) {
       <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{"marginLeft": 0}}>
           <Icon color="primary">cached</Icon>
         </IconButton>
-      {/* <Button id="elemm" onClick={refresh} variant="contained" color="primary">refresh</Button> */}
       <List dense="true">
         {values.map((item, count) => (
           <ListItem key={count} >
@@ -214,11 +124,7 @@ export default function MediaCard(props) {
         ))}
       </List>
       <AddGroup onClick={() => refresh()}/>
-      <div className={classes.addGroup}>
-      </div>
-      {/* <Typography>
-        Questerium
-      </Typography> */}
+      <div className={classes.addGroup}/>
     </Card>
   );
 }

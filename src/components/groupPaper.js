@@ -61,7 +61,8 @@ export default function GroupPaper(props) {
   let history = useHistory();
 
   const handleClick = () => {
-    history.push("/group");
+    history.push("/groups?id=" + props.id);
+    props.refresh();
   }
 
   const handleGroupDelete = async () =>{

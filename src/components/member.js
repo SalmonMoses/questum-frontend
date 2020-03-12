@@ -8,6 +8,9 @@ import { Divider } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
+import { getCookie } from "../Cookie"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,8 +24,8 @@ const useStyles = makeStyles(theme => ({
     area: {
         marginTop: theme.spacing(0),
         margin: theme.spacing(2),
-        maxWidth: theme.spacing(66),
-        maxHeight: theme.spacing(7),
+        width: theme.spacing(66),
+        height: theme.spacing(7),
     },
     area2: {
         maxWidth: theme.spacing(66),
@@ -45,7 +48,7 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(-0.5, -1),
         marginLeft: theme.spacing(19),
     },
-    email:{
+    email: {
         marginTop: theme.spacing(-2),
     },
     paper: {
@@ -53,8 +56,32 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function MemberPaper() {
+export default function MemberPaper(props) {
     const classes = useStyles();
+
+    const handleMemberDelete = async () =>{
+
+        let token = getCookie("token");
+    
+        var myHeaders = new Headers();
+    
+        myHeaders.append("Content-Type", "application/json");
+    
+        myHeaders.append("Authorization", "Bearer " + token);
+
+        var requestOptions = {
+            method: 'DELETE',
+            redirect: 'follow',
+            headers: myHeaders,
+          };
+          
+          await fetch(`http://localhost:8080/participants/${props.id}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    
+          props.refresh();
+      }
 
     return (
         <Card className={classes.area}>
@@ -69,30 +96,27 @@ export default function MemberPaper() {
                         <CardContent>
                             {/* Длина не больше 15 символов!*/}
                             <Typography gutterBottom variant="h5" component="h2">
-                                User1
+                                {props.name}
                             </Typography>
                             <div className={classes.email}>
-                            <Typography gutterBottom variant="h7" component="h7" >
-                            wtf@wtf.wtf
-                            </Typography>
+                                <Typography gutterBottom variant="h7" component="h7" >
+                                    {props.email}
+                                </Typography>
                             </div>
-                            
                         </CardContent>
                     </Grid>
-                    {/* <Grid item className={classes.margin2}  xs={6}>
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="h2">
-                    wtf@wtf.wtf
-             </Typography>
-                </CardContent>
-              </Grid> */}
                     <Divider orientation="vertical" />
                     <Grid item className={classes.score}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
-                                10
-             </Typography>
+                                {props.points}
+                            </Typography>
                         </CardContent>
+                    </Grid>
+                    <Grid item>
+                        <IconButton aria-label="edit" onClick={() => handleMemberDelete()}>
+                            <Icon color="primary">delete</Icon>
+                        </IconButton>
                     </Grid>
                 </Grid>
             </Paper>

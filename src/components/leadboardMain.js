@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -16,13 +16,12 @@ import Icon from '@material-ui/core/Icon';
 import { green } from '@material-ui/core/colors';
 import AddMember from "./addMember"
 import AddSubQuest from "./addSubQuest"
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import { useHistory } from "react-router-dom";
+import CreateQuest from "./addQuest"
+import { getCookie } from "../Cookie"
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import IconButton from "@material-ui/core/IconButton"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -73,8 +72,8 @@ const useStyles = makeStyles(theme => ({
   button: {
     marginLeft: 10,
   },
-  box:{
-    margin:theme.spacing(0.3),
+  box: {
+    margin: theme.spacing(0.3),
     minHeight: theme.spacing(70),
   },
   fabGreen: {
@@ -84,7 +83,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: green[600],
     },
   },
-  shadow:{
+  shadow: {
     shadowColor: "#000000",
     shadowOpacity: 0.8,
     shadowRadius: 2,
@@ -93,60 +92,16 @@ const useStyles = makeStyles(theme => ({
       width: 1
     },
   },
-  card:{
+  card: {
     width: theme.spacing(75),
     maxHeight: '100%',
   }
 }));
 
-function CreateQuest() {
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Create new quest
-      </Button>
-      <Dialog open={open} fullWidth onClose={handleClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Create</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Enter a title.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Group Name"
-            type="name"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            create
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Create
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
-
-export default function Leadboard() {
+export default function Leadboard(props) {
   const classes = useStyles();
   const theme = useTheme();
+  let history = useHistory();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -165,6 +120,7 @@ export default function Leadboard() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
+    console.log(history.location.search);
     setOpen(true);
   };
 
@@ -175,17 +131,67 @@ export default function Leadboard() {
   const [openEdit, setOpenEdit] = React.useState(false);
 
   const handleClickOpenEdit = () => {
+    console.log(history.location.search.slice(4));
     setOpenEdit(true);
   };
-
-  const arr = [];
-  for (let i = 0; i < 17; i++) {
-    arr.push(<MemberPaper />);
-  }
 
   const handleCloseEdit = () => {
     setOpenEdit(false);
   };
+
+  const [values, setValues] = useState([]);
+
+  const [valuesLast, setValuesLast] = useState([]);
+
+  const [url, setUrl] = useState("");
+
+  console.log(history.location.search.slice(4))
+
+  const refresh = () => {
+    setValuesLast(values);
+    console.log("refreshhhhhh.......");
+  }
+  console.log("url: " + url)
+  console.log("path: " + history.location.search.slice(4))
+  if(url !== history.location.search.slice(4)){
+    refresh()
+    setUrl(history.location.search.slice(4))
+  }
+
+  // window.onload = function(){ refresh() }
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+
+      let id = getCookie("groupId");
+      console.log("Cookie id: " + id);
+      if (history.location.search.slice(4) !== "") {
+        id = history.location.search.slice(4);
+      }
+      console.log("ID: " + id);
+
+      let token = getCookie("token");
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: myHeaders,
+      };
+
+      await fetch(`http://localhost:8088/groups/${id}/participants`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(result);
+          setValues(result);
+        })
+        .catch(error => console.log('error', error));
+    }
+    fetchData();
+  }, [valuesLast]);
 
   const fabs = [
     {
@@ -232,10 +238,17 @@ export default function Leadboard() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
-          <div className={classes.margin}>
-            {arr.map((elem) => (
-              elem
-            ))}
+          <div className={classes.margin} >
+          <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{"marginLeft": 0}}>
+          <Icon color="primary">cached</Icon>
+        </IconButton>
+            <List dense="true">
+              {values.map((item, count) => (
+                <ListItem key={count} fullWidth >
+                  <MemberPaper name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={history.location.search.slice(4)}/>
+                </ListItem>
+              ))}
+            </List>
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
@@ -246,7 +259,7 @@ export default function Leadboard() {
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
-            <MemberPaper />
+            <MemberPaper refresh={() => refresh()} id={history.location.search.slice(4)}/>
           </div>
         </TabPanel>
       </SwipeableViews>
@@ -270,8 +283,8 @@ export default function Leadboard() {
           </Fab>
         </Zoom>
       ))}
-      <AddSubQuest open={openEdit} onClick={handleCloseEdit} onClose={handleCloseEdit} />
-      <AddMember open={open} onClick={handleClose} onClose={handleClose} />
+      <AddSubQuest open={openEdit} onClick={handleCloseEdit} onClose={handleCloseEdit} refresh={() => refresh()}/>
+      <AddMember open={open} onClick={handleClose} onClose={handleClose} refresh={() => refresh()} />
     </div>
   );
 }
