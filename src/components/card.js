@@ -10,6 +10,7 @@ import IconButton from "@material-ui/core/IconButton"
 import Icon from "@material-ui/core/Icon"
 import { getCookie } from "../Cookie"
 import AddGroup from "./addGroup"
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   [theme.breakpoints.down('sm')]: {
@@ -65,7 +66,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function MediaCard(props) {
   const classes = useStyles();
-
   const [values, setValues] = useState([]);
 
   const [valuesLast, setValuesLast] = useState([]);
@@ -75,7 +75,9 @@ export default function MediaCard(props) {
     console.log("refreshhhhhh.......");
   }
 
-  window.onload = function(){ refresh()}
+  window.onload = function(){ 
+    refresh();
+  }
 
   useEffect(() => {
 

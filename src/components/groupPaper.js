@@ -60,6 +60,10 @@ export default function GroupPaper(props) {
 
   let history = useHistory();
 
+//   window.onload = function(){
+//     history.push("/groups");
+//  }
+
   const handleClick = () => {
     history.push("/groups?id=" + props.id);
     props.refresh();

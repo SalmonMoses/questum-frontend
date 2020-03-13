@@ -159,6 +159,15 @@ export default function Leadboard(props) {
   }
 
   // window.onload = function(){ refresh() }
+  // window.onload = function(){ 
+  //   // refresh()
+  //   history.push("/groups");
+  //   refresh();
+  //  }
+
+//   window.onunload = function(){
+//     history.push("/groups");
+//  }
 
   useEffect(() => {
 
@@ -191,7 +200,7 @@ export default function Leadboard(props) {
         .catch(error => console.log('error', error));
     }
     fetchData();
-  }, [valuesLast]);
+  }, [history.location.search, valuesLast]);
 
   const fabs = [
     {
@@ -239,9 +248,9 @@ export default function Leadboard(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin} >
-          <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{"marginLeft": 0}}>
+          {/* <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{"marginLeft": 0}}>
           <Icon color="primary">cached</Icon>
-        </IconButton>
+        </IconButton> */}
             <List dense="true">
               {values.map((item, count) => (
                 <ListItem key={count} fullWidth >
