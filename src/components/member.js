@@ -11,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import { getCookie } from "../Cookie"
+import CardActionArea from '@material-ui/core/CardActionArea';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -83,8 +85,13 @@ export default function MemberPaper(props) {
           props.refresh();
       }
 
+      const handleClick = () =>{
+          props.onClick();
+      }
+
     return (
         <Card className={classes.area}>
+         <CardActionArea onClick={handleClick}>
             <Paper className={classes.paper}>
                 <Grid container spacing={0} >
                     <Grid item className={classes.margin}>
@@ -120,6 +127,7 @@ export default function MemberPaper(props) {
                     </Grid>
                 </Grid>
             </Paper>
+            </CardActionArea>
         </Card>
     );
 }

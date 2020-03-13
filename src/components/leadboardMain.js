@@ -21,7 +21,8 @@ import CreateQuest from "./addQuest"
 import { getCookie } from "../Cookie"
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import IconButton from "@material-ui/core/IconButton"
+import IconButton from "@material-ui/core/IconButton";
+import DeleteMember from "./deleteMember";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -254,7 +255,8 @@ export default function Leadboard(props) {
             <List dense="true">
               {values.map((item, count) => (
                 <ListItem key={count} fullWidth >
-                  <MemberPaper name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={history.location.search.slice(4)}/>
+                  {/* <MemberPaper name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={history.location.search.slice(4)}/> */}
+                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id}/>
                 </ListItem>
               ))}
             </List>
