@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     area: {
         marginTop: theme.spacing(0),
         margin: theme.spacing(2),
-        width: theme.spacing(66),
+        width: theme.spacing(62),
         height: theme.spacing(7),
     },
     area2: {

@@ -7,21 +7,17 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import MemberPaper from "./member"
 import Quests from "./quests"
-import clsx from 'clsx';
 import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import { green } from '@material-ui/core/colors';
 import AddMember from "./addMember"
-import AddSubQuest from "./addSubQuest"
 import { useHistory } from "react-router-dom";
-import CreateQuest from "./addQuest"
+import AddQuest from "./addQuest"
 import { getCookie } from "../Cookie"
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import IconButton from "@material-ui/core/IconButton";
 import DeleteMember from "./deleteMember";
 
 function TabPanel(props) {
@@ -144,35 +140,29 @@ export default function Leadboard(props) {
 
   const [valuesLast, setValuesLast] = useState([]);
 
+  const [valuesQuests, setValuesQuests] = useState([]);
+
+  const [valuesLastQuests, setValuesLastQuests] = useState([]);
+
   const [url, setUrl] = useState("");
 
   console.log(history.location.search.slice(4))
 
   const refresh = () => {
     setValuesLast(values);
+    setValuesLastQuests(valuesQuests);
     console.log("refreshhhhhh.......");
   }
   console.log("url: " + url)
   console.log("path: " + history.location.search.slice(4))
-  if(url !== history.location.search.slice(4)){
+  if (url !== history.location.search.slice(4)) {
     refresh()
     setUrl(history.location.search.slice(4))
   }
 
-  // window.onload = function(){ refresh() }
-  // window.onload = function(){ 
-  //   // refresh()
-  //   history.push("/groups");
-  //   refresh();
-  //  }
-
-//   window.onunload = function(){
-//     history.push("/groups");
-//  }
-
   useEffect(() => {
 
-    const fetchData = async () => {
+    const fetchDataMembers = async () => {
 
       let id = getCookie("groupId");
       console.log("Cookie id: " + id);
@@ -200,8 +190,38 @@ export default function Leadboard(props) {
         })
         .catch(error => console.log('error', error));
     }
-    fetchData();
-  }, [history.location.search, valuesLast]);
+
+    const fetchDataQuests = async () => {
+
+      let id = getCookie("groupId");
+      console.log("Cookie id: " + id);
+      if (history.location.search.slice(4) !== "") {
+        id = history.location.search.slice(4);
+      }
+      console.log("ID: " + id);
+
+      let token = getCookie("token");
+      var myHeaders = new Headers();
+      // myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: myHeaders,
+      };
+
+      fetch(`http://localhost:8088/groups/${id}/quests`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(result)
+          setValuesQuests(result)
+        })
+        .catch(error => console.log('error', error));
+    }
+    fetchDataMembers();
+    fetchDataQuests();
+  }, [history.location.search, valuesLast, valuesLastQuests]);
 
   const fabs = [
     {
@@ -216,12 +236,12 @@ export default function Leadboard(props) {
       icon: <Icon>edit</Icon>,
       label: 'Edit',
     },
-    {
-      color: 'inherit',
-      className: clsx(classes.fab, classes.fabGreen),
-      icon: <Icon>keyboard_arrow_up</Icon>,
-      label: 'Expand',
-    },
+    // {
+    //   color: 'inherit',
+    //   className: clsx(classes.fab, classes.fabGreen),
+    //   icon: <Icon>keyboard_arrow_up</Icon>,
+    //   label: 'Expand',
+    // },
   ];
 
 
@@ -241,7 +261,6 @@ export default function Leadboard(props) {
           <Tab label="Leaderboard" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      {/* <Box boxShadow={15} className={classes.box}> */}
       <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
@@ -249,32 +268,34 @@ export default function Leadboard(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin} >
-          {/* <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{"marginLeft": 0}}>
-          <Icon color="primary">cached</Icon>
-        </IconButton> */}
             <List dense="true">
               {values.map((item, count) => (
                 <ListItem key={count} fullWidth >
-                  {/* <MemberPaper name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={history.location.search.slice(4)}/> */}
-                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id}/>
+                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
                 </ListItem>
               ))}
             </List>
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <div className={classes.margin}>
-            <Quests />
-            <CreateQuest className={classes.button} />
-          </div>
+          <Box component="div" className={classes.margin} display="block">
+            {valuesQuests.map((item, count) => (
+              <ListItem key={count} fullWidth>
+                <Quests title={item.title} refresh={() => refresh()} id={item.id} />
+              </ListItem>
+            ))}
+          </Box>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
-            <MemberPaper refresh={() => refresh()} id={history.location.search.slice(4)}/>
+            {values.sort((a, b) => a.points - b.points).map((item, count) => (
+              <ListItem key={count} fullWidth >
+                <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+              </ListItem>
+            ))}
           </div>
         </TabPanel>
       </SwipeableViews>
-      {/* </Box> */}
       {fabs.map((fab, index) => (
         <Zoom
           key={fab.color}
@@ -294,7 +315,7 @@ export default function Leadboard(props) {
           </Fab>
         </Zoom>
       ))}
-      <AddSubQuest open={openEdit} onClick={handleCloseEdit} onClose={handleCloseEdit} refresh={() => refresh()}/>
+      <AddQuest open={openEdit} onClick={handleCloseEdit} onClose={handleCloseEdit} refresh={() => refresh()} />
       <AddMember open={open} onClick={handleClose} onClose={handleClose} refresh={() => refresh()} />
     </div>
   );

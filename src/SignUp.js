@@ -135,7 +135,7 @@ export default function SignIn() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/signup/owner", requestOptions)
+        fetch("http://localhost:8088/signup/owner", requestOptions)
             .then(response => {
                 if (response.status === 409) {
                     enqueueSnackbar("Данная почта уже зарегистрирована", {
@@ -158,7 +158,7 @@ export default function SignIn() {
                         variant: 'success'
                     });
                     setValues({...values, logged: true });
-                    history.push('/');
+                    history.push('/groups');
                     // var url = document.getElementById('root');
                     // console.log(url.value);
                     // document.location.href = "http://localhost:3000/";

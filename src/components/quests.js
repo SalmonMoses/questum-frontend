@@ -1,108 +1,129 @@
-import React from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
-
+import Icon from '@material-ui/core/Icon';
+import AddSubQuest from "./addSubQuest";
+import { Divider } from '@material-ui/core';
+import { getCookie } from "../Cookie";
+import { useHistory } from "react-router-dom";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-  },
-  button: {
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
-  actionsContainer: {
-    marginBottom: theme.spacing(2),
-  },
-  resetContainer: {
-    padding: theme.spacing(3),
-  },
+    root: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    heading: {
+        fontSize: theme.typography.pxToRem(15),
+        flexBasis: '33.33%',
+        flexShrink: 0,
+    },
+    secondaryHeading: {
+        fontSize: theme.typography.pxToRem(15),
+        color: theme.palette.text.secondary,
+    },
+    bg: {
+        backgroundColor: theme.palette.background.default,
+    },
+    button: {
+        marginBottom: theme.spacing(5),
+    },
+    list: {
+        width: theme.spacing(59),
+    }
 }));
 
-function getSteps() {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
-}
+export default function Quests(props) {
+    const classes = useStyles();
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`;
-    case 1:
-      return 'An ad group contains one or more ads which target a shared set of keywords.';
-    case 2:
-      return `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`;
-    default:
-      return 'Unknown step';
-  }
-}
+    const [expanded, setExpanded] = React.useState(false);
 
-export default function Quests() {
-  const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
+    const [valuesSubQuests, setValuesSubQuests] = useState([]);
 
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
+    const [valuesLastSubQuests, setValuesLastSubQuests] = useState([]);
 
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
+    const handleChange = panel => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+    let history = useHistory();
 
-  return (
-    <div className={classes.root}>
-      <Stepper activeStep={activeStep} orientation="vertical" >
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-            <StepContent>
-              <Typography>{getStepContent(index)}</Typography>
-              <div className={classes.actionsContainer}>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
-                </div>
-              </div>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} className={classes.button}>
-            Reset
-          </Button>
-        </Paper>
-      )}
-    </div>
-  );
+    const refreshNew = () => {
+        setValuesLastSubQuests(valuesSubQuests);
+    }
+
+    useEffect(() => {
+
+        const fetchAllQuests = async () => {
+
+            let id = getCookie("groupId");
+            console.log("Cookie id: " + id);
+            if (history.location.search.slice(4) !== "") {
+                id = history.location.search.slice(4);
+            }
+
+            let token = getCookie("token");
+
+            var myHeaders = new Headers();
+
+            myHeaders.append("Content-Type", "application/json");
+
+            myHeaders.append("Authorization", "Bearer " + token);
+
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                headers: myHeaders,
+            };
+
+            await fetch(`http://localhost:8088/quests/${props.id}/subquests`, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result)
+                    setValuesSubQuests(result);
+                })
+                .catch(error => console.log('error', error));
+        }
+        fetchAllQuests();
+    }, [history.location.search, props.id, valuesLastSubQuests]);
+
+    return (
+        <div className={classes.root}>
+            <List dense="true" >
+                <Typography variant="h4" component="h2" align="center">
+                    {props.title}
+                </Typography>
+                {valuesSubQuests.map((item, count) => (
+                    <ListItem key={count} >
+                        <ExpansionPanel expanded={expanded === 'panel'+ (item.order+1)} onChange={handleChange('panel' +(item.order+1))} className={classes.bg} fullWidth>
+                            <ExpansionPanelSummary
+                                fullWidth
+                                className={classes.list}
+                                expandIcon={<Icon>expand_more</Icon>}
+                                aria-controls="panel1bh-content"
+                                id="panel1bh-header"
+                            >
+                                <Typography className={classes.heading}>Quest №{item.order+1}</Typography>
+                                <Typography className={classes.secondaryHeading}>{item.title}</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    {item.desc}
+                                </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                    </ListItem>
+                ))}
+            </List>
+            <AddSubQuest questId={props.id} refresh={() => refreshNew()} fullWidth/>
+            <div className={classes.button} />
+            <Divider />
+        </div>
+    );
 }

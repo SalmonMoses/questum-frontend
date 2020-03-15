@@ -87,7 +87,7 @@ function MyGroups(props) {
         }else{
             setValues(false);
         } 
-    },[url]);
+    },[history.location.search, url]);
 
     return (
         <main className={classes.content}>

@@ -67,10 +67,10 @@ export default function DeleteMember(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Disagree
+            CLOSE
           </Button>
-          <Button onClick={deleteUser} color="primary" autoFocus>
-            Agree
+          <Button disableElevation="true" variant="contained" onClick={deleteUser} color="primary" autoFocus>
+            DELETE
           </Button>
         </DialogActions>
       </Dialog>

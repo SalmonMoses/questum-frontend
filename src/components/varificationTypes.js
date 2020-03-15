@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(0),
     minWidth: 120,
   },
   selectEmpty: {
@@ -15,12 +15,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function VarificationTypes() {
+export default function VarificationTypes(props) {
   const classes = useStyles();
+
   const [type, setType] = React.useState('');
 
   const handleChange = event => {
     setType(event.target.value);
+    props.type(event.target.value);
   };
 
   return (
