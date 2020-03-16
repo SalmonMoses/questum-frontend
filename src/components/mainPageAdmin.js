@@ -73,11 +73,6 @@ function MyGroups(props) {
 
     let history = useHistory();
 
-    // window.onload = function(){ 
-    //     // refresh();
-    //     history.push("/groups");
-    //   }
-
     useEffect(()=>{
         if(!isFinite(history.location.search.slice(4))){
             if(url !== history.location.search.slice(4)){

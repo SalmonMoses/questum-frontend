@@ -5,19 +5,24 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import AddSubQuest from "./addSubQuest";
-import { Divider } from '@material-ui/core';
+import { Divider, Grid } from '@material-ui/core';
 import { getCookie } from "../Cookie";
 import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import Box from '@material-ui/core/Box';
+import DeleteQuest from "./deleteQuest"
+import DeleteSubquest from "./deleteSubquest";
+import EditSubquest from "./editSubquest"
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+        // display: 'flex',
+        // flexDirection: 'column',
+        // alignItems: 'center',
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -35,8 +40,12 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(5),
     },
     list: {
-        width: theme.spacing(59),
-    }
+        width: theme.spacing(55),
+    },
+    icon: {
+        marginTop: theme.spacing(-5),
+        marginLeft: theme.spacing(10)
+    },
 }));
 
 export default function Quests(props) {
@@ -85,7 +94,8 @@ export default function Quests(props) {
             await fetch(`http://localhost:8088/quests/${props.id}/subquests`, requestOptions)
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
+                    console.log("all subquests: ")
+                    console.log(result);
                     setValuesSubQuests(result);
                 })
                 .catch(error => console.log('error', error));
@@ -96,12 +106,22 @@ export default function Quests(props) {
     return (
         <div className={classes.root}>
             <List dense="true" >
-                <Typography variant="h4" component="h2" align="center">
-                    {props.title}
-                </Typography>
+                <Grid container
+                    direction="row"
+                    justify="center"
+                    alignItems="center">
+                    <Grid item>
+                        <Typography variant="h4" component="h2">
+                            {props.title}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <DeleteQuest className={classes.icon} questId={props.id} refresh={() => props.refresh()} />
+                    </Grid>
+                </Grid>
                 {valuesSubQuests.map((item, count) => (
                     <ListItem key={count} >
-                        <ExpansionPanel expanded={expanded === 'panel'+ (item.order+1)} onChange={handleChange('panel' +(item.order+1))} className={classes.bg} fullWidth>
+                        <ExpansionPanel expanded={expanded === 'panel' + (item.order + 1)} onChange={handleChange('panel' + (item.order + 1))} className={classes.bg} fullWidth>
                             <ExpansionPanelSummary
                                 fullWidth
                                 className={classes.list}
@@ -109,8 +129,8 @@ export default function Quests(props) {
                                 aria-controls="panel1bh-content"
                                 id="panel1bh-header"
                             >
-                                <Typography className={classes.heading}>Quest №{item.order+1}</Typography>
-                                <Typography className={classes.secondaryHeading}>{item.title}</Typography>
+                                <Typography className={classes.heading}>Quest {item.order + 1}</Typography>
+                                <Typography className={classes.secondaryHeading}>{item.verificationType}</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
@@ -118,10 +138,12 @@ export default function Quests(props) {
                                 </Typography>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
+                        <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc}/>
+                        <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()}/>
                     </ListItem>
                 ))}
             </List>
-            <AddSubQuest questId={props.id} refresh={() => refreshNew()} fullWidth/>
+            <AddSubQuest questId={props.id} refresh={() => refreshNew()} fullWidth />
             <div className={classes.button} />
             <Divider />
         </div>
