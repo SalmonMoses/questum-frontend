@@ -129,7 +129,7 @@ function ResponsiveDrawer(props) {
     setAnchorEl(null);
   };
 
-  const logout = () =>{
+  const logout = () => {
     deleteCookie("refreshToken");
     deleteCookie("id");
     deleteCookie("name");
@@ -169,12 +169,17 @@ function ResponsiveDrawer(props) {
           icon={<Icon color="primary">people_alt</Icon>}
           primary={"My groups"} />
 
-        <ListItem button key="Pending quests">
+        <ListItemLink
+          to={"/pending-quests"}
+          icon={<Icon color="primary">hourglass_full</Icon>}
+          primary={"Pending quests"} />
+
+        {/* <ListItem button key="Pending quests">
           <ListItemIcon>
             <Icon color="primary">hourglass_full</Icon>
           </ListItemIcon>
           <ListItemText primary="Pending quests" />
-        </ListItem>
+        </ListItem> */}
       </List>
       <Divider />
       <List>
@@ -193,13 +198,13 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/login/owner"}
           icon={<Icon color="primary">exit_to_app</Icon>}
-          primary={"Log out"} 
+          primary={"Log out"}
           onClick={logout}
-          />
+        />
       </List>
       <Divider />
       <List>
-          <DonateButton></DonateButton>
+        <DonateButton></DonateButton>
       </List>
     </div>
   );
@@ -219,7 +224,7 @@ function ResponsiveDrawer(props) {
             <Icon>menu</Icon>
           </IconButton>
           <Typography variant="h6" noWrap>
-            Questerium 
+            Questerium
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
@@ -250,7 +255,7 @@ function ResponsiveDrawer(props) {
               </Badge>
             </IconButton>
             <IconButton
-            href="/settings"
+              href="/settings"
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}

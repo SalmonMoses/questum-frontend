@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -12,7 +13,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import VarificationTypes from "./varificationTypes"
 import { getCookie } from "../Cookie"
 import Chip from '@material-ui/core/Chip';
-import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles(theme => ({
     area: {

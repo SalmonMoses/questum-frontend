@@ -11,6 +11,7 @@ import LeadboardMain from "./leadboardMain";
 import { getCookie, setCookie } from "../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
+import PendingQuests from "./pendingQuests"
 import {
     BrowserRouter as Router,
     Switch,
@@ -174,12 +175,16 @@ export default function MainPageAdmin() {
                 <ResponsiveDrawer />
                 <Switch>
                     <Route exact path="/groups">
-                        <MyGroups token />
+                        <MyGroups />
+                    </Route>
+                    <Route exact path="/pending-quests">
+                        <PendingQuests />
                     </Route>
                     <Route exact path="/settings">
                         <Settings name={getCookie("name")} email={getCookie("email")}/>
                     </Route>
                     <Route path="/group" component={GroupId} />
+
                     <Route path="*" component={NoMatch} />
                 </Switch>
             </div>

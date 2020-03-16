@@ -16,6 +16,7 @@ import Box from '@material-ui/core/Box';
 import DeleteQuest from "./deleteQuest"
 import DeleteSubquest from "./deleteSubquest";
 import EditSubquest from "./editSubquest"
+import EditQuest from "./editQuest"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(5),
     },
     list: {
-        width: theme.spacing(55),
+        width: theme.spacing(53),
     },
     icon: {
         marginTop: theme.spacing(-5),
@@ -117,6 +118,9 @@ export default function Quests(props) {
                     </Grid>
                     <Grid item>
                         <DeleteQuest className={classes.icon} questId={props.id} refresh={() => props.refresh()} />
+                    </Grid>
+                    <Grid item>
+                        <EditQuest questId={props.id} refresh={() => props.refresh()} />
                     </Grid>
                 </Grid>
                 {valuesSubQuests.map((item, count) => (
