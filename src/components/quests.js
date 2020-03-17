@@ -7,12 +7,12 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import AddSubQuest from "./addSubQuest";
-import { Divider, Grid } from '@material-ui/core';
+import { Divider, Grid, ExpansionPanelActions } from '@material-ui/core';
 import { getCookie } from "../Cookie";
 import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
 import DeleteQuest from "./deleteQuest"
 import DeleteSubquest from "./deleteSubquest";
 import EditSubquest from "./editSubquest"
@@ -41,12 +41,20 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(5),
     },
     list: {
-        width: theme.spacing(53),
+        width: theme.spacing(59),
     },
     icon: {
-        marginTop: theme.spacing(-5),
-        marginLeft: theme.spacing(10)
+        marginLeft: theme.spacing(15)
     },
+    title: {
+        marginLeft: theme.spacing(0)
+    },
+    card: {
+        border: `1px solid ${theme.palette.primary.main}`,
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.primary.main
+    }
 }));
 
 export default function Quests(props) {
@@ -100,50 +108,56 @@ export default function Quests(props) {
 
     return (
         <div className={classes.root}>
-            <List dense="true" >
-                <Grid container
-                    direction="row"
-                    justify="center"
-                    alignItems="center">
-                    <Grid item>
-                        <Typography variant="h4" component="h2">
-                            {props.title}
-                        </Typography>
+            <Card className={classes.card}>
+                <List dense="true" >
+                    <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center">
+                        <Grid item className={classes.title} xs={6}>
+                            <Typography variant="h4" component="h2">
+                                {props.title}
+                            </Typography>
+                        </Grid>
+                        <Grid item className={classes.icon}>
+                            <DeleteQuest questId={props.id} refresh={() => props.refresh()} />
+                        </Grid>
+                        <Grid item>
+                            <EditQuest questId={props.id} refresh={() => props.refresh()} />
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <DeleteQuest className={classes.icon} questId={props.id} refresh={() => props.refresh()} />
-                    </Grid>
-                    <Grid item>
-                        <EditQuest questId={props.id} refresh={() => props.refresh()} />
-                    </Grid>
-                </Grid>
-                {valuesSubQuests.map((item, count) => (
-                    <ListItem key={count} >
-                        <ExpansionPanel expanded={expanded === 'panel' + (item.order + 1)} onChange={handleChange('panel' + (item.order + 1))} className={classes.bg} fullWidth>
-                            <ExpansionPanelSummary
-                                fullWidth
-                                className={classes.list}
-                                expandIcon={<Icon>expand_more</Icon>}
-                                aria-controls="panel1bh-content"
-                                id="panel1bh-header"
-                            >
-                                <Typography className={classes.heading}>Quest {item.order + 1}</Typography>
-                                <Typography className={classes.secondaryHeading}>{item.verificationType}</Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <Typography>
-                                    {item.desc}
-                                </Typography>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                        <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc}/>
-                        <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()}/>
-                    </ListItem>
-                ))}
-            </List>
-            <AddSubQuest questId={props.id} refresh={() => refreshNew()} fullWidth />
-            <div className={classes.button} />
-            <Divider />
+                    {valuesSubQuests.map((item, count) => (
+                        <ListItem key={count} >
+                            <ExpansionPanel expanded={expanded === 'panel' + (item.order + 1)} onChange={handleChange('panel' + (item.order + 1))} className={classes.bg} fullWidth>
+                                <ExpansionPanelSummary
+                                    fullWidth
+                                    className={classes.list}
+                                    expandIcon={<Icon>expand_more</Icon>}
+                                    aria-controls="panel1bh-content"
+                                    id="panel1bh-header"
+                                >
+                                    <Typography className={classes.heading}>Quest {item.order + 1}</Typography>
+                                    <Typography className={classes.secondaryHeading}>{item.verificationType}</Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <Typography>
+                                        {item.desc}
+                                    </Typography>
+                                </ExpansionPanelDetails>
+                                <ExpansionPanelActions>
+                                    <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()} />
+                                    <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc} />
+                                </ExpansionPanelActions>
+                            </ExpansionPanel>
+                            {/* <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc}/>
+                        <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()}/> */}
+                        </ListItem>
+                    ))}
+                </List>
+                <AddSubQuest questId={props.id} refresh={() => refreshNew()} fullWidth />
+                <div className={classes.button} />
+                <Divider />
+            </Card>
         </div>
     );
 }

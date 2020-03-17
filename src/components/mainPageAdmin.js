@@ -139,9 +139,9 @@ function MyGroups(props) {
                     setLoading(false);
                     setToken(getCookie("token"));
                     console.log(document.cookie);
-                    enqueueSnackbar(document.cookie, {
-                      variant: 'success',
-                    });
+                    // enqueueSnackbar(document.cookie, {
+                    //   variant: 'success',
+                    // });
                 }
             })
             .catch(err => {

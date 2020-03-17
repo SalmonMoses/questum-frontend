@@ -11,6 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import PendingQuestCard from "./pendingQuestCard"
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -27,6 +28,16 @@ const useStyles = makeStyles(theme => ({
     cont: {
         marginLeft: theme.spacing(2),
         // background: theme.palette.primary.main,
+    },
+    card: {
+        border: `1px solid ${theme.palette.primary.main}`,
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.primary.main,
+        marginTop: theme.spacing(2),
+    },
+    list: {
+        marginBottom: theme.spacing(4),
     },
 }));
 
@@ -79,11 +90,11 @@ export default function PendingQuests(props) {
                     if (data === valuesLast) {
                         console.log("======");
                         return fetchData();
-                      } else {
-                      console.log(data);
-                      setValues(data);
-                      setLoading(false);
-                      }
+                    } else {
+                        console.log(data);
+                        setValues(data);
+                        setLoading(false);
+                    }
                 })
                 .catch(err => {
                     console.log(err);
@@ -102,11 +113,34 @@ export default function PendingQuests(props) {
             <div className={classes.toolbar} />
             <Paper className={classes.paper}>
                 <Container className={classes.cont}>
-                {loading ? (
-                    <CircularProgress color="secondary"/>
-                ) : (
-                    <List >
+                    {loading ? (
+                        <CircularProgress color="secondary" />
+                    ) : (<div>
+                        {values.length === "" ? (
+                            <Typography>
+                                There is no pending quests yet
+                            </Typography>
+                        ) : (
+                                <List>
+                                    {values.map((item, count) => (
+                                        <Card className={classes.card}>
+                                            <ListItem key={count}>
+                                                <Typography variant="h2" component="h2">
+                                                    {item.name}
+                                                    <PendingQuestCard groupId={item.id} refresh={() => refresh()} />
+                                                    {/* <Divider /> */}
+                                                </Typography>
+                                            </ListItem>
+                                        </Card>
+                                    ))}
+                                </List>
+                            )
+                        }
+                    </div>
+                    )}
+                    {/* <List>
                         {values.map((item, count) => (
+                            <Card className={classes.card}>
                             <ListItem key={count}>
                                 <Typography variant="h2" component="h2">
                                     {item.name}
@@ -114,9 +148,9 @@ export default function PendingQuests(props) {
                                     <Divider />
                                 </Typography>
                             </ListItem>
+                            </Card>
                         ))}
-                    </List>
-                )}
+                    </List> */}
                 </Container>
             </Paper>
         </main>

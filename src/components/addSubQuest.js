@@ -23,7 +23,11 @@ const useStyles = makeStyles(theme => ({
     },
     button:{
         width:theme.spacing(59),
-    }
+    },
+    add:{
+        width: theme.spacing(59),
+        marginLeft: theme.spacing(2),
+    },
 }));
 
 
@@ -86,7 +90,7 @@ export default function AddSubQuest(props) {
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen} fullWidth>
+            <Button className={classes.add} variant="outlined" color="primary" onClick={handleClickOpen} >
                 Add new subquest
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

@@ -13,6 +13,8 @@ import Grid from '@material-ui/core/Grid';
 import { ExpansionPanelActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button"
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Card from '@material-ui/core/Card';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,6 +30,12 @@ const useStyles = makeStyles(theme => ({
     },
     list: {
         width: theme.spacing(135),
+    },
+    card: {
+        // border: `1px solid ${theme.palette.primary.main}`,
+        // borderRadius: theme.shape.borderRadius,
+        backgroundColor: theme.palette.background.default,
+        color: theme.palette.primary.main
     },
 }));
 
@@ -121,7 +129,7 @@ export default function PendingQuestCard(props) {
                     <List>
                         {values.map((item, count) => (
                             <ListItem key={count}>
-                                <ExpansionPanel>
+                                <ExpansionPanel className={classes.card}>
                                     <ExpansionPanelSummary
                                         className={classes.list}
                                         expandIcon={<Icon>expand_more</Icon>}
