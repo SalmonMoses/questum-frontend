@@ -10,10 +10,11 @@ import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import PendingQuestCard from "./pendingQuestCard"
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
     paper: {
-        height: theme.spacing(100),
+        minHeight: theme.spacing(100),
         marginTop: theme.spacing(0),
         paddingRight: theme.spacing(4),
         // paddingTop: theme.spacing(3)
@@ -50,6 +51,8 @@ export default function PendingQuests(props) {
 
     const [valuesLast, setValuesLast] = useState([]);
 
+    const [loading, setLoading] = useState(true);
+
     const refresh = () => {
         setValuesLast(values);
         console.log("refreshhhhhh.......");
@@ -79,13 +82,21 @@ export default function PendingQuests(props) {
                       } else {
                       console.log(data);
                       setValues(data);
+                      setLoading(false);
                       }
                     //   console.log(data);
                     //   setValues(data);
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err);
+                    setLoading(false);
+                });
         }
         fetchData();
+
+        // if (loading) {
+        //     refresh();
+        // }
     }, [valuesLast]);
 
     return (
@@ -93,6 +104,9 @@ export default function PendingQuests(props) {
             <div className={classes.toolbar} />
             <Paper className={classes.paper}>
                 <Container className={classes.cont}>
+                {loading ? (
+                    <CircularProgress color="secondary"/>
+                ) : (
                     <List >
                         {values.map((item, count) => (
                             <ListItem key={count}>
@@ -104,6 +118,7 @@ export default function PendingQuests(props) {
                             </ListItem>
                         ))}
                     </List>
+                )}
                 </Container>
             </Paper>
         </main>

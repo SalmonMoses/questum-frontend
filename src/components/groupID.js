@@ -1,19 +1,8 @@
-import React, { useState } from 'react';
-import Divider from '@material-ui/core/Divider';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField'
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import Avatar from '@material-ui/core/Avatar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import LeadboardMain from "./leadboardMain";
 
 

@@ -268,7 +268,7 @@ export default function Leadboard(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin} >
-            <List dense="true">
+            <List>
               {values.map((item, count) => (
                 <ListItem key={count} fullWidth >
                   <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
