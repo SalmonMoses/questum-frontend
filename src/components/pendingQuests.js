@@ -110,7 +110,7 @@ export default function PendingQuests(props) {
                             <ListItem key={count}>
                                 <Typography variant="h2" component="h2">
                                     {item.name}
-                                    <PendingQuestCard groupId={item.id} refresh={refresh}/>
+                                    <PendingQuestCard groupId={item.id} refresh={() => refresh()}/>
                                     <Divider />
                                 </Typography>
                             </ListItem>

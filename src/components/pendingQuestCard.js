@@ -62,6 +62,8 @@ export default function PendingQuestCard(props) {
 
         var raw = JSON.stringify({ "userId": prop.userId, "subquestId": prop.subquestId, "verified": prop.verified });
 
+        var raw = "";
+
         var requestOptions = {
             method: 'PUT',
             headers: myHeaders,
@@ -69,11 +71,11 @@ export default function PendingQuestCard(props) {
             redirect: 'follow'
         };
 
-        await fetch(`http://localhost:8088/groups/${props.groupId}/verify`, requestOptions)
+        await fetch(`http://localhost:8088/groups/${props.groupId}/${prop.status}?verification_id=${prop.subquestId}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
-        
+
         refreshNew();
     }
 
@@ -108,9 +110,6 @@ export default function PendingQuestCard(props) {
         }
         getPendingQuests();
 
-        // if (loading) {
-        //     refreshNew();
-        // }
 
     }, [props, props.groupId, valuesLast, loading]);
 
@@ -175,10 +174,10 @@ export default function PendingQuestCard(props) {
                                         </Grid>
                                     </ExpansionPanelDetails>
                                     <ExpansionPanelActions>
-                                        <Button onClick={() => handleClick({verified: false, subquestId: item.id, userId: item.user.id})} color="primary">
+                                        <Button onClick={() => handleClick({status: "reject", subquestId: item.id })} color="primary">
                                             cancel
                                         </Button>
-                                        <Button onClick={() => handleClick({verified: true, subquestId: item.id, userId: item.user.id})} color="primary">
+                                        <Button onClick={() => handleClick({status: "verify", subquestId: item.id })} color="primary">
                                             confirm
                                         </Button>
                                     </ExpansionPanelActions>
