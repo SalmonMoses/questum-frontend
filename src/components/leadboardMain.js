@@ -19,6 +19,7 @@ import { getCookie } from "../Cookie"
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import DeleteMember from "./deleteMember";
+import Paper from "@material-ui/core/Paper"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -246,7 +247,7 @@ export default function Leadboard(props) {
 
 
   return (
-    <div className={classes.root} >
+    <Paper className={classes.root} >
       <AppBar position="sticky" color="default" >
         <Tabs
           value={value}
@@ -317,6 +318,6 @@ export default function Leadboard(props) {
       ))}
       <AddQuest open={openEdit} onClick={handleCloseEdit} onClose={handleCloseEdit} refresh={() => refresh()} />
       <AddMember open={open} onClick={handleClose} onClose={handleClose} refresh={() => refresh()} />
-    </div>
+    </Paper>
   );
 }
