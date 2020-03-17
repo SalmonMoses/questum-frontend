@@ -7,7 +7,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { getCookie } from "../Cookie"
-import { useHistory } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 
@@ -31,8 +30,6 @@ export default function EditQuest(props) {
         setValues({ ...values, [prop]: event.target.value })
     }
 
-    let history = useHistory();
-
     const editQuest = async () => {
 
         let token = getCookie("token");
@@ -55,11 +52,6 @@ export default function EditQuest(props) {
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
-
-        // await fetch(`http://localhost:8088/groups/${props.questId}`, requestOptions)
-        //     .then(response => response.text())
-        //     .then(result => console.log(result))
-        //     .catch(error => console.log('error', error));
 
         handleClose();
         props.refresh();

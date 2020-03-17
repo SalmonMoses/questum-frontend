@@ -72,12 +72,6 @@ export default function Quests(props) {
 
         const fetchAllQuests = async () => {
 
-            let id = getCookie("groupId");
-            console.log("Cookie id: " + id);
-            if (history.location.search.slice(4) !== "") {
-                id = history.location.search.slice(4);
-            }
-
             let token = getCookie("token");
 
             var myHeaders = new Headers();

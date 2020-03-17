@@ -10,7 +10,6 @@ import IconButton from "@material-ui/core/IconButton"
 import Icon from "@material-ui/core/Icon"
 import { getCookie } from "../Cookie"
 import AddGroup from "./addGroup"
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   [theme.breakpoints.down('sm')]: {
@@ -94,14 +93,13 @@ export default function MediaCard(props) {
       await fetch(`http://localhost:8088/owners/${getCookie("id")}/groups`, requestOptions)
         .then(response => response.json())
         .then(data => {
-          // if (data === valuesLast) {
-          //   console.log("======");
-          //   return fetchData();
-          // } else {
+          if (data === valuesLast) {
+            console.log("======");
+            return fetchData();
+          } else {
           console.log(data);
           setValues(data);
-          // setValuesLast({ "groups": data })
-          // }
+          }
         })
         .catch(err => console.log(err));
     }

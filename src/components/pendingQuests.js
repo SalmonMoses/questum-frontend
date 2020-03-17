@@ -1,26 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Divider from '@material-ui/core/Divider';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField'
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 import { getCookie, setCookie } from "../Cookie"
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import PasswordConfirm from "./passwordConfirm"
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import PendingQuestCard from "./pendingQuestCard"
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -42,20 +31,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function PendingQuests(props) {
 
-    const [values, setValues] = useState({
-        name: props.name,
-        edit: false,
-        email: props.email,
-        password: "",
-        password2: "",
-        errorPassword: false,
-        lang: "Russian",
-        showPassword: false,
-        error: false,
-        text: "",
-        dis: "",
-    });
-
     let history = useHistory();
 
     const { enqueueSnackbar } = useSnackbar();
@@ -71,16 +46,64 @@ export default function PendingQuests(props) {
 
     const classes = useStyles();
 
+    const [values, setValues] = useState([]);
 
+    const [valuesLast, setValuesLast] = useState([]);
 
+    const refresh = () => {
+        setValuesLast(values);
+        console.log("refreshhhhhh.......");
+    }
+
+    window.onload = function () {
+        refresh();
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            let token = getCookie("token");
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("Authorization", "Bearer " + token);
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                headers: myHeaders,
+            };
+            await fetch(`http://localhost:8088/owners/${getCookie("id")}/groups`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data === valuesLast) {
+                        console.log("======");
+                        return fetchData();
+                      } else {
+                      console.log(data);
+                      setValues(data);
+                      }
+                    //   console.log(data);
+                    //   setValues(data);
+                })
+                .catch(err => console.log(err));
+        }
+        fetchData();
+    }, [valuesLast]);
 
     return (
         <main className={classes.content}>
             <div className={classes.toolbar} />
             <Paper className={classes.paper}>
                 <Container className={classes.cont}>
-
-
+                    <List >
+                        {values.map((item, count) => (
+                            <ListItem key={count}>
+                                <Typography variant="h2" component="h2">
+                                    {item.name}
+                                    <PendingQuestCard groupId={item.id} refresh={refresh}/>
+                                    <Divider />
+                                </Typography>
+                            </ListItem>
+                        ))}
+                    </List>
                 </Container>
             </Paper>
         </main>

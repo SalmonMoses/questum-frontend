@@ -288,7 +288,7 @@ export default function Leadboard(props) {
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
-            {values.sort((a, b) => a.points - b.points).map((item, count) => (
+            {values.sort((a, b) => b.points - a.points).map((item, count) => (
               <ListItem key={count} fullWidth >
                 <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
               </ListItem>

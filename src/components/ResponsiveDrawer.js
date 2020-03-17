@@ -293,6 +293,7 @@ function ResponsiveDrawer(props) {
             }}
             variant="permanent"
             open
+            onClose={handleDrawerToggle}
           >
             {drawer}
           </SwipeableDrawer>
