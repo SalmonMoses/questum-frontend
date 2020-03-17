@@ -84,8 +84,6 @@ export default function PendingQuests(props) {
                       setValues(data);
                       setLoading(false);
                       }
-                    //   console.log(data);
-                    //   setValues(data);
                 })
                 .catch(err => {
                     console.log(err);

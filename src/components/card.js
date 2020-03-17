@@ -117,12 +117,13 @@ export default function MediaCard(props) {
           console.log(err)
         });
     }
-    if(props.loading){
-      return;
-    }else{
-      fetchData();
-    }
-  }, [props.loading, valuesLast]);
+    fetchData();
+    // if(props.loading){
+    //   return;
+    // }else{
+    //   fetchData();
+    // }
+  }, [valuesLast]);
 
   return (
     <Card className={classes.root}>
@@ -134,14 +135,14 @@ export default function MediaCard(props) {
       <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{ "marginLeft": 0 }}>
         <Icon color="primary">cached</Icon>
       </IconButton>
-      {loading ? (
+      {/* {loading ? (
         <Backdrop className={classes.backdrop} open={loading}>
           <CircularProgress color="inherit" />
           <Typography>
             Try to refresh the page
           </Typography>
         </Backdrop>
-      ) : (
+      ) : ( */}
         <List>
         {values.map((item, count) => (
           <ListItem key={count} >
@@ -149,7 +150,7 @@ export default function MediaCard(props) {
           </ListItem>
         ))}
       </List>
-        )}
+        {/* )} */}
       <AddGroup onClick={() => refresh()} />
       <div className={classes.addGroup} />
     </Card>

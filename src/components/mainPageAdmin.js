@@ -88,7 +88,7 @@ function MyGroups(props) {
 
         if (cookie === undefined) {
             history.push("/login/owner");
-            enqueueSnackbar("Время сессии истекло, войдите заново.", {
+            enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
                 variant: 'error',
             });
         }
@@ -114,7 +114,7 @@ function MyGroups(props) {
                     console.log("Authorization error");
                     // alert("Время сессии истекло, войдите заново.");
                     history.push("/login/owner");
-                    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+                    enqueueSnackbar("Время сессии истекло, войдите заново222.", {
                         variant: 'error',
                     });
                     return;
@@ -144,11 +144,6 @@ function MyGroups(props) {
             });
     }
 
-    checkToken();
-
-
-
-
     useEffect(() => {
         if (!isFinite(history.location.search.slice(4))) {
             if (url !== history.location.search.slice(4)) {
@@ -158,6 +153,7 @@ function MyGroups(props) {
         } else {
             setValues(false);
         }
+        checkToken();
     }, [history.location.search, url]);
 
     return (
