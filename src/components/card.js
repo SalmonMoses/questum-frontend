@@ -91,6 +91,7 @@ export default function MediaCard(props) {
 
     const fetchData = async () => {
       let token = getCookie("token");
+      console.log("TOKEN: " + token);
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -102,28 +103,22 @@ export default function MediaCard(props) {
       await fetch(`http://localhost:8088/owners/${getCookie("id")}/groups`, requestOptions)
         .then(response => response.json())
         .then(data => {
-          // if (data === valuesLast) {
-          //   console.log("======");
-          //   return fetchData();
-          // } else {
           console.log(data);
           setValues(data);
-          setLoading(false)
-          // setValuesLast({ "groups": data })
-          // }
+          setLoading(false);
         })
         .catch(err => {
           setLoading(true)
           console.log(err)
         });
     }
-    fetchData();
-    // if(props.loading){
-    //   return;
-    // }else{
-    //   fetchData();
-    // }
-  }, [valuesLast]);
+    // fetchData();
+    if(props.loading){
+      return;
+    }else{
+      fetchData();
+    }
+  }, [props.loading, valuesLast]);
 
   return (
     <Card className={classes.root}>

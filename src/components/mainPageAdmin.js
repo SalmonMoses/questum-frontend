@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { makeStyles } from '@material-ui/core/styles';
@@ -78,6 +79,8 @@ function MyGroups(props) {
 
     const [loading, setLoading] = useState(true);
 
+    const [token, setToken] = useState("");
+
     let history = useHistory();
 
     const { enqueueSnackbar } = useSnackbar();
@@ -117,6 +120,7 @@ function MyGroups(props) {
                     enqueueSnackbar("Время сессии истекло, войдите заново222.", {
                         variant: 'error',
                     });
+                    window.location.reload();
                     return;
                 }
                 return response.json();
@@ -133,9 +137,11 @@ function MyGroups(props) {
                     setCookie("name", json.owner.name, 30);
                     setCookie("email", json.owner.email, 30);
                     setLoading(false);
-                    // enqueueSnackbar(document.cookie, {
-                    //   variant: 'success',
-                    // });
+                    setToken(getCookie("token"));
+                    console.log(document.cookie);
+                    enqueueSnackbar(document.cookie, {
+                      variant: 'success',
+                    });
                 }
             })
             .catch(err => {

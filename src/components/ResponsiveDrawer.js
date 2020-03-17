@@ -135,8 +135,6 @@ function ResponsiveDrawer(props) {
     deleteCookie("name");
     deleteCookie("token");
     deleteCookie("email");
-    alert("deleted...")
-
     // history.replace("/login/owner");
     // document.location.reload(true);
   }

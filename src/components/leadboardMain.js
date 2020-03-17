@@ -154,6 +154,8 @@ export default function Leadboard(props) {
     setValuesLastQuests(valuesQuests);
     console.log("refreshhhhhh.......");
   }
+
+
   console.log("url: " + url)
   console.log("path: " + history.location.search.slice(4))
   if (url !== history.location.search.slice(4)) {

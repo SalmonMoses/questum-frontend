@@ -97,10 +97,10 @@ export default function SignIn() {
 
   let history = useHistory();
 
-  const login = () => {
+  const login = async () => {
     console.log(values.email + " " + values.password)
 
-    fetch('http://localhost:8088/login/owner', {
+    await fetch('http://localhost:8088/login/owner', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
