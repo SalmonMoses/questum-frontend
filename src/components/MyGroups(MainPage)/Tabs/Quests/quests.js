@@ -5,18 +5,18 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import AddSubQuest from "./addSubQuest";
+import AddSubQuest from "./Subquests/addSubQuest";
 import { Divider, Grid, ExpansionPanelActions } from '@material-ui/core';
-import { getCookie } from "../Cookie";
+import { getCookie } from "../../../../Cookie";
 import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
 import DeleteQuest from "./deleteQuest"
-import DeleteSubquest from "./deleteSubquest";
-import EditSubquest from "./editSubquest"
+import DeleteSubquest from "./Subquests/deleteSubquest";
+import EditSubquest from "./Subquests/editSubquest"
 import EditQuest from "./editQuest"
+import {path} from "../../../consts"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -94,7 +94,7 @@ export default function Quests(props) {
                 headers: myHeaders,
             };
 
-            await fetch(`http://localhost:8088/quests/${props.id}/subquests`, requestOptions)
+            await fetch(`${path}quests/${props.id}/subquests`, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     console.log("all subquests: ")

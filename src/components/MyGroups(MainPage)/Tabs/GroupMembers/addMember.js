@@ -7,8 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from "@material-ui/core/Grid"
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
+import {path} from '../../../consts'
 
 export default function AddMember(props) {
 
@@ -48,7 +49,7 @@ export default function AddMember(props) {
     }
     console.log("id: " + id)
 
-    await fetch(`http://localhost:8088/groups/${id}/participants`, requestOptions)
+    await fetch(`${path}groups/${id}/participants`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));

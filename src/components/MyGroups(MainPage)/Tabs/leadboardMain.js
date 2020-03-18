@@ -7,19 +7,20 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Quests from "./quests"
+import Quests from "./Quests/quests"
 import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import { green } from '@material-ui/core/colors';
-import AddMember from "./addMember"
+import AddMember from "./GroupMembers/addMember"
 import { useHistory } from "react-router-dom";
-import AddQuest from "./addQuest"
-import { getCookie } from "../Cookie"
+import AddQuest from "./Quests/addQuest"
+import { getCookie } from "../../../Cookie"
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import DeleteMember from "./deleteMember";
+import DeleteMember from "./GroupMembers/deleteMember";
 import Paper from "@material-ui/core/Paper"
+import {path} from "../../consts"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -185,7 +186,7 @@ export default function Leadboard(props) {
         headers: myHeaders,
       };
 
-      await fetch(`http://localhost:8088/groups/${id}/participants`, requestOptions)
+      await fetch(`${path}groups/${id}/participants`, requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -214,7 +215,7 @@ export default function Leadboard(props) {
         headers: myHeaders,
       };
 
-      fetch(`http://localhost:8088/groups/${id}/quests`, requestOptions)
+      fetch(`${path}groups/${id}/quests`, requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result)

@@ -8,11 +8,12 @@ import ListItem from '@material-ui/core/ListItem';
 import GroupPaper from './groupPaper';
 import IconButton from "@material-ui/core/IconButton"
 import Icon from "@material-ui/core/Icon"
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../Cookie"
 import AddGroup from "./addGroup"
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from "react-router-dom";
+import {path} from "../../consts"
 
 const useStyles = makeStyles(theme => ({
   [theme.breakpoints.down('sm')]: {
@@ -100,7 +101,7 @@ export default function MediaCard(props) {
         redirect: 'follow',
         headers: myHeaders,
       };
-      await fetch(`http://localhost:8088/owners/${getCookie("id")}/groups`, requestOptions)
+      await fetch(`${path}owners/${getCookie("id")}/groups`, requestOptions)
         .then(response => response.json())
         .then(data => {
           console.log(data);
@@ -130,14 +131,14 @@ export default function MediaCard(props) {
       <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{ "marginLeft": 0 }}>
         <Icon color="primary">cached</Icon>
       </IconButton>
-      {/* {loading ? (
+      {loading ? (
         <Backdrop className={classes.backdrop} open={loading}>
           <CircularProgress color="inherit" />
           <Typography>
             Try to refresh the page
           </Typography>
         </Backdrop>
-      ) : ( */}
+      ) : (
         <List>
         {values.map((item, count) => (
           <ListItem key={count} >
@@ -145,7 +146,7 @@ export default function MediaCard(props) {
           </ListItem>
         ))}
       </List>
-        {/* )} */}
+        )}
       <AddGroup onClick={() => refresh()} />
       <div className={classes.addGroup} />
     </Card>

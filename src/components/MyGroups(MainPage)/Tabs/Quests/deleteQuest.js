@@ -7,9 +7,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../../Cookie"
+import {path} from "../../../consts"
 
-export default function DeleteSubquest(props) {
+export default function DeleteQuest(props) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -20,7 +21,7 @@ export default function DeleteSubquest(props) {
         setOpen(false);
     };
 
-    const deleteSubquest = async () => {
+    const deleteQuest = async () => {
 
         let token = getCookie("token");
 
@@ -33,8 +34,8 @@ export default function DeleteSubquest(props) {
             redirect: 'follow',
             headers: myHeaders,
         };
-          
-         await fetch(`http://localhost:8088/subquests/${props.subquestId}`, requestOptions)
+
+        await fetch(`${path}quests/${props.questId}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -55,17 +56,17 @@ export default function DeleteSubquest(props) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Deleting Subquest"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Deleting"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Do you want to delete this Subquest {props.name}?
+                        Do you want to delete {props.name}?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         CLOSE
                     </Button>
-                    <Button variant="contained" onClick={deleteSubquest} color="primary" autoFocus>
+                    <Button variant="contained" onClick={deleteQuest} color="primary" autoFocus>
                         DELETE
                     </Button>
                 </DialogActions>

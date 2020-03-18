@@ -6,10 +6,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../Cookie"
 import IconButton from "@material-ui/core/IconButton"
 import Icon from "@material-ui/core/Icon"
 import { useSnackbar } from 'notistack';
+import {path} from "../../consts"
 
 export default function ChangeGroupName(props) {
   const [open, setOpen] = React.useState(false);
@@ -62,7 +63,7 @@ export default function ChangeGroupName(props) {
       redirect: 'follow'
     };
 
-    await fetch(`http://localhost:8088/groups/${id}`, requestOptions)
+    await fetch(`${path}groups/${id}`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));

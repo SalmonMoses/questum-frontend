@@ -1,18 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import ResponsiveDrawer from "./ResponsiveDrawer";
+import ResponsiveDrawer from "../MainComponents/ResponsiveDrawer";
 import { makeStyles } from '@material-ui/core/styles';
-import MediaCard from "./card";
+import MediaCard from "./GroupsCard/card";
 import { green } from '@material-ui/core/colors';
-import Settings from "./settings";
-import NoMatch from "./NoMatch";
-import GroupId from "./groupID"
+import Settings from "../Settings/settings";
+import NoMatch from "../MainComponents/NoMatch";
+import GroupId from "../groupID"
 import { Grid } from '@material-ui/core';
-import LeadboardMain from "./leadboardMain";
-import { getCookie, setCookie } from "../Cookie"
+import LeadboardMain from "./Tabs/leadboardMain";
+import { getCookie, setCookie } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import PendingQuests from "./pendingQuests"
+import PendingQuests from "../PendingQuests/pendingQuests"
+import {path} from '../consts'
 import {
     BrowserRouter as Router,
     Switch,
@@ -111,7 +112,7 @@ function MyGroups(props) {
             redirect: 'follow'
         };
 
-        await fetch("http://localhost:8088/login/owner", requestOptions)
+        await fetch(`${path}login/owner`, requestOptions)
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error");
@@ -159,7 +160,7 @@ function MyGroups(props) {
         } else {
             setValues(false);
         }
-        checkToken();
+        // checkToken();
     }, [history.location.search, url]);
 
     return (
@@ -167,7 +168,7 @@ function MyGroups(props) {
             <div className={classes.toolbar} />
                 <Grid container spacing={5} >
                 <Grid item >
-                    <MediaCard token={props.token} loading={loading}/>
+                    <MediaCard token={props.token} loading={props.loading}/>
                 </Grid>
                 <Grid item className={classes.leadboard}>
                     <LeadboardMain flag={values} />
@@ -186,7 +187,7 @@ export default function MainPageAdmin() {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    // const checkToken = () => {
+    // const checkToken = async () => {
 
     //     let cookie = getCookie("refreshToken");
 
@@ -212,7 +213,7 @@ export default function MainPageAdmin() {
     //         redirect: 'follow'
     //     };
 
-    //     fetch("http://localhost:8088/login/owner", requestOptions)
+    //    await  fetch("http://localhost:8088/login/owner", requestOptions)
     //         .then(response => {
     //             if (response.status === 401) {
     //                 console.log("Authorization error");
@@ -244,7 +245,78 @@ export default function MainPageAdmin() {
     //         .catch(console.log);
     // }
 
-    // checkToken();
+    const [loading, setLoading] = useState(true);
+
+    const [token, setToken] = useState("");
+
+    const checkToken = async () => {
+
+        let cookie = getCookie("refreshToken");
+
+        if (cookie === undefined) {
+            history.push("/login/owner");
+            enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
+                variant: 'error',
+            });
+        }
+
+        console.dir(document.cookie);
+
+        var myHeaders = new Headers();
+
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({ "refreshToken": cookie });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        await fetch(path + "login/owner", requestOptions)
+            .then(response => {
+                if (response.status === 401) {
+                    console.log("Authorization error");
+                    // alert("Время сессии истекло, войдите заново.");
+                    history.push("/login/owner");
+                    enqueueSnackbar("Время сессии истекло, войдите заново222.", {
+                        variant: 'error',
+                    });
+                    window.location.reload();
+                    return;
+                }
+                return response.json();
+            })
+            .then(json => {
+                if (json === undefined) {
+                    return;
+                } else {
+                    console.dir(json.refreshToken + 'SUCCES');
+                    console.dir(json.token + ' - token');
+                    setCookie("refreshToken", json.refreshToken, 30);
+                    setCookie("id", json.owner.id, 30);
+                    setCookie("token", json.token, 30);
+                    setCookie("name", json.owner.name, 30);
+                    setCookie("email", json.owner.email, 30);
+                    setLoading(false);
+                    setToken(getCookie("token"));
+                    console.log(document.cookie);
+                    // enqueueSnackbar(document.cookie, {
+                    //   variant: 'success',
+                    // });
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                setLoading(true);
+            });
+    }
+
+    useEffect(()=>{
+        checkToken();
+    },[])
 
     let cookie = getCookie("refreshToken");
 
@@ -261,7 +333,7 @@ export default function MainPageAdmin() {
                 <ResponsiveDrawer />
                 <Switch>
                     <Route exact path="/groups">
-                        <MyGroups />
+                        <MyGroups loading={loading}/>
                     </Route>
                     <Route exact path="/pending-quests">
                         <PendingQuests />

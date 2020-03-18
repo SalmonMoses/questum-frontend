@@ -16,8 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import { useHistory } from "react-router-dom";
-import { getCookie, deleteCookie, setCookie } from "../Cookie"
+import { deleteCookie } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -155,12 +154,6 @@ function ResponsiveDrawer(props) {
       </div>
       <Divider />
       <List>
-        {/* <ListItem button key="My account">
-          <ListItemIcon>
-            <Icon color="primary">account_box</Icon>
-          </ListItemIcon>
-          <ListItemText primary={<Typography color="primary">My account</Typography>} />
-        </ListItem> */}
 
         <ListItemLink
           to={"/groups"}
@@ -172,12 +165,6 @@ function ResponsiveDrawer(props) {
           icon={<Icon color="primary">hourglass_full</Icon>}
           primary={"Pending quests"} />
 
-        {/* <ListItem button key="Pending quests">
-          <ListItemIcon>
-            <Icon color="primary">hourglass_full</Icon>
-          </ListItemIcon>
-          <ListItemText primary="Pending quests" />
-        </ListItem> */}
       </List>
       <Divider />
       <List>

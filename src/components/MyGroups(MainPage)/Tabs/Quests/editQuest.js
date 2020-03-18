@@ -6,9 +6,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../../Cookie"
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
+import {path} from "../../../consts"
 
 export default function EditQuest(props) {
 
@@ -48,7 +49,7 @@ export default function EditQuest(props) {
         };
 
 
-        await fetch(`http://localhost:8088/quests/${props.questId}`, requestOptions)
+        await fetch(`${path}quests/${props.questId}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));

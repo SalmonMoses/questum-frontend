@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { getCookie, setCookie } from "../Cookie"
+import { getCookie, setCookie } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import PendingQuestCard from "./pendingQuestCard"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Card from '@material-ui/core/Card';
+import {path} from "../consts"
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -84,7 +85,7 @@ export default function PendingQuests(props) {
                 redirect: 'follow',
                 headers: myHeaders,
             };
-            await fetch(`http://localhost:8088/owners/${getCookie("id")}/groups`, requestOptions)
+            await fetch(`${path}owners/${getCookie("id")}/groups`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     if (data === valuesLast) {

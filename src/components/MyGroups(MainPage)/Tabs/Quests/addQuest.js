@@ -6,8 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
+import {path} from "../../../consts"
 
 export default function AddQuest(props) {
 
@@ -39,7 +40,7 @@ export default function AddQuest(props) {
       redirect: 'follow'
     };
 
-    await fetch(`http://localhost:8088/groups/${history.location.search.slice(4)}/quests`, requestOptions)
+    await fetch(`${path}groups/${history.location.search.slice(4)}/quests`, requestOptions)
       .then(response => response.text())
       .then(result => console.log("Quest: " + result))
       .catch(error => console.log('error', error));

@@ -7,13 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { getCookie, setCookie } from "../Cookie"
+import { getCookie} from "../../Cookie"
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import { ExpansionPanelActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button"
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Card from '@material-ui/core/Card';
+import {path} from "../consts"
 
 
 const useStyles = makeStyles(theme => ({
@@ -79,7 +79,7 @@ export default function PendingQuestCard(props) {
             redirect: 'follow'
         };
 
-        await fetch(`http://localhost:8088/groups/${props.groupId}/${prop.status}?verification_id=${prop.subquestId}`, requestOptions)
+        await fetch(`${path}groups/${props.groupId}/${prop.status}?verification_id=${prop.subquestId}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -104,7 +104,7 @@ export default function PendingQuestCard(props) {
                 headers: myHeaders,
             };
 
-            await fetch(`http://localhost:8088/groups/${props.groupId}/pending`, requestOptions)
+            await fetch(`${path}groups/${props.groupId}/pending`, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     console.log(result)

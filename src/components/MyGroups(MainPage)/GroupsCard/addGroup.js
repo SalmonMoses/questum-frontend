@@ -6,7 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getCookie, setCookie} from "../Cookie"
+import {path} from "../../consts"
+import { getCookie, setCookie} from "../../../Cookie"
 
 export default function AddGroup(props) {
     const [open, setOpen] = React.useState(false);
@@ -48,7 +49,7 @@ export default function AddGroup(props) {
         redirect: 'follow'
       };
   
-      await fetch("http://localhost:8088/groups", requestOptions)
+      await fetch(path + "groups", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result)

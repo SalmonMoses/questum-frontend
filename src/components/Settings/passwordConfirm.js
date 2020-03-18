@@ -11,8 +11,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Icon from '@material-ui/core/Icon';
-import { getCookie, setCookie } from "../Cookie"
+import { getCookie, setCookie } from "../../Cookie"
 import { useSnackbar } from 'notistack';
+import {path} from "../consts"
 
 function sha512(str) {
     return crypto.subtle.digest("SHA-512", new TextEncoder("utf-8").encode(str)).then(buf => {
@@ -64,7 +65,7 @@ export default function PasswordConfirm(props) {
         console.log(values.password + getCookie("email"));
 
         sha512(values.password + getCookie("email")).then(value => {
-            fetch(`http://localhost:8088/check/password?hash=${value}`, requestOptions2)
+            fetch(`${path}check/password?hash=${value}`, requestOptions2)
             .then(response => response.json())
             .then(result => {
                 console.log(result)
@@ -90,7 +91,7 @@ export default function PasswordConfirm(props) {
 
                     };
 
-                    fetch(`http://localhost:8088/owners/${getCookie("id")}`, requestOptions)
+                    fetch(`${path}owners/${getCookie("id")}`, requestOptions)
                         .then(response => {
                             if (response.status === 401) {
                                 console.log("Authorization error");

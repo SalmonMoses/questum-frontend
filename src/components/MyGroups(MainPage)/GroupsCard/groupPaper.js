@@ -11,8 +11,9 @@ import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from "react-router-dom";
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../Cookie"
 import ChangeGroupName from "./DialogChangeName"
+import {path} from "../../consts"
 
 const useStyles = makeStyles(theme => ({
   area: {
@@ -85,7 +86,7 @@ export default function GroupPaper(props) {
       headers: myHeaders,
     };
     
-   await fetch(`http://localhost:8088/groups/${props.id}`, requestOptions)
+   await fetch(`${path}groups/${props.id}`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));

@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
-import LeadboardMain from "./leadboardMain";
 
 
 const useStyles = makeStyles(theme => ({
@@ -53,7 +52,6 @@ export default function GroupId() {
     const classes = useStyles();
 
     return (
-        // <Paper className={classes.paper}>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Container className={classes.cont}>
@@ -62,13 +60,10 @@ export default function GroupId() {
                             <Avatar className={classes.large} alt="Remy Sharp" src="\ava.png" />
                         </Grid>
                         <Grid item className={classes.leadbord}>
-                            <LeadboardMain />
+                            {/* <LeadboardMain /> */}
                         </Grid>
                     </Grid>
-                    {/* <Avatar className={classes.large} alt="Remy Sharp" src="/components/ava.png" />
-                    <Leadboard className={classes.leadbord}/> */}
                 </Container>
             </main>
-        // </Paper>
     );
 }

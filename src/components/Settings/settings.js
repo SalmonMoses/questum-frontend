@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { getCookie, setCookie } from "../Cookie"
+import { getCookie, setCookie } from "../../Cookie"
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
@@ -21,6 +21,7 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import {path} from "../consts";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -126,7 +127,7 @@ export default function Sittings(props) {
 
     };
 
-    fetch(`http://localhost:8088/owners/${getCookie("id")}`, requestOptions)
+    fetch(`${path}owners/${getCookie("id")}`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");

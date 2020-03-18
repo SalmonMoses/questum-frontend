@@ -6,7 +6,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MemberPaper from "./member"
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../../Cookie"
+import {path} from "../../../consts"
 import { useHistory } from "react-router-dom";
 
 export default function DeleteMember(props) {
@@ -38,7 +39,7 @@ export default function DeleteMember(props) {
         headers: myHeaders,
       };
       
-    await fetch(`http://localhost:8088/participants/${props.id}`, requestOptions)
+    await fetch(`${path}participants/${props.id}`, requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));

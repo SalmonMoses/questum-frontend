@@ -3,9 +3,9 @@ import SignIn from './loginPage';
 import LoginUser from "./loginUser";
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core';
 import SignUp from "./SignUp";
-import MainPageAdmin from "./components/mainPageAdmin"
+import MainPageAdmin from "./components/MyGroups(MainPage)/mainPageAdmin"
 import { SnackbarProvider } from 'notistack';
-import NoMatch from "./components/NoMatch";
+import NoMatch from "./components/MainComponents/NoMatch";
 import { ruRU } from '@material-ui/core/locale';
 import {
   BrowserRouter as Router,

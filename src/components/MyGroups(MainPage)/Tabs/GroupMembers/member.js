@@ -10,8 +10,9 @@ import { deepOrange } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../../Cookie"
 import CardActionArea from '@material-ui/core/CardActionArea';
+import {path} from "../../../consts"
 
 
 const useStyles = makeStyles(theme => ({
@@ -77,7 +78,7 @@ export default function MemberPaper(props) {
             headers: myHeaders,
           };
           
-          await fetch(`http://localhost:8080/participants/${props.id}`, requestOptions)
+          await fetch(`${path}participants/${props.id}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));

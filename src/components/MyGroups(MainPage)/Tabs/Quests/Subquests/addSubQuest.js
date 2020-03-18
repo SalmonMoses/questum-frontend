@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -11,8 +9,10 @@ import Grid from "@material-ui/core/Grid"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core/styles';
 import VarificationTypes from "./varificationTypes"
-import { getCookie } from "../Cookie"
+import { getCookie } from "../../../../../Cookie"
 import Chip from '@material-ui/core/Chip';
+import Icon from '@material-ui/core/Icon';
+import {path} from "../../../../consts"
 
 const useStyles = makeStyles(theme => ({
     area: {
@@ -21,22 +21,26 @@ const useStyles = makeStyles(theme => ({
     chip: {
         marginLeft: theme.spacing(1),
     },
-    button: {
+    button:{
+        width:theme.spacing(59),
+    },
+    add:{
         width: theme.spacing(59),
-    }
+        marginLeft: theme.spacing(2),
+    },
 }));
 
 
 
-export default function EditSubquest(props) {
+export default function AddSubQuest(props) {
 
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
 
     const [values, setValues] = useState({
-        desc: props.desc,
-        type: props.verificationType,
+        desc: "",
+        type: "",
 
     });
 
@@ -52,7 +56,7 @@ export default function EditSubquest(props) {
         setOpen(false);
     };
 
-    const editSubQuest = async () => {
+    const addSubQuest = async () => {
         console.log(values.type);
 
         let token = getCookie("token");
@@ -62,16 +66,16 @@ export default function EditSubquest(props) {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
 
-        var raw = JSON.stringify({ "desc": values.desc, "verification": values.type });
+        var raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type });
 
         var requestOptions = {
-            method: 'PUT',
+            method: 'POST',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
 
-        await fetch(`http://localhost:8088/subquests/${props.subquestId}`, requestOptions)
+        await fetch(`${path}quests/${props.questId}/subquests`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
@@ -86,11 +90,11 @@ export default function EditSubquest(props) {
 
     return (
         <div>
-            <IconButton aria-label="edit" onClick={handleClickOpen}>
-                <Icon color="primary">edit</Icon>
-            </IconButton>
+            <Button className={classes.add} variant="outlined" color="primary" onClick={handleClickOpen} >
+                Add new subquest
+            </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Edit Subquest</DialogTitle>
+                <DialogTitle id="form-dialog-title">Add Subquest</DialogTitle>
                 <DialogContent>
                     <Grid container direction="column" spacing={5}>
                         <Grid item>
@@ -117,7 +121,7 @@ export default function EditSubquest(props) {
                                 label="NONE"
                                 color="primary"
                                 icon={<Icon>radio_button_unchecked</Icon>} /> */}
-                            <VarificationTypes type={type} />
+                            <VarificationTypes type={type}/>
                         </Grid>
                         <Grid item>
                             <DialogContentText>
@@ -137,8 +141,8 @@ export default function EditSubquest(props) {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={editSubQuest} color="primary">
-                        Edit
+                    <Button onClick={addSubQuest} color="primary">
+                        ADD
                     </Button>
                 </DialogActions>
             </Dialog>
