@@ -268,6 +268,7 @@ function ResponsiveDrawer(props) {
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
             }}
+            onOpen={handleDrawerToggle}
           >
             {drawer}
           </SwipeableDrawer>
@@ -280,6 +281,7 @@ function ResponsiveDrawer(props) {
             variant="permanent"
             open
             onClose={handleDrawerToggle}
+            // onOpen={handleDrawerToggle}
           >
             {drawer}
           </SwipeableDrawer>

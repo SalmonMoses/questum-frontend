@@ -107,7 +107,7 @@ export default function MemberPaper(props) {
                                 {props.name}
                             </Typography>
                             <div className={classes.email}>
-                                <Typography gutterBottom variant="h7" component="h7" >
+                                <Typography  variant="h6" component="h2" >
                                     {props.email}
                                 </Typography>
                             </div>
@@ -122,7 +122,7 @@ export default function MemberPaper(props) {
                         </CardContent>
                     </Grid>
                     <Grid item>
-                        <IconButton aria-label="edit" onClick={() => handleMemberDelete()}>
+                        <IconButton onClick={() => handleMemberDelete()}>
                             <Icon color="primary">delete</Icon>
                         </IconButton>
                     </Grid>

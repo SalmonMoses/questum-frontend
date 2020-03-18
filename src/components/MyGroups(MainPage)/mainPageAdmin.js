@@ -253,12 +253,12 @@ export default function MainPageAdmin() {
 
         let cookie = getCookie("refreshToken");
 
-        if (cookie === undefined) {
-            history.push("/login/owner");
-            enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
-                variant: 'error',
-            });
-        }
+        // if (cookie === undefined) {
+        //     history.push("/login/owner");
+        //     enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
+        //         variant: 'error',
+        //     });
+        // }
 
         console.dir(document.cookie);
 
@@ -279,12 +279,16 @@ export default function MainPageAdmin() {
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error");
+                    console.log("RefreshToken: " + cookie);
                     // alert("Время сессии истекло, войдите заново.");
                     history.push("/login/owner");
                     enqueueSnackbar("Время сессии истекло, войдите заново222.", {
                         variant: 'error',
                     });
-                    window.location.reload();
+                    // enqueueSnackbar("Время сессии истекло, войдите заново222.", {
+                    //     variant: 'error',
+                    // });
+                    // window.location.reload();
                     return;
                 }
                 return response.json();
