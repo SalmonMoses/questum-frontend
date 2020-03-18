@@ -17,6 +17,7 @@ import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import { setCookie } from "./Cookie";
+import {path} from "./components/consts"
 
 // function Copyright() {
 //   return (
@@ -100,7 +101,7 @@ export default function SignIn() {
   const login = async () => {
     console.log(values.email + " " + values.password)
 
-    await fetch('http://localhost:8088/login/owner', {
+    await fetch(`${path}login/owner`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
