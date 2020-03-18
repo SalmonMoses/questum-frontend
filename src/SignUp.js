@@ -14,6 +14,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
+import {path} from "./components/consts"
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -135,7 +136,7 @@ export default function SignIn() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8088/signup/owner", requestOptions)
+        fetch(`${path}signup/owner`, requestOptions)
             .then(response => {
                 if (response.status === 409) {
                     enqueueSnackbar("Данная почта уже зарегистрирована", {

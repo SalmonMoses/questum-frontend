@@ -15,6 +15,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Slide from '@material-ui/core/Slide';
 import Link from '@material-ui/core/Link'
 import { useSnackbar } from 'notistack';
+import {path} from "./components/consts"
 
 
 
@@ -83,7 +84,7 @@ export default function LoginUser() {
             redirect: 'follow'
         };
 
-        fetch(`http://localhost:8080/check/group?id=${values.token}`, requestOptions)
+        fetch(`${path}check/group?id=${values.token}`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.exists) {
@@ -112,7 +113,7 @@ export default function LoginUser() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/login/user", requestOptions1)
+        fetch(`${path}login/user`, requestOptions1)
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error")
