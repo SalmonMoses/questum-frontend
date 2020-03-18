@@ -20,7 +20,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import DeleteMember from "./GroupMembers/deleteMember";
 import Paper from "@material-ui/core/Paper"
-import {path} from "../../consts"
+import { path } from "../../consts"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -187,10 +187,20 @@ export default function Leadboard(props) {
       };
 
       await fetch(`${path}groups/${id}/participants`, requestOptions)
-        .then(response => response.json())
+        .then(response => {
+          if(response.status === 400){
+            return undefined;
+          }else{
+            return response.json();
+          }
+        })
         .then(result => {
-          console.log(result);
-          setValues(result);
+          if(result === undefined){
+            console.log("error ")
+          }else{
+            console.log(result);
+            setValues(result);
+          }
         })
         .catch(error => console.log('error', error));
     }
@@ -204,6 +214,7 @@ export default function Leadboard(props) {
       }
       console.log("ID: " + id);
 
+
       let token = getCookie("token");
       var myHeaders = new Headers();
       // myHeaders.append("Content-Type", "application/json");
@@ -215,16 +226,26 @@ export default function Leadboard(props) {
         headers: myHeaders,
       };
 
-      fetch(`${path}groups/${id}/quests`, requestOptions)
-        .then(response => response.json())
+      await fetch(`${path}groups/${id}/quests`, requestOptions)
+        .then(response =>{
+          if(response.status === 400){
+            return undefined;
+          }else{
+            return response.json();
+          }
+        })
         .then(result => {
-          console.log(result)
-          setValuesQuests(result)
+          if(result === undefined){
+            console.log("error ")
+          }else{
+            console.log(result);
+            setValuesQuests(result);
+          }
         })
         .catch(error => console.log('error', error));
     }
-    fetchDataMembers();
-    fetchDataQuests();
+      fetchDataMembers();
+      fetchDataQuests();
   }, [history.location.search, valuesLast, valuesLastQuests]);
 
   const fabs = [
@@ -272,6 +293,11 @@ export default function Leadboard(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin} >
+          {values === undefined ? (
+            <Typography>
+            Выберите группу
+            </Typography>
+          ):(
             <List>
               {values.map((item, count) => (
                 <ListItem key={count} fullWidth >
@@ -279,24 +305,32 @@ export default function Leadboard(props) {
                 </ListItem>
               ))}
             </List>
+          )}
+            {/* <List>
+              {values.map((item, count) => (
+                <ListItem key={count} fullWidth >
+                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+                </ListItem>
+              ))}
+            </List> */}
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Box component="div" className={classes.margin} display="block">
-            {valuesQuests.map((item, count) => (
+            {/* {valuesQuests.map((item, count) => (
               <ListItem key={count} fullWidth>
                 <Quests title={item.title} refresh={() => refresh()} id={item.id} />
               </ListItem>
-            ))}
+            ))} */}
           </Box>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
-            {values.sort((a, b) => b.points - a.points).map((item, count) => (
+            {/* {values.sort((a, b) => b.points - a.points).map((item, count) => (
               <ListItem key={count} fullWidth >
                 <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
               </ListItem>
-            ))}
+            ))} */}
           </div>
         </TabPanel>
       </SwipeableViews>
