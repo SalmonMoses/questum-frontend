@@ -317,20 +317,20 @@ export default function Leadboard(props) {
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Box component="div" className={classes.margin} display="block">
-            {/* {valuesQuests.map((item, count) => (
+            {valuesQuests.map((item, count) => (
               <ListItem key={count} fullWidth>
                 <Quests title={item.title} refresh={() => refresh()} id={item.id} />
               </ListItem>
-            ))} */}
+            ))}
           </Box>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
-            {/* {values.sort((a, b) => b.points - a.points).map((item, count) => (
+            {values.sort((a, b) => b.points - a.points).map((item, count) => (
               <ListItem key={count} fullWidth >
                 <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
               </ListItem>
-            ))} */}
+            ))}
           </div>
         </TabPanel>
       </SwipeableViews>
