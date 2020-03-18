@@ -66,9 +66,11 @@ export default function SignIn() {
     };
 
     function validateEmail(email) {
-        var r = /^\w+@\w+\.\w{2,4}$/i;
+        // var r = /^\w+@\w+\.\w{2,4}$/i;
+        var r = /^[0-9a-z-\.]+\@[0-9a-z-]{2,}\.[a-z]{2,}$/i;
         return r.test(String(email).toLowerCase());
     }
+
 
     const { enqueueSnackbar } = useSnackbar();
 

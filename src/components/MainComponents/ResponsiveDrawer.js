@@ -131,6 +131,7 @@ function ResponsiveDrawer(props) {
   const logout = () => {
     deleteCookie("refreshToken");
     deleteCookie("id");
+    deleteCookie("groupId");
     deleteCookie("name");
     deleteCookie("token");
     deleteCookie("email");
