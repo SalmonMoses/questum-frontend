@@ -18,41 +18,25 @@ import { path } from "../consts"
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '100%',
+        width: `calc(100% + ${theme.spacing(6)}px)`,
         marginLeft: theme.spacing(-3),
-        marginRight: theme.spacing(-4),
+        // background: theme.palette.primary.main,
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
-        width: theme.spacing(20),
         marginLeft: theme.spacing(-1),
-        // backgroundColor: theme.palette.secondary.main,
+        flexGrow: 1,
     },
     secondaryHeading: {
         fontSize: theme.typography.pxToRem(15),
         color: theme.palette.text.secondary,
         marginLeft: theme.spacing(-2),
     },
-    list: {
-        [theme.breakpoints.up('xs')]: {
-            width: theme.spacing(38),
-        },
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(38),
-        },
-        [theme.breakpoints.up('md')]: {
-            width: theme.spacing(135),
-        },
-        [theme.breakpoints.up('lg')]: {
-            width: theme.spacing(135),
-        },
-    },
     card: {
-        // border: `1px solid ${theme.palette.primary.main}`,
-        // borderRadius: theme.shape.borderRadius,
         backgroundColor: theme.palette.background.default,
-        color: theme.palette.primary.main
+        color: theme.palette.primary.main,
+        width: '100%',
     },
 }));
 
@@ -64,8 +48,6 @@ export default function PendingQuestCard(props) {
     const [valuesLast, setValuesLast] = useState([]);
 
     const [loading, setLoading] = useState(true);
-
-    // const [verified, setVerified] = useState(false);
 
     const refreshNew = () => {
         setValuesLast(values);
@@ -85,14 +67,12 @@ export default function PendingQuestCard(props) {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
 
-        var raw = JSON.stringify({ "userId": prop.userId, "subquestId": prop.subquestId, "verified": prop.verified });
-
-        var raw = "";
+        // var raw = JSON.stringify({ "userId": prop.userId, "subquestId": prop.subquestId, "verified": prop.verified });
 
         var requestOptions = {
             method: 'PUT',
             headers: myHeaders,
-            body: raw,
+            // body: raw,
             redirect: 'follow'
         };
 
@@ -109,7 +89,7 @@ export default function PendingQuestCard(props) {
         const getPendingQuests = async () => {
 
             let token = getCookie("token");
-            console.log("tpken: " + token)
+            console.log("token: " + token)
 
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
@@ -145,15 +125,14 @@ export default function PendingQuestCard(props) {
             ) : (
                     <List>
                         {values.map((item, count) => (
-                            <ListItem key={count}>
+                            <ListItem key={count} >
                                 <ExpansionPanel className={classes.card}>
                                     <ExpansionPanelSummary
-                                        className={classes.list}
                                         expandIcon={<Icon>expand_more</Icon>}
                                         aria-controls="panel1a-content"
                                         id="panel1a-header"
                                     >
-                                        <Typography className={classes.heading}>{item.user.name}</Typography>
+                                        <Typography fullWidth className={classes.heading}>{item.user.name}</Typography>
                                         <Divider orientation="vertical" variant="inset" />
                                         {/* <Typography className={classes.secondaryHeading}>{item.user.email}</Typography>
                                         <Divider orientation="vertical" variant="inset" /> */}

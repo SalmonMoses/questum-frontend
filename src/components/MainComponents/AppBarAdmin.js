@@ -10,9 +10,9 @@ import Menu from '@material-ui/core/Menu';
 import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-      },
+  root: {
+    display: 'flex',
+  },
   grow: {
     flexGrow: 1,
   },
@@ -39,15 +39,6 @@ const useStyles = makeStyles(theme => ({
       marginLeft: theme.spacing(3),
       width: 'auto',
     },
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   inputRoot: {
     color: 'inherit',
@@ -138,7 +129,7 @@ export default function AppBarAdmin() {
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
-          <Icon>notifications</Icon>
+            <Icon>notifications</Icon>
           </Badge>
         </IconButton>
         <p>Notifications</p>
@@ -175,7 +166,7 @@ export default function AppBarAdmin() {
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
-              <Icon>notifications</Icon>
+                <Icon>notifications</Icon>
               </Badge>
             </IconButton>
             <IconButton

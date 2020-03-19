@@ -107,7 +107,6 @@ ListItemLink.propTypes = {
   to: PropTypes.string.isRequired,
 };
 
-
 function ResponsiveDrawer(props) {
   const { container } = props;
   const classes = useStyles();

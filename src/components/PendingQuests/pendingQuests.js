@@ -36,19 +36,19 @@ const useStyles = makeStyles(theme => ({
     content: {
         [theme.breakpoints.up('xs')]: {
             flexGrow: 1,
-            padding: theme.spacing(1),
+            padding: theme.spacing(0),
         },
         [theme.breakpoints.up('sm')]: {
             flexGrow: 1,
-            padding: theme.spacing(1),
+            padding: theme.spacing(0),
         },
         [theme.breakpoints.up('md')]: {
             flexGrow: 1,
-            padding: theme.spacing(3),
+            padding: theme.spacing(2),
         },
         [theme.breakpoints.up('lg')]: {
             flexGrow: 1,
-            padding: theme.spacing(3),
+            padding: theme.spacing(2),
         },
     },
     cont: {
@@ -72,13 +72,17 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper,
         color: theme.palette.primary.main,
         marginTop: theme.spacing(2),
+        width: "100%",
     },
     list: {
         marginBottom: theme.spacing(4),
     },
     heading: {
+        width: "100%",
+        flexGrow: 1,
         fontSize: theme.typography.pxToRem(25),
         fontWeight: theme.typography.fontWeightRegular,
+        // background: theme.palette.primary.main,
     },
 }));
 
@@ -143,10 +147,6 @@ export default function PendingQuests(props) {
                 });
         }
         fetchData();
-
-        // if (loading) {
-        //     refresh();
-        // }
     }, [valuesLast]);
 
     return (
@@ -154,14 +154,6 @@ export default function PendingQuests(props) {
             <div className={classes.toolbar} />
             <Paper className={classes.paper}>
                 <Container className={classes.cont}>
-                    {loading ? (
-                        <CircularProgress color="secondary" />
-                    ) : (<div>
-                        {values.length === "" ? (
-                            <Typography>
-                                There is no pending quests yet
-                            </Typography>
-                        ) : (
                                 <List>
                                     {values.map((item, count) => (
                                         <Card className={classes.card}>
@@ -169,16 +161,11 @@ export default function PendingQuests(props) {
                                                 <Typography className={classes.heading} variant="h2" component="h2">
                                                     {item.name}
                                                     <PendingQuestCard groupId={item.id} refresh={() => refresh()} />
-                                                    {/* <Divider /> */}
                                                 </Typography>
                                             </ListItem>
                                         </Card>
                                     ))}
                                 </List>
-                            )
-                        }
-                    </div>
-                        )}
                     {/* <List>
                         {values.map((item, count) => (
                             <Card className={classes.card}>
