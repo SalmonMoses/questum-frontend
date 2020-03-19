@@ -7,29 +7,46 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { getCookie} from "../../Cookie"
+import { getCookie } from "../../Cookie"
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import { ExpansionPanelActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button"
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {path} from "../consts"
+import { path } from "../consts"
 
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
+        marginLeft: theme.spacing(-3),
+        marginRight: theme.spacing(-4),
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
+        width: theme.spacing(20),
+        marginLeft: theme.spacing(-1),
+        // backgroundColor: theme.palette.secondary.main,
     },
     secondaryHeading: {
         fontSize: theme.typography.pxToRem(15),
         color: theme.palette.text.secondary,
+        marginLeft: theme.spacing(-2),
     },
     list: {
-        width: theme.spacing(135),
+        [theme.breakpoints.up('xs')]: {
+            width: theme.spacing(38),
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: theme.spacing(38),
+        },
+        [theme.breakpoints.up('md')]: {
+            width: theme.spacing(135),
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: theme.spacing(135),
+        },
     },
     card: {
         // border: `1px solid ${theme.palette.primary.main}`,
@@ -138,10 +155,10 @@ export default function PendingQuestCard(props) {
                                     >
                                         <Typography className={classes.heading}>{item.user.name}</Typography>
                                         <Divider orientation="vertical" variant="inset" />
-                                        <Typography className={classes.secondaryHeading}>{item.user.email}</Typography>
-                                        <Divider orientation="vertical" variant="inset" />
-                                        <Typography className={classes.secondaryHeading}>{item.user.points}</Typography>
-                                        <Divider orientation="vertical" variant="inset" />
+                                        {/* <Typography className={classes.secondaryHeading}>{item.user.email}</Typography>
+                                        <Divider orientation="vertical" variant="inset" /> */}
+                                        {/* <Typography className={classes.secondaryHeading}>{item.user.points}</Typography>
+                                        <Divider orientation="vertical" variant="inset" /> */}
                                         <Typography className={classes.secondaryHeading}>{item.subquest.verificationType}</Typography>
                                     </ExpansionPanelSummary>
                                     <ExpansionPanelDetails>
@@ -182,10 +199,10 @@ export default function PendingQuestCard(props) {
                                         </Grid>
                                     </ExpansionPanelDetails>
                                     <ExpansionPanelActions>
-                                        <Button onClick={() => handleClick({status: "reject", subquestId: item.id })} color="primary">
+                                        <Button onClick={() => handleClick({ status: "reject", subquestId: item.id })} color="primary">
                                             cancel
                                         </Button>
-                                        <Button onClick={() => handleClick({status: "verify", subquestId: item.id })} color="primary">
+                                        <Button onClick={() => handleClick({ status: "verify", subquestId: item.id })} color="primary">
                                             confirm
                                         </Button>
                                     </ExpansionPanelActions>

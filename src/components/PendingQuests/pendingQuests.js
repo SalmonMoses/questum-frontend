@@ -11,22 +11,59 @@ import ListItem from '@material-ui/core/ListItem';
 import PendingQuestCard from "./pendingQuestCard"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Card from '@material-ui/core/Card';
-import {path} from "../consts"
+import { path } from "../consts"
 
 const useStyles = makeStyles(theme => ({
     paper: {
         minHeight: theme.spacing(100),
         marginTop: theme.spacing(0),
-        paddingRight: theme.spacing(4),
+        [theme.breakpoints.up('xs')]: {
+            paddingRight: theme.spacing(0),
+        },
+        [theme.breakpoints.up('sm')]: {
+            paddingRight: theme.spacing(0),
+        },
+        [theme.breakpoints.up('md')]: {
+            paddingRight: theme.spacing(4),
+        },
+        [theme.breakpoints.up('lg')]: {
+            paddingRight: theme.spacing(4),
+        },
+        
         // paddingTop: theme.spacing(3)
     },
     toolbar: theme.mixins.toolbar,
     content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
+        [theme.breakpoints.up('xs')]: {
+            flexGrow: 1,
+            padding: theme.spacing(1),
+        },
+        [theme.breakpoints.up('sm')]: {
+            flexGrow: 1,
+            padding: theme.spacing(1),
+        },
+        [theme.breakpoints.up('md')]: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+        },
+        [theme.breakpoints.up('lg')]: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+        },
     },
     cont: {
-        marginLeft: theme.spacing(2),
+        [theme.breakpoints.up('xs')]: {
+            marginLeft: theme.spacing(0),
+        },
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(0),
+        },
+        [theme.breakpoints.up('md')]: {
+            marginLeft: theme.spacing(2),
+        },
+        [theme.breakpoints.up('lg')]: {
+            marginLeft: theme.spacing(2),
+        },
         // background: theme.palette.primary.main,
     },
     card: {
@@ -38,6 +75,10 @@ const useStyles = makeStyles(theme => ({
     },
     list: {
         marginBottom: theme.spacing(4),
+    },
+    heading: {
+        fontSize: theme.typography.pxToRem(25),
+        fontWeight: theme.typography.fontWeightRegular,
     },
 }));
 
@@ -125,7 +166,7 @@ export default function PendingQuests(props) {
                                     {values.map((item, count) => (
                                         <Card className={classes.card}>
                                             <ListItem key={count}>
-                                                <Typography variant="h2" component="h2">
+                                                <Typography className={classes.heading} variant="h2" component="h2">
                                                     {item.name}
                                                     <PendingQuestCard groupId={item.id} refresh={() => refresh()} />
                                                     {/* <Divider /> */}
@@ -137,7 +178,7 @@ export default function PendingQuests(props) {
                             )
                         }
                     </div>
-                    )}
+                        )}
                     {/* <List>
                         {values.map((item, count) => (
                             <Card className={classes.card}>
