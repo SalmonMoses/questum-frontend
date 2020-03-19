@@ -16,11 +16,17 @@ import DeleteQuest from "./deleteQuest"
 import DeleteSubquest from "./Subquests/deleteSubquest";
 import EditSubquest from "./Subquests/editSubquest"
 import EditQuest from "./editQuest"
-import {path} from "../../../consts"
+import { path } from "../../../consts"
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '100%',
+        [theme.breakpoints.down('xs')]: {
+            width: `calc(100% + ${theme.spacing(6)}px)`, //100%
+            marginLeft: theme.spacing(-3),
+        },
+        width: '100%'
+        // width: `calc(100% + ${theme.spacing(6)}px)`, //100%
+        // marginLeft: theme.spacing(-3),
         // display: 'flex',
         // flexDirection: 'column',
         // alignItems: 'center',
@@ -42,9 +48,15 @@ const useStyles = makeStyles(theme => ({
     },
     list: {
         width: theme.spacing(59),
+        [theme.breakpoints.down('xs')]: {
+            width: theme.spacing(46),
+        },
     },
     icon: {
-        marginLeft: theme.spacing(15)
+        marginLeft: theme.spacing(15),
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: theme.spacing(10),
+        },
     },
     title: {
         marginLeft: theme.spacing(0)
@@ -53,7 +65,8 @@ const useStyles = makeStyles(theme => ({
         border: `1px solid ${theme.palette.primary.main}`,
         borderRadius: theme.shape.borderRadius,
         backgroundColor: theme.palette.background.paper,
-        color: theme.palette.primary.main
+        color: theme.palette.primary.main,
+        // width: "100%",
     }
 }));
 

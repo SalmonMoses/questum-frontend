@@ -2,49 +2,62 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import Avatar from '@material-ui/core/Avatar';
+import Paper from '@material-ui/core/Paper';
+import LeadboardMain from "./MyGroups(MainPage)/Tabs/leadboardMain"
 
 
 const useStyles = makeStyles(theme => ({
     paper: {
-        height: theme.spacing(200),
-        margin: theme.spacing(3),
-        width: theme.spacing(200)
+        minHeight: theme.spacing(100),
+        marginTop: theme.spacing(2),
+        [theme.breakpoints.up('xs')]: {
+            paddingRight: theme.spacing(0),
+        },
+        [theme.breakpoints.up('sm')]: {
+            paddingRight: theme.spacing(0),
+        },
+        [theme.breakpoints.up('md')]: {
+            paddingRight: theme.spacing(4),
+        },
+        [theme.breakpoints.up('lg')]: {
+            paddingRight: theme.spacing(4),
+        },
         // paddingRight: theme.spacing(4),
         // paddingTop: theme.spacing(3)
     },
     toolbar: theme.mixins.toolbar,
     content: {
-        flexGrow: 1,
-        marginLeft: theme.spacing(2),
-        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('xs')]: {
+            flexGrow: 1,
+            padding: theme.spacing(0),
+        },
+        [theme.breakpoints.up('sm')]: {
+            flexGrow: 1,
+            padding: theme.spacing(2),
+        },
+        [theme.breakpoints.up('md')]: {
+            flexGrow: 1,
+            padding: theme.spacing(2),
+        },
+        [theme.breakpoints.up('lg')]: {
+            flexGrow: 1,
+            padding: theme.spacing(2),
+        },
     },
     cont: {
-        marginTop: theme.spacing(2),
-        width: "100%",
-        // background: theme.palette.primary.main,
+        [theme.breakpoints.up('xs')]: {
+            marginLeft: theme.spacing(0),
+        },
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(0),
+        },
+        [theme.breakpoints.up('md')]: {
+            marginLeft: theme.spacing(2),
+        },
+        [theme.breakpoints.up('lg')]: {
+            marginLeft: theme.spacing(2),
+        },
     },
-    area: {
-        marginLeft: theme.spacing(2),
-        width: theme.spacing(40),
-    },
-    area1: {
-        width: theme.spacing(70),
-    },
-    margin: {
-        marginTop: theme.spacing(2),
-    },
-    area3: {
-        height: theme.spacing(10)
-    },
-    large: {
-        height: theme.spacing(20),
-        width: theme.spacing(20),
-        marginLeft: theme.spacing(66),
-    },
-    leadbord: {
-        marginTop: theme.spacing(2),
-    }
 }));
 
 export default function GroupId() {
@@ -52,18 +65,11 @@ export default function GroupId() {
     const classes = useStyles();
 
     return (
-            <main className={classes.content}>
-                <div className={classes.toolbar} />
-                <Container className={classes.cont}>
-                    <Grid >
-                        <Grid item>
-                            <Avatar className={classes.large} alt="Remy Sharp" src="\ava.png" />
-                        </Grid>
-                        <Grid item className={classes.leadbord}>
-                            {/* <LeadboardMain /> */}
-                        </Grid>
-                    </Grid>
-                </Container>
-            </main>
+        <main className={classes.content}>
+            <div className={classes.toolbar} />
+            {/* <Container className={classes.cont}> */}
+            <LeadboardMain />
+            {/* </Container> */}
+        </main>
     );
 }

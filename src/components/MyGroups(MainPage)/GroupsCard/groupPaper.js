@@ -13,6 +13,8 @@ import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from "react-router-dom";
 import { getCookie } from "../../../Cookie"
 import ChangeGroupName from "./DialogChangeName"
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 import {path} from "../../consts"
 
 const useStyles = makeStyles(theme => ({
@@ -21,6 +23,10 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     width: theme.spacing(52),
     height: theme.spacing(7),
+    [theme.breakpoints.down('xs')]: {
+      width: theme.spacing(35),
+      marginLeft: theme.spacing(-1)
+      },
   },
   area2: {
     maxWidth: theme.spacing(66),
@@ -61,13 +67,20 @@ export default function GroupPaper(props) {
 
   let history = useHistory();
 
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('xs'));
+
 //   window.onload = function(){
 //     history.push("/groups");
 //  }
 
   const handleClick = () => {
-    history.push("/groups?id=" + props.id);
+    if(matches){
+      history.push("/group?id=" + props.id);
+    }else{
+      history.push("/groups?id=" + props.id);
     props.refresh();
+    }
   }
 
   const handleGroupDelete = async () =>{

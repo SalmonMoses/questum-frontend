@@ -55,15 +55,41 @@ function a11yProps(index) {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: theme.spacing(75),
-    minHeight: theme.spacing(70),
+    width: theme.spacing(75), //75
+    // width: "100%", //75
+    minHeight: theme.spacing(70), //70
     maxHeight: '100%',
-    overflow: 'auto'
+    overflow: 'auto',
+    [theme.breakpoints.down('xs')]: {
+      width: theme.spacing(54),
+      minHeight: theme.spacing(100),
+      },
   },
   margin: {
-    marginTop: theme.spacing(-1),
+    marginTop: theme.spacing(0),
+    width: "100%",
   },
   fab: {
+    [theme.breakpoints.down('xs')]: {
+      position: "fixed",
+      Bottom: 10,
+      right: 30,
+    },
+    [theme.breakpoints.up('sm')]: {
+      position: "fixed",
+      botton: 100,
+      right: 50,
+    },
+    [theme.breakpoints.up('md')]: {
+      position: "fixed",
+      top: 580,
+      right: 90,
+    },
+    [theme.breakpoints.up('lg')]: {
+      position: "fixed",
+      top: 580,
+      right: 90,
+    },
     position: "fixed",
     top: 580,
     right: 90,
@@ -188,16 +214,16 @@ export default function Leadboard(props) {
 
       await fetch(`${path}groups/${id}/participants`, requestOptions)
         .then(response => {
-          if(response.status === 400){
+          if (response.status === 400) {
             return undefined;
-          }else{
+          } else {
             return response.json();
           }
         })
         .then(result => {
-          if(result === undefined){
+          if (result === undefined) {
             console.log("error ")
-          }else{
+          } else {
             console.log(result);
             setValues(result);
           }
@@ -227,25 +253,25 @@ export default function Leadboard(props) {
       };
 
       await fetch(`${path}groups/${id}/quests`, requestOptions)
-        .then(response =>{
-          if(response.status === 400){
+        .then(response => {
+          if (response.status === 400) {
             return undefined;
-          }else{
+          } else {
             return response.json();
           }
         })
         .then(result => {
-          if(result === undefined){
+          if (result === undefined) {
             console.log("error ")
-          }else{
+          } else {
             console.log(result);
             setValuesQuests(result);
           }
         })
         .catch(error => console.log('error', error));
     }
-      fetchDataMembers();
-      fetchDataQuests();
+    fetchDataMembers();
+    fetchDataQuests();
   }, [history.location.search, valuesLast, valuesLastQuests]);
 
   const fabs = [
@@ -293,19 +319,19 @@ export default function Leadboard(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin} >
-          {values === undefined ? (
-            <Typography>
-            Выберите группу
-            </Typography>
-          ):(
-            <List>
-              {values.map((item, count) => (
-                <ListItem key={count} >
-                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
-                </ListItem>
-              ))}
-            </List>
-          )}
+            {values === undefined ? (
+              <Typography>
+                Выберите группу
+              </Typography>
+            ) : (
+                <List>
+                  {values.map((item, count) => (
+                    <ListItem key={count} >
+                      <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+                    </ListItem>
+                  ))}
+                </List>
+              )}
             {/* <List>
               {values.map((item, count) => (
                 <ListItem key={count} fullWidth >

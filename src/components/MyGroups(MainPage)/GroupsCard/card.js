@@ -13,46 +13,27 @@ import AddGroup from "./addGroup"
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from "react-router-dom";
-import {path} from "../../consts"
+import { path } from "../../consts"
 
 const useStyles = makeStyles(theme => ({
-  [theme.breakpoints.down('sm')]: {
-    root: {
-      width: theme.spacing(75),
-      height: theme.spacing(70),
-      backgroundColor: theme.palette.background.paper,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      maxHeight: '100%',
-      overflow: 'auto'
-    },
-  },
-  [theme.breakpoints.up('md')]: {
-    root: {
-      width: theme.spacing(75),
-      height: theme.spacing(70),
-      backgroundColor: theme.palette.background.paper,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      maxHeight: '100%',
-      overflow: 'auto'
-    },
-  },
-  [theme.breakpoints.up('lg')]: {
-    root: {
+  root: {
+    width: theme.spacing(75),
+    height: theme.spacing(70),
+    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    maxHeight: '100%',
+    overflow: 'auto',
+    [theme.breakpoints.up('lg')]: {
       position: "fixed",
       Top: 200,
       Left: 30,
-      width: theme.spacing(75),
-      height: theme.spacing(70),
-      backgroundColor: theme.palette.background.paper,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      maxHeight: '100%',
-      overflow: 'auto'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: theme.spacing(52),
+      minHeight: theme.spacing(100),
+      // alignItems: 'flex-start',
     },
   },
   text: {
@@ -114,9 +95,9 @@ export default function MediaCard(props) {
         });
     }
     // fetchData();
-    if(props.loading){
+    if (props.loading) {
       return;
-    }else{
+    } else {
       fetchData();
     }
   }, [props.loading, valuesLast]);
@@ -128,9 +109,9 @@ export default function MediaCard(props) {
           Your groups:
         </Typography>
       </CardContent>
-      <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{ "marginLeft": 0 }}>
+      {/* <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{ "marginLeft": 0 }}>
         <Icon color="primary">cached</Icon>
-      </IconButton>
+      </IconButton> */}
       {loading ? (
         <Backdrop className={classes.backdrop} open={loading}>
           <CircularProgress color="inherit" />
@@ -139,13 +120,13 @@ export default function MediaCard(props) {
           </Typography>
         </Backdrop>
       ) : (
-        <List>
-        {values.map((item, count) => (
-          <ListItem key={count} >
-            <GroupPaper name={item.name} id={item.id} refresh={() => refresh()} />
-          </ListItem>
-        ))}
-      </List>
+          <List>
+            {values.map((item, count) => (
+              <ListItem key={count} >
+                <GroupPaper name={item.name} id={item.id} refresh={() => refresh()} />
+              </ListItem>
+            ))}
+          </List>
         )}
       <AddGroup onClick={() => refresh()} />
       <div className={classes.addGroup} />

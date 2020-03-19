@@ -13,6 +13,8 @@ import { getCookie, setCookie } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import PendingQuests from "../PendingQuests/pendingQuests"
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 import {path} from '../consts'
 import {
     BrowserRouter as Router,
@@ -26,8 +28,24 @@ const useStyles = makeStyles(theme => ({
     },
     toolbar: theme.mixins.toolbar,
     content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
+        [theme.breakpoints.up('xs')]: {
+            flexGrow: 1,
+            padding: theme.spacing(0),
+        },
+        [theme.breakpoints.up('sm')]: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+        },
+        [theme.breakpoints.up('md')]: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+        },
+        [theme.breakpoints.up('lg')]: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+        },
+        // flexGrow: 1,
+        // padding: theme.spacing(3),
     },
     [theme.breakpoints.down('sm')]: {
         leadboard: {
@@ -86,70 +104,73 @@ function MyGroups(props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const checkToken = async () => {
+    // const checkToken = async () => {
 
-        let cookie = getCookie("refreshToken");
+    //     let cookie = getCookie("refreshToken");
 
-        if (cookie === undefined) {
-            history.push("/login/owner");
-            enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
-                variant: 'error',
-            });
-        }
+    //     if (cookie === undefined) {
+    //         history.push("/login/owner");
+    //         enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
+    //             variant: 'error',
+    //         });
+    //     }
 
-        console.dir(document.cookie);
+    //     console.dir(document.cookie);
 
-        var myHeaders = new Headers();
+    //     var myHeaders = new Headers();
 
-        myHeaders.append("Content-Type", "application/json");
+    //     myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({ "refreshToken": cookie });
+    //     var raw = JSON.stringify({ "refreshToken": cookie });
 
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
+    //     var requestOptions = {
+    //         method: 'POST',
+    //         headers: myHeaders,
+    //         body: raw,
+    //         redirect: 'follow'
+    //     };
 
-        await fetch(`${path}login/owner`, requestOptions)
-            .then(response => {
-                if (response.status === 401) {
-                    console.log("Authorization error");
-                    // alert("Время сессии истекло, войдите заново.");
-                    history.push("/login/owner");
-                    enqueueSnackbar("Время сессии истекло, войдите заново222.", {
-                        variant: 'error',
-                    });
-                    window.location.reload();
-                    return;
-                }
-                return response.json();
-            })
-            .then(json => {
-                if (json === undefined) {
-                    return;
-                } else {
-                    console.dir(json.refreshToken + 'SUCCES');
-                    console.dir(json.token + ' - token');
-                    setCookie("refreshToken", json.refreshToken, 30);
-                    setCookie("id", json.owner.id, 30);
-                    setCookie("token", json.token, 30);
-                    setCookie("name", json.owner.name, 30);
-                    setCookie("email", json.owner.email, 30);
-                    setLoading(false);
-                    setToken(getCookie("token"));
-                    console.log(document.cookie);
-                    // enqueueSnackbar(document.cookie, {
-                    //   variant: 'success',
-                    // });
-                }
-            })
-            .catch(err => {
-                console.log(err)
-                setLoading(true);
-            });
-    }
+    //     await fetch(`${path}login/owner`, requestOptions)
+    //         .then(response => {
+    //             if (response.status === 401) {
+    //                 console.log("Authorization error");
+    //                 // alert("Время сессии истекло, войдите заново.");
+    //                 history.push("/login/owner");
+    //                 enqueueSnackbar("Время сессии истекло, войдите заново222.", {
+    //                     variant: 'error',
+    //                 });
+    //                 window.location.reload();
+    //                 return;
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(json => {
+    //             if (json === undefined) {
+    //                 return;
+    //             } else {
+    //                 console.dir(json.refreshToken + 'SUCCES');
+    //                 console.dir(json.token + ' - token');
+    //                 setCookie("refreshToken", json.refreshToken, 30);
+    //                 setCookie("id", json.owner.id, 30);
+    //                 setCookie("token", json.token, 30);
+    //                 setCookie("name", json.owner.name, 30);
+    //                 setCookie("email", json.owner.email, 30);
+    //                 setLoading(false);
+    //                 setToken(getCookie("token"));
+    //                 console.log(document.cookie);
+    //                 // enqueueSnackbar(document.cookie, {
+    //                 //   variant: 'success',
+    //                 // });
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //             setLoading(true);
+    //         });
+    // }
+
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('xs') || theme.breakpoints.down('sm') || theme.breakpoints.down('md'));
 
     useEffect(() => {
         if (!isFinite(history.location.search.slice(4))) {
@@ -166,13 +187,20 @@ function MyGroups(props) {
     return (
         <main className={classes.content}>
             <div className={classes.toolbar} />
-                <Grid container spacing={5} >
+                <Grid container spacing={matches ? 0 : 5} >
                 <Grid item >
                     <MediaCard token={props.token} loading={props.loading}/>
                 </Grid>
-                <Grid item className={classes.leadboard}>
+                {!matches ? (
+                    <Grid item className={classes.leadboard}>
                     <LeadboardMain flag={values} />
                 </Grid>
+                ):(
+                    <div></div>
+                )}
+                {/* <Grid item className={classes.leadboard}>
+                    <LeadboardMain flag={values} />
+                </Grid> */}
             </Grid>
         </main>
     );
@@ -346,7 +374,6 @@ export default function MainPageAdmin() {
                         <Settings name={getCookie("name")} email={getCookie("email")} />
                     </Route>
                     <Route path="/group" component={GroupId} />
-
                     <Route path="*" component={NoMatch} />
                 </Switch>
             </div>

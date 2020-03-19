@@ -26,9 +26,13 @@ const useStyles = makeStyles(theme => ({
     },
     area: {
         marginTop: theme.spacing(0),
-        margin: theme.spacing(2),
+        margin: theme.spacing(0),
         width: theme.spacing(62),
         height: theme.spacing(7),
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: theme.spacing(-3),
+            width: theme.spacing(50),
+            },
     },
     area2: {
         maxWidth: theme.spacing(66),
@@ -50,6 +54,9 @@ const useStyles = makeStyles(theme => ({
     score: {
         margin: theme.spacing(-0.5, -1),
         marginLeft: theme.spacing(19),
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: theme.spacing(0),
+            },
     },
     email: {
         marginTop: theme.spacing(-2),
@@ -100,7 +107,7 @@ export default function MemberPaper(props) {
                             <Avatar className={classes.orange}>N</Avatar>
                         </CardContent>
                     </Grid>
-                    <Grid item className={classes.margin2} xs={6}>
+                    <Grid item className={classes.margin2} xs={9}>
                         <CardContent>
                             {/* Длина не больше 15 символов!*/}
                             <Typography gutterBottom variant="h5" component="h2">
@@ -121,11 +128,11 @@ export default function MemberPaper(props) {
                             </Typography>
                         </CardContent>
                     </Grid>
-                    <Grid item>
+                    {/* <Grid item>
                         <IconButton onClick={() => handleMemberDelete()}>
                             <Icon color="primary">delete</Icon>
                         </IconButton>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Paper>
             </CardActionArea>
