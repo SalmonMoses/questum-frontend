@@ -109,8 +109,6 @@ export default function SignIn() {
       body: JSON.stringify({
         email: values.email,
         password: values.password
-        // email: "wtf@wtf.wtf",
-        // password: "WTF"
       }),
     })
       .then(res => {
@@ -130,7 +128,6 @@ export default function SignIn() {
           console.dir(json.refreshToken);
           setCookie("refreshToken", json.refreshToken, 10);
           setCookie("token", json.token, 30);
-          // alert(document.cookie);
           console.dir(document.cookie);
           setValues({ ...values, showAlert: false });
           enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {

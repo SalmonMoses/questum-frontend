@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: theme.palette.background.paper,
   },
   icon: {
-    marginLeft: theme.spacing(15),
+    marginLeft: theme.spacing(0),
   },
   paper: {
     backgroundColor: theme.palette.background.default,
@@ -106,10 +106,10 @@ export default function GroupPaper(props) {
                 <Avatar className={classes.purple}>{props.name[0]}</Avatar>
               </CardContent>
             </Grid>
-            <Grid item className={classes.margin2} xs={4}>
+            <Grid item className={classes.margin2} xs={9}>
               <CardContent>
                 {/* Длина не больше 15 символов!*/}
-                <Typography gutterBottom variant="h6" component="h2">
+                <Typography variant="h6" component="h2">
                   {props.name}
              </Typography>
               </CardContent>
@@ -119,13 +119,13 @@ export default function GroupPaper(props) {
                 <Icon color="inherit">people_alt</Icon>
               </CardContent>
             </Grid>
-            <Grid item className={classes.margin2}>
+            {/* <Grid item className={classes.margin2}>
               <CardContent>
                 <Typography variant="h5" component="h2">
                   0/4
              </Typography>
               </CardContent>
-            </Grid>
+            </Grid> */}
             <Grid item className={classes.margin3}>
             </Grid>
           </Grid>

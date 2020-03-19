@@ -282,7 +282,7 @@ export default function MainPageAdmin() {
                     console.log("RefreshToken: " + cookie);
                     // alert("Время сессии истекло, войдите заново.");
                     history.push("/login/owner");
-                    enqueueSnackbar("Время сессии истекло, войдите заново222.", {
+                    enqueueSnackbar("Время сессии истекло, войдите заново.", {
                         variant: 'error',
                     });
                     // enqueueSnackbar("Время сессии истекло, войдите заново222.", {
