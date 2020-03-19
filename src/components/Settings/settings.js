@@ -25,26 +25,62 @@ import {path} from "../consts";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    height: theme.spacing(100),
+    minHeight: theme.spacing(100),
     marginTop: theme.spacing(2),
-    paddingRight: theme.spacing(4),
+    [theme.breakpoints.up('xs')]: {
+      paddingRight: theme.spacing(0),
+  },
+  [theme.breakpoints.up('sm')]: {
+      paddingRight: theme.spacing(0),
+  },
+  [theme.breakpoints.up('md')]: {
+      paddingRight: theme.spacing(4),
+  },
+  [theme.breakpoints.up('lg')]: {
+      paddingRight: theme.spacing(4),
+  },
+    // paddingRight: theme.spacing(4),
     // paddingTop: theme.spacing(3)
   },
   toolbar: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(2),
+    [theme.breakpoints.up('xs')]: {
+      flexGrow: 1,
+      padding: theme.spacing(0),
+  },
+  [theme.breakpoints.up('sm')]: {
+      flexGrow: 1,
+      padding: theme.spacing(2),
+  },
+  [theme.breakpoints.up('md')]: {
+      flexGrow: 1,
+      padding: theme.spacing(2),
+  },
+  [theme.breakpoints.up('lg')]: {
+      flexGrow: 1,
+      padding: theme.spacing(2),
+  },
   },
   cont: {
-    marginLeft: theme.spacing(2),
-    // background: theme.palette.primary.main,
+    [theme.breakpoints.up('xs')]: {
+      marginLeft: theme.spacing(0),
+  },
+  [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(0),
+  },
+  [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(2),
+  },
+  [theme.breakpoints.up('lg')]: {
+      marginLeft: theme.spacing(2),
+  },
   },
   area: {
     marginLeft: theme.spacing(2),
     width: theme.spacing(40),
   },
   area1: {
-    width: theme.spacing(70),
+    width: theme.spacing(37),
   },
   margin: {
     marginTop: theme.spacing(2),

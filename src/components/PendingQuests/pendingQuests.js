@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
         },
         [theme.breakpoints.up('sm')]: {
             flexGrow: 1,
-            padding: theme.spacing(0),
+            padding: theme.spacing(2),
         },
         [theme.breakpoints.up('md')]: {
             flexGrow: 1,
