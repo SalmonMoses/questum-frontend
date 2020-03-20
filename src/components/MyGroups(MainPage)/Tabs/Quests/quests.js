@@ -20,11 +20,10 @@ import { path } from "../../../consts"
 
 const useStyles = makeStyles(theme => ({
     root: {
-        [theme.breakpoints.down('xs')]: {
-            width: `calc(100% + ${theme.spacing(6)}px)`, //100%
-            marginLeft: theme.spacing(-3),
-        },
-        width: '100%'
+        // [theme.breakpoints.up('lg')]: {
+        //     padding: theme.spacing(-2)
+        // },
+        width: "100%",
         // width: `calc(100% + ${theme.spacing(6)}px)`, //100%
         // marginLeft: theme.spacing(-3),
         // display: 'flex',
@@ -34,7 +33,8 @@ const useStyles = makeStyles(theme => ({
     heading: {
         fontSize: theme.typography.pxToRem(15),
         flexBasis: '33.33%',
-        flexShrink: 0,
+        flexShrink: 1,
+        flexGrow: 1,
     },
     secondaryHeading: {
         fontSize: theme.typography.pxToRem(15),
@@ -42,6 +42,7 @@ const useStyles = makeStyles(theme => ({
     },
     bg: {
         backgroundColor: theme.palette.background.default,
+        width: "100%",
     },
     button: {
         marginBottom: theme.spacing(5),
@@ -66,7 +67,18 @@ const useStyles = makeStyles(theme => ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: theme.palette.background.paper,
         color: theme.palette.primary.main,
-        // width: "100%",
+        [theme.breakpoints.up('lg')]: {
+            marginLeft: theme.spacing(0),
+            width: "100%",
+        },
+        marginLeft: theme.spacing(-4),
+        width: `calc(100% + ${theme.spacing(8)}px)`,
+    },
+    width: {
+        width: "100%",
+    },
+    color:{
+        background: theme.palette.primary.main,
     }
 }));
 
@@ -122,7 +134,7 @@ export default function Quests(props) {
     return (
         <div className={classes.root}>
             <Card className={classes.card}>
-                <List dense="true" >
+                <List dense="true" className={classes.width}>
                     <Grid container
                         direction="row"
                         justify="center"
@@ -140,11 +152,10 @@ export default function Quests(props) {
                         </Grid>
                     </Grid>
                     {valuesSubQuests.map((item, count) => (
-                        <ListItem key={count} >
+                        <ListItem key={count} className={classes.width}>
                             <ExpansionPanel expanded={expanded === 'panel' + (item.order + 1)} onChange={handleChange('panel' + (item.order + 1))} className={classes.bg} fullWidth>
                                 <ExpansionPanelSummary
-                                    fullWidth
-                                    className={classes.list}
+                                    className={classes.width}
                                     expandIcon={<Icon>expand_more</Icon>}
                                     aria-controls="panel1bh-content"
                                     id="panel1bh-header"
@@ -162,12 +173,10 @@ export default function Quests(props) {
                                     <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc} />
                                 </ExpansionPanelActions>
                             </ExpansionPanel>
-                            {/* <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc}/>
-                        <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()}/> */}
                         </ListItem>
                     ))}
                 </List>
-                <AddSubQuest questId={props.id} refresh={() => refreshNew()} fullWidth />
+                <AddSubQuest questId={props.id} refresh={() => refreshNew()} />
                 <div className={classes.button} />
                 <Divider />
             </Card>

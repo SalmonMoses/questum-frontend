@@ -9,9 +9,19 @@ import MemberPaper from "./member"
 import { getCookie } from "../../../../Cookie"
 import {path} from "../../../consts"
 import { useHistory } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  width:{
+    width: `calc(100% + ${theme.spacing(8)}px)`,
+    // background: theme.palette.primary.main,
+  }
+}));
 
 export default function DeleteMember(props) {
   const [open, setOpen] = React.useState(false);
+
+  const classes = useStyles();
 
   let history = useHistory();
 
@@ -49,7 +59,7 @@ export default function DeleteMember(props) {
   }
 
   return (
-    <div>
+    <div className={classes.width}>
       {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open alert dialog
       </Button> */}

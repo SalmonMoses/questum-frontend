@@ -173,12 +173,17 @@ function ResponsiveDrawer(props) {
           icon={<Icon color="primary">settings</Icon>}
           primary={"Settings"} />
 
-        <ListItem button key="Help">
+        <ListItemLink
+          to={"/help"}
+          icon={<Icon color="primary">help</Icon>}
+          primary={"Help"} />
+
+        {/* <ListItem button key="Help">
           <ListItemIcon>
             <Icon color="primary">help</Icon>
           </ListItemIcon>
           <ListItemText primary="Help" />
-        </ListItem>
+        </ListItem> */}
 
         <ListItemLink
           to={"/login/owner"}
@@ -280,7 +285,7 @@ function ResponsiveDrawer(props) {
             variant="permanent"
             open
             onClose={handleDrawerToggle}
-            // onOpen={handleDrawerToggle}
+          // onOpen={handleDrawerToggle}
           >
             {drawer}
           </SwipeableDrawer>

@@ -61,13 +61,17 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '100%',
     overflow: 'auto',
     [theme.breakpoints.down('xs')]: {
-      width: theme.spacing(54),
+      // width: theme.spacing(54),
+      width: "100%",
       minHeight: theme.spacing(100),
-      },
+    },
   },
   margin: {
     marginTop: theme.spacing(0),
     width: "100%",
+  },
+  margin2: {
+    marginTop: theme.spacing(0),
   },
   fab: {
     [theme.breakpoints.down('xs')]: {
@@ -120,6 +124,14 @@ const useStyles = makeStyles(theme => ({
   card: {
     width: theme.spacing(75),
     maxHeight: '100%',
+  },
+  color: {
+    background: theme.palette.primary.main,
+  },
+  width: {
+    // width: `calc(100% + ${theme.spacing(4)}px)`,
+    // background: theme.palette.primary.main,
+    // background: theme.palette.secondary.main,
   }
 }));
 
@@ -318,15 +330,15 @@ export default function Leadboard(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
-          <div className={classes.margin} >
+          <div className={classes.margin}>
             {values === undefined ? (
               <Typography>
-                Выберите группу
+                Chose group
               </Typography>
             ) : (
-                <List>
+                <List className={classes.width}>
                   {values.map((item, count) => (
-                    <ListItem key={count} >
+                    <ListItem key={count} className={classes.width}>
                       <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
                     </ListItem>
                   ))}
@@ -342,9 +354,9 @@ export default function Leadboard(props) {
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Box component="div" className={classes.margin} display="block">
+          <Box component="div" className={classes.margin2} display="block">
             {valuesQuests.map((item, count) => (
-              <ListItem key={count} fullWidth>
+              <ListItem key={count}>
                 <Quests title={item.title} refresh={() => refresh()} id={item.id} />
               </ListItem>
             ))}
@@ -352,11 +364,13 @@ export default function Leadboard(props) {
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
-            {values.sort((a, b) => b.points - a.points).map((item, count) => (
-              <ListItem key={count} fullWidth >
-                <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
-              </ListItem>
-            ))}
+            <List className={classes.width}>
+              {values.sort((a, b) => b.points - a.points).map((item, count) => (
+                <ListItem key={count} className={classes.width} >
+                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+                </ListItem>
+              ))}
+            </List>
           </div>
         </TabPanel>
       </SwipeableViews>

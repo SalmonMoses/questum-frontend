@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('lg')]: {
             paddingRight: theme.spacing(4),
         },
-        
+
         // paddingTop: theme.spacing(3)
     },
     toolbar: theme.mixins.toolbar,
@@ -85,6 +85,7 @@ const useStyles = makeStyles(theme => ({
         // background: theme.palette.primary.main,
     },
 }));
+
 
 export default function PendingQuests(props) {
 
@@ -154,18 +155,18 @@ export default function PendingQuests(props) {
             <div className={classes.toolbar} />
             <Paper className={classes.paper}>
                 <Container className={classes.cont}>
-                                <List>
-                                    {values.map((item, count) => (
-                                        <Card className={classes.card}>
-                                            <ListItem key={count}>
-                                                <Typography className={classes.heading} variant="h2" component="h2">
-                                                    {item.name}
-                                                    <PendingQuestCard groupId={item.id} refresh={() => refresh()} />
-                                                </Typography>
-                                            </ListItem>
-                                        </Card>
-                                    ))}
-                                </List>
+                    <List>
+                        {values.map((item, count) => (
+                            <Card className={classes.card}>
+                                <ListItem key={count}>
+                                    <Typography className={classes.heading} variant="h2" component="h2">
+                                        {item.name}
+                                        <PendingQuestCard groupId={item.id} refresh={() => refresh()} />
+                                    </Typography>
+                                </ListItem>
+                            </Card>
+                        ))}
+                    </List>
                     {/* <List>
                         {values.map((item, count) => (
                             <Card className={classes.card}>

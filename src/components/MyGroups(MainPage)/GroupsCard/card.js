@@ -29,9 +29,18 @@ const useStyles = makeStyles(theme => ({
       position: "fixed",
       Top: 200,
       Left: 30,
+      width: theme.spacing(75),
+      height: theme.spacing(70),
+      backgroundColor: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      maxHeight: '100%',
+      overflow: 'auto',
     },
     [theme.breakpoints.down('xs')]: {
-      width: theme.spacing(52),
+      // width: theme.spacing(47),
+      width: "100%",
       minHeight: theme.spacing(100),
       // alignItems: 'flex-start',
     },
@@ -50,6 +59,13 @@ const useStyles = makeStyles(theme => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
+  width:{
+    // width: "100%",
+    width: `calc(100% + ${theme.spacing(2)}px)`,
+  },
+  color: {
+    background: theme.palette.primary.main,
+},
 }));
 
 export default function MediaCard(props) {
@@ -120,9 +136,9 @@ export default function MediaCard(props) {
           </Typography>
         </Backdrop>
       ) : (
-          <List>
+          <List className={classes.width}>
             {values.map((item, count) => (
-              <ListItem key={count} >
+              <ListItem key={count}>
                 <GroupPaper name={item.name} id={item.id} refresh={() => refresh()} />
               </ListItem>
             ))}

@@ -27,12 +27,14 @@ const useStyles = makeStyles(theme => ({
     area: {
         marginTop: theme.spacing(0),
         margin: theme.spacing(0),
-        width: theme.spacing(62),
+        // width: theme.spacing(62),
+        width: "100%",
         height: theme.spacing(7),
         [theme.breakpoints.down('xs')]: {
-            marginLeft: theme.spacing(-3),
-            width: theme.spacing(50),
+            marginLeft: theme.spacing(-4),
+            width: `calc(100% + ${theme.spacing(8)}px)`,
             },
+
     },
     area2: {
         maxWidth: theme.spacing(66),
@@ -53,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     },
     score: {
         margin: theme.spacing(-0.5, -1),
-        marginLeft: theme.spacing(19),
+        marginLeft: theme.spacing(10),
         [theme.breakpoints.down('xs')]: {
             marginLeft: theme.spacing(0),
             },
@@ -63,6 +65,9 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         backgroundColor: theme.palette.background.default,
+    },
+    color: {
+        background: theme.palette.primary.main,
     },
 }));
 
@@ -107,7 +112,7 @@ export default function MemberPaper(props) {
                             <Avatar className={classes.orange}>N</Avatar>
                         </CardContent>
                     </Grid>
-                    <Grid item className={classes.margin2} xs={9}>
+                    <Grid item className={classes.margin2} xs={8}>
                         <CardContent>
                             {/* Длина не больше 15 символов!*/}
                             <Typography gutterBottom variant="h5" component="h2">

@@ -17,6 +17,10 @@ import {path} from "../../../../consts"
 const useStyles = makeStyles(theme => ({
     area: {
         width: theme.spacing(60),
+        [theme.breakpoints.down('xs')]: {
+            // width: theme.spacing(40),
+            width: "100%",
+            },
     },
     chip: {
         marginLeft: theme.spacing(1),
@@ -25,12 +29,22 @@ const useStyles = makeStyles(theme => ({
         width:theme.spacing(59),
     },
     add:{
-        width: theme.spacing(59),
-        marginLeft: theme.spacing(2),
+        // width: theme.spacing(59),
+        width: "100%",
+        // marginLeft: theme.spacing(2),
         [theme.breakpoints.down('xs')]: {
-            width: theme.spacing(46),
-            marginLeft: theme.spacing(2),
+            width: "100%",
+            // marginLeft: theme.spacing(2),
             },
+    },
+    width:{
+        // width: "100%",
+        width: `calc(100% + ${theme.spacing(2)}px)`,
+      },
+      color: {
+          marginRight: theme.spacing(2),
+          marginLeft: theme.spacing(2),
+        // background: theme.palette.primary.main,
     },
 }));
 
@@ -93,11 +107,11 @@ export default function AddSubQuest(props) {
     }
 
     return (
-        <div>
+        <div className={classes.color}>
             <Button className={classes.add} variant="outlined" color="primary" onClick={handleClickOpen} >
                 Add new subquest
             </Button>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add Subquest</DialogTitle>
                 <DialogContent>
                     <Grid container direction="column" spacing={5}>

@@ -24,8 +24,9 @@ const useStyles = makeStyles(theme => ({
     width: theme.spacing(52),
     height: theme.spacing(7),
     [theme.breakpoints.down('xs')]: {
-      width: theme.spacing(35),
-      marginLeft: theme.spacing(-1)
+      // width: theme.spacing(30),
+      width: "100%",
+      marginLeft: theme.spacing(0)
       },
   },
   area2: {
@@ -60,6 +61,29 @@ const useStyles = makeStyles(theme => ({
   action: {
     width: theme.spacing(62),
   },
+  button:{
+    marginLeft: theme.spacing(5),
+    [theme.breakpoints.down('xs')]: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(0),
+      width:'15%',
+      },
+    // marginLeft: theme.spacing(-1),
+  },
+  button2:{
+    marginLeft: theme.spacing(0),
+    [theme.breakpoints.down('xs')]: {
+      marginRight: theme.spacing(0),
+      width:'15%',
+      },
+  },
+  color: {
+    // background: theme.palette.secondary.main,
+    width: "100%",
+},
+width:{
+  width:'70%',
+},
 }));
 
 export default function GroupPaper(props) {
@@ -108,8 +132,8 @@ export default function GroupPaper(props) {
   }
 
   return (
-    <Grid container direction="row">
-      <Grid item>
+    <Grid container direction="row" className={classes.color}>
+      <Grid item className={classes.width}>
       <Card className={classes.area}>
       <CardActionArea onClick={handleClick}>
         <Paper className={classes.paper}>
@@ -146,10 +170,10 @@ export default function GroupPaper(props) {
       </CardActionArea>
     </Card>
       </Grid>
-      <Grid item>
+      <Grid item className={classes.button}>
       <ChangeGroupName id={props.id} refresh={() => props.refresh()}/>
       </Grid>
-      <Grid item>
+      <Grid item className={classes.button2}>
       <IconButton aria-label="edit" onClick={() => handleGroupDelete()}>
           <Icon color="primary">delete</Icon>
         </IconButton>

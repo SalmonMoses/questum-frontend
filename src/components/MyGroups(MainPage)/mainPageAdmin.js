@@ -15,7 +15,8 @@ import { useHistory } from "react-router-dom";
 import PendingQuests from "../PendingQuests/pendingQuests"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import {path} from '../consts'
+import { path } from '../consts'
+import Help from "../Help/help"
 import {
     BrowserRouter as Router,
     Switch,
@@ -25,6 +26,11 @@ import {
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
+        width: "100%",
+        [theme.breakpoints.up('xs')]: {
+            width: "100%",
+            // display: 'flex',
+        },
     },
     toolbar: theme.mixins.toolbar,
     content: {
@@ -47,33 +53,37 @@ const useStyles = makeStyles(theme => ({
         // flexGrow: 1,
         // padding: theme.spacing(3),
     },
-    [theme.breakpoints.down('sm')]: {
-        leadboard: {
-            // width: theme.spacing(75),
-            width: `calc(100% - ${50}px)`,
-            height: theme.spacing(70),
-            marginLeft: theme.spacing(0),
-        },
-    },
-    [theme.breakpoints.up('md')]: {
-        leadboard: {
-            width: theme.spacing(75),
-            height: theme.spacing(70),
-            marginLeft: theme.spacing(0),
-        },
-    },
-    [theme.breakpoints.up('lg')]: {
-        leadboard: {
-            width: theme.spacing(75),
-            height: theme.spacing(70),
-            marginLeft: theme.spacing(75),
-        },
-    },
-    // leadboard:{
-    //     width: theme.spacing(75),
-    //     height: theme.spacing(70),
-    //     marginLeft: theme.spacing(75),
+    // [theme.breakpoints.down('sm')]: {
+    //     leadboard: {
+    //         // width: theme.spacing(75),
+    //         width: `calc(100% - ${50}px)`,
+    //         height: theme.spacing(70),
+    //         marginLeft: theme.spacing(0),
+    //     },
     // },
+    // [theme.breakpoints.up('md')]: {
+    //     leadboard: {
+    //         width: theme.spacing(75),
+    //         height: theme.spacing(70),
+    //         marginLeft: theme.spacing(0),
+    //     },
+    // },
+    // [theme.breakpoints.up('lg')]: {
+    //     leadboard: {
+    //         width: theme.spacing(75),
+    //         height: theme.spacing(70),
+    //         marginLeft: theme.spacing(75),
+    //     },
+    // },
+    leadboard:{
+        width: "100%",
+        height: theme.spacing(70),
+        marginLeft: theme.spacing(0),
+        [theme.breakpoints.up('lg')]: {
+            width: theme.spacing(75),
+            marginLeft: theme.spacing(75), 
+        },
+    },
     fabGreen: {
         color: theme.palette.common.white,
         backgroundColor: green[500],
@@ -84,7 +94,15 @@ const useStyles = makeStyles(theme => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
-      },
+    },
+    color: {
+        background: theme.palette.primary.main,
+    },
+    width: {
+        [theme.breakpoints.down('xs')]: {
+            width: "100%",
+        },
+    },
 }));
 
 
@@ -95,10 +113,6 @@ function MyGroups(props) {
     const [values, setValues] = useState(false);
 
     const [url, setUrl] = useState(false);
-
-    const [loading, setLoading] = useState(true);
-
-    const [token, setToken] = useState("");
 
     let history = useHistory();
 
@@ -187,17 +201,17 @@ function MyGroups(props) {
     return (
         <main className={classes.content}>
             <div className={classes.toolbar} />
-                <Grid container spacing={matches ? 0 : 5} >
-                <Grid item >
-                    <MediaCard token={props.token} loading={props.loading}/>
+            <Grid container spacing={matches ? 0 : 5} >
+                <Grid item className={classes.width}>
+                    <MediaCard token={props.token} loading={props.loading} />
                 </Grid>
                 {!matches ? (
                     <Grid item className={classes.leadboard}>
-                    <LeadboardMain flag={values} />
-                </Grid>
-                ):(
-                    <div></div>
-                )}
+                        <LeadboardMain />
+                    </Grid>
+                ) : (
+                        <div></div>
+                    )}
                 {/* <Grid item className={classes.leadboard}>
                     <LeadboardMain flag={values} />
                 </Grid> */}
@@ -346,9 +360,9 @@ export default function MainPageAdmin() {
             });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         checkToken();
-    },[])
+    }, [])
 
     let cookie = getCookie("refreshToken");
 
@@ -365,7 +379,7 @@ export default function MainPageAdmin() {
                 <ResponsiveDrawer />
                 <Switch>
                     <Route exact path="/groups">
-                        <MyGroups loading={loading}/>
+                        <MyGroups loading={loading} />
                     </Route>
                     <Route exact path="/pending-quests">
                         <PendingQuests />
@@ -373,6 +387,7 @@ export default function MainPageAdmin() {
                     <Route exact path="/settings">
                         <Settings name={getCookie("name")} email={getCookie("email")} />
                     </Route>
+                    <Route path="/help" component={Help} />
                     <Route path="/group" component={GroupId} />
                     <Route path="*" component={NoMatch} />
                 </Switch>
