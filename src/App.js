@@ -78,8 +78,12 @@ function App() {
       <Route exact path="/">
           <Redirect to="/groups" />
         </Route>
+        <Route exact path="/user/">
+          <Redirect to="/user/group" />
+        </Route>
         {/* <Route exact path="/" component={MainPageAdmin} /> */}
         <Route exact path="/:id" component={MainPageAdmin} />
+        <Route exact path="/user/:id" />
         <Route exact path="/login/user" component={LoginUser} />
         <Route path="/login/owner" component={SignIn} />
         <Route path="/signup/owner" component={SignUp} />

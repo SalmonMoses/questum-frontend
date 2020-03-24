@@ -60,8 +60,8 @@ const useStyles = makeStyles(theme => ({
     color: '#fff',
   },
   width:{
-    // width: "100%",
-    width: `calc(100% + ${theme.spacing(2)}px)`,
+    width: "100%",
+    // width: `calc(100% + ${theme.spacing(2)}px)`,
   },
   color: {
     background: theme.palette.primary.main,

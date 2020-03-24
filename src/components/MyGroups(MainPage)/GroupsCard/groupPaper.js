@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(0),
     margin: theme.spacing(2),
     width: theme.spacing(52),
+    // width: "100%",
     height: theme.spacing(7),
     [theme.breakpoints.down('xs')]: {
       // width: theme.spacing(30),
@@ -49,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: theme.palette.background.paper,
   },
   icon: {
-    marginLeft: theme.spacing(0),
+    marginLeft: theme.spacing(5),
   },
   paper: {
     backgroundColor: theme.palette.background.default,
