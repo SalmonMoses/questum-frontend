@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import SignIn from './loginPage';
 import LoginUser from "./loginUser";
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core';
@@ -6,6 +6,7 @@ import SignUp from "./SignUp";
 import MainPageAdmin from "./components/MyGroups(MainPage)/mainPageAdmin"
 import { SnackbarProvider } from 'notistack';
 import NoMatch from "./components/MainComponents/NoMatch";
+import Authorization from "./components/authorization"
 import { ruRU } from '@material-ui/core/locale';
 import {
   BrowserRouter as Router,
@@ -70,19 +71,28 @@ const theme = createMuiTheme({
 
 function App() {
 
+  const [loading, setLoading] = useState(true);
+
+  const auth = (prop) =>{
+    setLoading(prop);
+  }
+
   return (
      <Router>
     <ThemeProvider theme={theme}>
     <SnackbarProvider maxSnack={4}>
       <Switch>
       <Route exact path="/">
-          <Redirect to="/groups" />
+          {/* <Redirect to="/groups" /> */}
+          <Authorization auth={() => auth()}/>
         </Route>
         <Route exact path="/user/">
           <Redirect to="/user/group" />
         </Route>
         {/* <Route exact path="/" component={MainPageAdmin} /> */}
-        <Route exact path="/:id" component={MainPageAdmin} />
+        <Route exact path="/:id">
+          <MainPageAdmin loading={loading}/>
+        </Route>
         <Route exact path="/user/:id" />
         <Route exact path="/login/user" component={LoginUser} />
         <Route path="/login/owner" component={SignIn} />

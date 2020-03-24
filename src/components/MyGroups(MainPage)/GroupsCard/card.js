@@ -110,12 +110,13 @@ export default function MediaCard(props) {
           console.log(err)
         });
     }
-    // fetchData();
+    fetchData();
     if (props.loading) {
       return;
     } else {
       fetchData();
     }
+    fetchData();
   }, [props.loading, valuesLast]);
 
   return (
@@ -131,9 +132,9 @@ export default function MediaCard(props) {
       {loading ? (
         <Backdrop className={classes.backdrop} open={loading}>
           <CircularProgress color="inherit" />
-          <Typography>
+          {/* <Typography>
             Try to refresh the page
-          </Typography>
+          </Typography> */}
         </Backdrop>
       ) : (
           <List className={classes.width}>

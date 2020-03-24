@@ -16,6 +16,7 @@ import Slide from '@material-ui/core/Slide';
 import Link from '@material-ui/core/Link'
 import { useSnackbar } from 'notistack';
 import {path} from "./components/consts"
+import { useHistory } from "react-router-dom";
 
 
 
@@ -56,6 +57,8 @@ const useStyles = makeStyles(theme => ({
 export default function LoginUser() {
     const classes = useStyles();
 
+    const history = useHistory();
+
     const [values, setValues] = React.useState({
         email: '',
         token: '',
@@ -74,7 +77,7 @@ export default function LoginUser() {
         icon: 'group_add',
     });
 
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
 
 
@@ -132,6 +135,7 @@ export default function LoginUser() {
                     enqueueSnackbar(`Вы вошли как ${result.user.name}`, {
                         variant: 'success',
                     });
+                    history.push("/");
                 }
             })
             .catch(error => console.log('error', error));
@@ -246,7 +250,7 @@ export default function LoginUser() {
              </Router> */}
                         <Link href="/login/owner" >
                             Sing in as a group owner.
-             </Link>
+                         </Link>
                     </Box>
                 </Typography>
 

@@ -118,72 +118,8 @@ function MyGroups(props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    // const checkToken = async () => {
-
-    //     let cookie = getCookie("refreshToken");
-
-    //     if (cookie === undefined) {
-    //         history.push("/login/owner");
-    //         enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
-    //             variant: 'error',
-    //         });
-    //     }
-
-    //     console.dir(document.cookie);
-
-    //     var myHeaders = new Headers();
-
-    //     myHeaders.append("Content-Type", "application/json");
-
-    //     var raw = JSON.stringify({ "refreshToken": cookie });
-
-    //     var requestOptions = {
-    //         method: 'POST',
-    //         headers: myHeaders,
-    //         body: raw,
-    //         redirect: 'follow'
-    //     };
-
-    //     await fetch(`${path}login/owner`, requestOptions)
-    //         .then(response => {
-    //             if (response.status === 401) {
-    //                 console.log("Authorization error");
-    //                 // alert("Время сессии истекло, войдите заново.");
-    //                 history.push("/login/owner");
-    //                 enqueueSnackbar("Время сессии истекло, войдите заново222.", {
-    //                     variant: 'error',
-    //                 });
-    //                 window.location.reload();
-    //                 return;
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(json => {
-    //             if (json === undefined) {
-    //                 return;
-    //             } else {
-    //                 console.dir(json.refreshToken + 'SUCCES');
-    //                 console.dir(json.token + ' - token');
-    //                 setCookie("refreshToken", json.refreshToken, 30);
-    //                 setCookie("id", json.owner.id, 30);
-    //                 setCookie("token", json.token, 30);
-    //                 setCookie("name", json.owner.name, 30);
-    //                 setCookie("email", json.owner.email, 30);
-    //                 setLoading(false);
-    //                 setToken(getCookie("token"));
-    //                 console.log(document.cookie);
-    //                 // enqueueSnackbar(document.cookie, {
-    //                 //   variant: 'success',
-    //                 // });
-    //             }
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //             setLoading(true);
-    //         });
-    // }
-
     const theme = useTheme();
+    
     const matches = useMediaQuery(theme.breakpoints.down('xs') || theme.breakpoints.down('sm') || theme.breakpoints.down('md'));
 
     useEffect(() => {
@@ -221,7 +157,7 @@ function MyGroups(props) {
 }
 
 
-export default function MainPageAdmin() {
+export default function MainPageAdmin(props) {
 
     const classes = useStyles();
 
@@ -360,9 +296,9 @@ export default function MainPageAdmin() {
             });
     }
 
-    useEffect(() => {
-        checkToken();
-    }, [])
+    // useEffect(() => {
+    //     checkToken();
+    // }, [])
 
     let cookie = getCookie("refreshToken");
 
@@ -379,7 +315,7 @@ export default function MainPageAdmin() {
                 <ResponsiveDrawer />
                 <Switch>
                     <Route exact path="/groups">
-                        <MyGroups loading={loading} />
+                        <MyGroups loading={props.loading} />
                     </Route>
                     <Route exact path="/pending-quests">
                         <PendingQuests />

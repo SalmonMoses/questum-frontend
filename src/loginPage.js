@@ -133,7 +133,7 @@ export default function SignIn() {
           enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
             variant: 'success',
           });
-          history.push('/groups');
+          history.push('/');
         }
       })
       .catch(console.log);
@@ -223,6 +223,11 @@ export default function SignIn() {
             <Box textAlign="center" fontSize="h7.fontSize" m={1}>
               <Link href="/signup/owner" color="primary" >
                 Don`t have a group-creater account?
+             </Link>
+            </Box>
+            <Box textAlign="center" fontSize="h7.fontSize" m={1}>
+              <Link href="/login/user" color="primary" >
+                Sign in as a Participant
              </Link>
             </Box>
           </Typography>
