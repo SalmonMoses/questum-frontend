@@ -164,11 +164,11 @@ export default function AppBarAdmin() {
             Material-UI
           </Typography>
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+            {/* <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 <Icon>notifications</Icon>
               </Badge>
-            </IconButton>
+            </IconButton>  */}
             <IconButton
               edge="end"
               aria-label="account of current user"
