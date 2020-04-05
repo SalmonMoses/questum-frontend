@@ -10,40 +10,33 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core/styles';
 import VarificationTypes from "./varificationTypes"
 import { getCookie } from "../../../../../Cookie"
+import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 import Icon from '@material-ui/core/Icon';
-import {path} from "../../../../consts"
+import { path } from "../../../../consts"
 
 const useStyles = makeStyles(theme => ({
     area: {
-        width: theme.spacing(60),
-        [theme.breakpoints.down('xs')]: {
-            // width: theme.spacing(40),
-            width: "100%",
-            },
+        // width: theme.spacing(60),
+        width: "100%",
     },
     chip: {
         marginLeft: theme.spacing(1),
     },
-    button:{
-        width:theme.spacing(59),
+    button: {
+        width: theme.spacing(59),
     },
-    add:{
+    add: {
         // width: theme.spacing(59),
         width: "100%",
-        // marginLeft: theme.spacing(2),
-        [theme.breakpoints.down('xs')]: {
-            width: "100%",
-            // marginLeft: theme.spacing(2),
-            },
     },
-    width:{
+    width: {
         // width: "100%",
         width: `calc(100% + ${theme.spacing(2)}px)`,
-      },
-      color: {
-          marginRight: theme.spacing(2),
-          marginLeft: theme.spacing(2),
+    },
+    color: {
+        marginRight: theme.spacing(2),
+        marginLeft: theme.spacing(2),
         // background: theme.palette.primary.main,
     },
 }));
@@ -59,6 +52,7 @@ export default function AddSubQuest(props) {
     const [values, setValues] = useState({
         desc: "",
         type: "",
+        expectedAnswer: "",
 
     });
 
@@ -84,7 +78,7 @@ export default function AddSubQuest(props) {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
 
-        var raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type });
+        var raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": values.expectedAnswer });
 
         var requestOptions = {
             method: 'POST',
@@ -139,7 +133,16 @@ export default function AddSubQuest(props) {
                                 label="NONE"
                                 color="primary"
                                 icon={<Icon>radio_button_unchecked</Icon>} /> */}
-                            <VarificationTypes type={type}/>
+                            <VarificationTypes type={type} />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                fullWidth
+                                id="standard-disabled"
+                                label="Expected answer"
+                                value={values.name}
+                                onChange={handleChange("expectedAnswer")}
+                            />
                         </Grid>
                         <Grid item>
                             <DialogContentText>

@@ -128,11 +128,19 @@ const useStyles = makeStyles(theme => ({
   color: {
     background: theme.palette.primary.main,
   },
-  width: {
-    // width: `calc(100% + ${theme.spacing(4)}px)`,
-    // background: theme.palette.primary.main,
-    // background: theme.palette.secondary.main,
+  text:{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: theme.spacing(21),
+  },
+  box:{
+    border: `1px solid ${theme.palette.primary.main}`,
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.primary.main,
   }
+
 }));
 
 export default function Leadboard(props) {
@@ -331,9 +339,17 @@ export default function Leadboard(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin}>
-            {values === undefined ? (
-              <Typography>
-                Chose group
+            {history.location.search.slice(4) === "" ? (
+              <Typography variant="h3" className={classes.text}>
+                <Box className={classes.box}>
+                  Choose a group
+                </Box>
+              </Typography>
+            ) : values.length === 0 ? (
+              <Typography variant="h4" className={classes.text}>
+                <Box className={classes.box}>
+                  You have no members yet
+                </Box>
               </Typography>
             ) : (
                 <List className={classes.width}>
@@ -355,15 +371,44 @@ export default function Leadboard(props) {
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Box component="div" className={classes.margin2} display="block">
-            {valuesQuests.map((item, count) => (
+          {history.location.search.slice(4) === "" ? (
+              <Typography variant="h3" className={classes.text}>
+                <Box className={classes.box}>
+                  Choose a group
+                </Box>
+              </Typography>
+            ) : valuesQuests.length === 0 ? (
+              <Typography variant="h4" className={classes.text}>
+                <Box className={classes.box}>
+                  You have no members yet
+                </Box>
+              </Typography>
+            ) : (
+              <List className={classes.width}>
+              {valuesQuests.map((item, count) => (
               <ListItem key={count}>
                 <Quests title={item.title} refresh={() => refresh()} id={item.id} />
               </ListItem>
             ))}
+              </List>
+            )}
           </Box>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
+          {history.location.search.slice(4) === "" ? (
+              <Typography variant="h3" className={classes.text}>
+                <Box className={classes.box}>
+                  Choose a group
+                </Box>
+              </Typography>
+            ) : values.length === 0 ? (
+              <Typography variant="h4" className={classes.text}>
+                <Box className={classes.box}>
+                  You have no members yet
+                </Box>
+              </Typography>
+            ) : (
             <List className={classes.width}>
               {values.sort((a, b) => b.points - a.points).map((item, count) => (
                 <ListItem key={count} className={classes.width} >
@@ -371,6 +416,7 @@ export default function Leadboard(props) {
                 </ListItem>
               ))}
             </List>
+            )}
           </div>
         </TabPanel>
       </SwipeableViews>

@@ -164,6 +164,9 @@ export default function Quests(props) {
                                     <Typography className={classes.secondaryHeading}>{item.verificationType}</Typography>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
+                                    {/* <Typography>
+                                        {item.expected}
+                                    </Typography> */}
                                     <Typography>
                                         {item.desc}
                                     </Typography>

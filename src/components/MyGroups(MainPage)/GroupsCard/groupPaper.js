@@ -135,7 +135,7 @@ export default function GroupPaper(props) {
   return (
     <Grid container direction="row" className={classes.color}>
       <Grid item className={classes.width}>
-      <Card className={classes.area}>
+      <Card className={classes.area} >
       <CardActionArea onClick={handleClick}>
         <Paper className={classes.paper}>
           <Grid container spacing={0}>

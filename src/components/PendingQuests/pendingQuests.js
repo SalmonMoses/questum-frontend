@@ -10,6 +10,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import PendingQuestCard from "./pendingQuestCard"
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import { path } from "../consts"
 
@@ -84,6 +85,20 @@ const useStyles = makeStyles(theme => ({
         fontWeight: theme.typography.fontWeightRegular,
         // background: theme.palette.primary.main,
     },
+    text:{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        // marginTop: theme.spacing(21),
+        paddingTop: theme.spacing(30),
+      },
+      box:{
+        border: `1px solid ${theme.palette.primary.main}`,
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.primary.main,
+        alignItems: 'center',
+      }
 }));
 
 
@@ -155,31 +170,26 @@ export default function PendingQuests(props) {
             <div className={classes.toolbar} />
             <Paper className={classes.paper}>
                 <Container className={classes.cont}>
-                    <List>
-                        {values.map((item, count) => (
-                            <Card className={classes.card}>
-                                <ListItem key={count}>
-                                    <Typography className={classes.heading} variant="h2" component="h2">
-                                        {item.name}
-                                        <PendingQuestCard groupId={item.id} refresh={() => refresh()} />
-                                    </Typography>
-                                </ListItem>
-                            </Card>
-                        ))}
-                    </List>
-                    {/* <List>
-                        {values.map((item, count) => (
-                            <Card className={classes.card}>
-                            <ListItem key={count}>
-                                <Typography variant="h2" component="h2">
-                                    {item.name}
-                                    <PendingQuestCard groupId={item.id} refresh={() => refresh()}/>
-                                    <Divider />
-                                </Typography>
-                            </ListItem>
-                            </Card>
-                        ))}
-                    </List> */}
+                     {values.length === 0 ? (
+                        <Typography variant="h4" className={classes.text} align="center">
+                            <Box className={classes.box}>
+                                You have no groups yet
+                            </Box>
+                        </Typography>
+                    ) : (
+                                <List>
+                                    {values.map((item, count) => (
+                                        <Card className={classes.card}>
+                                            <ListItem key={count}>
+                                                <Typography className={classes.heading} variant="h2" component="h2">
+                                                    {item.name}
+                                                    <PendingQuestCard groupId={item.id} refresh={() => refresh()} />
+                                                </Typography>
+                                            </ListItem>
+                                        </Card>
+                                    ))}
+                                </List>
+                    )}
                 </Container>
             </Paper>
         </main>

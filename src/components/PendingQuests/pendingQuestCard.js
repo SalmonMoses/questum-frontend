@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import { ExpansionPanelActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button"
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Box from '@material-ui/core/Box';
 import { path } from "../consts"
 
 
@@ -122,74 +123,76 @@ export default function PendingQuestCard(props) {
         <div className={classes.root}>
             {loading ? (
                 <CircularProgress />
+            ) : values.length === 0 ? (
+                <Typography variant="h4" align="center">
+                    <Box>
+                        You have no pending quests yet
+                            </Box>
+                </Typography>
             ) : (
-                    <List>
-                        {values.map((item, count) => (
-                            <ListItem key={count} >
-                                <ExpansionPanel className={classes.card}>
-                                    <ExpansionPanelSummary
-                                        expandIcon={<Icon>expand_more</Icon>}
-                                        aria-controls="panel1a-content"
-                                        id="panel1a-header"
-                                    >
-                                        <Typography fullWidth className={classes.heading}>{item.user.name}</Typography>
-                                        <Divider orientation="vertical" variant="inset" />
-                                        {/* <Typography className={classes.secondaryHeading}>{item.user.email}</Typography>
-                                        <Divider orientation="vertical" variant="inset" /> */}
-                                        {/* <Typography className={classes.secondaryHeading}>{item.user.points}</Typography>
-                                        <Divider orientation="vertical" variant="inset" /> */}
-                                        <Typography className={classes.secondaryHeading}>{item.subquest.verificationType}</Typography>
-                                    </ExpansionPanelSummary>
-                                    <ExpansionPanelDetails>
-                                        <Grid>
-                                            <Grid item>
-                                                <Typography variant="h6">
-                                                    Description:
+                        <List>
+                            {values.map((item, count) => (
+                                <ListItem key={count} >
+                                    <ExpansionPanel className={classes.card}>
+                                        <ExpansionPanelSummary
+                                            expandIcon={<Icon>expand_more</Icon>}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <Typography fullWidth className={classes.heading}>{item.user.name}</Typography>
+                                            <Divider orientation="vertical" variant="inset" />
+                                            <Typography className={classes.secondaryHeading}>{item.subquest.verificationType}</Typography>
+                                        </ExpansionPanelSummary>
+                                        <ExpansionPanelDetails>
+                                            <Grid>
+                                                <Grid item>
+                                                    <Typography variant="h6">
+                                                        Description:
                                                 </Typography>
-                                            </Grid>
+                                                </Grid>
 
-                                            <Grid item>
-                                                <Typography>
-                                                    {item.subquest.desc}
-                                                </Typography>
-                                            </Grid>
-                                            <Divider />
-                                            <Grid item>
-                                                <Typography variant="h6">
-                                                    User`s answer:
+                                                <Grid item>
+                                                    <Typography>
+                                                        {item.subquest.desc}
+                                                    </Typography>
+                                                </Grid>
+                                                <Divider />
+                                                <Grid item>
+                                                    <Typography variant="h6">
+                                                        User`s answer:
                                                  </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Typography >
-                                                    {item.answer}
-                                                </Typography>
-                                            </Grid>
-                                            <Divider />
-                                            <Grid item>
-                                                <Typography variant="h6">
-                                                    Exspected answer:
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography >
+                                                        {item.answer}
+                                                    </Typography>
+                                                </Grid>
+                                                <Divider />
+                                                <Grid item>
+                                                    <Typography variant="h6">
+                                                        Exspected answer:
                                                  </Typography>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography >
+                                                        {item.expectedAnswer}
+                                                    </Typography>
+                                                </Grid>
                                             </Grid>
-                                            <Grid item>
-                                                <Typography >
-                                                    {item.answer}
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>
-                                    </ExpansionPanelDetails>
-                                    <ExpansionPanelActions>
-                                        <Button onClick={() => handleClick({ status: "reject", subquestId: item.id })} color="primary">
-                                            cancel
+                                        </ExpansionPanelDetails>
+                                        <ExpansionPanelActions>
+                                            <Button onClick={() => handleClick({ status: "reject", subquestId: item.id })} color="primary">
+                                                cancel
                                         </Button>
-                                        <Button onClick={() => handleClick({ status: "verify", subquestId: item.id })} color="primary">
-                                            confirm
+                                            <Button onClick={() => handleClick({ status: "verify", subquestId: item.id })} color="primary">
+                                                confirm
                                         </Button>
-                                    </ExpansionPanelActions>
-                                </ExpansionPanel>
-                            </ListItem>
-                        ))}
-                    </List>
-                )}
+                                        </ExpansionPanelActions>
+                                    </ExpansionPanel>
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
         </div>
     );
 }
