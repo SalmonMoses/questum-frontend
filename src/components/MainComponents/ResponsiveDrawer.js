@@ -239,11 +239,11 @@ function ResponsiveDrawer(props) {
               <MenuItem value={"Russian"} onClick={handleClose}>Russian</MenuItem>
               <MenuItem value={"English"} onClick={handleClose}>English</MenuItem>
             </Menu>
-            <IconButton className={classes.icons} edge="end" aria-label="show 17 new notifications" color="inherit">
+            {/* <IconButton className={classes.icons} edge="end" aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 <Icon>notifications</Icon>
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               href="/settings"
               edge="end"
