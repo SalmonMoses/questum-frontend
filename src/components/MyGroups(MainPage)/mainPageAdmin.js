@@ -231,12 +231,12 @@ export default function MainPageAdmin(props) {
 
         let cookie = getCookie("refreshToken");
 
-        // if (cookie === undefined) {
-        //     history.push("/login/owner");
-        //     enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
-        //         variant: 'error',
-        //     });
-        // }
+        if (cookie === undefined) {
+            history.push("/login/owner");
+            enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
+                variant: 'error',
+            });
+        }
 
         console.dir(document.cookie);
 

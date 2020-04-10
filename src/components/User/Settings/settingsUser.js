@@ -10,18 +10,18 @@ import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { getCookie, setCookie } from "../../Cookie"
+import { getCookie, setCookie } from "../../../Cookie"
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import PasswordConfirm from "./passwordConfirm"
+import PasswordConfirm from "../../Settings/passwordConfirm"
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import {path} from "../consts";
+import {path} from "../../consts";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Sittings(props) {
+export default function SittingsUser(props) {
 
   const [values, setValues] = useState({
     name: props.name,
@@ -163,9 +163,9 @@ export default function Sittings(props) {
 
     };
 
-    fetch(`${path}owners/${getCookie("id")}`, requestOptions)
+    fetch(`${path}participants/${getCookie("id")}`, requestOptions)
       .then(response => {
-        if (response.status === 401) {
+        if (response.status > 400) {
           console.log("Authorization error");
           enqueueSnackbar("Ошибка обработки изменений :(", {
             variant: 'error',
@@ -353,6 +353,7 @@ export default function Sittings(props) {
           </Grid>
         </Container>
       </Paper>
+      
       <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false}/>
     </main>
   );
