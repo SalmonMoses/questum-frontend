@@ -167,13 +167,13 @@ function ResponsiveDrawer(props) {
                     primary={"Me"} />
 
                 <ListItemLink
-                    to={"/user/group"}
-                    icon={<Icon color="primary">people_alt</Icon>}
-                    primary={"Group"} />
-
-                <ListItemLink
                     to={"/user/quests"}
                     icon={<Icon color="primary">assignment</Icon>}
+                    primary={"Quests"} />
+
+                <ListItemLink
+                    to={"/user/group"}
+                    icon={<Icon color="primary">people_alt</Icon>}
                     primary={"Group"} />
 
             </List>
@@ -258,7 +258,7 @@ function ResponsiveDrawer(props) {
                 >
 
                     <BottomNavigationAction label="Me" icon={<Icon>account_circle</Icon>} />
-                    <BottomNavigationAction label="Quests" icon={<Icon>list</Icon>} />
+                    <BottomNavigationAction href="/user/quests" label="Quests" icon={<Icon>list</Icon>} />
                     <BottomNavigationAction label="Group" icon={<Icon>group</Icon>} />
 
                     {/* <BottomNavigationAction label="Me" icon={<Icon>account_circle</Icon>} />

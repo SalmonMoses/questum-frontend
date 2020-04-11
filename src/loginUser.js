@@ -43,7 +43,6 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexWrap: 'wrap',
         '& > *': {
-
             marginTop: theme.spacing(10),
             marginLeft: theme.spacing(70),
             width: theme.spacing(50),
@@ -136,10 +135,7 @@ export default function LoginUser() {
                     console.dir(result.refreshToken);
                     setCookie("refreshToken", result.refreshToken, 10);
                     setCookie("token", result.token, 30);
-                    // setCookie("id", result.user.id, 30);
-                    // setCookie("token", result.token, 30);
-                    // setCookie("name", result.user.name, 30);
-                    // setCookie("email", result.user.email, 30);
+                    setCookie("groupID", values.token, 30);
                     console.dir(document.cookie);
                     enqueueSnackbar(`Вы вошли как ${result.user.name}`, {
                         variant: 'success',

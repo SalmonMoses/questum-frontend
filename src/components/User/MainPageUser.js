@@ -8,6 +8,7 @@ import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Help from "./helpUser"
+import QuestsUser from "./Quests/questsUser"
 import { useTheme } from '@material-ui/core/styles';
 import ResDrawer from "./ResDrawer"
 import SittingsUser from "./Settings/settingsUser"
@@ -46,13 +47,13 @@ const useStyles = makeStyles(theme => ({
             padding: theme.spacing(3),
         },
     },
-    leadboard:{
+    leadboard: {
         width: "100%",
         height: theme.spacing(70),
         marginLeft: theme.spacing(0),
         [theme.breakpoints.up('lg')]: {
             width: theme.spacing(75),
-            marginLeft: theme.spacing(75), 
+            marginLeft: theme.spacing(75),
         },
     },
     fabGreen: {
@@ -135,9 +136,9 @@ export default function MainPageAdmin() {
                     setLoading(false);
                     setToken(getCookie("token"));
                     console.log(document.cookie);
-                    enqueueSnackbar(document.cookie, {
-                      variant: 'success',
-                    });
+                    // enqueueSnackbar(document.cookie, {
+                    //   variant: 'success',
+                    // });
                 }
             })
             .catch(err => {
@@ -163,15 +164,22 @@ export default function MainPageAdmin() {
         <Router>
             <div className={classes.root}>
                 <DrawerUser />
-                {/* <ResDrawer /> */}
                 <Switch>
+
                     <Route exact path="/user/group">
-                    {/* <MyGroups loading={loading} /> */}
+                        {/* <MyGroups loading={loading} /> */}
                     </Route>
+
+                    <Route exact path="/user/quests">
+                        <QuestsUser />
+                    </Route>
+
                     <Route exact path="/user/settings">
-                    <SittingsUser name={getCookie("name")} email={getCookie("email")} />
+                        <SittingsUser name={getCookie("name")} email={getCookie("email")} />
                     </Route>
+
                     <Route path="/user/help" component={Help} />
+
                     <Route path="*" component={NoMatch} />
                 </Switch>
             </div>
