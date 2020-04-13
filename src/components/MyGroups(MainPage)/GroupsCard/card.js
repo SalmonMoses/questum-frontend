@@ -126,15 +126,9 @@ export default function MediaCard(props) {
           Your groups:
         </Typography>
       </CardContent>
-      {/* <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{ "marginLeft": 0 }}>
-        <Icon color="primary">cached</Icon>
-      </IconButton> */}
       {loading ? (
         <Backdrop className={classes.backdrop} open={loading}>
           <CircularProgress color="inherit" />
-          {/* <Typography>
-            Try to refresh the page
-          </Typography> */}
         </Backdrop>
       ) : (
           <List className={classes.width}>

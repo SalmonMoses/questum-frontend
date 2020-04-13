@@ -380,7 +380,7 @@ export default function Leadboard(props) {
             ) : valuesQuests.length === 0 ? (
               <Typography variant="h4" className={classes.text}>
                 <Box className={classes.box}>
-                  You have no members yet
+                  You have no quests yet
                 </Box>
               </Typography>
             ) : (

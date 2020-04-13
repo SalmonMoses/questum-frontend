@@ -97,6 +97,9 @@ function App() {
         <Route exact path="/user/:id">
           <MainPageUser />
         </Route>
+        <Route exact path="/user/quest/:id">
+          <MainPageUser />
+        </Route>
         <Route exact path="/login/user" component={LoginUser} />
         <Route path="/login/owner" component={SignIn} />
         <Route path="/signup/owner" component={SignUp} />

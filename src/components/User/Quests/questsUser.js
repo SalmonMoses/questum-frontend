@@ -142,7 +142,7 @@ useEffect(() => {
         <List className={classes.width}>
               {valuesQuests.map((item, count) => (
               <ListItem key={count}>
-                <QuestCard title={item.title} id={item.id} />
+                <QuestCard title={item.title} questId={item.id} />
               </ListItem>
             ))}
               </List>

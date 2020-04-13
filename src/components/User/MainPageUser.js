@@ -18,6 +18,8 @@ import {
     Switch,
     Route,
 } from "react-router-dom"
+import Subquests from './Quests/Subquests/subquestsPage';
+import SubquestsPage from './Quests/Subquests/subquestsPage';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -172,6 +174,10 @@ export default function MainPageAdmin() {
 
                     <Route exact path="/user/quests">
                         <QuestsUser />
+                    </Route>
+
+                    <Route  path="/user/quest/:id">
+                        <SubquestsPage />
                     </Route>
 
                     <Route exact path="/user/settings">

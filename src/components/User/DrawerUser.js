@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -24,6 +24,7 @@ import DonateButton from '../MainComponents/DonateButton';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 200;
 
@@ -123,6 +124,33 @@ function ResponsiveDrawer(props) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const [value, setValue] = React.useState(0);
+
+    let history = useHistory();
+
+    useEffect(() => {
+        const updateValue = () => {
+            console.log(history.location.pathname.slice(6));
+
+            switch (history.location.pathname.slice(6)) {
+                case "settings":
+                    setValue(3);
+                    break;
+                case "group":
+                    setValue(2);
+                    break;
+                case "me":
+                    setValue(0);
+                    break;
+                case "quests":
+                    setValue(1);
+                    break;
+                default:
+                    setValue(3);
+                    break;
+            }
+        }
+        updateValue();
+    }, [history.location.pathname])
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -250,20 +278,16 @@ function ResponsiveDrawer(props) {
             <nav className={classes.drawer} aria-label="mailbox folders">
                 <BottomNavigation
                     value={value}
-                    onChange={(event, newValue) => {
-                        setValue(newValue);
-                    }}
+                    // onChange={(event, newValue) => {
+                    //     setValue(newValue);
+                    // }}
                     showLabels
                     className={classes.navigation}
                 >
 
-                    <BottomNavigationAction label="Me" icon={<Icon>account_circle</Icon>} />
+                    <BottomNavigationAction href="/user/me" label="Me" icon={<Icon>account_circle</Icon>} />
                     <BottomNavigationAction href="/user/quests" label="Quests" icon={<Icon>list</Icon>} />
-                    <BottomNavigationAction label="Group" icon={<Icon>group</Icon>} />
-
-                    {/* <BottomNavigationAction label="Me" icon={<Icon>account_circle</Icon>} />
-                    <BottomNavigationAction label="Quests" icon={<Icon>list</Icon>} />
-                    <BottomNavigationAction label="Group" icon={<Icon>group</Icon>} /> */}
+                    <BottomNavigationAction href="/user/group" label="Group" icon={<Icon>group</Icon>} />
                 </BottomNavigation>
                 <Hidden xsDown implementation="css">
                     <SwipeableDrawer

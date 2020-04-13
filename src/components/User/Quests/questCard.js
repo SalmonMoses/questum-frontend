@@ -44,6 +44,11 @@ export default function QuestCard(props) {
 
     let history = useHistory();
 
+    const handleClick = ()=>{
+        history.push(`/user/quest/${props.questId}`);
+        // history.push(`/user/quests?id=/${props.questId}`);
+    }
+
     return (
         <div className={classes.root}>
             <Card className={classes.card}>
@@ -65,7 +70,7 @@ export default function QuestCard(props) {
                         </Grid>
                     </Grid>
                     <LinearProgress variant="determinate" value={40} />
-                    <Button className={classes.button} fullWidth variant="outlined" color="primary">Open</Button>
+                    <Button onClick={handleClick} className={classes.button} fullWidth variant="outlined" color="primary">Open</Button>
                     {/* <div className={classes.button} /> */}
                 </div>
             </Card>
