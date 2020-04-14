@@ -21,9 +21,10 @@ import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DonateButton from './DonateButton';
-import { Avatar } from '@material-ui/core';
+import { Avatar, CircularProgress } from '@material-ui/core';
 import {path } from '../consts'
 import { useSnackbar } from 'notistack';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const drawerWidth = 200;
 
@@ -115,7 +116,8 @@ function ResponsiveDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [avatar, setAvatar] = React.useState("");
+  const [avatar, setAvatar] = React.useState(null);
+  const [isAvatarLoading, setAvatarLoading] = React.useState(true);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDrawerToggle = () => {
@@ -164,6 +166,10 @@ function ResponsiveDrawer(props) {
             variant: 'error',
           });
           return;
+        }  else if (response.status === 500) {
+          console.log('No avatar for this user!');
+          setAvatarLoading(false);
+          return;
         }
         return response.blob();
       })
@@ -172,6 +178,7 @@ function ResponsiveDrawer(props) {
           return;
         } else {
           setAvatar(URL.createObjectURL(result));
+          setAvatarLoading(false);
         }
       })
       .catch(error => console.log('error', error));
@@ -295,7 +302,10 @@ function ResponsiveDrawer(props) {
               aria-haspopup="true"
               color="inherit"
             >
-              <Avatar alt={getCookie("name")} src={avatar}>{getCookie("name").charAt(0)}</Avatar>
+              {(() => {
+                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatar}/>);
+                    else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
+                  })()}
             </IconButton>
           </div>
         </Toolbar>

@@ -3,7 +3,7 @@ import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Avatar } from '@material-ui/core';
+import { Paper, Avatar, CircularProgress } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField'
@@ -23,6 +23,7 @@ import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { path } from "../consts";
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -103,6 +104,10 @@ const useStyles = makeStyles(theme => ({
   iconButton: {
     margin: theme.spacing(1)
   },
+  avatarSkeleton: {
+    width: theme.spacing(30),
+    height: theme.spacing(30),
+  }
 }));
 
 export default function Sittings(props) {
@@ -122,6 +127,8 @@ export default function Sittings(props) {
   });
 
   const [avatar, setAvatar] = useState(null);
+
+  const [isAvatarLoading, setAvatarLoading] = useState(true);
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
@@ -227,6 +234,10 @@ export default function Sittings(props) {
             variant: 'error',
           });
           return;
+        } else if (response.status === 500) {
+          console.log('No avatar for this user!');
+          setAvatarLoading(false);
+          return;
         }
         return response.blob();
       })
@@ -235,6 +246,7 @@ export default function Sittings(props) {
           return;
         } else {
           setAvatar(URL.createObjectURL(result));
+          setAvatarLoading(false);
         }
       })
       .catch(error => console.log('error', error));
@@ -301,6 +313,8 @@ export default function Sittings(props) {
       body: avatar
     };
 
+    setAvatarLoading(true);
+
     fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
@@ -348,7 +362,10 @@ export default function Sittings(props) {
             <Grid item className={classes.avatarArea}>
               <Grid container spacing={2} direction="column" className={classes.avatarArea}>
                 <Grid item>
-                  <Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>
+                  {(() => {
+                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton}/>);
+                    else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
+                  })()}
                 </Grid>
                 <Grid item>
                   <Input
