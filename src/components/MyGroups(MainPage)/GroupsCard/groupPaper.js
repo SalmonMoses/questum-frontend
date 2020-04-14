@@ -95,10 +95,6 @@ export default function GroupPaper(props) {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('xs'));
 
-//   window.onload = function(){
-//     history.push("/groups");
-//  }
-
   const handleClick = () => {
     if(matches){
       history.push("/group?id=" + props.id);

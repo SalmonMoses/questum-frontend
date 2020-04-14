@@ -16,15 +16,11 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import { deleteCookie, getCookie } from "../../Cookie"
+import { deleteCookie } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import DonateButton from './DonateButton';
-import { Avatar, CircularProgress } from '@material-ui/core';
-import {path } from '../consts'
-import { useSnackbar } from 'notistack';
-import Skeleton from '@material-ui/lab/Skeleton';
+import DonateButton from '../MainComponents/DonateButton';
 
 const drawerWidth = 200;
 
@@ -111,14 +107,11 @@ ListItemLink.propTypes = {
   to: PropTypes.string.isRequired,
 };
 
-function ResponsiveDrawer(props) {
+function ResDrawer(props) {
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [avatar, setAvatar] = React.useState(null);
-  const [isAvatarLoading, setAvatarLoading] = React.useState(true);
-  const { enqueueSnackbar } = useSnackbar();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -144,49 +137,6 @@ function ResponsiveDrawer(props) {
     // history.replace("/login/owner");
     // document.location.reload(true);
   }
-
-  const fetchAvatar = () => {
-    let token = getCookie("token");
-
-    var myHeaders = new Headers();
-
-    myHeaders.append("Authorization", "Bearer " + token);
-
-    var requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow',
-    };
-
-    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
-      .then(response => {
-        if (response.status === 401) {
-          console.log("Authorization error");
-          enqueueSnackbar("Ошибка загрузки аватара :(", {
-            variant: 'error',
-          });
-          return;
-        }  else if (response.status === 500) {
-          console.log('No avatar for this user!');
-          setAvatarLoading(false);
-          return;
-        }
-        return response.blob();
-      })
-      .then(result => {
-        if (result === undefined) {
-          return;
-        } else {
-          setAvatar(URL.createObjectURL(result));
-          setAvatarLoading(false);
-        }
-      })
-      .catch(error => console.log('error', error));
-  }
-
-  React.useEffect(() => {
-    fetchAvatar();
-  });
 
 
   const menuId = 'primary-search-account-menu';
@@ -302,10 +252,7 @@ function ResponsiveDrawer(props) {
               aria-haspopup="true"
               color="inherit"
             >
-              {(() => {
-                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatar}/>);
-                    else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
-                  })()}
+              <Icon>account_circle</Icon>
             </IconButton>
           </div>
         </Toolbar>
@@ -348,4 +295,4 @@ function ResponsiveDrawer(props) {
   );
 }
 
-export default ResponsiveDrawer;
+export default ResDrawer;

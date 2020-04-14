@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import AddSubQuest from "./Subquests/addSubQuest";
@@ -164,12 +165,16 @@ export default function Quests(props) {
                                     <Typography className={classes.secondaryHeading}>{item.verificationType}</Typography>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
-                                    {/* <Typography>
-                                        {item.expected}
-                                    </Typography> */}
-                                    <Typography>
-                                        {item.desc}
+                                <div fullWidth>
+                                <Typography variant="h6" component="h2"  gutterBottom>
+                                {"Description: " + item.desc}
                                     </Typography>
+                               
+                                    <Typography variant="h6" gutterBottom>
+                                        {`Expected answer: ${item.expectedAnswer} \n`}
+                                    </Typography>
+                                </div>
+        
                                 </ExpansionPanelDetails>
                                 <ExpansionPanelActions>
                                     <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()} />

@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Avatar, CircularProgress } from '@material-ui/core';
+import { Paper, Avatar } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { getCookie, setCookie } from "../../Cookie"
+import { getCookie, setCookie } from "../../../Cookie"
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import PasswordConfirm from "./passwordConfirm"
+import PasswordConfirm from "../../Settings/passwordConfirm"
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
-import { path } from "../consts";
+import {path} from "../../consts";
 import Skeleton from '@material-ui/lab/Skeleton';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -31,16 +31,16 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     [theme.breakpoints.up('xs')]: {
       paddingRight: theme.spacing(0),
-    },
-    [theme.breakpoints.up('sm')]: {
+  },
+  [theme.breakpoints.up('sm')]: {
       paddingRight: theme.spacing(0),
-    },
-    [theme.breakpoints.up('md')]: {
+  },
+  [theme.breakpoints.up('md')]: {
       paddingRight: theme.spacing(4),
-    },
-    [theme.breakpoints.up('lg')]: {
+  },
+  [theme.breakpoints.up('lg')]: {
       paddingRight: theme.spacing(4),
-    },
+  },
     // paddingRight: theme.spacing(4),
     // paddingTop: theme.spacing(3)
   },
@@ -49,33 +49,33 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('xs')]: {
       flexGrow: 1,
       padding: theme.spacing(0),
-    },
-    [theme.breakpoints.up('sm')]: {
+  },
+  [theme.breakpoints.up('sm')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-    },
-    [theme.breakpoints.up('md')]: {
+  },
+  [theme.breakpoints.up('md')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-    },
-    [theme.breakpoints.up('lg')]: {
+  },
+  [theme.breakpoints.up('lg')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-    },
+  },
   },
   cont: {
     [theme.breakpoints.up('xs')]: {
       marginLeft: theme.spacing(0),
-    },
-    [theme.breakpoints.up('sm')]: {
+  },
+  [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(0),
-    },
-    [theme.breakpoints.up('md')]: {
+  },
+  [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(2),
-    },
-    [theme.breakpoints.up('lg')]: {
+  },
+  [theme.breakpoints.up('lg')]: {
       marginLeft: theme.spacing(2),
-    },
+  },
   },
   area: {
     marginLeft: theme.spacing(2),
@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Sittings(props) {
+export default function SittingsUser(props) {
 
   const [values, setValues] = useState({
     name: props.name,
@@ -184,9 +184,9 @@ export default function Sittings(props) {
 
     };
 
-    fetch(`${path}owners/${getCookie("id")}`, requestOptions)
+    fetch(`${path}participants/${getCookie("id")}`, requestOptions)
       .then(response => {
-        if (response.status === 401) {
+        if (response.status > 400) {
           console.log("Authorization error");
           enqueueSnackbar("Ошибка обработки изменений :(", {
             variant: 'error',
@@ -205,45 +205,6 @@ export default function Sittings(props) {
           enqueueSnackbar(string, {
             variant: 'success',
           });
-        }
-      })
-      .catch(error => console.log('error', error));
-  }
-
-  const fetchAvatar = () => {
-    let token = getCookie("token");
-
-    var myHeaders = new Headers();
-
-    myHeaders.append("Authorization", "Bearer " + token);
-
-    var requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow',
-    };
-
-    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
-      .then(response => {
-        if (response.status === 401) {
-          console.log("Authorization error");
-          enqueueSnackbar("Ошибка обработки изменений :(", {
-            variant: 'error',
-          });
-          return;
-        } else if (response.status === 500) {
-          console.log('No avatar for this user!');
-          setAvatarLoading(false);
-          return;
-        }
-        return response.blob();
-      })
-      .then(result => {
-        if (result === undefined) {
-          return;
-        } else {
-          setAvatar(URL.createObjectURL(result));
-          setAvatarLoading(false);
         }
       })
       .catch(error => console.log('error', error));
@@ -293,7 +254,46 @@ export default function Sittings(props) {
     }
   }
 
-  const uploadAvatar = (e) => {
+  const fetchAvatar = () => {
+    let token = getCookie("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar("Ошибка обработки изменений :(", {
+            variant: 'error',
+          });
+          return;
+        } else if (response.status === 500) {
+          console.log('No avatar for this user!');
+          setAvatarLoading(false);
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          setAvatar(URL.createObjectURL(result));
+          setAvatarLoading(false);
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+const uploadAvatar = (e) => {
     let token = getCookie("token");
 
     var myHeaders = new Headers();
@@ -312,7 +312,7 @@ export default function Sittings(props) {
 
     setAvatarLoading(true);
 
-    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -336,9 +336,10 @@ export default function Sittings(props) {
       .catch(error => console.log('error', error));
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchAvatar();
   });
+
 
   return (
     <main className={classes.content}>
@@ -481,7 +482,8 @@ export default function Sittings(props) {
           </Grid>
         </Container>
       </Paper>
-      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false} />
+      
+      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false}/>
     </main>
   );
 }

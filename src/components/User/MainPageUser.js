@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import ResponsiveDrawer from "../MainComponents/ResponsiveDrawer";
+import DrawerUser from "./DrawerUser"
 import { makeStyles } from '@material-ui/core/styles';
-import MediaCard from "./GroupsCard/card";
 import { green } from '@material-ui/core/colors';
-import Settings from "../Settings/settings";
-import NoMatch from "../MainComponents/NoMatch";
-import GroupId from "../groupID"
-import { Grid } from '@material-ui/core';
-import LeadboardMain from "./Tabs/leadboardMain";
+import NoMatch from "../MainComponents/NoMatch"
 import { getCookie, setCookie } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import PendingQuests from "../PendingQuests/pendingQuests"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Help from "./helpUser"
+import QuestsUser from "./Quests/questsUser"
 import { useTheme } from '@material-ui/core/styles';
+import ResDrawer from "./ResDrawer"
+import SittingsUser from "./Settings/settingsUser"
 import { path } from '../consts'
-import Help from "../Help/help"
 import {
     BrowserRouter as Router,
     Switch,
     Route,
 } from "react-router-dom"
+import Subquests from './Quests/Subquests/subquestsPage';
+import SubquestsPage from './Quests/Subquests/subquestsPage';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         width: "100%",
         [theme.breakpoints.up('xs')]: {
             width: "100%",
-            // display: 'flex',
+            display: 'flex',
         },
     },
     toolbar: theme.mixins.toolbar,
@@ -49,38 +48,14 @@ const useStyles = makeStyles(theme => ({
             flexGrow: 1,
             padding: theme.spacing(3),
         },
-        // flexGrow: 1,
-        // padding: theme.spacing(3),
     },
-    // [theme.breakpoints.down('sm')]: {
-    //     leadboard: {
-    //         // width: theme.spacing(75),
-    //         width: `calc(100% - ${50}px)`,
-    //         height: theme.spacing(70),
-    //         marginLeft: theme.spacing(0),
-    //     },
-    // },
-    // [theme.breakpoints.up('md')]: {
-    //     leadboard: {
-    //         width: theme.spacing(75),
-    //         height: theme.spacing(70),
-    //         marginLeft: theme.spacing(0),
-    //     },
-    // },
-    // [theme.breakpoints.up('lg')]: {
-    //     leadboard: {
-    //         width: theme.spacing(75),
-    //         height: theme.spacing(70),
-    //         marginLeft: theme.spacing(75),
-    //     },
-    // },
-    leadboard:{
+    leadboard: {
         width: "100%",
         height: theme.spacing(70),
         marginLeft: theme.spacing(0),
         [theme.breakpoints.up('lg')]: {
             width: theme.spacing(75),
-            marginLeft: theme.spacing(75), 
+            marginLeft: theme.spacing(75),
         },
     },
     fabGreen: {
@@ -135,7 +110,7 @@ export default function MainPageAdmin() {
             redirect: 'follow'
         };
 
-        await fetch(path + "login/owner", requestOptions)
+        await fetch(path + "login/user", requestOptions)
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error");
@@ -156,16 +131,16 @@ export default function MainPageAdmin() {
                     console.dir(json.refreshToken + 'SUCCES');
                     console.dir(json.token + ' - token');
                     setCookie("refreshToken", json.refreshToken, 30);
-                    setCookie("id", json.owner.id, 30);
+                    setCookie("id", json.user.id, 30);
                     setCookie("token", json.token, 30);
-                    setCookie("name", json.owner.name, 30);
-                    setCookie("email", json.owner.email, 30);
+                    setCookie("name", json.user.name, 30);
+                    setCookie("email", json.user.email, 30);
                     setLoading(false);
                     setToken(getCookie("token"));
                     console.log(document.cookie);
-                    enqueueSnackbar(document.cookie, {
-                      variant: 'success',
-                    });
+                    // enqueueSnackbar(document.cookie, {
+                    //   variant: 'success',
+                    // });
                 }
             })
             .catch(err => {
@@ -190,16 +165,27 @@ export default function MainPageAdmin() {
     return (
         <Router>
             <div className={classes.root}>
-                <ResponsiveDrawer />
+                <DrawerUser />
                 <Switch>
+
                     <Route exact path="/user/group">
-                    {/* <MyGroups loading={loading} /> */}
+                        {/* <MyGroups loading={loading} /> */}
                     </Route>
+
+                    <Route exact path="/user/quests">
+                        <QuestsUser />
+                    </Route>
+
+                    <Route  path="/user/quest/:id">
+                        <SubquestsPage />
+                    </Route>
+
                     <Route exact path="/user/settings">
-                        
+                        <SittingsUser name={getCookie("name")} email={getCookie("email")} />
                     </Route>
-                    {/* <Route path="/help" component={Help} /> */}
-                    {/* <Route path="/group" component={GroupId} /> */}
+
+                    <Route path="/user/help" component={Help} />
+
                     <Route path="*" component={NoMatch} />
                 </Switch>
             </div>

@@ -90,7 +90,36 @@ export default function PasswordConfirm(props) {
                         redirect: 'follow',
 
                     };
-
+                    if(props.user){
+                        fetch(`${path}participants/${getCookie("id")}`, requestOptions)
+                        .then(response => {
+                            if (response.status === 401) {
+                                console.log("Authorization error");
+                                enqueueSnackbar("Ошибка обработки изменений :(", {
+                                    variant: 'error',
+                                });
+                                return;
+                            }
+                            return response.json();
+                        })
+                        .then(result => {
+                            if (result === undefined) {
+                                return;
+                            } else {
+                                console.log(result);
+                                setCookie("name", result.name, 30);
+                                setCookie("email", result.email, 30);
+                                enqueueSnackbar("Данные успешно изменены", {
+                                    variant: 'success',
+                                });
+                                console.log(sha512(values.password + values.email));
+                                props.onClick();
+                                document.location.reload();
+                            }
+                        })
+                        .catch(error => console.log('error', error));
+                    }else
+                    if(props.owner){
                     fetch(`${path}owners/${getCookie("id")}`, requestOptions)
                         .then(response => {
                             if (response.status === 401) {
@@ -118,6 +147,7 @@ export default function PasswordConfirm(props) {
                             }
                         })
                         .catch(error => console.log('error', error));
+                    }
                     /////////////////////////////////////////////////////////////////////////
                 }
             })
