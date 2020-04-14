@@ -361,7 +361,9 @@ export default function Sittings(props) {
                     type="file"
                     accept="image/*"
                     onChange={uploadAvatar} />
-                    <Button variant="contained" color="primary" className={classes.iconButton} startIcon={<CloudUploadIcon />} onClick={fileUploadButton}>Change avatar</Button>
+                  <label htmlFor="avatar-file-input">
+                    <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>Change avatar</Button>
+                  </label>
                 </Grid>
               </Grid>
             </Grid>
