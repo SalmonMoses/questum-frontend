@@ -16,6 +16,7 @@ import {
   Redirect,
 } from "react-router-dom"
 import { Privacy } from './components/Help/privacy';
+import { EULA } from './components/Help/eula';
 
 
 // Просто набросок, чтобы потом менять было удобнее. Тему удобно создавать с помощью вот этого: https://material.io/resources/color/#!/?view.left=0&view.right=0
@@ -92,7 +93,6 @@ function App() {
               <Redirect to="/user/group" />
             </Route>
             {/* <Route exact path="/" component={MainPageAdmin} /> */}
-            <Route exact path="/privacy" component={Privacy} />
             <Route exact path="/:id">
               <MainPageAdmin loading={loading} />
             </Route>
@@ -102,6 +102,8 @@ function App() {
             <Route exact path="/user/quest/:id">
               <MainPageUser />
             </Route>
+            <Route exact path="/docs/privacy" component={Privacy} />
+            <Route exact path="/docs/eula" component={EULA} />
             <Route exact path="/login/user" component={LoginUser} />
             <Route path="/login/owner" component={SignIn} />
             <Route path="/signup/owner" component={SignUp} />
