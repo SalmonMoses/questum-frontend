@@ -21,7 +21,8 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import {path} from "../consts";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import { path } from "../consts";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -29,16 +30,16 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     [theme.breakpoints.up('xs')]: {
       paddingRight: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       paddingRight: theme.spacing(0),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       paddingRight: theme.spacing(4),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       paddingRight: theme.spacing(4),
-  },
+    },
     // paddingRight: theme.spacing(4),
     // paddingTop: theme.spacing(3)
   },
@@ -47,33 +48,33 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('xs')]: {
       flexGrow: 1,
       padding: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
+    },
   },
   cont: {
     [theme.breakpoints.up('xs')]: {
       marginLeft: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(0),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(2),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       marginLeft: theme.spacing(2),
-  },
+    },
   },
   area: {
     marginLeft: theme.spacing(2),
@@ -87,7 +88,21 @@ const useStyles = makeStyles(theme => ({
   },
   area3: {
     height: theme.spacing(10)
-  }
+  },
+  avatar: {
+    width: theme.spacing(30),
+    height: theme.spacing(30),
+  },
+  avatarArea: {
+    marginLeft: theme.spacing(2),
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  iconButton: {
+    margin: theme.spacing(1)
+  },
 }));
 
 export default function Sittings(props) {
@@ -269,6 +284,51 @@ export default function Sittings(props) {
     }
   }
 
+  const uploadAvatar = (e) => {
+    let token = getCookie("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    let avatar = new FormData();
+    avatar.append('avatar', e.target.files[0])
+
+    var requestOptions = {
+      method: 'PUT',
+      headers: myHeaders,
+      redirect: 'follow',
+      body: avatar
+    };
+
+    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar("Ошибка обработки изменений :(", {
+            variant: 'error',
+          });
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          fetchAvatar();
+          enqueueSnackbar('Аватар успешно обновлен (может понадобиться обновление страницы)', {
+            variant: 'success'
+          });
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  const fileUploadButton = () => {
+    document.getElementById('avatar-file-input').click();
+  }
+
   useEffect(() => {
     fetchAvatar();
   });
@@ -289,8 +349,21 @@ export default function Sittings(props) {
             </Grid>
             <Divider />
 
-            <Grid item className={classes.area}>
-              <Avatar alt={values.name} src={avatar}/>
+            <Grid item className={classes.avatarArea}>
+              <Grid container spacing={2} direction="column" className={classes.avatarArea}>
+                <Grid item>
+                  <Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>
+                </Grid>
+                <Grid item>
+                  <Input
+                    style={{ display: 'none' }}
+                    id="avatar-file-input"
+                    type="file"
+                    accept="image/*"
+                    onChange={uploadAvatar} />
+                    <Button variant="contained" color="primary" className={classes.iconButton} startIcon={<CloudUploadIcon />} onClick={fileUploadButton}>Change avatar</Button>
+                </Grid>
+              </Grid>
             </Grid>
 
             <Grid item className={classes.area}>
@@ -396,7 +469,7 @@ export default function Sittings(props) {
           </Grid>
         </Container>
       </Paper>
-      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false}/>
+      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false} />
     </main>
   );
 }
