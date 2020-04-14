@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
+import { Paper, Avatar } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField'
@@ -106,6 +106,8 @@ export default function Sittings(props) {
     dis: "",
   });
 
+  const [avatar, setAvatar] = useState(null);
+
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
@@ -189,6 +191,40 @@ export default function Sittings(props) {
       .catch(error => console.log('error', error));
   }
 
+  const fetchAvatar = () => {
+    let token = getCookie("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar("Ошибка обработки изменений :(", {
+            variant: 'error',
+          });
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          setAvatar(URL.createObjectURL(result));
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
   const handleClick = () => {
 
     let ob = {}
@@ -233,6 +269,9 @@ export default function Sittings(props) {
     }
   }
 
+  useEffect(() => {
+    fetchAvatar();
+  });
 
   return (
     <main className={classes.content}>
@@ -249,6 +288,10 @@ export default function Sittings(props) {
               </Typography>
             </Grid>
             <Divider />
+
+            <Grid item className={classes.area}>
+              <Avatar alt={values.name} src={avatar}/>
+            </Grid>
 
             <Grid item className={classes.area}>
               <TextField

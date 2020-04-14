@@ -63,12 +63,16 @@ const useStyles = makeStyles(theme => ({
       display: 'none',
     },
   },
+  avatarCircle: {
+    display: 'none'
+  }
 }));
 
 export default function AppBarAdmin() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [avatar, setAvatar] = React.useState("");
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -89,6 +93,44 @@ export default function AppBarAdmin() {
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  
+  const fetchAvatar = () => {
+    let token = getCookie("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar("Ошибка загрузки аватара :(", {
+            variant: 'error',
+          });
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          setAvatar(URL.createObjectURL(result));
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  useEffect(() => {
+    fetchAvatar();
+  });
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -135,14 +177,7 @@ export default function AppBarAdmin() {
         <p>Notifications</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <Icon>account_circle</Icon>
-        </IconButton>
+        <Avatar alt={getCookie("name")} src={avatar}>{getCookie("name").charAt(0)}</Avatar>
         <p>Profile</p>
       </MenuItem>
     </Menu>
@@ -165,16 +200,17 @@ export default function AppBarAdmin() {
           </Typography>
           <div className={classes.sectionDesktop}>
             
-            <IconButton
+            <Button
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
+              id="avatar-button"
+              className={classes.avatarCircle}
               color="inherit"
             >
-              <Icon>account_circle</Icon>
-            </IconButton>
+            </Button>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

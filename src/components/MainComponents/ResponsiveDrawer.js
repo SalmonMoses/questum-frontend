@@ -16,11 +16,14 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import { deleteCookie } from "../../Cookie"
+import { deleteCookie, getCookie } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DonateButton from './DonateButton';
+import { Avatar } from '@material-ui/core';
+import {path } from '../consts'
+import { useSnackbar } from 'notistack';
 
 const drawerWidth = 200;
 
@@ -112,6 +115,8 @@ function ResponsiveDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [avatar, setAvatar] = React.useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -137,6 +142,44 @@ function ResponsiveDrawer(props) {
     // history.replace("/login/owner");
     // document.location.reload(true);
   }
+
+  const fetchAvatar = () => {
+    let token = getCookie("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar("Ошибка загрузки аватара :(", {
+            variant: 'error',
+          });
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          setAvatar(URL.createObjectURL(result));
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  React.useEffect(() => {
+    fetchAvatar();
+  });
 
 
   const menuId = 'primary-search-account-menu';
@@ -252,7 +295,7 @@ function ResponsiveDrawer(props) {
               aria-haspopup="true"
               color="inherit"
             >
-              <Icon>account_circle</Icon>
+              <Avatar alt={getCookie("name")} src={avatar}>{getCookie("name").charAt(0)}</Avatar>
             </IconButton>
           </div>
         </Toolbar>
