@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import SignIn from './loginPage';
 import LoginUser from "./loginUser";
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core'
@@ -15,6 +15,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom"
+import { Privacy } from './components/Help/privacy';
 
 
 // Просто набросок, чтобы потом менять было удобнее. Тему удобно создавать с помощью вот этого: https://material.io/resources/color/#!/?view.left=0&view.right=0
@@ -74,39 +75,40 @@ function App() {
 
   const [loading, setLoading] = useState(true);
 
-  const auth = (prop) =>{
+  const auth = (prop) => {
     setLoading(prop);
   }
 
   return (
-     <Router>
-    <ThemeProvider theme={theme}>
-    <SnackbarProvider maxSnack={4}>
-      <Switch>
-      <Route exact path="/">
-          {/* <Redirect to="/groups" /> */}
-          <Authorization auth={() => auth()}/>
-        </Route>
-        <Route exact path="/user/">
-          <Redirect to="/user/group" />
-        </Route>
-        {/* <Route exact path="/" component={MainPageAdmin} /> */}
-        <Route exact path="/:id">
-          <MainPageAdmin loading={loading}/>
-        </Route>
-        <Route exact path="/user/:id">
-          <MainPageUser />
-        </Route>
-        <Route exact path="/user/quest/:id">
-          <MainPageUser />
-        </Route>
-        <Route exact path="/login/user" component={LoginUser} />
-        <Route path="/login/owner" component={SignIn} />
-        <Route path="/signup/owner" component={SignUp} />
-        <Route path="*" component={NoMatch} />
-      </Switch> 
-      </SnackbarProvider>
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={4}>
+          <Switch>
+            <Route exact path="/">
+              {/* <Redirect to="/groups" /> */}
+              <Authorization auth={() => auth()} />
+            </Route>
+            <Route exact path="/user/">
+              <Redirect to="/user/group" />
+            </Route>
+            {/* <Route exact path="/" component={MainPageAdmin} /> */}
+            <Route exact path="/privacy" component={Privacy} />
+            <Route exact path="/:id">
+              <MainPageAdmin loading={loading} />
+            </Route>
+            <Route exact path="/user/:id">
+              <MainPageUser />
+            </Route>
+            <Route exact path="/user/quest/:id">
+              <MainPageUser />
+            </Route>
+            <Route exact path="/login/user" component={LoginUser} />
+            <Route path="/login/owner" component={SignIn} />
+            <Route path="/signup/owner" component={SignUp} />
+            <Route path="*" component={NoMatch} />
+          </Switch>
+        </SnackbarProvider>
+      </ThemeProvider>
     </Router>
   );
 }
