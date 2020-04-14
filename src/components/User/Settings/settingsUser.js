@@ -3,7 +3,7 @@ import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
+import { Paper, Avatar } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField'
@@ -22,6 +22,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import {path} from "../../consts";
+import Skeleton from '@material-ui/lab/Skeleton';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -87,6 +89,21 @@ const useStyles = makeStyles(theme => ({
   },
   area3: {
     height: theme.spacing(10)
+  },
+  avatar: {
+    width: theme.spacing(30),
+    height: theme.spacing(30),
+  },
+  avatarArea: {
+    marginLeft: theme.spacing(2),
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  avatarSkeleton: {
+    width: theme.spacing(30),
+    height: theme.spacing(30),
   }
 }));
 
@@ -105,6 +122,10 @@ export default function SittingsUser(props) {
     text: "",
     dis: "",
   });
+
+  const [avatar, setAvatar] = useState(null);
+
+  const [isAvatarLoading, setAvatarLoading] = useState(true);
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
@@ -233,6 +254,92 @@ export default function SittingsUser(props) {
     }
   }
 
+  const fetchAvatar = () => {
+    let token = getCookie("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar("Ошибка обработки изменений :(", {
+            variant: 'error',
+          });
+          return;
+        } else if (response.status === 500) {
+          console.log('No avatar for this user!');
+          setAvatarLoading(false);
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          setAvatar(URL.createObjectURL(result));
+          setAvatarLoading(false);
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+const uploadAvatar = (e) => {
+    let token = getCookie("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    let avatar = new FormData();
+    avatar.append('avatar', e.target.files[0])
+
+    var requestOptions = {
+      method: 'PUT',
+      headers: myHeaders,
+      redirect: 'follow',
+      body: avatar
+    };
+
+    setAvatarLoading(true);
+
+    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar("Ошибка обработки изменений :(", {
+            variant: 'error',
+          });
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          fetchAvatar();
+          enqueueSnackbar('Аватар успешно обновлен (может понадобиться обновление страницы)', {
+            variant: 'success'
+          });
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  React.useEffect(() => {
+    fetchAvatar();
+  });
+
 
   return (
     <main className={classes.content}>
@@ -249,6 +356,28 @@ export default function SittingsUser(props) {
               </Typography>
             </Grid>
             <Divider />
+
+            <Grid item className={classes.avatarArea}>
+              <Grid container spacing={2} direction="column" className={classes.avatarArea}>
+                <Grid item>
+                  {(() => {
+                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton}/>);
+                    else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
+                  })()}
+                </Grid>
+                <Grid item>
+                  <Input
+                    style={{ display: 'none' }}
+                    id="avatar-file-input"
+                    type="file"
+                    accept="image/*"
+                    onChange={uploadAvatar} />
+                  <label htmlFor="avatar-file-input">
+                    <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>Change avatar</Button>
+                  </label>
+                </Grid>
+              </Grid>
+            </Grid>
 
             <Grid item className={classes.area}>
               <TextField

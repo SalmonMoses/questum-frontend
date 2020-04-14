@@ -101,9 +101,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  iconButton: {
-    margin: theme.spacing(1)
-  },
   avatarSkeleton: {
     width: theme.spacing(30),
     height: theme.spacing(30),
