@@ -3,7 +3,7 @@ import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Avatar, CircularProgress } from '@material-ui/core';
+import { Paper, Avatar } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField'

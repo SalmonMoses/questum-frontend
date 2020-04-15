@@ -8,8 +8,6 @@ import { Divider } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
 import { getCookie } from "../../../../Cookie"
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { path } from "../../../consts"

@@ -15,7 +15,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import { deleteCookie } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
@@ -23,7 +22,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import DonateButton from '../MainComponents/DonateButton';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useHistory } from "react-router-dom";
 
 const drawerWidth = 200;
@@ -85,8 +83,8 @@ const useStyles = makeStyles(theme => ({
             width: "100%",
             zIndex: theme.zIndex.drawer + 1,
         },
-        position: "absolute",
-        width: "100%",
+        // position: "absolute",
+        // width: "100%",
     },
 }));
 

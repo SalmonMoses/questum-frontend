@@ -11,8 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import VarificationTypes from "./varificationTypes"
 import { getCookie } from "../../../../../Cookie"
 import TextField from '@material-ui/core/TextField';
-import Chip from '@material-ui/core/Chip';
-import Icon from '@material-ui/core/Icon';
 import { path } from "../../../../consts"
 
 const useStyles = makeStyles(theme => ({
