@@ -91,19 +91,19 @@ const useStyles = makeStyles(theme => ({
     height: theme.spacing(10)
   },
   avatar: {
-    width: theme.spacing(30),
-    height: theme.spacing(30),
+    width: theme.spacing(20),
+    height: theme.spacing(20),
   },
   avatarArea: {
-    marginLeft: theme.spacing(2),
+    // marginLeft: theme.spacing(2),
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
   },
   avatarSkeleton: {
-    width: theme.spacing(30),
-    height: theme.spacing(30),
+    width: theme.spacing(20),
+    height: theme.spacing(20),
   }
 }));
 

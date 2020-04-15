@@ -78,6 +78,8 @@ export default function AddSubQuest(props) {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
 
+        console.log("TYPE:" + values.type);
+
         var raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": values.expectedAnswer });
 
         var requestOptions = {

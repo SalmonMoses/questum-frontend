@@ -17,6 +17,11 @@ import {path} from "../../../consts"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepContent from '@material-ui/core/StepContent';
+import SubquestStepper from "./subquestStepper"
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -114,35 +119,35 @@ export default function SubquestsPage() {
         setExpanded(isExpanded ? panel : false);
     };
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const fetchAllQuests = async () => {
+    //     const fetchAllQuests = async () => {
 
-            let token = getCookie("token");
+    //         let token = getCookie("token");
 
-            var myHeaders = new Headers();
+    //         var myHeaders = new Headers();
 
-            myHeaders.append("Content-Type", "application/json");
+    //         myHeaders.append("Content-Type", "application/json");
 
-            myHeaders.append("Authorization", "Bearer " + token);
+    //         myHeaders.append("Authorization", "Bearer " + token);
 
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow',
-                headers: myHeaders,
-            };
+    //         var requestOptions = {
+    //             method: 'GET',
+    //             redirect: 'follow',
+    //             headers: myHeaders,
+    //         };
 
-            await fetch(`${path}quests/${id}/subquests`, requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                    console.log("all subquests: ")
-                    console.log(result);
-                    setValuesSubQuests(result);
-                })
-                .catch(error => console.log('error', error));
-        }
-        fetchAllQuests();
-    }, [id]);
+    //         await fetch(`${path}quests/${id}/subquests`, requestOptions)
+    //             .then(response => response.json())
+    //             .then(result => {
+    //                 console.log("all subquests: ")
+    //                 console.log(result);
+    //                 setValuesSubQuests(result);
+    //             })
+    //             .catch(error => console.log('error', error));
+    //     }
+    //     fetchAllQuests();
+    // }, [id]);
 
     return (
         <main className={classes.content}>
@@ -167,7 +172,8 @@ export default function SubquestsPage() {
                     </Grid>
                     <LinearProgress variant="determinate" value={40} />
                     <Divider className={classes.margin}/>
-                    <List dense="true" className={classes.width}>
+                    <SubquestStepper />
+                    {/* <List dense="true" className={classes.width}>
                         {valuesSubQuests.map((item, count) => (
                             <ListItem key={count} className={classes.width}>
                                 <ExpansionPanel expanded={expanded === 'panel' + (item.order + 1)} onChange={handleChange('panel' + (item.order + 1))} className={classes.bg} fullWidth>
@@ -186,20 +192,20 @@ export default function SubquestsPage() {
                                                 {"Description: " + item.desc}
                                             </Typography>
 
-                                            {/* <Typography variant="h6" gutterBottom>
+                                            <Typography variant="h6" gutterBottom>
                                                 {`Expected answer: ${item.expectedAnswer} \n`}
-                                            </Typography> */}
+                                            </Typography>
                                         </div>
 
                                     </ExpansionPanelDetails>
                                     <ExpansionPanelActions>
-                                        {/* <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()} />
-                                        <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc} /> */}
+                                        <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()} />
+                                        <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc} />
                                     </ExpansionPanelActions>
                                 </ExpansionPanel>
                             </ListItem>
                         ))}
-                    </List>
+                    </List> */}
 
 
                 </Container>
