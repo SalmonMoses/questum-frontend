@@ -186,7 +186,7 @@ function ResponsiveDrawer(props) {
 
   React.useEffect(() => {
     fetchAvatar();
-  });
+  }, []);
 
 
   const menuId = 'primary-search-account-menu';

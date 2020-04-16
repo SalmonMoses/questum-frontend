@@ -338,7 +338,7 @@ const uploadAvatar = (e) => {
 
   React.useEffect(() => {
     fetchAvatar();
-  });
+  }, []);
 
 
   return (

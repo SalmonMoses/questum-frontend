@@ -126,7 +126,7 @@ export default function MemberPaper(props) {
 
     React.useEffect(() => {
         fetchAvatar();
-    })
+    }, [])
 
     return (
         <Card className={classes.area}>

@@ -338,7 +338,7 @@ export default function Sittings(props) {
 
   useEffect(() => {
     fetchAvatar();
-  });
+  }, []);
 
   return (
     <main className={classes.content}>
