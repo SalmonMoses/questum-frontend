@@ -67,7 +67,7 @@ export default function AddSubQuest(props) {
     };
 
     const addSubQuest = async () => {
-        console.log(values.type);
+        console.log(values.type.length);
 
         let token = getCookie("token");
 
@@ -76,9 +76,14 @@ export default function AddSubQuest(props) {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
 
-        console.log("TYPE:" + values.type);
+        var raw;
 
-        var raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": values.expectedAnswer });
+        if(values.type === "NONE" || values.type === "IMAGE"){
+            console.log("EXEXE");
+            raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": null });
+        }else{
+            raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": values.expectedAnswer });
+        }
 
         var requestOptions = {
             method: 'POST',

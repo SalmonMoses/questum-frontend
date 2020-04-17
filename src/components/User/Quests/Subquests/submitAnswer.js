@@ -70,17 +70,17 @@ export default function SubmitAnswer(props) {
         
        await fetch(`${path}groups/${props.groupId}/submit`, requestOptions)
           .then(response => {
-            //   if(response.status === 401){
-            //     enqueueSnackbar(`Что-то не так...`, {
-            //         variant: 'error',
-            //     });
-            //     return;
-            //   }
-              response.text()})
+              if(response.status === 401){
+                enqueueSnackbar(`Что-то не так...`, {
+                    variant: 'error',
+                });
+                return;
+              }
+              return response.json()})
           .then(result =>{
-            //   if(result === undefined){
-            //     return;
-            //   }
+              if(result === undefined){
+                return;
+              }
             enqueueSnackbar(`Ваш ответ отправился на обработку!`, {
                 variant: 'success',
             });
@@ -91,7 +91,7 @@ export default function SubmitAnswer(props) {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleClickOpen} >
+            <Button disabled={props.disabled} variant="contained" color="primary" onClick={handleClickOpen} >
                 Send an answer
             </Button>
             <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

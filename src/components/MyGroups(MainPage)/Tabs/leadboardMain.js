@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
       width: "100%",
       minHeight: theme.spacing(100),
     },
-    [theme.breakpoints.down('xl')]: {
+    [theme.breakpoints.up('xl')]: {
       backgroundColor: theme.palette.background.paper,
       width: theme.spacing(100), //75
       // width: "100%", //75

@@ -17,13 +17,13 @@ import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import PasswordConfirm from "../../Settings/passwordConfirm"
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import {path} from "../../consts";
 import Skeleton from '@material-ui/lab/Skeleton';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Input from '@material-ui/core/Input';
 
 const useStyles = makeStyles(theme => ({
   paper: {
