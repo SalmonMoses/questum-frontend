@@ -128,9 +128,11 @@ export default function SubquestStepper() {
       <Stepper activeStep={activeStep} orientation="vertical">
         {valuesSubQuests.map((item, index) => (
           <Step key={item.id}>
-            <StepLabel>{`Subquest ${index + 1}`}</StepLabel>
+            <StepLabel>
+              {`Subquest ${index + 1}`}
+              {index <= activeStep && <Typography>{`Описание: ${item.desc}`}</Typography>}
+            </StepLabel>
             <StepContent>
-              <Typography>{`Описание: ${item.desc}`}</Typography>
 
               <Typography color="primary">{`Тип подтверждения: ${item.verificationType}`}</Typography>
               <div className={classes.actionsContainer}>
