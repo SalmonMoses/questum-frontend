@@ -65,7 +65,7 @@ export default function LoginUser() {
         password: '',
         showPassword: false,
         showAlert: false,
-        error: 'Token',
+        error: 'Group ID',
         disabled: false,
         login: false,
     });
@@ -93,9 +93,9 @@ export default function LoginUser() {
                 if (result.exists) {
                     setChecked(prev => true);
                     setButton({ label: 'LOG IN', icon: 'how_to_reg' });
-                    setValues({ ...values, showAlert: false, error: 'Token', disabled: true });
+                    setValues({ ...values, showAlert: false, error: 'Group ID', disabled: true });
                 } else {
-                    setValues({ ...values, showAlert: true, error: 'Token has not found', disabled: false });
+                    setValues({ ...values, showAlert: true, error: 'Group ID has not found', disabled: false });
                 }
             })
             .catch(error => console.log('error', error));
