@@ -11,8 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import VarificationTypes from "./varificationTypes"
 import { getCookie } from "../../../../../Cookie"
 import TextField from '@material-ui/core/TextField';
-import Chip from '@material-ui/core/Chip';
-import Icon from '@material-ui/core/Icon';
 import { path } from "../../../../consts"
 
 const useStyles = makeStyles(theme => ({
@@ -69,7 +67,7 @@ export default function AddSubQuest(props) {
     };
 
     const addSubQuest = async () => {
-        console.log(values.type);
+        console.log(values.type.length);
 
         let token = getCookie("token");
 
@@ -78,7 +76,14 @@ export default function AddSubQuest(props) {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
 
-        var raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": values.expectedAnswer });
+        var raw;
+
+        if(values.type === "NONE" || values.type === "IMAGE"){
+            console.log("EXEXE");
+            raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": null });
+        }else{
+            raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": values.expectedAnswer });
+        }
 
         var requestOptions = {
             method: 'POST',

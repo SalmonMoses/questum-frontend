@@ -3,7 +3,7 @@ import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Avatar, CircularProgress } from '@material-ui/core';
+import { Paper, Avatar } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField'
@@ -91,19 +91,19 @@ const useStyles = makeStyles(theme => ({
     height: theme.spacing(10)
   },
   avatar: {
-    width: theme.spacing(30),
-    height: theme.spacing(30),
+    width: theme.spacing(20),
+    height: theme.spacing(20),
   },
   avatarArea: {
-    marginLeft: theme.spacing(2),
+    // marginLeft: theme.spacing(2),
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
   },
   avatarSkeleton: {
-    width: theme.spacing(30),
-    height: theme.spacing(30),
+    width: theme.spacing(20),
+    height: theme.spacing(20),
   }
 }));
 
@@ -338,7 +338,7 @@ export default function Sittings(props) {
 
   useEffect(() => {
     fetchAvatar();
-  });
+  }, []);
 
   return (
     <main className={classes.content}>

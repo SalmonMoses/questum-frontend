@@ -81,7 +81,15 @@ const useStyles = makeStyles(theme => ({
         marginLeft: theme.spacing(0),
         [theme.breakpoints.up('lg')]: {
             width: theme.spacing(75),
+            // width: "100%",
+            // height: "50%",
             marginLeft: theme.spacing(75), 
+        },
+        [theme.breakpoints.up("xl")]: {
+            width: theme.spacing(75),
+            // width: "100%",
+            // height: "50%",
+            marginLeft: theme.spacing(100), 
         },
     },
     fabGreen: {
@@ -164,64 +172,6 @@ export default function MainPageAdmin(props) {
     let history = useHistory();
 
     const { enqueueSnackbar } = useSnackbar();
-
-    // const checkToken = async () => {
-
-    //     let cookie = getCookie("refreshToken");
-
-    //     if(cookie === undefined){
-    //         history.push("/login/owner");
-    //         enqueueSnackbar("Время сессии истекло, войдите заново.", {
-    //           variant: 'error',
-    //         });
-    //     }
-
-    //     console.dir(document.cookie);
-
-    //     var myHeaders = new Headers();
-
-    //     myHeaders.append("Content-Type", "application/json");
-
-    //     var raw = JSON.stringify({"refreshToken": cookie});
-
-    //     var requestOptions = {
-    //         method: 'POST',
-    //         headers: myHeaders,
-    //         body: raw,
-    //         redirect: 'follow'
-    //     };
-
-    //    await  fetch("http://localhost:8088/login/owner", requestOptions)
-    //         .then(response => {
-    //             if (response.status === 401) {
-    //                 console.log("Authorization error");
-    //                 // alert("Время сессии истекло, войдите заново.");
-    //                 history.push("/login/owner");
-    //                 enqueueSnackbar("Время сессии истекло, войдите заново.", {
-    //                   variant: 'error',
-    //                 });
-    //                 return;
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(json => {
-    //             if (json === undefined) {
-    //                 return;
-    //             } else {
-    //                 console.dir(json.refreshToken + 'SUCCES');
-    //                 console.dir(json.token + ' - token');
-    //                 setCookie("refreshToken", json.refreshToken, 30);
-    //                 setCookie("id", json.owner.id, 30);
-    //                 setCookie("token", json.token, 30);
-    //                 setCookie("name", json.owner.name, 30);
-    //                 setCookie("email", json.owner.email, 30);
-    //                 enqueueSnackbar(document.cookie, {
-    //                   variant: 'success',
-    //                 });
-    //             }
-    //         })
-    //         .catch(console.log);
-    // }
 
     const [loading, setLoading] = useState(true);
 

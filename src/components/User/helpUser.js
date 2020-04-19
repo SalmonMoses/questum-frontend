@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container';
 import { getCookie} from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   paper: {

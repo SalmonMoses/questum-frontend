@@ -65,6 +65,14 @@ const useStyles = makeStyles(theme => ({
       width: "100%",
       minHeight: theme.spacing(100),
     },
+    [theme.breakpoints.up('xl')]: {
+      backgroundColor: theme.palette.background.paper,
+      width: theme.spacing(100), //75
+      // width: "100%", //75
+      minHeight: theme.spacing(100), //70
+      maxHeight: '100%',
+      overflow: 'auto',
+    },
   },
   margin: {
     marginTop: theme.spacing(0),
@@ -76,7 +84,7 @@ const useStyles = makeStyles(theme => ({
   fab: {
     [theme.breakpoints.down('xs')]: {
       position: "fixed",
-      Bottom: 10,
+      bottom: theme.spacing(10),
       right: 30,
     },
     [theme.breakpoints.up('sm')]: {

@@ -55,10 +55,6 @@ export default function PendingQuestCard(props) {
         console.log("refreshhhhhh.......");
     }
 
-    // window.onload = function () {
-    //     refresh();
-    // }
-
     const handleClick = async (prop) => {
 
         let token = getCookie("token");
@@ -162,11 +158,21 @@ export default function PendingQuestCard(props) {
                                                         User`s answer:
                                                  </Typography>
                                                 </Grid>
-                                                <Grid item>
+                                                {
+                                                    item.subquest.verificationType === "IMAGE" ? (
+                                                        <img
+                                                        className={classes.img}
+                                                        src={"/answer.png"}
+                                                        alt={"answer"}
+                                                    />
+                                                    ) : (
+                                                        <Grid item>
                                                     <Typography >
                                                         {item.answer}
                                                     </Typography>
                                                 </Grid>
+                                                    )
+                                                }
                                                 <Divider />
                                                 <Grid item>
                                                     <Typography variant="h6">

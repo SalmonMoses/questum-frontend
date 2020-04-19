@@ -130,7 +130,7 @@ export default function AppBarAdmin() {
 
   useEffect(() => {
     fetchAvatar();
-  });
+  }, []);
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
