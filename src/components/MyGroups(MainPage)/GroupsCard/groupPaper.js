@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
       width: "100%",
       marginLeft: theme.spacing(0)
     },
-    [theme.breakpoints.down('xl')]: {
+    [theme.breakpoints.up('xl')]: {
       marginTop: theme.spacing(0),
       margin: theme.spacing(2),
       width: theme.spacing(65),
