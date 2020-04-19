@@ -14,6 +14,8 @@ import { path } from "../../../consts"
 import Divider from "@material-ui/core/Divider"
 import SubmitAnswer from "./submitAnswer"
 import SubmitAnswerPhoto from "./submitAnswerPhoto"
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,16 +31,14 @@ const useStyles = makeStyles((theme) => ({
   resetContainer: {
     padding: theme.spacing(3),
   },
+  margin: {
+    marginTop: theme.spacing(2),
+  }
 }));
 
-function getSteps() {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
-}
-
-export default function SubquestStepper() {
+export default function SubquestStepper(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -61,7 +61,11 @@ export default function SubquestStepper() {
 
   const [valuesSubQuests, setValuesSubQuests] = useState([]);
 
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState({
+    prog: 0,
+    length: 0,
+    result: 0,
+  });
 
   const submitNone = async (id) => {
 
@@ -71,7 +75,7 @@ export default function SubquestStepper() {
     myHeaders.append("Authorization", "Bearer " + token);
 
     var raw = JSON.stringify({ "subquestId": id, "answer": "" });
-    
+
 
     var requestOptions = {
       method: 'POST',
@@ -80,11 +84,11 @@ export default function SubquestStepper() {
       redirect: 'follow'
     };
 
-   await  fetch(`${path}groups/${groupId}/submit`, requestOptions)
+    await fetch(`${path}groups/${groupId}/submit`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
-      handleNext();
+    handleNext();
   }
 
   useEffect(() => {
@@ -111,13 +115,12 @@ export default function SubquestStepper() {
           console.log("all subquests: ")
           console.log(result);
           setValuesSubQuests(result.subquests);
-          setProgress(result.progress);
+          setProgress({ ...progress, prog: result.progress, length: result.subquests.length, result: result.progress * 100 / result.subquests.length });
           if ((result.progress ^ 0) === result.progress) {
             setActiveStep(result.progress);
           } else {
             setActiveStep(Math.floor(result.progress));
           }
-          // setActiveStep();
         })
         .catch(error => console.log('error', error));
     }
@@ -126,6 +129,20 @@ export default function SubquestStepper() {
 
   return (
     <div className={classes.root}>
+      <Grid container direction="row" spacing={1}>
+        <Grid item >
+          <Typography variant="h6" component="h2">
+            Progress:
+          </Typography>
+        </Grid>
+        <Grid item >
+          <Typography variant="h6" component="h2">
+            {progress.result > 100 ? 100 : progress.result} %
+          </Typography>
+        </Grid>
+      </Grid>
+      <LinearProgress variant="determinate" value={progress.result > 100 ? 100 : progress.result} />
+      <Divider className={classes.margin} />
       <Stepper activeStep={activeStep} orientation="vertical">
         {valuesSubQuests.map((item, index) => (
           <Step key={item.id}>
@@ -150,7 +167,7 @@ export default function SubquestStepper() {
                   ) : (
                       item.verificationType === "IMAGE" ? (
                         <SubmitAnswerPhoto className={classes.button} disabled={!((progress ^ 0) === progress)} subquestId={item.id} groupId={groupId} />
-                      ) : ( 
+                      ) : (
                           <Button
                             variant="contained"
                             color="primary"

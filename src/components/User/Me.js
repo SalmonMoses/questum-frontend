@@ -144,7 +144,7 @@ export default function Me() {
       redirect: 'follow',
     };
 
-    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -190,7 +190,7 @@ export default function Me() {
 
     setAvatarLoading(true);
 
-    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -225,10 +225,6 @@ export default function Me() {
  ////////////////////////////////////
 
   const classes = useStyles();
-
-  
-
-  let groupa
 
   return (
     <main className={classes.content}>

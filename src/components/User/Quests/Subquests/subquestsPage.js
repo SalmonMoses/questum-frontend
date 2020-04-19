@@ -111,103 +111,12 @@ export default function SubquestsPage() {
 
     const classes = useStyles();
 
-    const [expanded, setExpanded] = React.useState(false);
-
-    const [valuesSubQuests, setValuesSubQuests] = useState([]);
-
-    const handleChange = panel => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
-
-    // useEffect(() => {
-
-    //     const fetchAllQuests = async () => {
-
-    //         let token = getCookie("token");
-
-    //         var myHeaders = new Headers();
-
-    //         myHeaders.append("Content-Type", "application/json");
-
-    //         myHeaders.append("Authorization", "Bearer " + token);
-
-    //         var requestOptions = {
-    //             method: 'GET',
-    //             redirect: 'follow',
-    //             headers: myHeaders,
-    //         };
-
-    //         await fetch(`${path}quests/${id}/subquests`, requestOptions)
-    //             .then(response => response.json())
-    //             .then(result => {
-    //                 console.log("all subquests: ")
-    //                 console.log(result);
-    //                 setValuesSubQuests(result);
-    //             })
-    //             .catch(error => console.log('error', error));
-    //     }
-    //     fetchAllQuests();
-    // }, [id]);
-
     return (
         <main className={classes.content}>
             <div className={classes.toolbar} />
             <Paper className={classes.paper}>
                 <Container className={classes.cont} fullWidth>
-                <Typography variant="h4" component="h2">
-                        {/* {props.title} */}
-                    </Typography>
-                    <Divider />
-                    <Grid container direction="row" spacing={1}>
-                        <Grid item >
-                            <Typography variant="h6" component="h2">
-                                Progress:
-                            </Typography>
-                        </Grid>
-                        <Grid item >
-                            <Typography variant="h6" component="h2">
-                                40%
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <LinearProgress variant="determinate" value={40} />
-                    <Divider className={classes.margin}/>
                     <SubquestStepper />
-                    {/* <List dense="true" className={classes.width}>
-                        {valuesSubQuests.map((item, count) => (
-                            <ListItem key={count} className={classes.width}>
-                                <ExpansionPanel expanded={expanded === 'panel' + (item.order + 1)} onChange={handleChange('panel' + (item.order + 1))} className={classes.bg} fullWidth>
-                                    <ExpansionPanelSummary
-                                        className={classes.width}
-                                        expandIcon={<Icon>expand_more</Icon>}
-                                        aria-controls="panel1bh-content"
-                                        id="panel1bh-header"
-                                    >
-                                        <Typography className={classes.heading}>Quest {item.order + 1}</Typography>
-                                        <Typography className={classes.secondaryHeading}>{item.verificationType}</Typography>
-                                    </ExpansionPanelSummary>
-                                    <ExpansionPanelDetails>
-                                        <div fullWidth>
-                                            <Typography variant="h6" component="h2" gutterBottom>
-                                                {"Description: " + item.desc}
-                                            </Typography>
-
-                                            <Typography variant="h6" gutterBottom>
-                                                {`Expected answer: ${item.expectedAnswer} \n`}
-                                            </Typography>
-                                        </div>
-
-                                    </ExpansionPanelDetails>
-                                    <ExpansionPanelActions>
-                                        <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()} />
-                                        <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc} />
-                                    </ExpansionPanelActions>
-                                </ExpansionPanel>
-                            </ListItem>
-                        ))}
-                    </List> */}
-
-
                 </Container>
             </Paper>
         </main>

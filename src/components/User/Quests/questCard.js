@@ -46,7 +46,12 @@ export default function QuestCard(props) {
 
     const handleClick = ()=>{
         history.push(`/user/quest/${props.questId}`);
-        // history.push(`/user/quests?id=/${props.questId}`);
+    }
+
+    const [progress, setProgress] = useState(0);
+
+    const getProgress = (prog) =>{
+        setProgress(prog);
     }
 
     return (
@@ -71,7 +76,6 @@ export default function QuestCard(props) {
                     </Grid>
                     <LinearProgress variant="determinate" value={40} />
                     <Button onClick={handleClick} className={classes.button} fullWidth variant="outlined" color="primary">Open</Button>
-                    {/* <div className={classes.button} /> */}
                 </div>
             </Card>
         </div>
