@@ -63,6 +63,30 @@ export default function SubquestStepper() {
 
   const [progress, setProgress] = useState(0);
 
+  const submitNone = async (id) => {
+
+    let token = getCookie("token");
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var raw = JSON.stringify({ "subquestId": id, "answer": "" });
+    
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+   await  fetch(`${path}groups/${groupId}/submit`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+      handleNext();
+  }
+
   useEffect(() => {
 
     const fetchAllQuests = async () => {
@@ -96,29 +120,6 @@ export default function SubquestStepper() {
           // setActiveStep();
         })
         .catch(error => console.log('error', error));
-
-      // let token = getCookie("token");
-
-      // var myHeaders = new Headers();
-
-      // myHeaders.append("Content-Type", "application/json");
-
-      // myHeaders.append("Authorization", "Bearer " + token);
-
-      // var requestOptions = {
-      //     method: 'GET',
-      //     redirect: 'follow',
-      //     headers: myHeaders,
-      // };
-
-      // await fetch(`${path}quests/${id}/subquests`, requestOptions)
-      //     .then(response => response.json())
-      //     .then(result => {
-      //         console.log("all subquests: ")
-      //         console.log(result);
-      //         setValuesSubQuests(result);
-      //     })
-      //     .catch(error => console.log('error', error));
     }
     fetchAllQuests();
   }, [id]);
@@ -137,13 +138,13 @@ export default function SubquestStepper() {
               <Typography color="primary">{`Тип подтверждения: ${item.verificationType}`}</Typography>
               <div className={classes.actionsContainer}>
                 <div>
-                  <Button
+                  {/* <Button
                     disabled={activeStep === 0}
                     onClick={handleBack}
                     className={classes.button}
                   >
                     Back
-                  </Button>
+                  </Button> */}
                   {item.verificationType === "TEXT" ? (
                     <SubmitAnswer disabled={!((progress ^ 0) === progress)} className={classes.button} subquestId={item.id} groupId={groupId} />
                   ) : (
@@ -153,27 +154,27 @@ export default function SubquestStepper() {
                           <Button
                             variant="contained"
                             color="primary"
-                            onClick={handleNext}
+                            onClick={item.verificationType === "NONE" ? () => submitNone(item.id) : () => handleNext()}
                             className={classes.button}
                           >
                             {activeStep === valuesSubQuests.length - 1 ? 'Finish' : 'Next'}
                           </Button>
                         )
                     )}
-                    {
-                      (activeStep < Math.floor(progress)) && (item.verificationType !== "NONE")  ? (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleNext}
-                            className={classes.button}
-                          >
-                            {activeStep === valuesSubQuests.length - 1 ? 'Finish' : 'Next'}
-                          </Button>
-                      ) : (
+                  {
+                    (activeStep < Math.floor(progress)) && (item.verificationType !== "NONE") ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                        className={classes.button}
+                      >
+                        {activeStep === valuesSubQuests.length - 1 ? 'Finish' : 'Next'}
+                      </Button>
+                    ) : (
                         <div></div>
                       )
-                    }
+                  }
                 </div>
               </div>
             </StepContent>
