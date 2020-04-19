@@ -15,6 +15,7 @@ import Button from "@material-ui/core/Button"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { path } from "../consts"
+import AnswerPhoto from "./answerPhoto"
 
 
 const useStyles = makeStyles(theme => ({
@@ -49,6 +50,7 @@ export default function PendingQuestCard(props) {
     const [valuesLast, setValuesLast] = useState([]);
 
     const [loading, setLoading] = useState(true);
+
 
     const refreshNew = () => {
         setValuesLast(values);
@@ -112,8 +114,7 @@ export default function PendingQuestCard(props) {
         }
         getPendingQuests();
 
-
-    }, [props, props.groupId, valuesLast, loading]);
+    }, [props.groupId]);
 
     return (
         <div className={classes.root}>
@@ -123,7 +124,7 @@ export default function PendingQuestCard(props) {
                 <Typography variant="h4" align="center">
                     <Box>
                         You have no pending quests yet
-                            </Box>
+                    </Box>
                 </Typography>
             ) : (
                         <List>
@@ -143,10 +144,10 @@ export default function PendingQuestCard(props) {
                                             <Grid>
                                                 <Grid item>
                                                     <Typography variant="h6">
+                                                    {item.id}
                                                         Description:
                                                 </Typography>
                                                 </Grid>
-
                                                 <Grid item>
                                                     <Typography>
                                                         {item.subquest.desc}
@@ -160,18 +161,14 @@ export default function PendingQuestCard(props) {
                                                 </Grid>
                                                 {
                                                     item.subquest.verificationType === "IMAGE" ? (
-                                                        <img
-                                                        className={classes.img}
-                                                        src={"/answer.png"}
-                                                        alt={"answer"}
-                                                    />
+                                                      <AnswerPhoto id={item.id}/>
                                                     ) : (
-                                                        <Grid item>
-                                                    <Typography >
-                                                        {item.answer}
-                                                    </Typography>
-                                                </Grid>
-                                                    )
+                                                            <Grid item>
+                                                                <Typography >
+                                                                    {item.answer}
+                                                                </Typography>
+                                                            </Grid>
+                                                        )
                                                 }
                                                 <Divider />
                                                 <Grid item>
