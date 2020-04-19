@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DrawerUser from "./DrawerUser"
+import Me from "./Me"
 import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import NoMatch from "../MainComponents/NoMatch"
@@ -167,7 +168,9 @@ export default function MainPageAdmin() {
             <div className={classes.root}>
                 <DrawerUser />
                 <Switch>
-
+                    <Route path="/user/me">
+                        <Me/>
+                    </Route>
                     <Route exact path="/user/group">
                         {/* <MyGroups loading={loading} /> */}
                     </Route>
