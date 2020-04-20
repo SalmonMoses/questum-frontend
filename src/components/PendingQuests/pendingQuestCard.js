@@ -114,7 +114,7 @@ export default function PendingQuestCard(props) {
         }
         getPendingQuests();
 
-    }, [props.groupId]);
+    }, [props.groupId, valuesLast]);
 
     return (
         <div className={classes.root}>
