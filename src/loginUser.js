@@ -15,7 +15,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Slide from '@material-ui/core/Slide';
 import Link from '@material-ui/core/Link'
 import { useSnackbar } from 'notistack';
-import {path} from "./components/consts"
+import { path } from "./components/consts"
 import { useHistory } from "react-router-dom";
 import { setCookie } from "./Cookie";
 
@@ -49,7 +49,9 @@ const useStyles = makeStyles(theme => ({
             height: theme.spacing(70),
         },
     },
-
+    logo: {
+        marginBottom: theme.spacing(2)
+    }
 }));
 
 
@@ -163,6 +165,7 @@ export default function LoginUser() {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
+                    <img src={`${process.env.PUBLIC_URL}/Qlogo.png`} className={classes.logo} />
                     <Typography component="div" color="primary">
                         <Box fontSize="h4.fontSize" m={2}>
                             Log in

@@ -17,7 +17,7 @@ import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import { setCookie } from "./Cookie";
-import {path} from "./components/consts"
+import { path } from "./components/consts"
 
 // function Copyright() {
 //   return (
@@ -69,6 +69,9 @@ const useStyles = makeStyles(theme => ({
       marginLeft: theme.spacing(2),
     },
   },
+  logo: {
+    marginBottom: theme.spacing(2)
+  }
 }));
 
 export default function SignIn() {
@@ -144,6 +147,7 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+        <img src={`${process.env.PUBLIC_URL}/Qlogo.png`} class={classes.logo} />
         <Typography component="div" color="primary">
           <Box fontSize="h3.fontSize" m={1}>
             Sign In
