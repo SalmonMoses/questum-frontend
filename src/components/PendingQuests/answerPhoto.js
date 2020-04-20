@@ -15,7 +15,6 @@ import Button from "@material-ui/core/Button"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { path } from "../consts"
-import Image from 'material-ui-image'
 import Skeleton from '@material-ui/lab/Skeleton';
 
 
