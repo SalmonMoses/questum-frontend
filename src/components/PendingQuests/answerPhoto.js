@@ -65,7 +65,7 @@ export default function AnswerPhoto(props) {
             headers: myHeaders,
         };
 
-        fetch(`${path}groups/${groupId}/answer?verification_id=${props.id}`, requestOptions)
+        fetch(`${path}groups/${props.groupId}/answer?verification_id=${props.id}`, requestOptions)
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error");

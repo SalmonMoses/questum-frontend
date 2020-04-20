@@ -163,7 +163,7 @@ export default function PendingQuestCard(props) {
                                                 </Grid>
                                                 {
                                                     item.subquest.verificationType === "IMAGE" ? (
-                                                      <AnswerPhoto id={item.id}/>
+                                                      <AnswerPhoto id={item.id} groupId={props.groupId}/>
                                                     ) : (
                                                             <Grid item>
                                                                 <Typography >
