@@ -68,6 +68,7 @@ export default function SubmitAnswerPhoto(props) {
         <div>
             <Input
                 style={{ display: 'none' }}
+                disabled={props.disabled}
                 id="avatar-file-input"
                 type="file"
                 accept="image/*"
