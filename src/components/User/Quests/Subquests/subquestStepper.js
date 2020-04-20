@@ -69,6 +69,12 @@ export default function SubquestStepper(props) {
     result: 0,
   });
 
+  const [progressLast, setProgressLast] = useState({
+    prog: 0,
+    length: 0,
+    result: 0,
+  });
+
   const submitNone = async (id) => {
 
     let token = getCookie("token");
@@ -91,6 +97,11 @@ export default function SubquestStepper(props) {
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
     handleNext();
+  }
+
+  const refresh = () => {
+    setProgressLast(progress);
+    console.log("refreshhhhhh.......");
   }
 
   useEffect(() => {
@@ -128,7 +139,7 @@ export default function SubquestStepper(props) {
     }
     fetchAllQuests();
 
-  }, [props.id]);
+  }, [props.id, progressLast]);
 
   return (
       <ExpansionPanel expanded={expanded === 'panel' + (props.count + 1)} onChange={handleChange('panel' + (props.count + 1))}>
@@ -176,10 +187,10 @@ export default function SubquestStepper(props) {
                     Back
                   </Button> */}
                       {item.verificationType === "TEXT" ? (
-                        <SubmitAnswer disabled={!((progress.prog ^ 0) === progress.prog)} className={classes.button} subquestId={item.id} groupId={groupId} />
+                        <SubmitAnswer disabled={!((progress.prog ^ 0) === progress.prog)} className={classes.button} subquestId={item.id} groupId={groupId} refresh={()=> refresh()} />
                       ) : (
                           item.verificationType === "IMAGE" ? (
-                            <SubmitAnswerPhoto className={classes.button} disabled={!((progress.prog ^ 0) === progress.prog)} subquestId={item.id} groupId={groupId} />
+                            <SubmitAnswerPhoto className={classes.button} disabled={!((progress.prog ^ 0) === progress.prog)} subquestId={item.id} groupId={groupId} refresh={()=> refresh()} />
                           ) : (
                               <Button
                                 variant="contained"

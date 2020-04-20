@@ -15,7 +15,7 @@ export default function SubmitAnswerPhoto(props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const sendAnswer =  () =>{
+    const sendAnswer =  async () =>{
         var myHeaders = new Headers();
         let token = getCookie("token");
         myHeaders.append("Content-Type", "application/json");
@@ -30,7 +30,7 @@ export default function SubmitAnswerPhoto(props) {
           redirect: 'follow'
         };
         
-        fetch(`${path}groups/${props.groupId}/submit`, requestOptions)
+        await fetch(`${path}groups/${props.groupId}/submit`, requestOptions)
           .then(response => 
               response.json())
           .then(result =>{
@@ -38,6 +38,7 @@ export default function SubmitAnswerPhoto(props) {
             setValues({...values, "id": result.id});
         })
           .catch(error => console.log('error', error));
+          props.refresh();
     }
 
     const sendPhoto = (e) => {

@@ -99,6 +99,7 @@ export default function SubmitAnswer(props) {
           console.log(result)})
           .catch(error => console.log('error', error));
           handleClose();
+          props.refresh();
     }
 
     return (
