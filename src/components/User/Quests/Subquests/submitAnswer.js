@@ -11,7 +11,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getCookie } from "../../../../Cookie"
 import { path } from "../../../consts"
 import { useSnackbar } from 'notistack';
-import { InputLabel, Input, InputAdornment, IconButton } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import FilledInput from '@material-ui/core/FilledInput';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles(theme => ({
@@ -55,65 +65,96 @@ export default function SubmitAnswer(props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const sendAnswer = async () => {
+    const sendAnswer = async () =>{
         var myHeaders = new Headers();
         let token = getCookie("token");
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-
-        var raw = JSON.stringify({ "subquestId": props.subquestId, "answer": values.answer });
-
+        
+        var raw = JSON.stringify({"subquestId": props.subquestId, "answer": values.answer});
+        
         var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
         };
-
-        await fetch(`${path}groups/${props.groupId}/submit`, requestOptions)
-            .then(response => {
-                if (response.status === 401) {
-                    enqueueSnackbar(`Что-то не так...`, {
-                        variant: 'error',
-                    });
-                    return;
-                }
-                return response.json()
-            })
-            .then(result => {
-                if (result === undefined) {
-                    return;
-                }
-                enqueueSnackbar(`Ваш ответ отправился на обработку!`, {
-                    variant: 'success',
+        
+       await fetch(`${path}groups/${props.groupId}/submit`, requestOptions)
+          .then(response => {
+              if(response.status === 401){
+                enqueueSnackbar(`Что-то не так...`, {
+                    variant: 'error',
                 });
-                console.log(result)
-            })
-            .catch(error => console.log('error', error));
-        handleClose();
+                return;
+              }
+              return response.json()})
+          .then(result =>{
+              if(result === undefined){
+                return;
+              }
+            enqueueSnackbar(`Ваш ответ отправился на обработку!`, {
+                variant: 'success',
+            });
+          console.log(result)})
+          .catch(error => console.log('error', error));
+          handleClose();
     }
 
     return (
         <div>
-            <InputLabel htmlFor="answer-text-field">Answer</InputLabel>
-            <Input
-                required
-                id="answer-text-field"
-                type='text'
-                value={values.answer}
-                onChange={handleChange('answer')}
-                endAdornment={
-                    <InputAdornment position="end" disabled={values.answer === ''}>
-                        <IconButton
-                            aria-label="send an answer"
-                            onClick={sendAnswer}
-                            onMouseDown={(e) => e.preventDefault()}
-                        >
-                            <SendIcon></SendIcon>
-                        </IconButton>
-                    </InputAdornment>
-                }
-            />
+        <FormControl>
+          <InputLabel htmlFor="standard-adornment-password">Answer</InputLabel>
+          <Input
+            disabled={props.disabled}
+            id="standard-adornment-password"
+            value={values.answer}
+            onChange={handleChange('answer')}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={sendAnswer}
+                  onMouseDown
+                  disabled={values.answer === ""}
+                >
+                  {<SendIcon></SendIcon>}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+          {props.disabled ? "Вы уже отправили ответ" : "Отправьте ответ"}
+        </FormControl>
+            {/* <Button disabled={props.disabled} variant="contained" color="primary" onClick={handleClickOpen} >
+                Send an answer
+            </Button>
+            <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Send an answer</DialogTitle>
+                <DialogContent>
+                    <Grid container direction="column" spacing={5}>
+                        <Grid item>
+                            <DialogContentText>
+                                Enter an answer.
+                            </DialogContentText>
+                            <TextareaAutosize
+                                value={values.answer}
+                                onChange={handleChange("answer")}
+                                className={classes.area}
+                                aria-label="minimum height"
+                                rowsMin={10}
+                                placeholder="Your answer.." />
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={sendAnswer} color="primary">
+                        SEND
+                    </Button>
+                </DialogActions>
+            </Dialog> */}
         </div>
     );
 }

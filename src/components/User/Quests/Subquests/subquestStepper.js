@@ -176,10 +176,10 @@ export default function SubquestStepper(props) {
                     Back
                   </Button> */}
                       {item.verificationType === "TEXT" ? (
-                        <SubmitAnswer disabled={!((progress ^ 0) === progress)} className={classes.button} subquestId={item.id} groupId={groupId} />
+                        <SubmitAnswer disabled={!((progress.prog ^ 0) === progress.prog)} className={classes.button} subquestId={item.id} groupId={groupId} />
                       ) : (
                           item.verificationType === "IMAGE" ? (
-                            <SubmitAnswerPhoto className={classes.button} disabled={!((progress ^ 0) === progress)} subquestId={item.id} groupId={groupId} />
+                            <SubmitAnswerPhoto className={classes.button} disabled={!((progress.prog ^ 0) === progress.prog)} subquestId={item.id} groupId={groupId} />
                           ) : (
                               <Button
                                 variant="contained"
