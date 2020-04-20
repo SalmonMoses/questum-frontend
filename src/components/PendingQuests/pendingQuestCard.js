@@ -138,6 +138,8 @@ export default function PendingQuestCard(props) {
                                         >
                                             <Typography fullWidth className={classes.heading}>{item.user.name}</Typography>
                                             <Divider orientation="vertical" variant="inset" />
+                                            <Typography className={classes.heading}>{item.subquest.desc}</Typography>
+                                            <Divider orientation="vertical" variant="inset" />
                                             <Typography className={classes.secondaryHeading}>{item.subquest.verificationType}</Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>

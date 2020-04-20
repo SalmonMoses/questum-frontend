@@ -15,6 +15,8 @@ import Button from "@material-ui/core/Button"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { path } from "../consts"
+import Image from 'material-ui-image'
+import Skeleton from '@material-ui/lab/Skeleton';
 
 
 const useStyles = makeStyles(theme => ({
@@ -46,41 +48,60 @@ export default function AnswerPhoto(props) {
 
     const [loading, setLoading] = useState(true);
 
-    const [avatar, setAvatar] = useState(null);
+    const [avatar, setAvatar] = useState('');
 
     useEffect(() => {
 
-        const getAnswer = async () => {
 
-            let token = getCookie("token");
-            let groupId = getCookie("groupID");
-    
-            var myHeaders = new Headers();
-            // myHeaders.append("Content-Type", "application/json");
-            myHeaders.append("Authorization", "Bearer " + token);
-    
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow',
-                headers: myHeaders,
-            };
-    
-            await fetch(`${path}groups/${groupId}/answer?verification_id=${props.id}`, requestOptions)
-                .then(response => response.blob())
-                .then(result =>{
+        let token = getCookie("token");
+        let groupId = getCookie("groupID");
+
+        var myHeaders = new Headers();
+        // myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            headers: myHeaders,
+        };
+
+        fetch(`${path}groups/${groupId}/answer?verification_id=${props.id}`, requestOptions)
+            .then(response => {
+                if (response.status === 401) {
+                    console.log("Authorization error");
+                    //   enqueueSnackbar("Ошибка обработки изменений :(", {
+                    //     variant: 'error',
+                    //   });
+                    return;
+                } else if (response.status === 500) {
+                    console.log('No avatar for this user!');
+                    //   setAvatarLoading(false);
+                    return;
+                }
+                return response.blob();
+            })
+            .then(result => {
+                if (result === undefined) {
+                    return;
+                } else {
+                    console.log(URL.createObjectURL(result));
                     setAvatar(URL.createObjectURL(result));
-                    console.log(result);
-                })
-                .catch(error => console.log('error', error));
-        }
-        getAnswer();
+                    setLoading(false);
+                }
+            })
+            .catch(error => console.log('error', error));
 
-    }, [props.groupId, props.id]);
+    }, [props.id]);
 
-    return (
-        <img 
+    if (!loading) {
+        return <img
+            width="75%"
+            height="75%"
             alt="answer"
-            scr={avatar}
-        />
-    );
+            src={avatar}
+        />;
+    } else {
+        return <Skeleton rect width={720} height={480}></Skeleton>
+    }
 }
