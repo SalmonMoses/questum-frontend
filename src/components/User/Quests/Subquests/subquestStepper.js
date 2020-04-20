@@ -8,14 +8,15 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { getCookie } from "../../../../Cookie"
-import { useSnackbar } from 'notistack';
-import { useHistory } from "react-router-dom";
 import { path } from "../../../consts"
-import Divider from "@material-ui/core/Divider"
 import SubmitAnswer from "./submitAnswer"
 import SubmitAnswerPhoto from "./submitAnswerPhoto"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   margin: {
     marginTop: theme.spacing(2),
-  }
+  },
 }));
 
 export default function SubquestStepper(props) {
@@ -52,10 +53,11 @@ export default function SubquestStepper(props) {
     setActiveStep(0);
   };
 
-  let history = useHistory();
+  const [expanded, setExpanded] = React.useState(false);
 
-  const id = history.location.pathname.slice(12);
-  console.log(id);
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   const groupId = getCookie("groupID");
 
@@ -109,7 +111,7 @@ export default function SubquestStepper(props) {
         headers: myHeaders,
       };
 
-      await fetch(`${path}participants/${getCookie("id")}/progress/${id}`, requestOptions)
+      await fetch(`${path}participants/${getCookie("id")}/progress/${props.id}`, requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log("all subquests: ")
@@ -125,87 +127,101 @@ export default function SubquestStepper(props) {
         .catch(error => console.log('error', error));
     }
     fetchAllQuests();
-  }, [id]);
+
+  }, [props.id]);
 
   return (
-    <div className={classes.root}>
-      <Grid container direction="row" spacing={1}>
-        <Grid item >
-          <Typography variant="h6" component="h2">
-            Progress:
-          </Typography>
-        </Grid>
-        <Grid item >
-          <Typography variant="h6" component="h2">
-            {progress.result > 100 ? 100 : progress.result} %
-          </Typography>
-        </Grid>
-      </Grid>
-      <LinearProgress variant="determinate" value={progress.result > 100 ? 100 : progress.result} />
-      <Divider className={classes.margin} />
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {valuesSubQuests.map((item, index) => (
-          <Step key={item.id}>
-            <StepLabel>
-              {`Subquest ${index + 1}`}
-              {index <= activeStep && <Typography>{`Описание: ${item.desc}`}</Typography>}
-            </StepLabel>
-            <StepContent>
+      <ExpansionPanel expanded={expanded === 'panel' + (props.count + 1)} onChange={handleChange('panel' + (props.count + 1))}>
 
-              <Typography color="primary">{`Тип подтверждения: ${item.verificationType}`}</Typography>
-              <div className={classes.actionsContainer}>
-                <div>
-                  {/* <Button
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
+
+          <Grid container direction="column" spacing={1}>
+          <Grid item>
+          <Typography variant="h6" component="h2" className={classes.heading}>{props.title}</Typography>
+          </Grid>
+            <Grid item >
+              <Typography variant="h6" component="h2">
+                Progress:  {progress.result > 100 ? 100 : progress.result} %
+          </Typography>
+            </Grid>
+            <Grid item >
+            <LinearProgress variant="determinate" value={progress.result > 100 ? 100 : progress.result} />
+            </Grid>
+          </Grid>
+
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+
+          <Stepper activeStep={activeStep} orientation="vertical">
+            {valuesSubQuests.map((item, index) => (
+              <Step key={item.id}>
+                <StepLabel>
+                  {`Subquest ${index + 1}`}
+                  {index <= activeStep && <Typography>{`Описание: ${item.desc}`}</Typography>}
+                </StepLabel>
+                <StepContent>
+
+                  <Typography color="primary">{`Тип подтверждения: ${item.verificationType}`}</Typography>
+                  <div className={classes.actionsContainer}>
+                    <div>
+                      {/* <Button
                     disabled={activeStep === 0}
                     onClick={handleBack}
                     className={classes.button}
                   >
                     Back
                   </Button> */}
-                  {item.verificationType === "TEXT" ? (
-                    <SubmitAnswer disabled={!((progress ^ 0) === progress)} className={classes.button} subquestId={item.id} groupId={groupId} />
-                  ) : (
-                      item.verificationType === "IMAGE" ? (
-                        <SubmitAnswerPhoto className={classes.button} disabled={!((progress ^ 0) === progress)} subquestId={item.id} groupId={groupId} />
+                      {item.verificationType === "TEXT" ? (
+                        <SubmitAnswer disabled={!((progress ^ 0) === progress)} className={classes.button} subquestId={item.id} groupId={groupId} />
                       ) : (
+                          item.verificationType === "IMAGE" ? (
+                            <SubmitAnswerPhoto className={classes.button} disabled={!((progress ^ 0) === progress)} subquestId={item.id} groupId={groupId} />
+                          ) : (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={item.verificationType === "NONE" ? () => submitNone(item.id) : () => handleNext()}
+                                className={classes.button}
+                              >
+                                {activeStep === valuesSubQuests.length - 1 ? 'Finish' : 'Next'}
+                              </Button>
+                            )
+                        )}
+                      {
+                        (activeStep < Math.floor(progress)) && (item.verificationType !== "NONE") ? (
                           <Button
                             variant="contained"
                             color="primary"
-                            onClick={item.verificationType === "NONE" ? () => submitNone(item.id) : () => handleNext()}
+                            onClick={handleNext}
                             className={classes.button}
                           >
                             {activeStep === valuesSubQuests.length - 1 ? 'Finish' : 'Next'}
                           </Button>
-                        )
-                    )}
-                  {
-                    (activeStep < Math.floor(progress)) && (item.verificationType !== "NONE") ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                        className={classes.button}
-                      >
-                        {activeStep === valuesSubQuests.length - 1 ? 'Finish' : 'Next'}
-                      </Button>
-                    ) : (
-                        <div></div>
-                      )
-                  }
-                </div>
-              </div>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      {activeStep === valuesSubQuests.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} className={classes.button}>
-            Reset
+                        ) : (
+                            <div></div>
+                          )
+                      }
+                    </div>
+                  </div>
+                </StepContent>
+              </Step>
+            ))}
+          </Stepper>
+          {activeStep === valuesSubQuests.length && (
+            <Paper square elevation={0} className={classes.resetContainer}>
+              <Typography>All steps completed - you&apos;re finished</Typography>
+              <Button onClick={handleReset} className={classes.button}>
+                Reset
           </Button>
-        </Paper>
-      )}
-    </div>
+            </Paper>
+          )}
+
+        </ExpansionPanelDetails>
+
+      </ExpansionPanel>
   );
 }

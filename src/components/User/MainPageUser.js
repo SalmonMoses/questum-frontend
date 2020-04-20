@@ -179,9 +179,9 @@ export default function MainPageAdmin() {
                         <QuestsUser />
                     </Route>
 
-                    <Route  path="/user/quest/:id">
+                    {/* <Route  path="/user/quest/:id">
                         <SubquestsPage />
-                    </Route>
+                    </Route> */}
 
                     <Route exact path="/user/settings">
                         <SittingsUser name={getCookie("name")} email={getCookie("email")} />

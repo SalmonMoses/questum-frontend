@@ -14,6 +14,8 @@ import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
 import { path } from "../../consts"
 import LinearProgress from '@material-ui/core/LinearProgress';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Subquests from "./Subquests/subquestsUser"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -25,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     card: {
         border: `1px solid ${theme.palette.primary.main}`,
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.primary.contrastText,
         color: theme.palette.primary.main,
         [theme.breakpoints.up('lg')]: {
             marginLeft: theme.spacing(0),
@@ -44,15 +46,62 @@ export default function QuestCard(props) {
 
     let history = useHistory();
 
-    const handleClick = ()=>{
+    const handleClick = () => {
         history.push(`/user/quest/${props.questId}`);
     }
 
     const [progress, setProgress] = useState(0);
 
-    const getProgress = (prog) =>{
+    const getProgress = (prog) => {
         setProgress(prog);
     }
+
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
+    const [valuesQuests, setValuesQuests] = useState([]);
+
+    useEffect(() => {
+
+        const fetchDataQuests = async () => {
+
+            let id = getCookie("groupID");
+            console.log("Cookie id: " + id);
+
+            let token = getCookie("token");
+            var myHeaders = new Headers();
+
+            myHeaders.append("Authorization", "Bearer " + token);
+
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                headers: myHeaders,
+            };
+
+            await fetch(`${path}groups/${id}/quests`, requestOptions)
+                .then(response => {
+                    if (response.status === 400) {
+                        return undefined;
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(result => {
+                    if (result === undefined) {
+                        console.log("error ")
+                    } else {
+                        console.log(result);
+                        setValuesQuests(result);
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
+        fetchDataQuests();
+    }, []);
 
     return (
         <div className={classes.root}>
@@ -62,20 +111,12 @@ export default function QuestCard(props) {
                         {props.title}
                     </Typography>
                     <Divider />
-                    <Grid container direction="row" spacing={1}>
-                        <Grid item >
-                            <Typography variant="h6" component="h2">
-                                Progress:
-                            </Typography>
-                        </Grid>
-                        <Grid item >
-                            <Typography variant="h6" component="h2">
-                                40%
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <LinearProgress variant="determinate" value={40} />
-                    <Button onClick={handleClick} className={classes.button} fullWidth variant="outlined" color="primary">Open</Button>
+
+                    <Subquests id={props.questId}/>
+
+
+                    
+                        
                 </div>
             </Card>
         </div>

@@ -22,6 +22,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import SubquestStepper from "./subquestStepper"
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -89,7 +90,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function SubquestsPage() {
+export default function Subquests(props) {
 
     let history = useHistory();
 
@@ -115,20 +116,88 @@ export default function SubquestsPage() {
 
     const [valuesSubQuests, setValuesSubQuests] = useState([]);
 
+    const [activeStep, setActiveStep] = React.useState(0);
+
     const [progress, setProgress] = useState({
         prog: 0,
         length: 0,
         result: 0,
     });
 
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
+    useEffect(() => {
+
+        const fetchAllQuests = async () => {
+
+            let token = getCookie("token");
+
+            var myHeaders = new Headers();
+
+            myHeaders.append("Content-Type", "application/json");
+
+            myHeaders.append("Authorization", "Bearer " + token);
+
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                headers: myHeaders,
+            };
+
+            await fetch(`${path}participants/${getCookie("id")}/progress/${props.id}`, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log("all subquests: ")
+                    console.log(result);
+                    setValuesSubQuests(result.subquests);
+                    setProgress({ ...progress, prog: result.progress, length: result.subquests.length, result: result.progress * 100 / result.subquests.length });
+                    if ((result.progress ^ 0) === result.progress) {
+                        setActiveStep(result.progress);
+                    } else {
+                        setActiveStep(Math.floor(result.progress));
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
+        fetchAllQuests();
+    }, [id]);
+
     return (
-        <main className={classes.content}>
-            <div className={classes.toolbar} />
-            <Paper className={classes.paper}>
-                <Container className={classes.cont} fullWidth>
-                    <SubquestStepper />
-                </Container>
-            </Paper>
-        </main>
+        <div>
+            <Grid container direction="row" spacing={1}>
+                <Grid item >
+                    <Typography variant="h6" component="h2">
+                        Progress:
+                    </Typography>
+                </Grid>
+                <Grid item >
+                    <Typography variant="h6" component="h2">
+                        40%
+                    </Typography>
+                </Grid>
+            </Grid>
+            {valuesSubQuests.map((item, count) => (
+
+                <ExpansionPanel expanded={expanded === 'panel' + (count + 1)} onChange={handleChange('panel' + (count + 1))}>
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                    >
+                        <Typography className={classes.heading}>{item.title}</Typography>
+                        <Typography className={classes.secondaryHeading}></Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <Typography>
+                            {item.desc}
+                        </Typography>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            ))}
+        </div>
     );
 }

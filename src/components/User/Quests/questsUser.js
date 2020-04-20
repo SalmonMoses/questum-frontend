@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { getCookie} from "../../../Cookie"
+import { getCookie } from "../../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Quests from "../../MyGroups(MainPage)/Tabs/Quests/quests"
-import {path} from "../../consts"
-import QuestCard from "./questCard"
+import { path } from "../../consts"
+import SubquestStepper from './Subquests/subquestStepper';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -17,49 +14,52 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(0),
     [theme.breakpoints.up('xs')]: { // xs - телефон
       paddingRight: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {  // sm md lg - планшеты - компы.
+    },
+    [theme.breakpoints.up('sm')]: {  // sm md lg - планшеты - компы.
       paddingRight: theme.spacing(0),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       paddingRight: theme.spacing(4),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       paddingRight: theme.spacing(4),
-  },
+    },
   },
   toolbar: theme.mixins.toolbar,
   content: {
     [theme.breakpoints.up('xs')]: {
       flexGrow: 1,
       padding: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
+    },
   },
   cont: {
     [theme.breakpoints.up('xs')]: {
       marginLeft: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(0),
-  },
-  [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(2),
+    },
+    [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(2),
-  },
-  [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing(2),
+    },
+    [theme.breakpoints.up('lg')]: {
       marginLeft: theme.spacing(2),
-  },
+      padding: theme.spacing(2),
+    },
   },
 }));
 
@@ -78,57 +78,52 @@ export default function QuestsUser() {
       variant: 'error',
     });
   }
- ////////////////////////////////////
+  ////////////////////////////////////
 
   const classes = useStyles();
 
   const [valuesQuests, setValuesQuests] = useState([]);
 
-useEffect(() => {
+  useEffect(() => {
 
     const fetchDataQuests = async () => {
 
-        let id = getCookie("groupID");
-        console.log("Cookie id: " + id);
-        // if (history.location.search.slice(4) !== "") {
-        //   id = history.location.search.slice(4);
-        // }
-        // console.log("ID: " + id);
-    
-    
-        let token = getCookie("token");
-        var myHeaders = new Headers();
-        
-        myHeaders.append("Authorization", "Bearer " + token);
-    
-        var requestOptions = {
-          method: 'GET',
-          redirect: 'follow',
-          headers: myHeaders,
-        };
-    
-        await fetch(`${path}groups/${id}/quests`, requestOptions)
-          .then(response => {
-            if (response.status === 400) {
-              return undefined;
-            } else {
-              return response.json();
-            }
-          })
-          .then(result => {
-            if (result === undefined) {
-              console.log("error ")
-            } else {
-              console.log(result);
-              setValuesQuests(result);
-            }
-          })
-          .catch(error => console.log('error', error));
-      }
-      fetchDataQuests();
-},[]);
+      let id = getCookie("groupID");
+      console.log("Cookie id: " + id);
 
- 
+      let token = getCookie("token");
+      var myHeaders = new Headers();
+
+      myHeaders.append("Authorization", "Bearer " + token);
+
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: myHeaders,
+      };
+
+      await fetch(`${path}groups/${id}/quests`, requestOptions)
+        .then(response => {
+          if (response.status === 400) {
+            return undefined;
+          } else {
+            return response.json();
+          }
+        })
+        .then(result => {
+          if (result === undefined) {
+            console.log("error ")
+          } else {
+            console.log(result);
+            setValuesQuests(result);
+          }
+        })
+        .catch(error => console.log('error', error));
+    }
+    fetchDataQuests();
+  }, []);
+
+
 
 
 
@@ -137,15 +132,13 @@ useEffect(() => {
       <div className={classes.toolbar} />
       <Paper className={classes.paper}>
         <Container className={classes.cont}>
-         
 
-        <List className={classes.width}>
-              {valuesQuests.map((item, count) => (
-              <ListItem key={count}>
-                <QuestCard title={item.title} questId={item.id} />
-              </ListItem>
-            ))}
-              </List>
+
+          {valuesQuests.map((item, count) => (
+            
+              <SubquestStepper id={item.id} title={item.title} desc={item.desc} count={count}/> 
+
+          ))}
 
 
 
