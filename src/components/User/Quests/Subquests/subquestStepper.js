@@ -117,7 +117,7 @@ export default function SubquestStepper(props) {
           console.log("all subquests: ")
           console.log(result);
           setValuesSubQuests(result.subquests);
-          setProgress({ ...progress, prog: result.progress, length: result.subquests.length, result: result.progress * 100 / result.subquests.length });
+          setProgress({ ...progress, prog: result.progress, length: result.subquests.length, result: result.percentage * 100 });
           if ((result.progress ^ 0) === result.progress) {
             setActiveStep(result.progress);
           } else {
