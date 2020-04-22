@@ -1,26 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import { getCookie } from "../../../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Typography from '@material-ui/core/Typography';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Icon from '@material-ui/core/Icon';
-import { path } from "../../../consts"
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
 import SubquestStepper from "./subquestStepper"
 
 const useStyles = makeStyles(theme => ({
@@ -110,16 +94,6 @@ export default function SubquestsPage() {
     ////////////////////////////////////
 
     const classes = useStyles();
-
-    const groupId = getCookie("groupID");
-
-    const [valuesSubQuests, setValuesSubQuests] = useState([]);
-
-    const [progress, setProgress] = useState({
-        prog: 0,
-        length: 0,
-        result: 0,
-    });
 
     return (
         <main className={classes.content}>

@@ -10,7 +10,7 @@ import SubquestStepper from './Subquests/subquestStepper';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    minHeight: theme.spacing(100),
+    minHeight: `calc(100% + ${theme.spacing(1)}px)`,
     marginTop: theme.spacing(0),
     [theme.breakpoints.up('xs')]: { // xs - телефон
       paddingRight: theme.spacing(0),

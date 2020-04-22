@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { getCookie, setCookie } from "../../../Cookie"
+import { getCookie, setCookie, deleteCookie } from "../../../Cookie"
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
@@ -20,27 +20,28 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import {path} from "../../consts";
+import { path } from "../../consts";
 import Skeleton from '@material-ui/lab/Skeleton';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Input from '@material-ui/core/Input';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    minHeight: theme.spacing(100),
+    minHeight: `calc(100% + ${theme.spacing(1)}px)`,
+    // maxHeight: `calc(100% + ${theme.spacing(30)}px)`,
     marginTop: theme.spacing(2),
     [theme.breakpoints.up('xs')]: {
       paddingRight: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       paddingRight: theme.spacing(0),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       paddingRight: theme.spacing(4),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       paddingRight: theme.spacing(4),
-  },
+    },
     // paddingRight: theme.spacing(4),
     // paddingTop: theme.spacing(3)
   },
@@ -49,33 +50,33 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('xs')]: {
       flexGrow: 1,
       padding: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
+    },
   },
   cont: {
     [theme.breakpoints.up('xs')]: {
       marginLeft: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(0),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(2),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       marginLeft: theme.spacing(2),
-  },
+    },
   },
   area: {
     marginLeft: theme.spacing(2),
@@ -293,7 +294,7 @@ export default function SittingsUser(props) {
       .catch(error => console.log('error', error));
   }
 
-const uploadAvatar = (e) => {
+  const uploadAvatar = (e) => {
     let token = getCookie("token");
 
     var myHeaders = new Headers();
@@ -336,6 +337,17 @@ const uploadAvatar = (e) => {
       .catch(error => console.log('error', error));
   }
 
+  const logout = () => {
+    deleteCookie("refreshToken");
+    deleteCookie("id");
+    deleteCookie("groupId");
+    deleteCookie("name");
+    deleteCookie("token");
+    deleteCookie("email");
+    // history.push("/login/user")
+    document.location.reload();
+}
+
   React.useEffect(() => {
     fetchAvatar();
   }, []);
@@ -361,7 +373,7 @@ const uploadAvatar = (e) => {
               <Grid container spacing={2} direction="column" className={classes.avatarArea}>
                 <Grid item>
                   {(() => {
-                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton}/>);
+                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton} />);
                     else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
                   })()}
                 </Grid>
@@ -460,7 +472,7 @@ const uploadAvatar = (e) => {
                 </Box>
               </Typography>
             </Grid>
-            <Divider />
+            {/* <Divider /> */}
             <Grid item className={classes.area}>
               <FormControl className={classes.formControl} fullWidth>
                 <InputLabel id="demo-simple-select-label">Language</InputLabel>
@@ -479,11 +491,14 @@ const uploadAvatar = (e) => {
             <Grid item>
               <Button onClick={handleClick} variant="contained" color="primary">Save changes</Button>
             </Grid>
+            <Grid item style={{alignSelf: "center"}}>
+              <Button onClick={logout} color="primary" variant="outlined" endIcon={<Icon>logout</Icon>}>Logout</Button>
+            </Grid>
           </Grid>
         </Container>
       </Paper>
-      
-      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false}/>
+
+      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false} />
     </main>
   );
 }

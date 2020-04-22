@@ -1,0 +1,100 @@
+Date : 2020-04-22 13:02:45
+Directory : d:\questum-frontend-dev\src
+Total : 59 files,  7431 codes, 662 comments, 1025 blanks, all 9118 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         56 |      7,379 |        662 |      1,016 |      9,057 |
+| CSS        |          2 |         45 |          0 |          8 |         53 |
+| XML        |          1 |          7 |          0 |          1 |          8 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                 | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                    |         59 |      7,431 |        662 |      1,025 |      9,118 |
+| components                                                                                           |         47 |      6,482 |        573 |        905 |      7,960 |
+| components\Help                                                                                      |          3 |        242 |          2 |         75 |        319 |
+| components\MainComponents                                                                            |          4 |        582 |         15 |         58 |        655 |
+| components\MyGroups(MainPage)                                                                        |         18 |      2,136 |        130 |        289 |      2,555 |
+| components\MyGroups(MainPage)\GroupsCard                                                             |          5 |        481 |         14 |         55 |        550 |
+| components\MyGroups(MainPage)\Tabs                                                                   |         12 |      1,447 |         73 |        202 |      1,722 |
+| components\MyGroups(MainPage)\Tabs\GroupMembers                                                      |          3 |        322 |         10 |         45 |        377 |
+| components\MyGroups(MainPage)\Tabs\Quests                                                            |          8 |        726 |         48 |        117 |        891 |
+| components\MyGroups(MainPage)\Tabs\Quests\Subquests                                                  |          4 |        347 |         40 |         59 |        446 |
+| components\PendingQuests                                                                             |          3 |        422 |          9 |         53 |        484 |
+| components\Settings                                                                                  |          2 |        497 |        122 |         69 |        688 |
+| components\User                                                                                      |         14 |      2,406 |        275 |        331 |      3,012 |
+| components\User\Quests                                                                               |          7 |        893 |         49 |        150 |      1,092 |
+| components\User\Quests\Subquests                                                                     |          5 |        671 |         47 |        101 |        819 |
+| components\User\Settings                                                                             |          1 |        320 |        120 |         49 |        489 |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                             | language   | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\questum-frontend-dev\src\App.css                                                                  | CSS        |         33 |          0 |          6 |         39 |
+| d:\questum-frontend-dev\src\App.js                                                                   | JavaScript |         83 |         25 |         11 |        119 |
+| d:\questum-frontend-dev\src\App.test.js                                                              | JavaScript |          8 |          0 |          2 |         10 |
+| d:\questum-frontend-dev\src\Cookie.js                                                                | JavaScript |         15 |          0 |          3 |         18 |
+| d:\questum-frontend-dev\src\SignUp.js                                                                | JavaScript |        246 |          9 |         28 |        283 |
+| d:\questum-frontend-dev\src\components\Help\eula.js                                                  | JavaScript |         87 |          0 |         35 |        122 |
+| d:\questum-frontend-dev\src\components\Help\help.js                                                  | JavaScript |         97 |          2 |          8 |        107 |
+| d:\questum-frontend-dev\src\components\Help\privacy.js                                               | JavaScript |         58 |          0 |         32 |         90 |
+| d:\questum-frontend-dev\src\components\MainComponents\AppBarAdmin.js                                 | JavaScript |        214 |          0 |         18 |        232 |
+| d:\questum-frontend-dev\src\components\MainComponents\DonateButton.js                                | JavaScript |         30 |          0 |          4 |         34 |
+| d:\questum-frontend-dev\src\components\MainComponents\NoMatch.js                                     | JavaScript |         34 |          0 |          4 |         38 |
+| d:\questum-frontend-dev\src\components\MainComponents\ResponsiveDrawer.js                            | JavaScript |        304 |         15 |         32 |        351 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\GroupsCard\DialogChangeName.js             | JavaScript |         91 |          0 |         17 |        108 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\GroupsCard\addGroup.js                     | JavaScript |         82 |          0 |         14 |         96 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\GroupsCard\card.js                         | JavaScript |        147 |          5 |          9 |        161 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\GroupsCard\groupPaper.js                   | JavaScript |        161 |          9 |         14 |        184 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\GroupsCard\refreshButton.js                | JavaScript |          0 |          0 |          1 |          1 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\GroupMembers\addMember.js             | JavaScript |         95 |          0 |         16 |        111 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\GroupMembers\deleteMember.js          | JavaScript |         72 |          3 |         15 |         90 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\GroupMembers\member.js                | JavaScript |        155 |          7 |         14 |        176 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\Quests\Subquests\addSubQuest.js       | JavaScript |        133 |         22 |         22 |        177 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\Quests\Subquests\deleteSubquest.js    | JavaScript |         65 |          0 |         11 |         76 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\Quests\Subquests\editSubquest.js      | JavaScript |        109 |         18 |         21 |        148 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\Quests\Subquests\varificationTypes.js | JavaScript |         40 |          0 |          5 |         45 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\Quests\addQuest.js                    | JavaScript |         69 |          0 |         13 |         82 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\Quests\deleteQuest.js                 | JavaScript |         65 |          0 |         11 |         76 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\Quests\editQuest.js                   | JavaScript |         79 |          0 |         15 |         94 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\Quests\quests.js                      | JavaScript |        166 |          8 |         19 |        193 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\Tabs\leadboardMain.js                      | JavaScript |        399 |         15 |         40 |        454 |
+| d:\questum-frontend-dev\src\components\MyGroups(MainPage)\mainPageAdmin.js                           | JavaScript |        208 |         43 |         32 |        283 |
+| d:\questum-frontend-dev\src\components\PendingQuests\answerPhoto.js                                  | JavaScript |         71 |          2 |         13 |         86 |
+| d:\questum-frontend-dev\src\components\PendingQuests\pendingQuestCard.js                             | JavaScript |        174 |          3 |         24 |        201 |
+| d:\questum-frontend-dev\src\components\PendingQuests\pendingQuests.js                                | JavaScript |        177 |          4 |         16 |        197 |
+| d:\questum-frontend-dev\src\components\Settings\passwordConfirm.js                                   | JavaScript |        177 |          3 |         21 |        201 |
+| d:\questum-frontend-dev\src\components\Settings\settings.js                                          | JavaScript |        320 |        119 |         48 |        487 |
+| d:\questum-frontend-dev\src\components\User\AppBarUser.js                                            | JavaScript |        184 |          0 |         12 |        196 |
+| d:\questum-frontend-dev\src\components\User\DrawerUser.js                                            | JavaScript |        267 |         12 |         28 |        307 |
+| d:\questum-frontend-dev\src\components\User\MainPageUser.js                                          | JavaScript |        168 |          5 |         24 |        197 |
+| d:\questum-frontend-dev\src\components\User\Me.js                                                    | JavaScript |        219 |         72 |         34 |        325 |
+| d:\questum-frontend-dev\src\components\User\Quests\Subquests\submitAnswer.js                         | JavaScript |        117 |         28 |         16 |        161 |
+| d:\questum-frontend-dev\src\components\User\Quests\Subquests\submitAnswerPhoto.js                    | JavaScript |         61 |          8 |         14 |         83 |
+| d:\questum-frontend-dev\src\components\User\Quests\Subquests\subquestStepper.js                      | JavaScript |        198 |          5 |         35 |        238 |
+| d:\questum-frontend-dev\src\components\User\Quests\Subquests\subquestsPage.js                        | JavaScript |        119 |          3 |         12 |        134 |
+| d:\questum-frontend-dev\src\components\User\Quests\Subquests\subquestsUser.js                        | JavaScript |        176 |          3 |         24 |        203 |
+| d:\questum-frontend-dev\src\components\User\Quests\questCard.js                                      | JavaScript |        102 |          0 |         22 |        124 |
+| d:\questum-frontend-dev\src\components\User\Quests\questsUser.js                                     | JavaScript |        120 |          2 |         27 |        149 |
+| d:\questum-frontend-dev\src\components\User\ResDrawer.js                                             | JavaScript |        257 |         15 |         26 |        298 |
+| d:\questum-frontend-dev\src\components\User\Settings\settingsUser.js                                 | JavaScript |        320 |        120 |         49 |        489 |
+| d:\questum-frontend-dev\src\components\User\helpUser.js                                              | JavaScript |         98 |          2 |          8 |        108 |
+| d:\questum-frontend-dev\src\components\authorization.js                                              | JavaScript |        128 |         16 |         24 |        168 |
+| d:\questum-frontend-dev\src\components\consts.js                                                     | JavaScript |          1 |          2 |          1 |          4 |
+| d:\questum-frontend-dev\src\components\groupID.js                                                    | JavaScript |         68 |          2 |          5 |         75 |
+| d:\questum-frontend-dev\src\index.css                                                                | CSS        |         12 |          0 |          2 |         14 |
+| d:\questum-frontend-dev\src\index.js                                                                 | JavaScript |         12 |          3 |          3 |         18 |
+| d:\questum-frontend-dev\src\loginPage.js                                                             | JavaScript |        211 |         14 |         15 |        240 |
+| d:\questum-frontend-dev\src\loginUser.js                                                             | JavaScript |        227 |          3 |         35 |        265 |
+| d:\questum-frontend-dev\src\logo.svg                                                                 | XML        |          7 |          0 |          1 |          8 |
+| d:\questum-frontend-dev\src\serviceWorker.js                                                         | JavaScript |         94 |         31 |         13 |        138 |
+| d:\questum-frontend-dev\src\setupTests.js                                                            | JavaScript |          1 |          4 |          1 |          6 |
+| Total                                                                                                |            |      7,431 |        662 |      1,025 |      9,118 |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

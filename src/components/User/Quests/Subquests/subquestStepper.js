@@ -156,7 +156,7 @@ export default function SubquestStepper(props) {
           </Grid>
             <Grid item >
               <Typography variant="h6" component="h2">
-                Progress:  {progress.result > 100 ? 100 : progress.result} %
+                Progress:  {progress.result > 100 ? 100 : Math.floor(progress.result)} %
           </Typography>
             </Grid>
             <Grid item >
@@ -179,13 +179,7 @@ export default function SubquestStepper(props) {
                   <Typography color="primary">{`Тип подтверждения: ${item.verificationType}`}</Typography>
                   <div className={classes.actionsContainer}>
                     <div>
-                      {/* <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
-                  </Button> */}
+                      
                       {item.verificationType === "TEXT" ? (
                         <SubmitAnswer disabled={!((progress.prog ^ 0) === progress.prog)} className={classes.button} subquestId={item.id} groupId={groupId} refresh={()=> refresh()} />
                       ) : (

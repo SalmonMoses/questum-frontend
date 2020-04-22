@@ -75,11 +75,11 @@ const useStyles = makeStyles(theme => ({
     },
   },
   margin: {
-    marginTop: theme.spacing(0),
+    marginTop: theme.spacing(-3),
     width: "100%",
   },
   margin2: {
-    marginTop: theme.spacing(0),
+    marginTop: theme.spacing(-3),
   },
   fab: {
     [theme.breakpoints.down('xs')]: {

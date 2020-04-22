@@ -139,9 +139,9 @@ export default function LoginUser() {
                     setCookie("token", result.token, 30);
                     setCookie("groupID", values.token, 30);
                     console.dir(document.cookie);
-                    enqueueSnackbar(`Вы вошли как ${result.user.name}`, {
-                        variant: 'success',
-                    });
+                    // enqueueSnackbar(`Вы вошли как ${result.user.name}`, {
+                    //     variant: 'success',
+                    // });
                     history.push("/user");
                 }
             })

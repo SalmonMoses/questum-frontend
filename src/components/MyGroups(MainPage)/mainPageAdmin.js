@@ -53,28 +53,7 @@ const useStyles = makeStyles(theme => ({
         // flexGrow: 1,
         // padding: theme.spacing(3),
     },
-    // [theme.breakpoints.down('sm')]: {
-    //     leadboard: {
-    //         // width: theme.spacing(75),
-    //         width: `calc(100% - ${50}px)`,
-    //         height: theme.spacing(70),
-    //         marginLeft: theme.spacing(0),
-    //     },
-    // },
-    // [theme.breakpoints.up('md')]: {
-    //     leadboard: {
-    //         width: theme.spacing(75),
-    //         height: theme.spacing(70),
-    //         marginLeft: theme.spacing(0),
-    //     },
-    // },
-    // [theme.breakpoints.up('lg')]: {
-    //     leadboard: {
-    //         width: theme.spacing(75),
-    //         height: theme.spacing(70),
-    //         marginLeft: theme.spacing(75),
-    //     },
-    // },
+    
     leadboard:{
         width: "100%",
         height: theme.spacing(70),

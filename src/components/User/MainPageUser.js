@@ -19,7 +19,6 @@ import {
     Switch,
     Route,
 } from "react-router-dom"
-import Subquests from './Quests/Subquests/subquestsPage';
 import SubquestsPage from './Quests/Subquests/subquestsPage';
 
 const useStyles = makeStyles(theme => ({
@@ -139,9 +138,6 @@ export default function MainPageAdmin() {
                     setLoading(false);
                     setToken(getCookie("token"));
                     console.log(document.cookie);
-                    // enqueueSnackbar(document.cookie, {
-                    //   variant: 'success',
-                    // });
                 }
             })
             .catch(err => {
@@ -178,10 +174,6 @@ export default function MainPageAdmin() {
                     <Route exact path="/user/quests">
                         <QuestsUser />
                     </Route>
-
-                    {/* <Route  path="/user/quest/:id">
-                        <SubquestsPage />
-                    </Route> */}
 
                     <Route exact path="/user/settings">
                         <SittingsUser name={getCookie("name")} email={getCookie("email")} />
