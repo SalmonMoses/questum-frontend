@@ -34,7 +34,7 @@ import { path } from "./components/consts"
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(15),
+    marginTop: theme.spacing(12),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing(1),
+    // marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 0),
