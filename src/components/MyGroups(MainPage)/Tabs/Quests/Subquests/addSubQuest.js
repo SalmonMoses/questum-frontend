@@ -35,8 +35,12 @@ const useStyles = makeStyles(theme => ({
     color: {
         marginRight: theme.spacing(2),
         marginLeft: theme.spacing(2),
+        overflow: 'hidden !important'
         // background: theme.palette.primary.main,
     },
+    dialog: {
+        overflow: 'hidden !important'
+    }
 }));
 
 
@@ -78,10 +82,10 @@ export default function AddSubQuest(props) {
 
         var raw;
 
-        if(values.type === "NONE" || values.type === "IMAGE"){
+        if (values.type === "NONE" || values.type === "IMAGE") {
             console.log("EXEXE");
             raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": null });
-        }else{
+        } else {
             raw = JSON.stringify({ "desc": values.desc, "order": 0, "verification": values.type, "expectedAnswer": values.expectedAnswer });
         }
 
@@ -112,8 +116,8 @@ export default function AddSubQuest(props) {
             </Button>
             <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add Subquest</DialogTitle>
-                <DialogContent>
-                    <Grid container direction="column" spacing={5}>
+                <DialogContent className={classes.dialog}>
+                    <Grid container direction="column" spacing={3}>
                         <Grid item>
                             <DialogContentText>
                                 Chose type of varification
@@ -141,26 +145,36 @@ export default function AddSubQuest(props) {
                             <VarificationTypes type={type} />
                         </Grid>
                         <Grid item>
+                            {/* <DialogContentText>
+                                Description
+                            </DialogContentText> */}
+                            <TextField
+                                variant="outlined"
+                                value={values.desc}
+                                multiline
+                                onChange={handleChange("desc")}
+                                className={classes.area}
+                                aria-label="minimum height"
+                                // rowsMin={10}
+                                label="Description" />
+                            {/* <TextField
+                                fullWidth
+                                label="Description"
+                                variant="outlined"
+                                value={values.desc}
+                                onChange={handleChange("desc")} */}
+                            {/* /> */}
+                        </Grid>
+                        {values.type === "TEXT" && (<Grid item>
                             <TextField
                                 fullWidth
                                 id="standard-disabled"
                                 label="Expected answer"
+                                variant="outlined"
                                 value={values.name}
                                 onChange={handleChange("expectedAnswer")}
                             />
-                        </Grid>
-                        <Grid item>
-                            <DialogContentText>
-                                Enter description.
-                            </DialogContentText>
-                            <TextareaAutosize
-                                value={values.desc}
-                                onChange={handleChange("desc")}
-                                className={classes.area}
-                                aria-label="minimum height"
-                                rowsMin={10}
-                                placeholder="Your text.." />
-                        </Grid>
+                        </Grid>)}
                     </Grid>
                 </DialogContent>
                 <DialogActions>
