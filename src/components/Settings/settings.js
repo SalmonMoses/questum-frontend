@@ -242,6 +242,7 @@ export default function Sittings(props) {
         if (result === undefined) {
           return;
         } else {
+          console.log(URL.createObjectURL(result));
           setAvatar(URL.createObjectURL(result));
           setAvatarLoading(false);
         }

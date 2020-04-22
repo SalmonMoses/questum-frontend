@@ -128,7 +128,7 @@ export default function SubquestStepper(props) {
           console.log("all subquests: ")
           console.log(result);
           setValuesSubQuests(result.subquests);
-          setProgress({ ...progress, prog: result.progress, length: result.subquests.length, result: result.progress * 100 / result.subquests.length });
+          setProgress({ ...progress, prog: result.progress, length: result.subquests.length, result: result.percentage * 100 });
           if ((result.progress ^ 0) === result.progress) {
             setActiveStep(result.progress);
           } else {
@@ -222,14 +222,6 @@ export default function SubquestStepper(props) {
               </Step>
             ))}
           </Stepper>
-          {activeStep === valuesSubQuests.length && (
-            <Paper square elevation={0} className={classes.resetContainer}>
-              <Typography>All steps completed - you&apos;re finished</Typography>
-              <Button onClick={handleReset} className={classes.button}>
-                Reset
-          </Button>
-            </Paper>
-          )}
 
         </ExpansionPanelDetails>
 

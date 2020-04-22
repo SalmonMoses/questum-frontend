@@ -118,7 +118,7 @@ export default function Me() {
     });
   }
 
-
+  
 
   // const [values, setValues] = useState({
   //   name: props.name,
@@ -226,6 +226,25 @@ export default function Me() {
 
   const classes = useStyles();
 
+  function handleClick(type){
+    if(type === "ava"){
+    enqueueSnackbar(`Изменить аватарку можно в Настройках. Здесь нельзя.`, {
+      variant: 'info',
+    })}
+    if(type === "email"){
+      enqueueSnackbar(`Изменить почту можно в Настройках. Здесь нельзя.`, {
+        variant: 'info',
+    })}
+    if(type === "name"){
+      enqueueSnackbar(`Изменить имя можно в Настройках. Здесь нельзя.`, {
+        variant: 'info',
+    })}    
+    if(type === "group"){
+      enqueueSnackbar(`Изменить свою группу нельзя даже в настройках.`, {
+        variant: 'info',
+    })}
+
+  }
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
@@ -239,21 +258,15 @@ export default function Me() {
             <Grid item>
               {(() => {
                 if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton}/>);
-                else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
+                else return (<Avatar 
+                              onClick={() => handleClick("ava")} 
+                              alt={getCookie("name")} 
+                              src={avatar} 
+                              className={classes.avatar}
+                              >{getCookie("name").charAt(0)}</Avatar>)
               })()}
             </Grid>
-            <Grid item>
-              <Input
-                style={{ display: 'none' }}
-                id="avatar-file-input"
-                type="file"
-                accept="image/*"
-                onChange={uploadAvatar} 
-              />
-              <label htmlFor="avatar-file-input">
-                <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>Upload new photo</Button>
-              </label>
-            </Grid>
+           
           </Grid>
         
         </Grid>
@@ -262,8 +275,9 @@ export default function Me() {
           <Grid item className={classes.area}>
               <TextField
                 fullWidth
+                onClick={() => handleClick("email")}
                 id="standard-disabled"
-                label="Name"
+                label="Email"
                 defaultValue={email}
                 disabled="true"
               />
@@ -272,18 +286,22 @@ export default function Me() {
           <Grid item className={classes.area}>
               <TextField
                 fullWidth
+                onClick={() => handleClick("name")}
                 id="standard-disabled"
-                label="Email"
+                label="Name"
                 defaultValue={name}
+                disabled="true"
               />
             </Grid> 
 
             <Grid item className={classes.area}>
               <TextField
                 fullWidth
+                onClick={() => handleClick("group")}
                 id="standard-disabled"
                 label="Group"
                 defaultValue={group}
+                disabled="true"
               />
             </Grid> 
             <Divider style = {{marginTop: 15}}/>
