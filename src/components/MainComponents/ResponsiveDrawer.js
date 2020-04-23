@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   notifications: {
-    verticalAlign: 'center',
+    height: '100%'
   }
 }));
 

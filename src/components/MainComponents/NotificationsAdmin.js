@@ -7,9 +7,6 @@ import Notifier from 'react-desktop-notification';
 import useInterval from 'react-useinterval';
 
 const useStyles = makeStyles(theme => ({
-    span: {
-        align: 'center'
-    },
     grid: {
         padding: theme.spacing(),
         // background: theme.palette.primary.main,
@@ -140,8 +137,8 @@ export function NotificationsAdmin() {
     }, []);
 
     return (
-        <span className={classes.span}>
-            <IconButton className={classes.span} aria-label="show 11 new notifications" color="inherit" onClick={handleOpen}>
+        <>
+            <IconButton aria-label="show 11 new notifications" color="inherit" onClick={handleOpen}>
                 <Badge badgeContent={notifications.length} color="secondary">
                     <Icon>notifications</Icon>
                 </Badge>
@@ -153,11 +150,16 @@ export function NotificationsAdmin() {
                 open={isOpen}
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'left',
+                    horizontal: 'center',
                 }}
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'right',
+                    horizontal: 'center',
+                }}
+                modifiers={{
+                    arrow: {
+                        enabled: true
+                    }
                 }}>
                 <Grid
                     container
@@ -169,7 +171,7 @@ export function NotificationsAdmin() {
                         ? notifications.map((n, i) =>
                             (<Grid item>
                                 <Typography className={classes.typography}>{n.type}</Typography>
-                                {i < notifications.length - 1 && <Divider />} 
+                                {i < notifications.length - 1 && <Divider />}
                             </Grid>))
                         : (
                             <Grid item>
@@ -178,6 +180,6 @@ export function NotificationsAdmin() {
                         )}
                 </Grid>
             </Popover>
-        </span>
+        </>
     )
 }
