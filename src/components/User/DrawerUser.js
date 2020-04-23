@@ -23,6 +23,7 @@ import DonateButton from '../MainComponents/DonateButton';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { useHistory } from "react-router-dom";
+import { NotificationsParticipants } from './NotificationsParticipants'
 
 const drawerWidth = 200;
 
@@ -260,6 +261,7 @@ function ResponsiveDrawer(props) {
                             <MenuItem value={"Russian"} onClick={handleClose}>Russian</MenuItem>
                             <MenuItem value={"English"} onClick={handleClose}>English</MenuItem>
                         </Menu>
+                        {/* <NotificationsParticipants /> */}
                         <IconButton
                             href="/user/settings"
                             edge="end"

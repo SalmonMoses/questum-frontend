@@ -8,6 +8,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Icon from '@material-ui/core/Icon';
+import { NotificationsAdmin } from './NotificationsAdmin'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -143,6 +144,9 @@ export default function AppBarAdmin() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem>
+        <NotificationsAdmin />
+      </MenuItem>
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
@@ -167,14 +171,6 @@ export default function AppBarAdmin() {
           </Badge>
         </IconButton>
         <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <Icon>notifications</Icon>
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <Avatar alt={getCookie("name")} src={avatar}>{getCookie("name").charAt(0)}</Avatar>

@@ -22,9 +22,10 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DonateButton from './DonateButton';
 import { Avatar, CircularProgress } from '@material-ui/core';
-import {path } from '../consts'
+import { path } from '../consts'
 import { useSnackbar } from 'notistack';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { NotificationsAdmin } from './NotificationsAdmin';
 
 const drawerWidth = 200;
 
@@ -166,7 +167,7 @@ function ResponsiveDrawer(props) {
             variant: 'error',
           });
           return;
-        }  else if (response.status === 500) {
+        } else if (response.status === 500) {
           console.log('No avatar for this user!');
           setAvatarLoading(false);
           return;
@@ -268,6 +269,7 @@ function ResponsiveDrawer(props) {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <NotificationsAdmin />
             <IconButton
               className={classes.icons}
               edge="end"
@@ -303,9 +305,9 @@ function ResponsiveDrawer(props) {
               color="inherit"
             >
               {(() => {
-                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatar}/>);
-                    else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
-                  })()}
+                if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatar} />);
+                else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
+              })()}
             </IconButton>
           </div>
         </Toolbar>

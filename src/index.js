@@ -5,6 +5,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 
+window.Notification.requestPermission();
+
 ReactDOM.render(
     <BrowserRouter>
         <App />
