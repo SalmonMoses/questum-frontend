@@ -83,6 +83,9 @@ const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
   },
+  notifications: {
+    verticalAlign: 'center',
+  }
 }));
 
 //Компенет, заменяющий ListItem, чтоб можно было просто указать путь ссылки
@@ -269,7 +272,7 @@ function ResponsiveDrawer(props) {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <NotificationsAdmin />
+            <NotificationsAdmin className={classes.notifications} />
             <IconButton
               className={classes.icons}
               edge="end"

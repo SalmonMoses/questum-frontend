@@ -1,12 +1,27 @@
 import React, { useEffect } from 'react';
 import { getCookie } from '../../Cookie';
 import { path } from '../consts';
-import { IconButton, Badge, Icon, Popover, Typography } from '@material-ui/core';
+import { IconButton, Badge, Icon, Popover, Typography, makeStyles, Grid, Divider } from '@material-ui/core';
 import { NotificationComponent } from '../Notification';
 import Notifier from 'react-desktop-notification';
 import useInterval from 'react-useinterval';
 
+const useStyles = makeStyles(theme => ({
+    span: {
+        align: 'center'
+    },
+    grid: {
+        padding: theme.spacing(),
+        // background: theme.palette.primary.main,
+    },
+    typography: {
+        padding: theme.spacing(2),
+        // color: theme.palette.primary.contrastText,
+    },
+}));
+
 export function NotificationsParticipants() {
+    const classes = useStyles();
     const [notifications, setNotifications] = React.useState([]);
     const [isOpen, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -62,7 +77,7 @@ export function NotificationsParticipants() {
         };
 
         fetch(`${path}notifications/participants/${id}/markRead`, requestOptions)
-        fetchNotifications();
+        setNotifications([]);
     }
 
     const updateNotifications = async () => {
@@ -125,14 +140,15 @@ export function NotificationsParticipants() {
     }, []);
 
     return (
-        <div>
-            <IconButton aria-label="show 11 new notifications" color="inherit" onClick={handleOpen}>
+        <span className={classes.span}>
+            <IconButton className={classes.span} aria-label="show 11 new notifications" color="inherit" onClick={handleOpen}>
                 <Badge badgeContent={notifications.length} color="secondary">
                     <Icon>notifications</Icon>
                 </Badge>
             </IconButton>
             <Popover
                 onClose={handleClose}
+                className={classes.popover}
                 anchorEl={anchorEl}
                 open={isOpen}
                 anchorOrigin={{
@@ -143,10 +159,25 @@ export function NotificationsParticipants() {
                     vertical: 'top',
                     horizontal: 'right',
                 }}>
-                {notifications.length > 0
-                    ? notifications.map(n => (<NotificationComponent notification={n} />))
-                    : <Typography>You have no unread notifications</Typography>}
+                <Grid
+                    container
+                    justify="flex-end"
+                    direction="column"
+                    className={classes.grid}
+                >
+                    {notifications.length > 0
+                        ? notifications.map((n, i) =>
+                            (<Grid item>
+                                <Typography className={classes.typography}>{n.type}</Typography>
+                                {i < notifications.length - 1 && <Divider />} 
+                            </Grid>))
+                        : (
+                            <Grid item>
+                                <Typography className={classes.typography} variant="body2" display="block" gutterBottom>You have no unread notifications</Typography>
+                            </Grid>
+                        )}
+                </Grid>
             </Popover>
-        </div>
+        </span>
     )
 }

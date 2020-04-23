@@ -1,11 +1,16 @@
 import React from 'react';
-import { Typography, Divider } from '@material-ui/core';
+import { Typography, Divider, Grid, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+    typography: {
+        padding: theme.spacing(2),
+        // color: theme.palette.primary.contrastText,
+    },
+}));
 
 export function NotificationComponent({ notification }) {
-    return <div>
-        <Typography>
-            {`${notification.type}`}
-        </Typography>
-        <Divider />
-    </div>
+    const classes = useStyles();
+
+    return (<div></div>)
+
 }
