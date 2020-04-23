@@ -194,6 +194,8 @@ export default function Leadboard(props) {
 
   const [values, setValues] = useState([]);
 
+  const [leaderboard, setLeaderboard] = useState([]);
+
   const [valuesLast, setValuesLast] = useState([]);
 
   const [valuesQuests, setValuesQuests] = useState([]);
@@ -259,6 +261,45 @@ export default function Leadboard(props) {
         .catch(error => console.log('error', error));
     }
 
+    const fetchDataLeaderboard = async () => {
+
+      let id = getCookie("groupId");
+      console.log("Cookie id: " + id);
+      if (history.location.search.slice(4) !== "") {
+        id = history.location.search.slice(4);
+      }
+      console.log("ID: " + id);
+
+      let token = getCookie("token");
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: myHeaders,
+      };
+
+      await fetch(`${path}groups/${id}/leaderboard`, requestOptions)
+        .then(response => {
+          if (response.status === 400) {
+            return undefined;
+          } else {
+            return response.json();
+          }
+        })
+        .then(result => {
+          if (result === undefined) {
+            console.log("error ")
+          } else {
+            console.log(result);
+            setLeaderboard(result);
+          }
+        })
+        .catch(error => console.log('error', error));
+    }
+
     const fetchDataQuests = async () => {
 
       let id = getCookie("groupId");
@@ -300,6 +341,7 @@ export default function Leadboard(props) {
     }
     fetchDataMembers();
     fetchDataQuests();
+    fetchDataLeaderboard();
   }, [history.location.search, valuesLast, valuesLastQuests]);
 
   const fabs = [
@@ -418,7 +460,7 @@ export default function Leadboard(props) {
               </Typography>
             ) : (
             <List className={classes.width}>
-              {values.sort((a, b) => b.points - a.points).map((item, count) => (
+              {leaderboard.map((item, count) => (
                 <ListItem key={count} className={classes.width} >
                   <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
                 </ListItem>
