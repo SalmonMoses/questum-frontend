@@ -120,7 +120,7 @@ export function NotificationsParticipants() {
             .catch(error => console.log('error', error));
     }
 
-    useInterval(updateNotifications, 500);
+    useInterval(updateNotifications, 1500);
 
     const handleOpen = (event) => {
         if (!isOpen) {
