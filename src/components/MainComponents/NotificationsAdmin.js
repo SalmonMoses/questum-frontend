@@ -117,7 +117,7 @@ export function NotificationsAdmin() {
             .catch(error => console.log('error', error));
     }
 
-    useInterval(updateNotifications, 1500);
+    useInterval(updateNotifications, 15000);
 
     const handleOpen = (event) => {
         if (!isOpen) {
