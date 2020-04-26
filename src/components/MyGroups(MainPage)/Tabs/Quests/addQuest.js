@@ -8,18 +8,26 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { getCookie } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
-import {path} from "../../../consts"
+import { path } from "../../../consts"
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+  label: {
+    paddingTop: theme.spacing(2)
+  }
+}));
 
 export default function AddQuest(props) {
+  const classes = useStyles();
 
   const [values, setValues] = useState({
-    title:"",
+    title: "",
     points: 0,
   });
 
   const handleChange = prop => event => {
-    setValues({...values, [prop]: event.target.value})
-  } 
+    setValues({ ...values, [prop]: event.target.value })
+  }
 
   let history = useHistory();
 
@@ -46,41 +54,43 @@ export default function AddQuest(props) {
       .then(result => console.log("Quest: " + result))
       .catch(error => console.log('error', error));
 
-      props.onClose();
-      props.refresh();
-      setValues({title: "", points: 0});
+    props.onClose();
+    props.refresh();
+    setValues({ title: "", points: 0 });
   }
 
   return (
     <div>
       <Dialog open={props.open} fullWidth onClose={props.onClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Create</DialogTitle>
+        <DialogTitle id="form-dialog-title">Create new quest</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Enter a title.
             </DialogContentText>
           <TextField
             autoFocus
-            margin="dense"
+            // margin="dense"
             id="title"
             label="Title"
             type="title"
             fullWidth
             value={values.title}
             onChange={handleChange('title')}
+            variant="outlined"
           />
-          <DialogContentText>
-          Enter the number of points for the quest.
+          <DialogContentText className={classes.label}>
+            Enter the number of points for the quest.
             </DialogContentText>
-            <TextField
-            autoFocus
-            margin="dense"
+          <TextField
+            // autoFocus
+            // margin="dense"
             id="title"
-            label="points"
+            label="Points"
             type="title"
             fullWidth
             value={values.points}
             onChange={handleChange('points')}
+            variant="outlined"
           />
         </DialogContent>
         <DialogActions>

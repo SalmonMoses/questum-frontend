@@ -146,10 +146,10 @@ export default function Quests(props) {
                             </Typography>
                         </Grid>
                         <Grid item className={classes.icon}>
-                            <DeleteQuest questId={props.id} refresh={() => props.refresh()} />
+                            <DeleteQuest questTitle={props.title} questId={props.id} refresh={() => props.refresh()} />
                         </Grid>
                         <Grid item>
-                            <EditQuest questId={props.id} refresh={() => props.refresh()} />
+                            <EditQuest questTitle={props.title} questId={props.id} refresh={() => props.refresh()} />
                         </Grid>
                     </Grid>
                     {valuesSubQuests.map((item, count) => (
