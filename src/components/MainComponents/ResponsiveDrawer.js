@@ -61,18 +61,18 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
   },
   title: {
-    [theme.breakpoints.up('xs')]: {
+    [theme.breakpoints.down('xs')]: {
       marginTop: theme.spacing(-7),
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: theme.spacing(-7),
-    },
-    [theme.breakpoints.up('md')]: {
       marginTop: theme.spacing(-9),
     },
-    [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(-9),
-    },
+    // [theme.breakpoints.up('md')]: {
+    //   marginTop: theme.spacing(-9),
+    // },
+    // [theme.breakpoints.up('lg')]: {
+    //   marginTop: theme.spacing(-9),
+    // },
   },
   sectionDesktop: {
     display: 'none',
@@ -80,11 +80,15 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
     },
   },
+  sectionDesktop2: {
+    display: 'flex',
+  },
   grow: {
     flexGrow: 1,
   },
   notifications: {
-    height: '100%'
+    height: '100%',
+    marginRight: theme.spacing(1),
   }
 }));
 
@@ -271,10 +275,13 @@ function ResponsiveDrawer(props) {
             Questerium
           </Typography>
           <div className={classes.grow} />
+          <div className={classes.sectionDesktop2}>
+          <NotificationsAdmin className={classes.notifications} />
+          </div>
           <div className={classes.sectionDesktop}>
-            <NotificationsAdmin className={classes.notifications} />
             <IconButton
               className={classes.icons}
+              fullWidth
               edge="end"
               aria-label="change language"
               aria-controls="lang"
@@ -294,11 +301,6 @@ function ResponsiveDrawer(props) {
               <MenuItem value={"Russian"} onClick={handleClose}>Russian</MenuItem>
               <MenuItem value={"English"} onClick={handleClose}>English</MenuItem>
             </Menu>
-            {/* <IconButton className={classes.icons} edge="end" aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <Icon>notifications</Icon>
-              </Badge>
-            </IconButton> */}
             <IconButton
               href="/settings"
               edge="end"

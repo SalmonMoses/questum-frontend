@@ -58,6 +58,7 @@ export default function AddGroup(props) {
         .catch(error => console.log('error', error));
       handleClose();
       props.onClick();
+      setValues({...values, name: ""});
     }
   
     return (

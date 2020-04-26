@@ -14,6 +14,7 @@ export default function AddQuest(props) {
 
   const [values, setValues] = useState({
     title:"",
+    points: 0,
   });
 
   const handleChange = prop => event => {
@@ -31,7 +32,7 @@ export default function AddQuest(props) {
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
 
-    var raw = JSON.stringify({ "title": values.title, "desc": "Just some more testing" });
+    var raw = JSON.stringify({ "title": values.title, "desc": "Just some more testing", points: values.points });
 
     var requestOptions = {
       method: 'POST',
@@ -47,6 +48,7 @@ export default function AddQuest(props) {
 
       props.onClose();
       props.refresh();
+      setValues({title: "", points: 0});
   }
 
   return (
@@ -66,6 +68,19 @@ export default function AddQuest(props) {
             fullWidth
             value={values.title}
             onChange={handleChange('title')}
+          />
+          <DialogContentText>
+          Enter the number of points for the quest.
+            </DialogContentText>
+            <TextField
+            autoFocus
+            margin="dense"
+            id="title"
+            label="points"
+            type="title"
+            fullWidth
+            value={values.points}
+            onChange={handleChange('points')}
           />
         </DialogContent>
         <DialogActions>

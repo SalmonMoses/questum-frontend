@@ -56,6 +56,7 @@ export default function AddMember(props) {
 
     props.onClick();
     props.refresh();
+    setValues({ ...values, name: "", email: ""});
   }
 
   return (

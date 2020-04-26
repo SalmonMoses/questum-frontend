@@ -103,6 +103,7 @@ export default function AddSubQuest(props) {
 
         handleClose();
         props.refresh();
+        setValues({desc: "", type: "", expectedAnswer: ""});
     }
 
     const type = value => {

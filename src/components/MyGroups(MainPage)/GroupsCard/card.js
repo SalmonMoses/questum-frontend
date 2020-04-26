@@ -148,7 +148,7 @@ export default function MediaCard(props) {
       ) : (
           <List className={classes.width}>
             {values.map((item, count) => (
-              <ListItem key={count}>
+              <ListItem key={count} className={classes.width}>
                 <GroupPaper name={item.name} id={item.id} refresh={() => refresh()} />
               </ListItem>
             ))}

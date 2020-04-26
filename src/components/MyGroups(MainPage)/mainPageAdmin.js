@@ -118,7 +118,6 @@ function MyGroups(props) {
         } else {
             setValues(false);
         }
-        // checkToken();
     }, [history.location.search, url]);
 
     return (
@@ -135,9 +134,6 @@ function MyGroups(props) {
                 ) : (
                         <div></div>
                     )}
-                {/* <Grid item className={classes.leadboard}>
-                    <LeadboardMain flag={values} />
-                </Grid> */}
             </Grid>
         </main>
     );
@@ -187,15 +183,10 @@ export default function MainPageAdmin(props) {
                 if (response.status === 401) {
                     console.log("Authorization error");
                     console.log("RefreshToken: " + cookie);
-                    // alert("Время сессии истекло, войдите заново.");
                     history.push("/login/owner");
                     enqueueSnackbar("Время сессии истекло, войдите заново.", {
                         variant: 'error',
                     });
-                    // enqueueSnackbar("Время сессии истекло, войдите заново222.", {
-                    //     variant: 'error',
-                    // });
-                    // window.location.reload();
                     return;
                 }
                 return response.json();
@@ -214,9 +205,6 @@ export default function MainPageAdmin(props) {
                     setLoading(false);
                     setToken(getCookie("token"));
                     console.log(document.cookie);
-                    // enqueueSnackbar(document.cookie, {
-                    //   variant: 'success',
-                    // });
                 }
             })
             .catch(err => {
@@ -224,10 +212,6 @@ export default function MainPageAdmin(props) {
                 setLoading(true);
             });
     }
-
-    // useEffect(() => {
-    //     checkToken();
-    // }, [])
 
     let cookie = getCookie("refreshToken");
 

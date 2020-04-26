@@ -11,12 +11,13 @@ import IconButton from "@material-ui/core/IconButton"
 import Icon from "@material-ui/core/Icon"
 import { useSnackbar } from 'notistack';
 import {path} from "../../consts"
+import MenuItem from '@material-ui/core/MenuItem';
 
 export default function ChangeGroupName(props) {
   const [open, setOpen] = React.useState(false);
 
   const [values, setValues] = React.useState({
-      name: "",
+      name: props.name,
       id: "",
   });
 
@@ -25,11 +26,13 @@ export default function ChangeGroupName(props) {
   const handleClickOpen = () => {
     setOpen(true);
     props.refresh();
+    props.handleClose();
   };
 
-  const handleClose = () => {
+  const handleCloseDialog = () => {
     setOpen(false);
     props.refresh();
+    console.log("OPEN" + open);
   };
 
   const handleChange = prop => event => {
@@ -42,7 +45,7 @@ export default function ChangeGroupName(props) {
         enqueueSnackbar("Название группы должнго быть больше 3 символов", {
             variant: 'success',
           });
-          handleClose();
+          handleCloseDialog();
           return;
     }
 
@@ -68,16 +71,20 @@ export default function ChangeGroupName(props) {
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
 
-      handleClose();
+      handleCloseDialog();
       props.refresh();
   }
 
   return (
     <div>
-       <IconButton aria-label="edit" onClick={handleClickOpen}>
+    <MenuItem onClick={handleClickOpen}>
+    {/* <IconButton aria-label="edit" onClick={handleClickOpen}>
           <Icon color="inherit">edit</Icon>
         </IconButton>
-      <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        Edit */}
+        <Icon>edit</Icon>
+        Edit
+      <Dialog maxWidth="sm" fullWidth open={open} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Group name changing</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -95,7 +102,7 @@ export default function ChangeGroupName(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCloseDialog} color="primary">
             Cancel
           </Button>
           <Button onClick={() => handleChangeName(values.name, props.id)} color="primary">
@@ -103,6 +110,7 @@ export default function ChangeGroupName(props) {
           </Button>
         </DialogActions>
       </Dialog>
+    </MenuItem>
     </div>
   );
 }

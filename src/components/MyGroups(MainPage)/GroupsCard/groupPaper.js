@@ -16,12 +16,16 @@ import ChangeGroupName from "./DialogChangeName"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import { path } from "../../consts"
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 
 const useStyles = makeStyles(theme => ({
   area: {
     marginTop: theme.spacing(0),
     margin: theme.spacing(2),
-    width: theme.spacing(52),
+    width: theme.spacing(60),
     height: theme.spacing(7),
     [theme.breakpoints.down('xs')]: {
       width: "100%",
@@ -54,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: theme.palette.background.paper,
   },
   icon: {
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(2),
   },
   paper: {
     backgroundColor: theme.palette.background.default,
@@ -79,7 +83,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(0),
     [theme.breakpoints.down('xs')]: {
       marginRight: theme.spacing(0),
-      width: '15%',
+      width: '10%',
     },
   },
   color: {
@@ -88,6 +92,12 @@ const useStyles = makeStyles(theme => ({
   },
   width: {
     width: '70%',
+  },
+  menu:{
+    marginLeft:theme.spacing(3),
+    [theme.breakpoints.down('xs')]: {
+      marginLeft:theme.spacing(0),
+    },
   },
 }));
 
@@ -132,9 +142,19 @@ export default function GroupPaper(props) {
     props.refresh();
   }
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClickMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Grid container direction="row" className={classes.color}>
-      <Grid item className={classes.width}>
+      <Grid item className={classes.width} xs={10}>
         <Card className={classes.area} >
           <CardActionArea onClick={handleClick}>
             <Paper className={classes.paper}>
@@ -157,13 +177,6 @@ export default function GroupPaper(props) {
                     <Icon color="inherit">people_alt</Icon>
                   </CardContent>
                 </Grid>
-                {/* <Grid item className={classes.margin2}>
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  0/4
-             </Typography>
-              </CardContent>
-            </Grid> */}
                 <Grid item className={classes.margin3}>
                 </Grid>
               </Grid>
@@ -171,14 +184,46 @@ export default function GroupPaper(props) {
           </CardActionArea>
         </Card>
       </Grid>
-      <Grid item className={classes.button}>
+      <Grid item className={classes.menu}>
+        <IconButton
+          aria-label="more"
+          aria-controls="menu"
+          aria-haspopup="false"
+          onClick={handleClickMenu}
+        >
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          id="menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <ChangeGroupName name={props.name} id={props.id} refresh={() => props.refresh()} handleClose={handleClose} />
+          {/* <MenuItem onClick={handleClose}>
+            <ChangeGroupName id={props.id} refresh={() => props.refresh()} />
+            Edit
+          </MenuItem> */}
+          <MenuItem onClick={() => handleGroupDelete()}>
+            <Icon color="primary">delete</Icon>
+            Delete
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+          <CloudUploadIcon  />
+            change picture
+          </MenuItem>
+        </Menu>
+      </Grid>
+
+      {/* <Grid item className={classes.button}>
         <ChangeGroupName id={props.id} refresh={() => props.refresh()} />
       </Grid>
       <Grid item className={classes.button2}>
         <IconButton aria-label="edit" onClick={() => handleGroupDelete()}>
           <Icon color="primary">delete</Icon>
         </IconButton>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }
