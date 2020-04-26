@@ -9,9 +9,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from "@material-ui/core/Grid"
 import { getCookie } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
-import {path} from '../../../consts'
+import { path } from '../../../consts';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+  dialog: {
+    overflow: 'hidden !important'
+  }
+}));
 
 export default function AddMember(props) {
+  const classes = useStyles();
 
   const [values, setValues] = useState({
     name: "",
@@ -56,19 +64,16 @@ export default function AddMember(props) {
 
     props.onClick();
     props.refresh();
-    setValues({ ...values, name: "", email: ""});
+    setValues({ ...values, name: "", email: "" });
   }
 
   return (
     <div>
       <Dialog open={props.open} onClose={props.onClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
-        <DialogContent>
+        <DialogContent className={classes.dialog}>
           <Grid container direction="row" spacing={5}>
             <Grid item>
-              <DialogContentText>
-                Enter a name of a new member.
-            </DialogContentText>
               <TextField
                 autoFocus
                 margin="dense"
@@ -78,14 +83,11 @@ export default function AddMember(props) {
                 fullWidth
                 value={values.name}
                 onChange={handleChange("name")}
+                variant="outlined"
               />
             </Grid>
             <Grid item>
-              <DialogContentText>
-                Enter email of a new member.
-            </DialogContentText>
               <TextField
-                autoFocus
                 margin="dense"
                 id="email"
                 label="E-Mail"
@@ -93,6 +95,7 @@ export default function AddMember(props) {
                 fullWidth
                 value={values.email}
                 onChange={handleChange("email")}
+                variant="outlined"
               />
             </Grid>
           </Grid>

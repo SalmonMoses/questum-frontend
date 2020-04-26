@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -20,6 +20,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles(theme => ({
   area: {
@@ -93,10 +94,10 @@ const useStyles = makeStyles(theme => ({
   width: {
     width: '70%',
   },
-  menu:{
-    marginLeft:theme.spacing(3),
+  menu: {
+    marginLeft: theme.spacing(3),
     [theme.breakpoints.down('xs')]: {
-      marginLeft:theme.spacing(0),
+      marginLeft: theme.spacing(0),
     },
   },
 }));
@@ -108,6 +109,8 @@ export default function GroupPaper(props) {
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('xs'));
+  const [avatar, setAvatar] = useState(null);
+  const [isAvatarLoading, setAvatarLoading] = useState(true);
 
   const handleClick = () => {
     if (matches) {
@@ -116,6 +119,45 @@ export default function GroupPaper(props) {
       history.push("/groups?id=" + props.id);
       props.refresh();
     }
+  }
+
+  const fetchAvatar = () => {
+    let token = getCookie("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}groups/${props.id}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          //   enqueueSnackbar("Ошибка обработки изменений :(", {
+          //     variant: 'error',
+          //   });
+          return;
+        } else if (response.status === 500) {
+          console.log('No avatar for this user!');
+          setAvatarLoading(false);
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          setAvatar(URL.createObjectURL(result));
+          setAvatarLoading(false);
+        }
+      })
+      .catch(error => console.log('error', error));
   }
 
   const handleGroupDelete = async () => {
@@ -152,6 +194,10 @@ export default function GroupPaper(props) {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    fetchAvatar()
+  }, []);
+
   return (
     <Grid container direction="row" className={classes.color}>
       <Grid item className={classes.width} xs={10}>
@@ -161,7 +207,10 @@ export default function GroupPaper(props) {
               <Grid container spacing={0}>
                 <Grid item className={classes.margin}>
                   <CardContent>
-                    <Avatar className={classes.purple}>{props.name[0]}</Avatar>
+                    {(() => {
+                      if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.skeleton} />);
+                      else return (<Avatar alt={props.name} src={avatar}>{(props.name)[0]}</Avatar>)
+                    })()}
                   </CardContent>
                 </Grid>
                 <Grid item className={classes.margin2} xs={9}>
@@ -210,7 +259,7 @@ export default function GroupPaper(props) {
             Delete
           </MenuItem>
           <MenuItem onClick={handleClose}>
-          <CloudUploadIcon  />
+            <CloudUploadIcon />
             change picture
           </MenuItem>
         </Menu>
