@@ -151,7 +151,7 @@ export default function ChangeGroupName(props) {
   }
 
   return (
-    <div>
+    <>
       <MenuItem onClick={handleClickOpen}>
         {/* <IconButton aria-label="edit" onClick={handleClickOpen}>
           <Icon color="inherit">edit</Icon>
@@ -159,48 +159,48 @@ export default function ChangeGroupName(props) {
         Edit */}
         <Icon>edit</Icon>
         Edit
+        </MenuItem>
       <Dialog maxWidth="sm" fullWidth open={open} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Edit group</DialogTitle>
-          <DialogContent>
-            {/* <DialogContentText>
+        <DialogTitle id="form-dialog-title">Edit group</DialogTitle>
+        <DialogContent>
+          {/* <DialogContentText>
             Enter a new name
           </DialogContentText> */}
-            <div className={classes.avatarSpan}>
-              <Avatar src={newAvatar} className={classes.avatar}>{values.name.substring(0, 1)}</Avatar>
-            </div>
-            <div className={classes.inputSpan}>
-              <Input
-                style={{ display: 'none' }}
-                id="avatar-file-input"
-                type="file"
-                accept="image/*"
-                onChange={changeAvatar} />
-              <label htmlFor="avatar-file-input">
-                <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>Change avatar</Button>
-              </label>
-            </div>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Group name"
-              type="name"
-              fullWidth
-              value={values.name}
-              onChange={handleChange("name")}
-              variant="outlined"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog} color="primary">
-              Cancel
+          <div className={classes.avatarSpan}>
+            <Avatar src={newAvatar} className={classes.avatar}>{values.name.substring(0, 1)}</Avatar>
+          </div>
+          <div className={classes.inputSpan}>
+            <Input
+              style={{ display: 'none' }}
+              id="avatar-file-input"
+              type="file"
+              accept="image/*"
+              onChange={changeAvatar} />
+            <label htmlFor="avatar-file-input">
+              <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>Change avatar</Button>
+            </label>
+          </div>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Group name"
+            type="name"
+            fullWidth
+            value={values.name}
+            onChange={handleChange("name")}
+            variant="outlined"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancel
           </Button>
-            <Button onClick={() => handleChangeName(values.name, props.id)} color="primary">
-              Save
+          <Button onClick={() => handleChangeName(values.name, props.id)} color="primary">
+            Save
           </Button>
-          </DialogActions>
-        </Dialog>
-      </MenuItem>
-    </div>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

@@ -258,10 +258,6 @@ export default function GroupPaper(props) {
             <Icon color="primary">delete</Icon>
             Delete
           </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <CloudUploadIcon />
-            change picture
-          </MenuItem>
         </Menu>
       </Grid>
 
