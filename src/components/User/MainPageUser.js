@@ -7,11 +7,8 @@ import NoMatch from "../MainComponents/NoMatch"
 import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Help from "./helpUser"
 import QuestsUser from "./Quests/questsUser"
-import { useTheme } from '@material-ui/core/styles';
-import ResDrawer from "./ResDrawer"
 import SittingsUser from "./Settings/settingsUser"
 import { path } from '../consts'
 import {
@@ -19,7 +16,6 @@ import {
     Switch,
     Route,
 } from "react-router-dom"
-import SubquestsPage from './Quests/Subquests/subquestsPage';
 import { strings } from "../../localization"
 
 const useStyles = makeStyles(theme => ({

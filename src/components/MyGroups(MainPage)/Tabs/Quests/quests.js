@@ -178,7 +178,7 @@ export default function Quests(props) {
         
                                 </ExpansionPanelDetails>
                                 <ExpansionPanelActions>
-                                    <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()} />
+                                    <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()} name={strings.quest + " " + (item.order + 1)}/>
                                     <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc} />
                                 </ExpansionPanelActions>
                             </ExpansionPanel>

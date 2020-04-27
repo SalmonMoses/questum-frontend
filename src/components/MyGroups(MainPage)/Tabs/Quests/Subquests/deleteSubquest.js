@@ -61,6 +61,7 @@ export default function DeleteSubquest(props) {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         {strings.formatString(strings.doUWantToDeleteSub, props.name)}
+                        {/* {strings.doUWantToDeleteSub} */}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
