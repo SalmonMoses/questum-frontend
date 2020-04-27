@@ -82,17 +82,17 @@ function App() {
     setLoading(prop);
   }
 
-  useEffect(()=>{
-    const changeLanguage = () => {
-      if(getLocalStorage("lang") === undefined){
-        setLocalStorage("lang", 'en');
-      }else{
-        strings.setLanguage(getLocalStorage("lang"));
-        console.log(getLocalStorage("lang"));
-      }
-    }
-    changeLanguage();
-  },[]);
+  // useEffect(()=>{
+  //   const changeLanguage = () => {
+  //     if(getLocalStorage("lang") === undefined){
+  //       setLocalStorage("lang", 'en');
+  //     }else{
+  //       strings.setLanguage(getLocalStorage("lang"));
+  //       console.log(getLocalStorage("lang"));
+  //     }
+  //   }
+  //   changeLanguage();
+  // });
 
   return (
     <Router>
