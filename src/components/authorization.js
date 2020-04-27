@@ -32,16 +32,14 @@ export default function Authorization(props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const checkUser = async () => {
-        let cookie = getCookie("refreshToken");
-
+    const checkUser = async (refTok) => {
         console.dir(document.cookie);
 
         var myHeaders = new Headers();
 
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({ "refreshToken": cookie });
+        var raw = JSON.stringify({ "refreshToken": refTok });
 
         var requestOptions = {
             method: 'POST',
@@ -54,7 +52,7 @@ export default function Authorization(props) {
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error");
-                    console.log("RefreshToken: " + cookie);
+                    console.log("RefreshToken: " + refTok);
                     // alert("Время сессии истекло, войдите заново.");
                     // history.push("/login/user");
                     // enqueueSnackbar("AUTH PAGE Время сессии истекло, войдите заново.", {
@@ -91,17 +89,14 @@ export default function Authorization(props) {
             });
     }
 
-    const checkOwner = async () => {
-
-        let cookie = getCookie("refreshToken");
-
+    const checkOwner = async (refTok) => {
         console.dir(document.cookie);
 
         var myHeaders = new Headers();
 
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({ "refreshToken": cookie });
+        var raw = JSON.stringify({ "refreshToken": refTok });
 
         var requestOptions = {
             method: 'POST',
@@ -114,7 +109,7 @@ export default function Authorization(props) {
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error");
-                    console.log("RefreshToken: " + cookie);
+                    console.log("RefreshToken: " + refTok);
                     // alert("Время сессии истекло, войдите заново.");
                     // history.push("/login/owner");
                     // enqueueSnackbar("AUTH PAGE Время сессии истекло, войдите заново.", {
@@ -153,16 +148,41 @@ export default function Authorization(props) {
     }
 
     useEffect(() => {
-        checkOwner();
-        checkUser();
-        if(loading){
+        let refreshTok = getCookie("refreshToken");
+        if(refreshTok === undefined) {
             history.push("/login/user/");
+            return;
         }
+        let tokRole = getTokenRole(refreshTok);
+        if (tokRole === "owner") {
+            checkOwner(refreshTok);
+        } else if (tokRole === "participant") {
+            checkUser(refreshTok);
+        } else {
+            history.push("/login/user/");
+            return;
+        }
+        // if (loading) {
+        //     history.push("/login/user/");
+        // }
     }, [loading]);
 
     return (
         <div className={classes.div}>
-        <CircularProgress />
+            <CircularProgress />
         </div>
     )
+}
+
+function getTokenRole(token) {
+    let midTok = token.split('.')[1];
+    console.log(midTok);
+    if(midTok === undefined) {
+        return '';
+    }
+    let tokJson = atob(midTok.replace('-', '+').replace('_', '/'));
+    console.log(tokJson);
+    let tokObj = JSON.parse(tokJson);
+    console.dir(tokObj);
+    return tokObj.rol;
 }
