@@ -397,7 +397,7 @@ export default function Leadboard(props) {
             ) : values.length === 0 ? (
               <Typography variant="h4" className={classes.text}>
                 <Box className={classes.box}>
-                  You have no members yet
+                  {strings.noMembers}
                 </Box>
               </Typography>
             ) : (
@@ -423,7 +423,7 @@ export default function Leadboard(props) {
           {history.location.search.slice(4) === "" ? (
               <Typography variant="h3" className={classes.text}>
                 <Box className={classes.box}>
-                  Choose a group
+                  {strings.chooseGroup}
                 </Box>
               </Typography>
             ) : valuesQuests.length === 0 ? (
@@ -448,13 +448,13 @@ export default function Leadboard(props) {
           {history.location.search.slice(4) === "" ? (
               <Typography variant="h3" className={classes.text}>
                 <Box className={classes.box}>
-                  Choose a group
+                  {strings.chooseGroup}
                 </Box>
               </Typography>
             ) : values.length === 0 ? (
               <Typography variant="h4" className={classes.text}>
                 <Box className={classes.box}>
-                  You have no members yet
+                  {strings.noMembers}
                 </Box>
               </Typography>
             ) : (

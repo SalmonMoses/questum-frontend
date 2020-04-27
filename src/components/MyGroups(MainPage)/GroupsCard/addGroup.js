@@ -71,7 +71,7 @@ export default function AddGroup(props) {
         <DialogTitle id="form-dialog-title">{strings.newGroupCreate}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enter a name of your new group.
+            {strings.enterGroupName}
             </DialogContentText>
           <TextField
             autoFocus

@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Icon from '@material-ui/core/Icon';
 import { NotificationsAdmin } from './NotificationsAdmin'
+import { strings } from '../../localization'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -112,7 +113,7 @@ export default function AppBarAdmin() {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка загрузки аватара :(", {
+          enqueueSnackbar(strings.avatarError, {
             variant: 'error',
           });
           return;

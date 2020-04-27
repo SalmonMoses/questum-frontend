@@ -66,7 +66,7 @@ export default function AddQuest(props) {
         <DialogTitle id="form-dialog-title">{strings.createNewQuest}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enter a title.
+            {strings.enterTitle}
             </DialogContentText>
           <TextField
             autoFocus
@@ -80,13 +80,13 @@ export default function AddQuest(props) {
             variant="outlined"
           />
           <DialogContentText className={classes.label}>
-            Enter the number of points for the quest.
+            {strings.enterPoints}
             </DialogContentText>
           <TextField
             // autoFocus
             // margin="dense"
             id="title"
-            label="Points"
+            label={strings.points}
             type="title"
             fullWidth
             value={values.points}

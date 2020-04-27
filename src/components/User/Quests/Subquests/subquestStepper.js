@@ -17,6 +17,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { strings } from "../../../../localization"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -156,7 +157,7 @@ export default function SubquestStepper(props) {
           </Grid>
             <Grid item >
               <Typography variant="h6" component="h2">
-                Progress:  {progress.result > 100 ? 100 : Math.floor(progress.result)} %
+                {strings.progress}  {progress.result > 100 ? 100 : Math.floor(progress.result)} %
           </Typography>
             </Grid>
             <Grid item >

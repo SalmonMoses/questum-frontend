@@ -21,6 +21,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Skeleton from '@material-ui/lab/Skeleton';
+import { strings } from "../../../localization"
 
 const useStyles = makeStyles(theme => ({
   area: {
@@ -256,7 +257,7 @@ export default function GroupPaper(props) {
           </MenuItem> */}
           <MenuItem onClick={() => handleGroupDelete()}>
             <Icon color="primary">delete</Icon>
-            Delete
+            {strings.deleteMenu}
           </MenuItem>
         </Menu>
       </Grid>

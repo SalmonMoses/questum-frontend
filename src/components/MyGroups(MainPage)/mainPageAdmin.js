@@ -22,6 +22,7 @@ import {
     Switch,
     Route,
 } from "react-router-dom"
+import { strings } from "../../localization"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -158,7 +159,7 @@ export default function MainPageAdmin(props) {
 
         if (cookie === undefined) {
             history.push("/login/owner");
-            enqueueSnackbar("Время сессии истекло, войдите зановоjjjj.", {
+            enqueueSnackbar(strings.sessionTimeout, {
                 variant: 'error',
             });
         }
@@ -184,7 +185,7 @@ export default function MainPageAdmin(props) {
                     console.log("Authorization error");
                     console.log("RefreshToken: " + cookie);
                     history.push("/login/owner");
-                    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+                    enqueueSnackbar(strings.sessionTimeout, {
                         variant: 'error',
                     });
                     return;
@@ -217,7 +218,7 @@ export default function MainPageAdmin(props) {
 
     if (cookie === undefined) {
         history.push("/login/owner");
-        enqueueSnackbar("Время сессии истекло, войдите заново.", {
+        enqueueSnackbar(strings.sessionTimeout, {
             variant: 'error',
         });
     }

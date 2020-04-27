@@ -106,7 +106,7 @@ export default function PasswordConfirm(props) {
                                 console.log(result);
                                 setLocalStorage("name", result.name, 30);
                                 setLocalStorage("email", result.email, 30);
-                                enqueueSnackbar("Данные успешно изменены", {
+                                enqueueSnackbar(strings.resetData, {
                                     variant: 'success',
                                 });
                                 console.log(sha512(values.password + values.email));
@@ -121,7 +121,7 @@ export default function PasswordConfirm(props) {
                         .then(response => {
                             if (response.status === 401) {
                                 console.log("Authorization error");
-                                enqueueSnackbar("Ошибка обработки изменений :(", {
+                                enqueueSnackbar(strings.authorizationError, {
                                     variant: 'error',
                                 });
                                 return;
@@ -135,7 +135,7 @@ export default function PasswordConfirm(props) {
                                 console.log(result);
                                 setLocalStorage("name", result.name, 30);
                                 setLocalStorage("email", result.email, 30);
-                                enqueueSnackbar("Данные успешно изменены", {
+                                enqueueSnackbar(strings.resetData, {
                                     variant: 'success',
                                 });
                                 console.log(sha512(values.password + values.email));

@@ -172,7 +172,7 @@ function ResponsiveDrawer(props) {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка загрузки аватара :(", {
+          enqueueSnackbar(strings.avatarError, {
             variant: 'error',
           });
           return;

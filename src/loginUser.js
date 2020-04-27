@@ -123,7 +123,7 @@ export default function LoginUser() {
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error")
-                    enqueueSnackbar("Убедитесь, что вы правильно ввели почту или пароль", {
+                    enqueueSnackbar(strings.correctEmailPasswd, {
                         variant: 'error',
                     });
                     return;

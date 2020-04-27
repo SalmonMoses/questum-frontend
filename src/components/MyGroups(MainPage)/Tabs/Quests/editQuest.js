@@ -86,7 +86,7 @@ export default function EditQuest(props) {
                         // autoFocus
                         margin="normal"
                         id="title"
-                        label="Points"
+                        label={strings.points}
                         type="title"
                         fullWidth
                         value={values.points}

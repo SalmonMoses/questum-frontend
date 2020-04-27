@@ -124,7 +124,7 @@ export default function PendingQuestCard(props) {
             ) : values.length === 0 ? (
                 <Typography variant="h4" align="center">
                     <Box>
-                        You have no pending quests yet
+                        {strings.noPendingQuests}
                     </Box>
                 </Typography>
             ) : (

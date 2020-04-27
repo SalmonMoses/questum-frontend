@@ -5,6 +5,7 @@ import { IconButton, Badge, Icon, Popover, Typography, makeStyles, Grid, Divider
 import { NotificationComponent } from '../Notification';
 import Notifier from 'react-desktop-notification';
 import useInterval from 'react-useinterval';
+import { strings } from '../../localization'
 
 const useStyles = makeStyles(theme => ({
     grid: {
@@ -175,7 +176,7 @@ export function NotificationsAdmin() {
                             </Grid>))
                         : (
                             <Grid item>
-                                <Typography className={classes.typography} variant="body2" display="block" gutterBottom>You have no unread notifications</Typography>
+                                <Typography className={classes.typography} variant="body2" display="block" gutterBottom>{strings.noNotifications}</Typography>
                             </Grid>
                         )}
                 </Grid>

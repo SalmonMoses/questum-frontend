@@ -23,6 +23,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import SubquestStepper from "./subquestStepper"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { strings } from "../../../../localization"
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -104,7 +105,7 @@ export default function Subquests(props) {
 
     if (cookie === undefined) {
         history.push("/login/user");
-        enqueueSnackbar("Время сессии истекло, войдите заново.", {
+        enqueueSnackbar(strings.sessionTimeout, {
             variant: 'error',
         });
     }
@@ -171,7 +172,7 @@ export default function Subquests(props) {
             <Grid container direction="row" spacing={1}>
                 <Grid item >
                     <Typography variant="h6" component="h2">
-                        Progress:
+                        {strings.progress}
                     </Typography>
                 </Grid>
                 <Grid item >

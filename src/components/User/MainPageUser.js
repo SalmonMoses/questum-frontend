@@ -20,6 +20,7 @@ import {
     Route,
 } from "react-router-dom"
 import SubquestsPage from './Quests/Subquests/subquestsPage';
+import { strings } from "../../localization"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -117,7 +118,7 @@ export default function MainPageAdmin() {
                     console.log("RefreshToken: " + cookie);
                     // alert("Время сессии истекло, войдите заново.");
                     history.push("/login/owner");
-                    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+                    enqueueSnackbar(strings.sessionTimeout, {
                         variant: 'error',
                     });
                     return;
@@ -154,7 +155,7 @@ export default function MainPageAdmin() {
 
     if (cookie === undefined) {
         history.push("/login/owner");
-        enqueueSnackbar("Время сессии истекло, войдите заново.", {
+        enqueueSnackbar(strings.sessionTimeout, {
             variant: 'error',
         });
     }

@@ -228,7 +228,7 @@ export default function Sittings(props) {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка обработки изменений :(", {
+          enqueueSnackbar(strings.authorizationError, {
             variant: 'error',
           });
           return;
@@ -318,7 +318,7 @@ export default function Sittings(props) {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка обработки изменений :(", {
+          enqueueSnackbar(strings.authorizationError, {
             variant: 'error',
           });
           return;
@@ -330,7 +330,7 @@ export default function Sittings(props) {
           return;
         } else {
           fetchAvatar();
-          enqueueSnackbar('Аватар успешно обновлен (может понадобиться обновление страницы)', {
+          enqueueSnackbar(strings.resetAvatar, {
             variant: 'success'
           });
         }
