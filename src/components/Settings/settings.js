@@ -24,6 +24,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { path } from "../consts";
 import Skeleton from '@material-ui/lab/Skeleton';
+import { strings } from '../../localization'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -143,7 +144,7 @@ export default function Sittings(props) {
 
   if (cookie === undefined) {
     history.push("/login/owner");
-    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+    enqueueSnackbar(strings.sessionTimeout, {
       variant: 'error',
     });
   }
@@ -188,7 +189,7 @@ export default function Sittings(props) {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка обработки изменений :(", {
+          enqueueSnackbar(strings.authorizationError, {
             variant: 'error',
           });
           return;
@@ -260,12 +261,12 @@ export default function Sittings(props) {
 
       ob.name = values.name;
 
-      fetching(ob, "Имя успешно изменено");
+      fetching(ob, strings.nameReset);
     }
     if (values.password !== "" && values.password2 !== "") {
       if (values.password.length < 5) {
         console.log("Password should be more the 5 simbols!");
-        enqueueSnackbar("Пароль должен быть длинее 5 символов!", {
+        enqueueSnackbar(strings.longerPasswd, {
           variant: 'error',
         });
         setValues({ ...values, errorPassword: true });
@@ -275,7 +276,7 @@ export default function Sittings(props) {
       }
       if (values.password !== values.password2) {
         console.log("Passwords should be equal!");
-        enqueueSnackbar("Пароли не совпадают", {
+        enqueueSnackbar(strings.passwdMissmatch, {
           variant: 'error',
         });
         setValues({ ...values, errorPassword: true });
@@ -285,7 +286,7 @@ export default function Sittings(props) {
       }
 
       if (!error) {
-        fetching({ "password": values.password }, "Пароль успешно изменен");
+        fetching({ "password": values.password }, strings.resetPasswd);
         // document.location.reload()
       }
     }
@@ -351,7 +352,7 @@ export default function Sittings(props) {
             <Grid item className={classes.area1}>
               <Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
-                  Account settings
+                  {strings.accSettings}
                 </Box>
               </Typography>
             </Grid>
@@ -383,7 +384,7 @@ export default function Sittings(props) {
               <TextField
                 fullWidth
                 id="standard-disabled"
-                label="Name"
+                label={strings.name}
                 defaultValue="имя"
                 value={values.name}
                 onChange={handleChange("name")}
@@ -393,7 +394,7 @@ export default function Sittings(props) {
             <Grid item className={classes.area}>
 
               <FormControl error={values.error} fullWidth>
-                <InputLabel htmlFor="component-error">Email</InputLabel>
+                <InputLabel htmlFor="component-error">{strings.eMail}</InputLabel>
                 <Input
                   id="component-error"
                   value={values.email}
@@ -406,7 +407,7 @@ export default function Sittings(props) {
             <Divider />
             <Grid item className={classes.area}>
               <FormControl fullWidth disabled={values.dis}>
-                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                <InputLabel htmlFor="standard-adornment-password">{strings.newPasswd}</InputLabel>
                 <Input
                   error={values.errorPassword}
                   id="standard-adornment-password"
@@ -429,7 +430,7 @@ export default function Sittings(props) {
             </Grid>
             <Grid item className={classes.area}>
               <FormControl fullWidth disabled={values.dis}>
-                <InputLabel htmlFor="standard-adornment-password">Repeat Password</InputLabel>
+                <InputLabel htmlFor="standard-adornment-password">{strings.repeatNewPasswd}</InputLabel>
                 <Input
                   error={values.errorPassword}
                   id="standard-adornment-password"
@@ -456,14 +457,14 @@ export default function Sittings(props) {
             <Grid item className={classes.area1}>
               <Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
-                  General settings
+                  {strings.generalSettings}
                 </Box>
               </Typography>
             </Grid>
             <Divider />
             <Grid item className={classes.area}>
               <FormControl className={classes.formControl} fullWidth>
-                <InputLabel id="demo-simple-select-label">Language</InputLabel>
+                <InputLabel id="demo-simple-select-label">{strings.language}</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -477,7 +478,7 @@ export default function Sittings(props) {
               </FormControl>
             </Grid>
             <Grid item>
-              <Button onClick={handleClick} variant="contained" color="primary">Save changes</Button>
+              <Button onClick={handleClick} variant="contained" color="primary">{strings.SAVE_CHANGES}</Button>
             </Grid>
           </Grid>
         </Container>

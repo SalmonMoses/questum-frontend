@@ -9,7 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { getLocalStorage } from "../../../../Cookie"
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import { path } from "../../../consts"
+import {path} from "../../../consts"
+import { strings } from '../../../../localization'
 
 export default function EditQuest(props) {
 
@@ -65,7 +66,7 @@ export default function EditQuest(props) {
                 <Icon color="primary">edit</Icon>
             </IconButton>
             <Dialog open={open} fullWidth onClose={handleClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Edit Quest</DialogTitle>
+                <DialogTitle id="form-dialog-title">{strings.editQuest}</DialogTitle>
                 <DialogContent>
                     {/* <DialogContentText>
                         Enter a new name.
@@ -74,7 +75,7 @@ export default function EditQuest(props) {
                         autoFocus
                         margin="normal"
                         id="title"
-                        label="Title"
+                        label={strings.title}
                         type="title"
                         fullWidth
                         value={values.title}
@@ -95,10 +96,10 @@ export default function EditQuest(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        close
+                        {strings.CANCEL}
                     </Button>
                     <Button onClick={editQuest} color="primary">
-                        Edit
+                        {strings.EDIT}
                     </Button>
                 </DialogActions>
             </Dialog>

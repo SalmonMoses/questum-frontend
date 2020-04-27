@@ -10,6 +10,7 @@ import { getLocalStorage } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
 import { path } from "../../../consts"
 import { makeStyles } from '@material-ui/core';
+import { strings } from '../../../../localization'
 
 const useStyles = makeStyles(theme => ({
   label: {
@@ -62,7 +63,7 @@ export default function AddQuest(props) {
   return (
     <div>
       <Dialog open={props.open} fullWidth onClose={props.onClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Create new quest</DialogTitle>
+        <DialogTitle id="form-dialog-title">{strings.createNewQuest}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Enter a title.
@@ -71,7 +72,7 @@ export default function AddQuest(props) {
             autoFocus
             // margin="dense"
             id="title"
-            label="Title"
+            label={strings.title}
             type="title"
             fullWidth
             value={values.title}
@@ -95,10 +96,10 @@ export default function AddQuest(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose} color="primary">
-            close
+            {strings.CANCEL}
             </Button>
           <Button onClick={addQuest} color="primary">
-            Create
+            {strings.CREATE}
             </Button>
         </DialogActions>
       </Dialog>

@@ -14,6 +14,7 @@ import Icon from '@material-ui/core/Icon';
 import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import {path} from "../consts"
+import { strings } from '../../localization'
 
 function sha512(str) {
     return crypto.subtle.digest("SHA-512", new TextEncoder("utf-8").encode(str)).then(buf => {
@@ -70,9 +71,7 @@ export default function PasswordConfirm(props) {
             .then(result => {
                 console.log(result)
                 if (result.correct === false) {
-                    enqueueSnackbar("Пароль введен неправильно", {
-                        variant: 'error',
-                    });
+                    enqueueSnackbar(strings.passwdError, {variant: 'error',});
                     console.log("Password Error");
                 }
                 else {
@@ -95,9 +94,7 @@ export default function PasswordConfirm(props) {
                         .then(response => {
                             if (response.status === 401) {
                                 console.log("Authorization error");
-                                enqueueSnackbar("Ошибка обработки изменений :(", {
-                                    variant: 'error',
-                                });
+                                enqueueSnackbar(strings.authorizationError, {variant: 'error',});
                                 return;
                             }
                             return response.json();
@@ -161,13 +158,13 @@ export default function PasswordConfirm(props) {
     return (
         <div>
             <Dialog open={props.open} onClose={props.onClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Confirm</DialogTitle>
+                <DialogTitle id="form-dialog-title">{strings.confirmation}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To change email you should enter your password
+                        {strings.changeEmail}
           </DialogContentText>
                     <FormControl fullWidth >
-                        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                        <InputLabel htmlFor="standard-adornment-password">{strings.passwd}</InputLabel>
                         <Input
                             id="standard-adornment-password"
                             type={values.showPassword ? 'text' : 'password'}
@@ -189,10 +186,10 @@ export default function PasswordConfirm(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={props.onClick} color="primary">
-                        Cancel
+                        {strings.CANCEL}
                     </Button>
                     <Button onClick={handleClick} color="primary">
-                        Confirm
+                        {strings.CONFIRM}
                     </Button>
                 </DialogActions>
             </Dialog>

@@ -18,6 +18,7 @@ import DeleteSubquest from "./Subquests/deleteSubquest";
 import EditSubquest from "./Subquests/editSubquest"
 import EditQuest from "./editQuest"
 import { path } from "../../../consts"
+import { strings } from '../../../../localization'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -161,7 +162,7 @@ export default function Quests(props) {
                                     aria-controls="panel1bh-content"
                                     id="panel1bh-header"
                                 >
-                                    <Typography className={classes.heading}>Quest {item.order + 1}</Typography>
+                                    <Typography className={classes.heading}>{strings.quest}{item.order + 1}</Typography>
                                     <Typography className={classes.secondaryHeading}>{item.verificationType}</Typography>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>

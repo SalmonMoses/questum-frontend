@@ -11,6 +11,7 @@ import { getLocalStorage } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
 import { path } from '../../../consts';
 import { makeStyles } from '@material-ui/core';
+import { strings } from '../../../../localization'
 
 const useStyles = makeStyles(theme => ({
   dialog: {
@@ -70,7 +71,7 @@ export default function AddMember(props) {
   return (
     <div>
       <Dialog open={props.open} onClose={props.onClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
+        <DialogTitle id="form-dialog-title">{strings.addMember}</DialogTitle>
         <DialogContent className={classes.dialog}>
           <Grid container direction="row" spacing={5}>
             <Grid item>
@@ -78,7 +79,7 @@ export default function AddMember(props) {
                 autoFocus
                 margin="dense"
                 id="name"
-                label="Name"
+                label={strings.name}
                 type="name"
                 fullWidth
                 value={values.name}
@@ -90,7 +91,7 @@ export default function AddMember(props) {
               <TextField
                 margin="dense"
                 id="email"
-                label="E-Mail"
+                label={strings.eMail}
                 type="email"
                 fullWidth
                 value={values.email}
@@ -103,10 +104,10 @@ export default function AddMember(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClick} color="primary">
-            Cancel
+            {strings.CANCEL}
             </Button>
           <Button onClick={handleClick} color="primary">
-            ADD
+            {strings.ADD}
             </Button>
         </DialogActions>
       </Dialog>

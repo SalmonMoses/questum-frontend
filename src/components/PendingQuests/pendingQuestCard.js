@@ -16,6 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { path } from "../consts"
 import AnswerPhoto from "./answerPhoto"
+import { strings } from '../../localization'
 
 
 const useStyles = makeStyles(theme => ({
@@ -146,8 +147,7 @@ export default function PendingQuestCard(props) {
                                             <Grid>
                                                 <Grid item>
                                                     <Typography variant="h6">
-                                                    {item.id}
-                                                        Description:
+                                                    {strings.description}
                                                 </Typography>
                                                 </Grid>
                                                 <Grid item>
@@ -158,7 +158,7 @@ export default function PendingQuestCard(props) {
                                                 <Divider />
                                                 <Grid item>
                                                     <Typography variant="h6">
-                                                        User`s answer:
+                                                    {strings.memberAnswer}
                                                  </Typography>
                                                 </Grid>
                                                 {
@@ -175,7 +175,7 @@ export default function PendingQuestCard(props) {
                                                 <Divider />
                                                 <Grid item>
                                                     <Typography variant="h6">
-                                                        Exspected answer:
+                                                    {strings.expectAnswer}
                                                  </Typography>
                                                 </Grid>
                                                 <Grid item>
@@ -187,10 +187,10 @@ export default function PendingQuestCard(props) {
                                         </ExpansionPanelDetails>
                                         <ExpansionPanelActions>
                                             <Button onClick={() => handleClick({ status: "reject", subquestId: item.id })} color="primary">
-                                                cancel
+                                            {strings.CANCEL}
                                         </Button>
                                             <Button onClick={() => handleClick({ status: "verify", subquestId: item.id })} color="primary">
-                                                confirm
+                                            {strings.CONFIRM}
                                         </Button>
                                         </ExpansionPanelActions>
                                     </ExpansionPanel>

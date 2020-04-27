@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { strings } from '../../localization'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -26,11 +27,11 @@ export default function NoMatch() {
             <div className={classes.paper}>
                 <Typography>
                     <Box fontSize="h5.fontSize">
-                        404.. Эта страница не найдена.
+                        {strings.notFound}
                     </Box>
                 </Typography>
                 <Button href="/" color="primary">
-                    Перейти на гравную страницу.
+                    {strings.homePage}
                 </Button>
             </div>
         </main>
