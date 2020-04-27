@@ -194,7 +194,7 @@ export let strings = new LocalizedStrings({
         enterPoints:"Введите количество очков за квест",
         points:"Очки",
         deleteQuest:"Удаление квеста",
-        doUWantToDeleteQuest:"Вы уверенны, что хотите удалить квест {0}?",
+        doUWantToDeleteQuest:"Вы уверены, что хотите удалить квест {0}?",
         memberAnswer:"Ответ участника: ",
         CONFIRM:"ПОДТВЕРДИТЬ",
         noPendingQuests:"У Вас ещё нету квестов, которые ожидают ответа",

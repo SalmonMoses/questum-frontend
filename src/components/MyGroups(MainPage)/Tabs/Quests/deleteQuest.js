@@ -60,7 +60,7 @@ export default function DeleteQuest(props) {
                 <DialogTitle id="alert-dialog-title">{strings.deleteQuest}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        {strings.formatString(strings.doUWantToDeleteQuest, props.name)}
+                        {strings.formatString(strings.doUWantToDeleteQuest, props.questTitle)}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

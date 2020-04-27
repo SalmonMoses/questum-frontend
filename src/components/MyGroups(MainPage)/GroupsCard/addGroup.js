@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {path} from "../../consts"
+import { path } from "../../consts"
 import { getLocalStorage, setLocalStorage } from "../../../Cookie"
 import { strings } from '../../../localization'
 
@@ -51,8 +51,8 @@ export default function AddGroup(props) {
     };
 
     await fetch(path + "groups", requestOptions)
-      .then(result => {
       .then(response => response.json())
+      .then(result => {
         console.log(result)
         setLocalStorage("groupId", result.id)
       })
@@ -65,19 +65,19 @@ export default function AddGroup(props) {
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-          {strings.createNewGroup}
-        </Button>
+        {strings.createNewGroup}
+      </Button>
       <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">{strings.newGroupCreate}</DialogTitle>
+        <DialogTitle id="form-dialog-title">{strings.newGroupCreate}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-              Enter a name of your new group.
+            Enter a name of your new group.
             </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-              label={strings.groupName}
+            label={strings.groupName}
             type="name"
             fullWidth
             value={values.name}
@@ -87,11 +87,11 @@ export default function AddGroup(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-              {strings.CANCEL}
-            </Button>
+            {strings.CANCEL}
+          </Button>
           <Button onClick={() => handleClick()} color="primary">
-              {strings.CREATE}
-            </Button>
+            {strings.CREATE}
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
