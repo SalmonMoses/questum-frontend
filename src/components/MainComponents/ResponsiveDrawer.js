@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import { deleteFromLocalStorage, getLocalStorage, clearLocalStorage } from "../../Cookie"
+import { deleteFromLocalStorage, getLocalStorage, clearLocalStorage, setLocalStorage } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -147,10 +147,11 @@ function ResponsiveDrawer(props) {
     clearLocalStorage();
   }
 
-  const changeLanguage = (lang) =>{
-    strings.setLanguage(lang);
+  const changeLanguage = (lang) => {
+    setLocalStorage("lang", lang);
     handleClose();
-}
+    document.location.reload();
+  }
 
   const fetchAvatar = () => {
     let token = getLocalStorage("token");

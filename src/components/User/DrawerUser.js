@@ -25,7 +25,6 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { useHistory } from "react-router-dom";
 import { NotificationsParticipants } from './NotificationsParticipants'
 import { strings } from "../../localization"
-import LocalizedStrings from 'react-localization';
 
 const drawerWidth = 200;
 

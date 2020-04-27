@@ -166,6 +166,11 @@ export default function SittingsUser(props) {
     setOpen(false);
   };
 
+  const changeLanguage = (lang) => {
+    strings.setLanguage(lang);
+    handleClose();
+  }
+
   const fetching = (ob, string) => {
 
     let token = getLocalStorage("token");
@@ -339,16 +344,10 @@ export default function SittingsUser(props) {
   }
 
   const logout = () => {
-    // deleteFromLocalStorage("refreshToken");
-    // deleteFromLocalStorage("id");
-    // deleteFromLocalStorage("groupId");
-    // deleteFromLocalStorage("name");
-    // deleteFromLocalStorage("token");
-    // deleteFromLocalStorage("email");
     clearLocalStorage();
     // history.push("/login/user")
     document.location.reload();
-}
+  }
 
   React.useEffect(() => {
     fetchAvatar();
@@ -485,16 +484,17 @@ export default function SittingsUser(props) {
                   value={values.lang}
                   onChange={handleChange("lang")}
                 >
-                  <MenuItem value={"Russian"}>Russian</MenuItem>
-                  <MenuItem value={"English"}>English</MenuItem>
+                  <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+                  <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
+                  <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
             <Grid item>
               <Button onClick={handleClick} variant="contained" color="primary">{strings.SAVE_CHANGES}</Button>
             </Grid>
-            <Grid item style={{alignSelf: "center"}}>
-                <Button onClick={logout} color="primary" variant="outlined" endIcon={<Icon>logout</Icon>}>{strings.LOG_OUT}</Button>
+            <Grid item style={{ alignSelf: "center" }}>
+              <Button onClick={logout} color="primary" variant="outlined" endIcon={<Icon>logout</Icon>}>{strings.LOG_OUT}</Button>
             </Grid>
           </Grid>
         </Container>

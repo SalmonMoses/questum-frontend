@@ -117,7 +117,7 @@ export default function Sittings(props) {
     password: "",
     password2: "",
     errorPassword: false,
-    lang: "Russian",
+    lang: getLocalStorage("lang"),
     showPassword: false,
     error: false,
     text: "",
@@ -153,6 +153,9 @@ export default function Sittings(props) {
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
+    console.log(event.target.value);
+    setLocalStorage("lang", event.target.value);
+    // strings.setLanguage(event.target.value);
   }
 
   const [open, setOpen] = React.useState(false);
@@ -164,6 +167,11 @@ export default function Sittings(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const changeLanguage = () => {
+    strings.setLanguage(values.lang);
+    handleClose();
+  }
 
   const fetching = (ob, string) => {
 
@@ -362,7 +370,7 @@ export default function Sittings(props) {
               <Grid container spacing={2} direction="column" className={classes.avatarArea}>
                 <Grid item>
                   {(() => {
-                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton}/>);
+                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton} />);
                     else return (<Avatar alt={getLocalStorage("name")} src={avatar} className={classes.avatar}>{getLocalStorage("name").charAt(0)}</Avatar>)
                   })()}
                 </Grid>
@@ -463,19 +471,19 @@ export default function Sittings(props) {
             </Grid>
             <Divider />
             <Grid item className={classes.area}>
-              <FormControl className={classes.formControl} fullWidth>
-                <InputLabel id="demo-simple-select-label">{strings.language}</InputLabel>
-                <Select
+              <InputLabel id="demo-simple-select-label">{strings.language}</InputLabel>
+              <Select
+                  fullWidth
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  defaultValue="Russian"
+                  defaultValue="en"
                   value={values.lang}
                   onChange={handleChange("lang")}
                 >
-                  <MenuItem value={"Russian"}>Russian</MenuItem>
-                  <MenuItem value={"English"}>English</MenuItem>
-                </Select>
-              </FormControl>
+                <MenuItem value={'ru'} onClick={() => changeLanguage()}>Russian</MenuItem>
+                <MenuItem value={"en"} onClick={() => changeLanguage()}>English</MenuItem>
+                <MenuItem value={"ua"} onClick={() => changeLanguage()}>Ukrainian</MenuItem>
+              </Select>
             </Grid>
             <Grid item>
               <Button onClick={handleClick} variant="contained" color="primary">{strings.SAVE_CHANGES}</Button>

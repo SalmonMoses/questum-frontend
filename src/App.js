@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SignIn from './loginPage';
 import LoginUser from "./loginUser";
 import { createMuiTheme, ThemeProvider, fade } from '@material-ui/core'
@@ -17,6 +17,8 @@ import {
 } from "react-router-dom"
 import { Privacy } from './components/Help/privacy';
 import { EULA } from './components/Help/eula';
+import { getLocalStorage, setLocalStorage } from './Cookie';
+import { strings } from './localization'
 
 
 // Просто набросок, чтобы потом менять было удобнее. Тему удобно создавать с помощью вот этого: https://material.io/resources/color/#!/?view.left=0&view.right=0
@@ -79,6 +81,18 @@ function App() {
   const auth = (prop) => {
     setLoading(prop);
   }
+
+  useEffect(()=>{
+    const changeLanguage = () => {
+      if(getLocalStorage("lang") === undefined){
+        setLocalStorage("lang", 'en');
+      }else{
+        strings.setLanguage(getLocalStorage("lang"));
+        console.log(getLocalStorage("lang"));
+      }
+    }
+    changeLanguage();
+  },[]);
 
   return (
     <Router>
