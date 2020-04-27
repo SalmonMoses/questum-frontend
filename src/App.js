@@ -75,6 +75,12 @@ const theme = createMuiTheme({
 }, ruRU)
 
 function App() {
+  if (getLocalStorage("lang") === undefined) {
+    setLocalStorage("lang", 'en');
+  } else {
+    strings.setLanguage(getLocalStorage("lang"));
+    console.log(getLocalStorage("lang"));
+  }
 
   const [loading, setLoading] = useState(true);
 
@@ -82,16 +88,8 @@ function App() {
     setLoading(prop);
   }
 
-  // useEffect(()=>{
-  //   const changeLanguage = () => {
-  //     if(getLocalStorage("lang") === undefined){
-  //       setLocalStorage("lang", 'en');
-  //     }else{
-  //       strings.setLanguage(getLocalStorage("lang"));
-  //       console.log(getLocalStorage("lang"));
-  //     }
-  //   }
-  //   changeLanguage();
+  // useEffect(() => {
+  //   // changeLanguage();
   // });
 
   return (

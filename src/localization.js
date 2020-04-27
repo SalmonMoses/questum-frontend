@@ -390,10 +390,7 @@ export let strings = new LocalizedStrings({
         sendAnswer: "Відправити відповідь",
         sendPhoto: "Відправити світлину"
     }
-},
-    {
-        customLanguageInterface: getCustomLang
-    });
+});
 
 function getCustomLang() {
     return getLocalStorage('lang') || navigator.language;
