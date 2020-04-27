@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
 import { path } from "../../../consts"
 import { makeStyles } from '@material-ui/core';
@@ -34,7 +34,7 @@ export default function AddQuest(props) {
 
   const addQuest = async () => {
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");

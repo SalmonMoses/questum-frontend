@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core/styles';
 import VarificationTypes from "./varificationTypes"
-import { getCookie } from "../../../../../Cookie"
+import { getLocalStorage } from "../../../../../Cookie"
 import TextField from '@material-ui/core/TextField';
 import { path } from "../../../../consts"
 
@@ -73,7 +73,7 @@ export default function AddSubQuest(props) {
     const addSubQuest = async () => {
         console.log(values.type.length);
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
 

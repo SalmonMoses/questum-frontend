@@ -8,7 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import GroupPaper from './groupPaper';
 import IconButton from "@material-ui/core/IconButton"
 import Icon from "@material-ui/core/Icon"
-import { getCookie } from "../../../Cookie"
+import { getLocalStorage } from "../../../Cookie"
 import AddGroup from "./addGroup"
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -103,7 +103,7 @@ export default function MediaCard(props) {
   useEffect(() => {
 
     const fetchData = async () => {
-      let token = getCookie("token");
+      let token = getLocalStorage("token");
       console.log("TOKEN: " + token);
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -113,7 +113,7 @@ export default function MediaCard(props) {
         redirect: 'follow',
         headers: myHeaders,
       };
-      await fetch(`${path}owners/${getCookie("id")}/groups`, requestOptions)
+      await fetch(`${path}owners/${getLocalStorage("id")}/groups`, requestOptions)
         .then(response => response.json())
         .then(data => {
           console.log(data);

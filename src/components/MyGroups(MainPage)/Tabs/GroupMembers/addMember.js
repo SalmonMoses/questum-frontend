@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from "@material-ui/core/Grid"
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
 import { path } from '../../../consts';
 import { makeStyles } from '@material-ui/core';
@@ -34,7 +34,7 @@ export default function AddMember(props) {
 
   const handleClick = async () => {
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -51,7 +51,7 @@ export default function AddMember(props) {
       redirect: 'follow'
     };
 
-    let id = getCookie("groupId");
+    let id = getLocalStorage("groupId");
     if (history.location.search.slice(4) !== "") {
       id = history.location.search.slice(4)
     }

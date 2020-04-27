@@ -11,7 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Icon from '@material-ui/core/Icon';
-import { getCookie, setCookie } from "../../Cookie"
+import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import {path} from "../consts"
 
@@ -44,7 +44,7 @@ export default function PasswordConfirm(props) {
 
     const handleClick = () => {
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         let ob = {
             email: props.email,
@@ -62,9 +62,9 @@ export default function PasswordConfirm(props) {
             redirect: 'follow'
         };
 
-        console.log(values.password + getCookie("email"));
+        console.log(values.password + getLocalStorage("email"));
 
-        sha512(values.password + getCookie("email")).then(value => {
+        sha512(values.password + getLocalStorage("email")).then(value => {
             fetch(`${path}check/password?hash=${value}`, requestOptions2)
             .then(response => response.json())
             .then(result => {
@@ -91,7 +91,7 @@ export default function PasswordConfirm(props) {
 
                     };
                     if(props.user){
-                        fetch(`${path}participants/${getCookie("id")}`, requestOptions)
+                        fetch(`${path}participants/${getLocalStorage("id")}`, requestOptions)
                         .then(response => {
                             if (response.status === 401) {
                                 console.log("Authorization error");
@@ -107,8 +107,8 @@ export default function PasswordConfirm(props) {
                                 return;
                             } else {
                                 console.log(result);
-                                setCookie("name", result.name, 30);
-                                setCookie("email", result.email, 30);
+                                setLocalStorage("name", result.name, 30);
+                                setLocalStorage("email", result.email, 30);
                                 enqueueSnackbar("Данные успешно изменены", {
                                     variant: 'success',
                                 });
@@ -120,7 +120,7 @@ export default function PasswordConfirm(props) {
                         .catch(error => console.log('error', error));
                     }else
                     if(props.owner){
-                    fetch(`${path}owners/${getCookie("id")}`, requestOptions)
+                    fetch(`${path}owners/${getLocalStorage("id")}`, requestOptions)
                         .then(response => {
                             if (response.status === 401) {
                                 console.log("Authorization error");
@@ -136,8 +136,8 @@ export default function PasswordConfirm(props) {
                                 return;
                             } else {
                                 console.log(result);
-                                setCookie("name", result.name, 30);
-                                setCookie("email", result.email, 30);
+                                setLocalStorage("name", result.name, 30);
+                                setLocalStorage("email", result.email, 30);
                                 enqueueSnackbar("Данные успешно изменены", {
                                     variant: 'success',
                                 });

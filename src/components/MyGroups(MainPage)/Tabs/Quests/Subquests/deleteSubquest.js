@@ -7,7 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import { getCookie } from "../../../../../Cookie"
+import { getLocalStorage } from "../../../../../Cookie"
 import {path} from "../../../../consts"
 
 export default function DeleteSubquest(props) {
@@ -23,7 +23,7 @@ export default function DeleteSubquest(props) {
 
     const deleteSubquest = async () => {
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
 

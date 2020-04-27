@@ -16,7 +16,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import { setCookie } from "./Cookie";
+import { setLocalStorage } from "./Cookie";
 import { path } from "./components/consts"
 
 // function Copyright() {
@@ -129,8 +129,8 @@ export default function SignIn() {
           return;
         } else {
           console.dir(json.refreshToken);
-          setCookie("refreshToken", json.refreshToken, 10);
-          setCookie("token", json.token, 30);
+          setLocalStorage("refreshToken", json.refreshToken, 10);
+          setLocalStorage("token", json.token, 30);
           console.dir(document.cookie);
           setValues({ ...values, showAlert: false });
           enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {

@@ -17,7 +17,7 @@ import Link from '@material-ui/core/Link'
 import { useSnackbar } from 'notistack';
 import { path } from "./components/consts"
 import { useHistory } from "react-router-dom";
-import { setCookie } from "./Cookie";
+import { setLocalStorage } from "./Cookie";
 
 
 
@@ -135,9 +135,9 @@ export default function LoginUser() {
                     return;
                 } else {
                     console.dir(result.refreshToken);
-                    setCookie("refreshToken", result.refreshToken, 10);
-                    setCookie("token", result.token, 30);
-                    setCookie("groupID", values.token, 30);
+                    setLocalStorage("refreshToken", result.refreshToken, 10);
+                    setLocalStorage("token", result.token, 30);
+                    setLocalStorage("groupID", values.token, 30);
                     console.dir(document.cookie);
                     // enqueueSnackbar(`Вы вошли как ${result.user.name}`, {
                     //     variant: 'success',

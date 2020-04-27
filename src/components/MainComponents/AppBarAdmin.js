@@ -96,7 +96,7 @@ export default function AppBarAdmin() {
   };
   
   const fetchAvatar = () => {
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -108,7 +108,7 @@ export default function AppBarAdmin() {
       redirect: 'follow',
     };
 
-    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}owners/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -173,7 +173,7 @@ export default function AppBarAdmin() {
         <p>Messages</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <Avatar alt={getCookie("name")} src={avatar}>{getCookie("name").charAt(0)}</Avatar>
+        <Avatar alt={getLocalStorage("name")} src={avatar}>{getLocalStorage("name").charAt(0)}</Avatar>
         <p>Profile</p>
       </MenuItem>
     </Menu>

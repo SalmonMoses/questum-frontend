@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MemberPaper from "./member"
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import {path} from "../../../consts"
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,7 +35,7 @@ export default function DeleteMember(props) {
 
   const deleteUser = async () =>{
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 

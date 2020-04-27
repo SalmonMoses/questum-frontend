@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import { deleteCookie } from "../../Cookie"
+import { deleteFromLocalStorage, clearLocalStorage } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -128,12 +128,13 @@ function ResDrawer(props) {
   };
 
   const logout = () => {
-    deleteCookie("refreshToken");
-    deleteCookie("id");
-    deleteCookie("groupId");
-    deleteCookie("name");
-    deleteCookie("token");
-    deleteCookie("email");
+    // deleteFromLocalStorage("refreshToken");
+    // deleteFromLocalStorage("id");
+    // deleteFromLocalStorage("groupId");
+    // deleteFromLocalStorage("name");
+    // deleteFromLocalStorage("token");
+    // deleteFromLocalStorage("email");
+    clearLocalStorage();
     // history.replace("/login/owner");
     // document.location.reload(true);
   }

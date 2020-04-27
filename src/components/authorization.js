@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getCookie, setCookie } from "../Cookie"
+import { getLocalStorage, setLocalStorage } from "../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import { path } from './consts'
@@ -69,13 +69,13 @@ export default function Authorization(props) {
                 } else {
                     console.dir(json.refreshToken + 'SUCCES');
                     console.dir(json.token + ' - token');
-                    setCookie("refreshToken", json.refreshToken, 30);
-                    setCookie("id", json.user.id, 30);
-                    setCookie("token", json.token, 30);
-                    setCookie("name", json.user.name, 30);
-                    setCookie("email", json.user.email, 30);
+                    setLocalStorage("refreshToken", json.refreshToken, 30);
+                    setLocalStorage("id", json.user.id, 30);
+                    setLocalStorage("token", json.token, 30);
+                    setLocalStorage("name", json.user.name, 30);
+                    setLocalStorage("email", json.user.email, 30);
                     setLoading(false);
-                    setToken(getCookie("token"));
+                    setToken(getLocalStorage("token"));
                     console.log(document.cookie);
                     history.push("/user/group");
                     // enqueueSnackbar(document.cookie, {
@@ -126,13 +126,13 @@ export default function Authorization(props) {
                 } else {
                     console.dir(json.refreshToken + 'SUCCES');
                     console.dir(json.token + ' - token');
-                    setCookie("refreshToken", json.refreshToken, 30);
-                    setCookie("id", json.owner.id, 30);
-                    setCookie("token", json.token, 30);
-                    setCookie("name", json.owner.name, 30);
-                    setCookie("email", json.owner.email, 30);
+                    setLocalStorage("refreshToken", json.refreshToken, 30);
+                    setLocalStorage("id", json.owner.id, 30);
+                    setLocalStorage("token", json.token, 30);
+                    setLocalStorage("name", json.owner.name, 30);
+                    setLocalStorage("email", json.owner.email, 30);
                     setLoading(false);
-                    setToken(getCookie("token"));
+                    setToken(getLocalStorage("token"));
                     console.log(document.cookie);
                     history.push("/groups");
                     props.auth(false);
@@ -148,7 +148,7 @@ export default function Authorization(props) {
     }
 
     useEffect(() => {
-        let refreshTok = getCookie("refreshToken");
+        let refreshTok = getLocalStorage("refreshToken");
         if(refreshTok === undefined) {
             history.push("/login/user/");
             return;

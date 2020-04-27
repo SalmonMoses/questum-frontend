@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import { deleteCookie, getCookie } from "../../Cookie"
+import { deleteFromLocalStorage, getLocalStorage, clearLocalStorage } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -143,18 +143,19 @@ function ResponsiveDrawer(props) {
   };
 
   const logout = () => {
-    deleteCookie("refreshToken");
-    deleteCookie("id");
-    deleteCookie("groupId");
-    deleteCookie("name");
-    deleteCookie("token");
-    deleteCookie("email");
+    // deleteFromLocalStorage("refreshToken");
+    // deleteFromLocalStorage("id");
+    // deleteFromLocalStorage("groupId");
+    // deleteFromLocalStorage("name");
+    // deleteFromLocalStorage("token");
+    // deleteFromLocalStorage("email");
+    clearLocalStorage();
     // history.replace("/login/owner");
     // document.location.reload(true);
   }
 
   const fetchAvatar = () => {
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -166,7 +167,7 @@ function ResponsiveDrawer(props) {
       redirect: 'follow',
     };
 
-    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}owners/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -311,7 +312,7 @@ function ResponsiveDrawer(props) {
             >
               {(() => {
                 if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatar} />);
-                else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
+                else return (<Avatar alt={getLocalStorage("name")} src={avatar} className={classes.avatar}>{getLocalStorage("name").charAt(0)}</Avatar>)
               })()}
             </IconButton>
           </div>

@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Divider } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { getCookie} from "../../Cookie"
+import { getLocalStorage} from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
@@ -81,7 +81,7 @@ export default function Help() {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  let cookie = getCookie("refreshToken");
+  let cookie = getLocalStorage("refreshToken");
 
   if (cookie === undefined) {
     history.push("/login/owner");

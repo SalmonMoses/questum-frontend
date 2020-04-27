@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { getCookie, setCookie, deleteCookie } from "../../../Cookie"
+import { getLocalStorage, setLocalStorage, deleteFromLocalStorage, clearLocalStorage } from "../../../Cookie"
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
@@ -140,7 +140,7 @@ export default function SittingsUser(props) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  let cookie = getCookie("refreshToken");
+  let cookie = getLocalStorage("refreshToken");
 
   if (cookie === undefined) {
     history.push("/login/owner");
@@ -167,7 +167,7 @@ export default function SittingsUser(props) {
 
   const fetching = (ob, string) => {
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -185,7 +185,7 @@ export default function SittingsUser(props) {
 
     };
 
-    fetch(`${path}participants/${getCookie("id")}`, requestOptions)
+    fetch(`${path}participants/${getLocalStorage("id")}`, requestOptions)
       .then(response => {
         if (response.status > 400) {
           console.log("Authorization error");
@@ -201,8 +201,8 @@ export default function SittingsUser(props) {
           return;
         } else {
           console.log(result);
-          setCookie("name", result.name, 30);
-          setCookie("email", result.email, 30);
+          setLocalStorage("name", result.name, 30);
+          setLocalStorage("email", result.email, 30);
           enqueueSnackbar(string, {
             variant: 'success',
           });
@@ -256,7 +256,7 @@ export default function SittingsUser(props) {
   }
 
   const fetchAvatar = () => {
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -268,7 +268,7 @@ export default function SittingsUser(props) {
       redirect: 'follow',
     };
 
-    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}participants/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -295,7 +295,7 @@ export default function SittingsUser(props) {
   }
 
   const uploadAvatar = (e) => {
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -313,7 +313,7 @@ export default function SittingsUser(props) {
 
     setAvatarLoading(true);
 
-    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}participants/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -338,12 +338,13 @@ export default function SittingsUser(props) {
   }
 
   const logout = () => {
-    deleteCookie("refreshToken");
-    deleteCookie("id");
-    deleteCookie("groupId");
-    deleteCookie("name");
-    deleteCookie("token");
-    deleteCookie("email");
+    // deleteFromLocalStorage("refreshToken");
+    // deleteFromLocalStorage("id");
+    // deleteFromLocalStorage("groupId");
+    // deleteFromLocalStorage("name");
+    // deleteFromLocalStorage("token");
+    // deleteFromLocalStorage("email");
+    clearLocalStorage();
     // history.push("/login/user")
     document.location.reload();
 }
@@ -374,7 +375,7 @@ export default function SittingsUser(props) {
                 <Grid item>
                   {(() => {
                     if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton} />);
-                    else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
+                    else return (<Avatar alt={getLocalStorage("name")} src={avatar} className={classes.avatar}>{getLocalStorage("name").charAt(0)}</Avatar>)
                   })()}
                 </Grid>
                 <Grid item>

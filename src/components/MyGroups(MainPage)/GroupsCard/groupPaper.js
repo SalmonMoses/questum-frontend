@@ -11,7 +11,7 @@ import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from "react-router-dom";
-import { getCookie } from "../../../Cookie"
+import { getLocalStorage } from "../../../Cookie"
 import ChangeGroupName from "./DialogChangeName"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -122,7 +122,7 @@ export default function GroupPaper(props) {
   }
 
   const fetchAvatar = () => {
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -162,7 +162,7 @@ export default function GroupPaper(props) {
 
   const handleGroupDelete = async () => {
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 

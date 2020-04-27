@@ -7,7 +7,7 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import { path } from "../../../consts"
 import SubmitAnswer from "./submitAnswer"
 import SubmitAnswerPhoto from "./submitAnswerPhoto"
@@ -59,7 +59,7 @@ export default function SubquestStepper(props) {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const groupId = getCookie("groupID");
+  const groupId = getLocalStorage("groupID");
 
   const [valuesSubQuests, setValuesSubQuests] = useState([]);
 
@@ -77,7 +77,7 @@ export default function SubquestStepper(props) {
 
   const submitNone = async (id) => {
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
@@ -108,7 +108,7 @@ export default function SubquestStepper(props) {
 
     const fetchAllQuests = async () => {
 
-      let token = getCookie("token");
+      let token = getLocalStorage("token");
 
       var myHeaders = new Headers();
 
@@ -122,7 +122,7 @@ export default function SubquestStepper(props) {
         headers: myHeaders,
       };
 
-      await fetch(`${path}participants/${getCookie("id")}/progress/${props.id}`, requestOptions)
+      await fetch(`${path}participants/${getLocalStorage("id")}/progress/${props.id}`, requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log("all subquests: ")

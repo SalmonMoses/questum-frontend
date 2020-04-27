@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { getCookie, setCookie } from "../../Cookie"
+import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
@@ -108,7 +108,7 @@ export default function PendingQuests(props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    let cookie = getCookie("refreshToken");
+    let cookie = getLocalStorage("refreshToken");
 
     if (cookie === undefined) {
         history.push("/login/owner");
@@ -136,7 +136,7 @@ export default function PendingQuests(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            let token = getCookie("token");
+            let token = getLocalStorage("token");
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             myHeaders.append("Authorization", "Bearer " + token);
@@ -145,7 +145,7 @@ export default function PendingQuests(props) {
                 redirect: 'follow',
                 headers: myHeaders,
             };
-            await fetch(`${path}owners/${getCookie("id")}/groups`, requestOptions)
+            await fetch(`${path}owners/${getLocalStorage("id")}/groups`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     if (data === valuesLast) {

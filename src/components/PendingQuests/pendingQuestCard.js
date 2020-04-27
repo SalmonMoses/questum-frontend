@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { getCookie } from "../../Cookie"
+import { getLocalStorage } from "../../Cookie"
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import { ExpansionPanelActions } from '@material-ui/core';
@@ -59,7 +59,7 @@ export default function PendingQuestCard(props) {
 
     const handleClick = async (prop) => {
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
 
@@ -87,7 +87,7 @@ export default function PendingQuestCard(props) {
 
         const getPendingQuests = async () => {
 
-            let token = getCookie("token");
+            let token = getLocalStorage("token");
             console.log("token: " + token)
 
             var myHeaders = new Headers();

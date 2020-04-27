@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { getCookie, setCookie } from "../../Cookie"
+import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
@@ -139,7 +139,7 @@ export default function Sittings(props) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  let cookie = getCookie("refreshToken");
+  let cookie = getLocalStorage("refreshToken");
 
   if (cookie === undefined) {
     history.push("/login/owner");
@@ -166,7 +166,7 @@ export default function Sittings(props) {
 
   const fetching = (ob, string) => {
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -184,7 +184,7 @@ export default function Sittings(props) {
 
     };
 
-    fetch(`${path}owners/${getCookie("id")}`, requestOptions)
+    fetch(`${path}owners/${getLocalStorage("id")}`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -200,8 +200,8 @@ export default function Sittings(props) {
           return;
         } else {
           console.log(result);
-          setCookie("name", result.name, 30);
-          setCookie("email", result.email, 30);
+          setLocalStorage("name", result.name, 30);
+          setLocalStorage("email", result.email, 30);
           enqueueSnackbar(string, {
             variant: 'success',
           });
@@ -211,7 +211,7 @@ export default function Sittings(props) {
   }
 
   const fetchAvatar = () => {
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -223,7 +223,7 @@ export default function Sittings(props) {
       redirect: 'follow',
     };
 
-    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}owners/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -295,7 +295,7 @@ export default function Sittings(props) {
   }
 
   const uploadAvatar = (e) => {
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -313,7 +313,7 @@ export default function Sittings(props) {
 
     setAvatarLoading(true);
 
-    fetch(`${path}owners/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}owners/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -362,7 +362,7 @@ export default function Sittings(props) {
                 <Grid item>
                   {(() => {
                     if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton}/>);
-                    else return (<Avatar alt={getCookie("name")} src={avatar} className={classes.avatar}>{getCookie("name").charAt(0)}</Avatar>)
+                    else return (<Avatar alt={getLocalStorage("name")} src={avatar} className={classes.avatar}>{getLocalStorage("name").charAt(0)}</Avatar>)
                   })()}
                 </Grid>
                 <Grid item>

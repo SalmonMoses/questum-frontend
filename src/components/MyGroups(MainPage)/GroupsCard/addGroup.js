@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { path } from "../../consts"
-import { getCookie, setCookie } from "../../../Cookie"
+import { getLocalStorage, setLocalStorage } from "../../../Cookie"
 
 export default function AddGroup(props) {
   const [open, setOpen] = React.useState(false);
@@ -30,7 +30,7 @@ export default function AddGroup(props) {
     setValues({ ...values, [prop]: event.target.value })
   }
 
-  let token = getCookie("token");
+  let token = getLocalStorage("token");
 
   const handleClick = async () => {
 
@@ -53,7 +53,7 @@ export default function AddGroup(props) {
       .then(response => response.json())
       .then(result => {
         console.log(result)
-        setCookie("groupId", result.id)
+        setLocalStorage("groupId", result.id)
       })
       .catch(error => console.log('error', error));
     handleClose();

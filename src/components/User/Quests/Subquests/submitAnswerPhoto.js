@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import { path } from "../../../consts"
 import { useSnackbar } from 'notistack';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -17,7 +17,7 @@ export default function SubmitAnswerPhoto(props) {
 
     const sendAnswer =  async () =>{
         var myHeaders = new Headers();
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
         console.log(props.subquestId);
@@ -43,7 +43,7 @@ export default function SubmitAnswerPhoto(props) {
 
     const sendPhoto = (e) => {
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
 

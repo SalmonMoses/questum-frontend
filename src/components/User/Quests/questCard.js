@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { Divider, Grid, ExpansionPanelActions, Button } from '@material-ui/core';
-import { getCookie } from "../../../Cookie";
+import { getLocalStorage } from "../../../Cookie";
 import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -68,10 +68,10 @@ export default function QuestCard(props) {
 
         const fetchDataQuests = async () => {
 
-            let id = getCookie("groupID");
+            let id = getLocalStorage("groupID");
             console.log("Cookie id: " + id);
 
-            let token = getCookie("token");
+            let token = getLocalStorage("token");
             var myHeaders = new Headers();
 
             myHeaders.append("Authorization", "Bearer " + token);

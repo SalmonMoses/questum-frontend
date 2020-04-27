@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import { path } from "../../../consts"
@@ -34,7 +34,7 @@ export default function EditQuest(props) {
 
     const editQuest = async () => {
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { getCookie } from "../../../Cookie"
+import { getLocalStorage } from "../../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import { path } from "../../consts"
@@ -70,7 +70,7 @@ export default function QuestsUser() {
   const { enqueueSnackbar } = useSnackbar();
 
   //Проверка на наличие refreshToken
-  let cookie = getCookie("refreshToken");
+  let cookie = getLocalStorage("refreshToken");
 
   if (cookie === undefined) {
     history.push("/login/user");
@@ -88,10 +88,10 @@ export default function QuestsUser() {
 
     const fetchDataQuests = async () => {
 
-      let id = getCookie("groupID");
+      let id = getLocalStorage("groupID");
       console.log("Cookie id: " + id);
 
-      let token = getCookie("token");
+      let token = getLocalStorage("token");
       var myHeaders = new Headers();
 
       myHeaders.append("Authorization", "Bearer " + token);

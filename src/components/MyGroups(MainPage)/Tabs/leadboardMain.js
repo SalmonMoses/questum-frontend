@@ -15,7 +15,7 @@ import { green } from '@material-ui/core/colors';
 import AddMember from "./GroupMembers/addMember"
 import { useHistory } from "react-router-dom";
 import AddQuest from "./Quests/addQuest"
-import { getCookie } from "../../../Cookie"
+import { getLocalStorage } from "../../../Cookie"
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import DeleteMember from "./GroupMembers/deleteMember";
@@ -224,14 +224,14 @@ export default function Leadboard(props) {
 
     const fetchDataMembers = async () => {
 
-      let id = getCookie("groupId");
+      let id = getLocalStorage("groupId");
       console.log("Cookie id: " + id);
       if (history.location.search.slice(4) !== "") {
         id = history.location.search.slice(4);
       }
       console.log("ID: " + id);
 
-      let token = getCookie("token");
+      let token = getLocalStorage("token");
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -263,14 +263,14 @@ export default function Leadboard(props) {
 
     const fetchDataLeaderboard = async () => {
 
-      let id = getCookie("groupId");
+      let id = getLocalStorage("groupId");
       console.log("Cookie id: " + id);
       if (history.location.search.slice(4) !== "") {
         id = history.location.search.slice(4);
       }
       console.log("ID: " + id);
 
-      let token = getCookie("token");
+      let token = getLocalStorage("token");
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -302,7 +302,7 @@ export default function Leadboard(props) {
 
     const fetchDataQuests = async () => {
 
-      let id = getCookie("groupId");
+      let id = getLocalStorage("groupId");
       console.log("Cookie id: " + id);
       if (history.location.search.slice(4) !== "") {
         id = history.location.search.slice(4);
@@ -310,7 +310,7 @@ export default function Leadboard(props) {
       console.log("ID: " + id);
 
 
-      let token = getCookie("token");
+      let token = getLocalStorage("token");
       var myHeaders = new Headers();
       // myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);

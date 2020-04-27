@@ -9,7 +9,7 @@ import NoMatch from "../MainComponents/NoMatch";
 import GroupId from "../groupID"
 import { Grid } from '@material-ui/core';
 import LeadboardMain from "./Tabs/leadboardMain";
-import { getCookie, setCookie } from "../../Cookie"
+import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import PendingQuests from "../PendingQuests/pendingQuests"
@@ -154,7 +154,7 @@ export default function MainPageAdmin(props) {
 
     const checkToken = async () => {
 
-        let cookie = getCookie("refreshToken");
+        let cookie = getLocalStorage("refreshToken");
 
         if (cookie === undefined) {
             history.push("/login/owner");
@@ -197,13 +197,13 @@ export default function MainPageAdmin(props) {
                 } else {
                     console.dir(json.refreshToken + 'SUCCES');
                     console.dir(json.token + ' - token');
-                    setCookie("refreshToken", json.refreshToken, 30);
-                    setCookie("id", json.owner.id, 30);
-                    setCookie("token", json.token, 30);
-                    setCookie("name", json.owner.name, 30);
-                    setCookie("email", json.owner.email, 30);
+                    setLocalStorage("refreshToken", json.refreshToken, 30);
+                    setLocalStorage("id", json.owner.id, 30);
+                    setLocalStorage("token", json.token, 30);
+                    setLocalStorage("name", json.owner.name, 30);
+                    setLocalStorage("email", json.owner.email, 30);
                     setLoading(false);
-                    setToken(getCookie("token"));
+                    setToken(getLocalStorage("token"));
                     console.log(document.cookie);
                 }
             })
@@ -213,7 +213,7 @@ export default function MainPageAdmin(props) {
             });
     }
 
-    let cookie = getCookie("refreshToken");
+    let cookie = getLocalStorage("refreshToken");
 
     if (cookie === undefined) {
         history.push("/login/owner");
@@ -234,7 +234,7 @@ export default function MainPageAdmin(props) {
                         <PendingQuests />
                     </Route>
                     <Route exact path="/settings">
-                        <Settings name={getCookie("name")} email={getCookie("email")} />
+                        <Settings name={getLocalStorage("name")} email={getLocalStorage("email")} />
                     </Route>
                     <Route path="/help" component={Help} />
                     <Route path="/group" component={GroupId} />

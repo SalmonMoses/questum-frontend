@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from "@material-ui/core/Grid"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core/styles';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import { path } from "../../../consts"
 import { useSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
@@ -67,7 +67,7 @@ export default function SubmitAnswer(props) {
 
     const sendAnswer = async () =>{
         var myHeaders = new Headers();
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
         

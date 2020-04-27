@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Container from '@material-ui/core/Container';
-import { getCookie} from "../../Cookie"
+import { getLocalStorage} from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
@@ -107,9 +107,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Me() {
 
-  let name = getCookie("name");
-  let email = getCookie("email");
-  let group = getCookie("group");
+  let name = getLocalStorage("name");
+  let email = getLocalStorage("email");
+  let group = getLocalStorage("group");
 
   if (name === undefined) {
     history.push("/login/user");
@@ -132,7 +132,7 @@ export default function Me() {
   let history = useHistory();
 
   const fetchAvatar = () => {
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -144,7 +144,7 @@ export default function Me() {
       redirect: 'follow',
     };
 
-    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}participants/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -172,7 +172,7 @@ export default function Me() {
 
 
   const uploadAvatar = (e) => {
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -190,7 +190,7 @@ export default function Me() {
 
     setAvatarLoading(true);
 
-    fetch(`${path}participants/${getCookie("id")}/avatar`, requestOptions)
+    fetch(`${path}participants/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -260,10 +260,10 @@ export default function Me() {
                 if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton}/>);
                 else return (<Avatar 
                               onClick={() => handleClick("ava")} 
-                              alt={getCookie("name")} 
+                              alt={getLocalStorage("name")} 
                               src={avatar} 
                               className={classes.avatar}
-                              >{getCookie("name").charAt(0)}</Avatar>)
+                              >{getLocalStorage("name").charAt(0)}</Avatar>)
               })()}
             </Grid>
            

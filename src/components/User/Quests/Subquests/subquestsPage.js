@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import SubquestStepper from "./subquestStepper"
@@ -83,7 +83,7 @@ export default function SubquestsPage() {
     const { enqueueSnackbar } = useSnackbar();
 
     //Проверка на наличие refreshToken
-    let cookie = getCookie("refreshToken");
+    let cookie = getLocalStorage("refreshToken");
 
     if (cookie === undefined) {
         history.push("/login/user");

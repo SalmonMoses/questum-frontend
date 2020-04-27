@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -100,7 +100,7 @@ export default function Subquests(props) {
     const { enqueueSnackbar } = useSnackbar();
 
     //Проверка на наличие refreshToken
-    let cookie = getCookie("refreshToken");
+    let cookie = getLocalStorage("refreshToken");
 
     if (cookie === undefined) {
         history.push("/login/user");
@@ -112,7 +112,7 @@ export default function Subquests(props) {
 
     const classes = useStyles();
 
-    const groupId = getCookie("groupID");
+    const groupId = getLocalStorage("groupID");
 
     const [valuesSubQuests, setValuesSubQuests] = useState([]);
 
@@ -134,7 +134,7 @@ export default function Subquests(props) {
 
         const fetchAllQuests = async () => {
 
-            let token = getCookie("token");
+            let token = getLocalStorage("token");
 
             var myHeaders = new Headers();
 
@@ -148,7 +148,7 @@ export default function Subquests(props) {
                 headers: myHeaders,
             };
 
-            await fetch(`${path}participants/${getCookie("id")}/progress/${props.id}`, requestOptions)
+            await fetch(`${path}participants/${getLocalStorage("id")}/progress/${props.id}`, requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     console.log("all subquests: ")

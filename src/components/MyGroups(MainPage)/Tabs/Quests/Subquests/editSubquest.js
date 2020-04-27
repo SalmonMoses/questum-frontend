@@ -11,7 +11,7 @@ import Grid from "@material-ui/core/Grid"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core/styles';
 import VarificationTypes from "./varificationTypes"
-import { getCookie } from "../../../../../Cookie"
+import { getLocalStorage } from "../../../../../Cookie"
 import Chip from '@material-ui/core/Chip';
 import {path} from "../../../../consts"
 import { TextField } from '@material-ui/core';
@@ -60,7 +60,7 @@ export default function EditSubquest(props) {
     const editSubQuest = async () => {
         console.log(values.type);
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
 

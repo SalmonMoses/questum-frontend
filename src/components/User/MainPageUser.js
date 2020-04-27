@@ -4,7 +4,7 @@ import Me from "./Me"
 import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import NoMatch from "../MainComponents/NoMatch"
-import { getCookie, setCookie } from "../../Cookie"
+import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -93,7 +93,7 @@ export default function MainPageAdmin() {
 
     const checkToken = async () => {
 
-        let cookie = getCookie("refreshToken");
+        let cookie = getLocalStorage("refreshToken");
 
         console.dir(document.cookie);
 
@@ -130,13 +130,13 @@ export default function MainPageAdmin() {
                 } else {
                     console.dir(json.refreshToken + 'SUCCES');
                     console.dir(json.token + ' - token');
-                    setCookie("refreshToken", json.refreshToken, 30);
-                    setCookie("id", json.user.id, 30);
-                    setCookie("token", json.token, 30);
-                    setCookie("name", json.user.name, 30);
-                    setCookie("email", json.user.email, 30);
+                    setLocalStorage("refreshToken", json.refreshToken, 30);
+                    setLocalStorage("id", json.user.id, 30);
+                    setLocalStorage("token", json.token, 30);
+                    setLocalStorage("name", json.user.name, 30);
+                    setLocalStorage("email", json.user.email, 30);
                     setLoading(false);
-                    setToken(getCookie("token"));
+                    setToken(getLocalStorage("token"));
                     console.log(document.cookie);
                 }
             })
@@ -150,7 +150,7 @@ export default function MainPageAdmin() {
         checkToken();
     }, [])
 
-    let cookie = getCookie("refreshToken");
+    let cookie = getLocalStorage("refreshToken");
 
     if (cookie === undefined) {
         history.push("/login/owner");
@@ -176,7 +176,7 @@ export default function MainPageAdmin() {
                     </Route>
 
                     <Route exact path="/user/settings">
-                        <SittingsUser name={getCookie("name")} email={getCookie("email")} />
+                        <SittingsUser name={getLocalStorage("name")} email={getLocalStorage("email")} />
                     </Route>
 
                     <Route path="/user/help" component={Help} />

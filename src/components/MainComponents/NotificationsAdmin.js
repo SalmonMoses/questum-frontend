@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getCookie } from '../../Cookie';
+import { getLocalStorage } from '../../Cookie';
 import { path } from '../consts';
 import { IconButton, Badge, Icon, Popover, Typography, makeStyles, Grid, Divider } from '@material-ui/core';
 import { NotificationComponent } from '../Notification';
@@ -24,8 +24,8 @@ export function NotificationsAdmin() {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const fetchNotifications = async () => {
-        let token = getCookie("token");
-        let id = getCookie("id");
+        let token = getLocalStorage("token");
+        let id = getLocalStorage("id");
         var myHeaders = new Headers();
         // myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
@@ -56,8 +56,8 @@ export function NotificationsAdmin() {
     }
 
     const markAsRead = () => {
-        let token = getCookie("token");
-        let id = getCookie("id");
+        let token = getLocalStorage("token");
+        let id = getLocalStorage("id");
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
@@ -78,8 +78,8 @@ export function NotificationsAdmin() {
     }
 
     const updateNotifications = async () => {
-        let token = getCookie("token");
-        let id = getCookie("id");
+        let token = getLocalStorage("token");
+        let id = getLocalStorage("id");
         var myHeaders = new Headers();
         // myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);

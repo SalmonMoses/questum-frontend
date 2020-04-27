@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { getCookie } from "../../Cookie"
+import { getLocalStorage } from "../../Cookie"
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import { ExpansionPanelActions } from '@material-ui/core';
@@ -52,8 +52,8 @@ export default function AnswerPhoto(props) {
     useEffect(() => {
 
 
-        let token = getCookie("token");
-        let groupId = getCookie("groupID");
+        let token = getLocalStorage("token");
+        let groupId = getLocalStorage("groupID");
 
         var myHeaders = new Headers();
         // myHeaders.append("Content-Type", "application/json");

@@ -8,7 +8,7 @@ import { Divider } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { path } from "../../../consts"
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -82,7 +82,7 @@ export default function MemberPaper(props) {
     const [isAvatarLoading, setAvatarLoading] = React.useState(true);
 
     const fetchAvatar = () => {
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
 
