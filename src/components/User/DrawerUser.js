@@ -25,6 +25,7 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { useHistory } from "react-router-dom";
 import { NotificationsParticipants } from './NotificationsParticipants'
 import { strings } from "../../localization"
+import LocalizedStrings from 'react-localization';
 
 const drawerWidth = 200;
 
@@ -167,13 +168,12 @@ function ResponsiveDrawer(props) {
     };
 
     const logout = () => {
-        // deleteFromLocalStorage("refreshToken");
-        // deleteFromLocalStorage("id");
-        // deleteFromLocalStorage("groupId");
-        // deleteFromLocalStorage("name");
-        // deleteFromLocalStorage("token");
-        // deleteFromLocalStorage("email");
         clearLocalStorage();
+    }
+
+    const changeLanguage = (lang) =>{
+        strings.setLanguage(lang);
+        handleClose();
     }
 
     const menuId = 'primary-search-account-menu';
@@ -260,10 +260,11 @@ function ResponsiveDrawer(props) {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem value={"Russian"} onClick={handleClose}>Russian</MenuItem>
-                            <MenuItem value={"English"} onClick={handleClose}>English</MenuItem>
+                            <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+                            <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
+                            <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
                         </Menu>
-                        {/* <NotificationsParticipants /> */}
+                        <NotificationsParticipants />
                         <IconButton
                             href="/user/settings"
                             edge="end"

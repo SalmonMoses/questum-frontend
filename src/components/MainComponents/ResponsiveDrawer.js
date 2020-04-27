@@ -144,16 +144,13 @@ function ResponsiveDrawer(props) {
   };
 
   const logout = () => {
-    // deleteFromLocalStorage("refreshToken");
-    // deleteFromLocalStorage("id");
-    // deleteFromLocalStorage("groupId");
-    // deleteFromLocalStorage("name");
-    // deleteFromLocalStorage("token");
-    // deleteFromLocalStorage("email");
     clearLocalStorage();
-    // history.replace("/login/owner");
-    // document.location.reload(true);
   }
+
+  const changeLanguage = (lang) =>{
+    strings.setLanguage(lang);
+    handleClose();
+}
 
   const fetchAvatar = () => {
     let token = getLocalStorage("token");
@@ -278,7 +275,7 @@ function ResponsiveDrawer(props) {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop2}>
-          <NotificationsAdmin className={classes.notifications} />
+            <NotificationsAdmin className={classes.notifications} />
           </div>
           <div className={classes.sectionDesktop}>
             <IconButton
@@ -300,8 +297,9 @@ function ResponsiveDrawer(props) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem value={"Russian"} onClick={handleClose}>Russian</MenuItem>
-              <MenuItem value={"English"} onClick={handleClose}>English</MenuItem>
+              <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+              <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
+              <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
             </Menu>
             <IconButton
               href="/settings"
