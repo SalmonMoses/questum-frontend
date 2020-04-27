@@ -17,6 +17,7 @@ import Link from '@material-ui/core/Link'
 import { useSnackbar } from 'notistack';
 import {path} from "./components/consts"
 import { useHistory } from "react-router-dom";
+import { strings } from './localization'
 
 
 
@@ -160,7 +161,7 @@ export default function LoginUser() {
                 <div className={classes.paper}>
                     <Typography component="div" color="primary">
                         <Box fontSize="h4.fontSize" m={2}>
-                            Log in
+                            {strings.logIn}
                         </Box>
                     </Typography>
                     <TextField
@@ -193,7 +194,7 @@ export default function LoginUser() {
                                 color="primary"
                                 variant="outlined"
                                 id="email"
-                                label="Email"
+                                label={strings.eMail}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -204,7 +205,7 @@ export default function LoginUser() {
                             />
 
                             <FormControl className={classes.margin} variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-password">{strings.passwd}</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
                                     type={values.showPassword ? 'text' : 'password'}
@@ -249,7 +250,7 @@ export default function LoginUser() {
              </Link>
              </Router> */}
                         <Link href="/login/owner" >
-                            Sing in as a group owner.
+                            {strings.signInAsOwner}
                          </Link>
                     </Box>
                 </Typography>

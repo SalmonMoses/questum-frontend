@@ -14,6 +14,7 @@ import { ExpansionPanelActions } from '@material-ui/core';
 import Button from "@material-ui/core/Button"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { path } from "../consts"
+import { strings } from '../../localization'
 
 
 const useStyles = makeStyles(theme => ({
@@ -144,7 +145,7 @@ export default function PendingQuestCard(props) {
                                         <Grid>
                                             <Grid item>
                                                 <Typography variant="h6">
-                                                    Description:
+                                                    {strings.description}
                                                 </Typography>
                                             </Grid>
 
@@ -156,7 +157,7 @@ export default function PendingQuestCard(props) {
                                             <Divider />
                                             <Grid item>
                                                 <Typography variant="h6">
-                                                    User`s answer:
+                                                    {strings.memberAnswer}
                                                  </Typography>
                                             </Grid>
                                             <Grid item>
@@ -167,7 +168,7 @@ export default function PendingQuestCard(props) {
                                             <Divider />
                                             <Grid item>
                                                 <Typography variant="h6">
-                                                    Exspected answer:
+                                                    {strings.expectAnswer}
                                                  </Typography>
                                             </Grid>
                                             <Grid item>
@@ -179,10 +180,10 @@ export default function PendingQuestCard(props) {
                                     </ExpansionPanelDetails>
                                     <ExpansionPanelActions>
                                         <Button onClick={() => handleClick({ status: "reject", subquestId: item.id })} color="primary">
-                                            cancel
+                                            {strings.CANCEL}
                                         </Button>
                                         <Button onClick={() => handleClick({ status: "verify", subquestId: item.id })} color="primary">
-                                            confirm
+                                            {strings.CONFIRM}
                                         </Button>
                                     </ExpansionPanelActions>
                                 </ExpansionPanel>

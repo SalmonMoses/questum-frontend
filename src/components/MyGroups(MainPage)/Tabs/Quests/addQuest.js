@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { getCookie } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
 import {path} from "../../../consts"
+import { strings } from '../../../../localization'
 
 export default function AddQuest(props) {
 
@@ -52,7 +53,7 @@ export default function AddQuest(props) {
   return (
     <div>
       <Dialog open={props.open} fullWidth onClose={props.onClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Create</DialogTitle>
+        <DialogTitle id="form-dialog-title">{strings.createNewQuest}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Enter a title.
@@ -61,7 +62,7 @@ export default function AddQuest(props) {
             autoFocus
             margin="dense"
             id="title"
-            label="Title"
+            label={strings.title}
             type="title"
             fullWidth
             value={values.title}
@@ -70,10 +71,10 @@ export default function AddQuest(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose} color="primary">
-            close
+            {strings.CANCEL}
             </Button>
           <Button onClick={addQuest} color="primary">
-            Create
+            {strings.CREATE}
             </Button>
         </DialogActions>
       </Dialog>

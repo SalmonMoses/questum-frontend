@@ -14,6 +14,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from "react-router-dom";
 import { path } from "../../consts"
+import { strings } from '../../../localization'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -123,7 +124,7 @@ export default function MediaCard(props) {
     <Card className={classes.root}>
       <CardContent >
         <Typography variant="h6">
-          Your groups:
+          {strings.yourGroups}
         </Typography>
       </CardContent>
       {/* <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{ "marginLeft": 0 }}>

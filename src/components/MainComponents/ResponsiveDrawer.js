@@ -21,6 +21,7 @@ import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DonateButton from './DonateButton';
+import { strings } from '../../localization'
 
 const drawerWidth = 200;
 
@@ -158,12 +159,12 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/groups"}
           icon={<Icon color="primary">people_alt</Icon>}
-          primary={"My groups"} />
+          primary={strings.myGroups} />
 
         <ListItemLink
           to={"/pending-quests"}
           icon={<Icon color="primary">hourglass_full</Icon>}
-          primary={"Pending quests"} />
+          primary={strings.pendQuests} />
 
       </List>
       <Divider />
@@ -171,12 +172,12 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/settings"}
           icon={<Icon color="primary">settings</Icon>}
-          primary={"Settings"} />
+          primary={strings.settings} />
 
         <ListItemLink
           to={"/help"}
           icon={<Icon color="primary">help</Icon>}
-          primary={"Help"} />
+          primary={strings.help} />
 
         {/* <ListItem button key="Help">
           <ListItemIcon>
@@ -188,7 +189,7 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/login/owner"}
           icon={<Icon color="primary">exit_to_app</Icon>}
-          primary={"Log out"}
+          primary={strings.logOut}
           onClick={logout}
         />
       </List>

@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {path} from "../../consts"
 import { getCookie, setCookie} from "../../../Cookie"
+import { strings } from '../../../localization'
 
 export default function AddGroup(props) {
     const [open, setOpen] = React.useState(false);
@@ -63,10 +64,10 @@ export default function AddGroup(props) {
     return (
       <div>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-          Create new group
+          {strings.createNewGroup}
         </Button>
         <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Create</DialogTitle>
+          <DialogTitle id="form-dialog-title">{strings.newGroupCreate}</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Enter a name of your new group.
@@ -75,7 +76,7 @@ export default function AddGroup(props) {
               autoFocus
               margin="dense"
               id="name"
-              label="Group Name"
+              label={strings.groupName}
               type="name"
               fullWidth
               value={values.name}
@@ -84,10 +85,10 @@ export default function AddGroup(props) {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
-              Cancel
+              {strings.CANCEL}
             </Button>
             <Button onClick={() => handleClick()} color="primary">
-              Create
+              {strings.CREATE}
             </Button>
           </DialogActions>
         </Dialog>
