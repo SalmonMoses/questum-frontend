@@ -147,7 +147,9 @@ export let strings = new LocalizedStrings({
         sendPhoto: "Send the photo",
         COMPLETED_SUBQUEST_OWNER_NOTIFICATION: '{0} completed subquest {1}',
         COMPLETED_QUEST_OWNER_NOTIFICATION: '{0} completed quest {1}',
-        SENT_ANSWER_NOTIFICATION: '{0} submitted answer for subquest {1}'
+        SENT_ANSWER_NOTIFICATION: '{0} submitted answer for subquest {1}',
+        ANSWER_ACCEPTED:'Your answer on subquest "{0}" has been accepted!',
+        ANSWER_REJECTED:'Your answer on subquest "{0}" has been rejected.',
     },
     ru: {
         logIn: "Авторизация",
@@ -272,7 +274,9 @@ export let strings = new LocalizedStrings({
         sendPhoto: "Отправить фотографию",
         COMPLETED_SUBQUEST_OWNER_NOTIFICATION: '{0} выполнил подквест {1}',
         COMPLETED_QUEST_OWNER_NOTIFICATION: '{0} завершил квест {1}',
-        SENT_ANSWER_NOTIFICATION: '{0} прислал ответ на подквест {1}'
+        SENT_ANSWER_NOTIFICATION: '{0} прислал ответ на подквест {1}',
+        ANSWER_ACCEPTED:'Ваш ответ на подквест "{0}" был подтвержден!',
+        ANSWER_REJECTED:'Ваш ответ на подквест "{0}" был откланен.',
     },
     ua: {
         logIn: "Авторизація",
@@ -397,7 +401,9 @@ export let strings = new LocalizedStrings({
         sendPhoto: "Відправити світлину",
         COMPLETED_SUBQUEST_OWNER_NOTIFICATION: '{0} виконав підквест {1}',
         COMPLETED_QUEST_OWNER_NOTIFICATION: '{0} завершив квест {1}',
-        SENT_ANSWER_NOTIFICATION: '{0} відправив відповідь на підквест {1}'
+        SENT_ANSWER_NOTIFICATION: '{0} відправив відповідь на підквест {1}',
+        ANSWER_ACCEPTED:'Ваша відповідь на підквест "{0}" была підтверждена!',
+        ANSWER_REJECTED:'Ваша відповідь на підквест "{0}" была відклонена.',
     }
 });
 

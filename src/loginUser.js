@@ -203,6 +203,16 @@ export default function LoginUser() {
                                 variant="outlined"
                                 id="email"
                                 label={strings.eMail}
+                                onKeyDown={(event) => {
+                                    console.log(event.keyCode);
+                                    if (event.keyCode == '13') {
+                                        if (values.disabled) {
+                                            handleSubmitFull();
+                                        } else {
+                                            handleSubmit();
+                                        }
+                                    }
+                                }}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -213,7 +223,7 @@ export default function LoginUser() {
                             />
 
                             <FormControl className={classes.margin} variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-password">{strings.passwd}</InputLabel>
+                                <InputLabel htmlFor="outlined-adornment-password">{strings.passwd}</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
                                     type={values.showPassword ? 'text' : 'password'}
@@ -249,6 +259,16 @@ export default function LoginUser() {
                     color="primary"
                     startIcon={<Icon>{button.icon}</Icon>}
                     onClick={values.disabled ? handleSubmitFull : handleSubmit}
+                    onKeyPress={(event) => {
+                                    console.log(event.keyCode);
+                                    if (event.keyCode == 13) {
+                                        if (values.disabled) {
+                                            handleSubmitFull();
+                                        } else {
+                                            handleSubmit();
+                                        }
+                                    }
+                                }}
                 >{button.label}</Button>
                 <Typography component='div'>
                     <Box textAlign="center" fontSize="h7.fontSize" m={0}>
@@ -259,7 +279,7 @@ export default function LoginUser() {
              </Router> */}
                         <Link href="/login/owner" >
                             {strings.signInAsOwner}
-                         </Link>
+                        </Link>
                     </Box>
                 </Typography>
 

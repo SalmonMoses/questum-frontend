@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { getLocalStorage } from '../../Cookie';
 import { path } from '../consts';
 import { IconButton, Badge, Icon, Popover, Typography, makeStyles, Grid, Divider } from '@material-ui/core';
-import { NotificationComponent } from '../Notification';
+import { NotificationComponent, shortenString } from '../Notification';
 import Notifier from 'react-desktop-notification';
 import useInterval from 'react-useinterval';
 import { strings } from '../../localization';
@@ -37,6 +37,49 @@ export function NotificationsParticipants() {
     const [isOpen, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const parseNotificationParticipant = (n) => {
+        let notification = {
+            id: n.id
+        }
+        switch (n.type) {
+            case "ANSWER_ACCEPTED":
+                notification.msg = strings.formatString(strings.ANSWER_ACCEPTED, shortenString(n.content.subquest, 14));
+                notification.link = "https://questerium.herokuapp.com/user/quests";
+                // return (
+                //     <Grid container direction="row">
+                //         <Grid item>
+                //             <DoneIcon className={classes.green} />
+                //         </Grid>
+                //         <Grid item>
+                //             <Typography className={classes.text}>
+                //                 {`Your answer on subquest "${n.content.subquest.substring(0, 17)}..." has been accepted!`}
+                //             </Typography>
+                //         </Grid>
+                //     </Grid>
+                // );
+                break;
+            case "ANSWER_REJECTED":
+                notification.msg = strings.formatString(strings.ANSWER_REJECTED, shortenString(n.content.subquest, 14));
+                notification.link = "https://questerium.herokuapp.com/user/quests";
+                // return (
+                //     <Grid container direction="row">
+                //         <Grid item>
+                //             <CloseIcon color="primary" />
+                //         </Grid>
+                //         <Grid item>
+                //             <Typography className={classes.text} >
+                //                 {`Your answer on subquest "${n.content.subquest.substring(0, 17)}..." has been rejected.`}
+                //             </Typography>
+                //         </Grid>
+                //     </Grid>
+                // );
+                break;
+            default:
+                break;
+        }
+        return notification;
+    }
+
     const fetchNotifications = async () => {
         let token = getLocalStorage("token");
         let id = getLocalStorage("id");
@@ -63,45 +106,12 @@ export function NotificationsParticipants() {
                     console.log("error ")
                 } else {
                     console.log(result);
-                    setNotifications(result.items);
+                    let newNotifications = result.items.map(parseNotificationParticipant);
+                    console.dir(newNotifications);
+                    setNotifications(newNotifications);
                 }
             })
             .catch(error => console.log('error', error));
-    }
-
-    const notificationMessage = (n) => {
-        switch (n.type) {
-            case "ANSWER_ACCEPTED":
-                return (
-                    <Grid container direction="row">
-                        <Grid item>
-                            <DoneIcon className={classes.green} />
-                        </Grid>
-                        <Grid item>
-                            <Typography className={classes.text}>
-                                {`Your answer on subquest "${n.content.subquest.substring(0, 17)}..." has been accepted!`}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                );
-                break;
-            case "ANSWER_REJECTED":
-                return (
-                    <Grid container direction="row">
-                        <Grid item>
-                            <CloseIcon color="primary" />
-                        </Grid>
-                        <Grid item>
-                            <Typography className={classes.text} >
-                                {`Your answer on subquest "${n.content.subquest.substring(0, 17)}..." has been rejected.`}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                );
-                break;
-            default:
-                break;
-        }
     }
 
     const markAsRead = () => {
@@ -151,14 +161,15 @@ export function NotificationsParticipants() {
                 if (result === undefined) {
                     console.log("error ")
                 } else {
-                    console.log(result);
-                    setNotifications([...notifications, ...result.items]);
+                    let newNotifications = result.items.map(parseNotificationParticipant);
+                    console.dir(newNotifications);
+                    setNotifications([...notifications, ...newNotifications]);
                     if (result.items.length > 0) {
-                        result.items.forEach(notification => {
+                        newNotifications.forEach(notification => {
                             Notifier.focus("Questerium",
-                                notification.type,
-                                "questerium.herokuapp.com",
-                                process.env.PUBLIC_URL + "/logo512.png");
+                            notification.msg,
+                            notification.link,
+                            process.env.PUBLIC_URL + "/logo512.png");
                         })
                     }
                 }
@@ -214,7 +225,7 @@ export function NotificationsParticipants() {
                     {notifications.length > 0
                         ? notifications.map((n, i) =>
                             (<Grid item>
-                                <Typography className={classes.typography}>{notificationMessage(n)}</Typography>
+                                <Typography className={classes.typography}>{n.msg}</Typography>
                                 {i < notifications.length - 1 && <Divider />}
                             </Grid>))
                         : (
