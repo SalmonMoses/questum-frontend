@@ -24,6 +24,34 @@ export function NotificationsAdmin() {
     const [isOpen, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const notificationMessage = (n) => {
+        switch (n.type) {
+            case "COMPLETED_SUBQUEST_OWNER":
+                return (
+                    <Typography>
+                        {`User ${n.content.user} complited subquest: ${n.content.subquest.substring(0, 14) + "..." }`}
+                    </Typography>
+                );
+                break;
+            case "COMPLETED_QUEST_OWNER":
+                return (
+                    <Typography>
+                        {`User ${n.content.user} complited quest: ${n.content.quest.substring(0, 14) + "..." }`}
+                    </Typography>
+                );
+                break;
+            case "SENT_ANSWER":
+                return (
+                    <Typography>
+                        {`${n.content.user} submitted answer for subquest "${n.content.subquest.substring(0, 14)}..."`}
+                    </Typography>
+                );
+                break;
+            default:
+                break;
+        }
+    }
+
     const fetchNotifications = async () => {
         let token = getLocalStorage("token");
         let id = getLocalStorage("id");
@@ -171,7 +199,7 @@ export function NotificationsAdmin() {
                     {notifications.length > 0
                         ? notifications.map((n, i) =>
                             (<Grid item>
-                                <Typography className={classes.typography}>{n.type}</Typography>
+                                <Typography className={classes.typography}>{notificationMessage(n)}</Typography>
                                 {i < notifications.length - 1 && <Divider />}
                             </Grid>))
                         : (

@@ -6,6 +6,9 @@ import { NotificationComponent } from '../Notification';
 import Notifier from 'react-desktop-notification';
 import useInterval from 'react-useinterval';
 import { strings } from '../../localization';
+import DoneIcon from "@material-ui/icons/CheckCircle"
+import CloseIcon from "@material-ui/icons/Cancel"
+import { green } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
     span: {
@@ -18,6 +21,13 @@ const useStyles = makeStyles(theme => ({
     typography: {
         padding: theme.spacing(2),
         // color: theme.palette.primary.contrastText,
+    },
+    text: {
+        marginTop: theme.spacing(0),
+        marginLeft: theme.spacing(0),
+    },
+    green: {
+        color: green[800],
     },
 }));
 
@@ -57,6 +67,41 @@ export function NotificationsParticipants() {
                 }
             })
             .catch(error => console.log('error', error));
+    }
+
+    const notificationMessage = (n) => {
+        switch (n.type) {
+            case "ANSWER_ACCEPTED":
+                return (
+                    <Grid container direction="row">
+                        <Grid item>
+                            <DoneIcon className={classes.green} />
+                        </Grid>
+                        <Grid item>
+                            <Typography className={classes.text}>
+                                {`Your answer on subquest "${n.content.subquest.substring(0, 17)}..." has been accepted!`}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                );
+                break;
+            case "ANSWER_REJECTED":
+                return (
+                    <Grid container direction="row">
+                        <Grid item>
+                            <CloseIcon color="primary" />
+                        </Grid>
+                        <Grid item>
+                            <Typography className={classes.text} >
+                                {`Your answer on subquest "${n.content.subquest.substring(0, 17)}..." has been rejected.`}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                );
+                break;
+            default:
+                break;
+        }
     }
 
     const markAsRead = () => {
@@ -169,8 +214,8 @@ export function NotificationsParticipants() {
                     {notifications.length > 0
                         ? notifications.map((n, i) =>
                             (<Grid item>
-                                <Typography className={classes.typography}>{n.type}</Typography>
-                                {i < notifications.length - 1 && <Divider />} 
+                                <Typography className={classes.typography}>{notificationMessage(n)}</Typography>
+                                {i < notifications.length - 1 && <Divider />}
                             </Grid>))
                         : (
                             <Grid item>
