@@ -144,7 +144,10 @@ export let strings = new LocalizedStrings({
         answerProcess: "Your answer is being processed",
         alreadySentAnswer: "You have already sent the answer",
         sendAnswer: "Send the answer",
-        sendPhoto: "Send the photo"
+        sendPhoto: "Send the photo",
+        COMPLETED_SUBQUEST_OWNER_NOTIFICATION: '{0} completed subquest {1}',
+        COMPLETED_QUEST_OWNER_NOTIFICATION: '{0} completed quest {1}',
+        SENT_ANSWER_NOTIFICATION: '{0} submitted answer for subquest {1}'
     },
     ru: {
         logIn: "Авторизация",
@@ -266,7 +269,10 @@ export let strings = new LocalizedStrings({
         answerProcess: "Ваш ответ отправился на обработку",
         alreadySentAnswer: "Вы уже отправили ответ",
         sendAnswer: "Отправить ответ",
-        sendPhoto: "Отправить фотографию"
+        sendPhoto: "Отправить фотографию",
+        COMPLETED_SUBQUEST_OWNER_NOTIFICATION: '{0} выполнил подквест {1}',
+        COMPLETED_QUEST_OWNER_NOTIFICATION: '{0} завершил квест {1}',
+        SENT_ANSWER_NOTIFICATION: '{0} прислал ответ на подквест {1}'
     },
     ua: {
         logIn: "Авторизація",
@@ -290,7 +296,7 @@ export let strings = new LocalizedStrings({
         registeredEmail: "Дана пошта вже зареєстрована",
         completeRegistr: "Реєстрація успішно завершена!",
         myGroups: "Мої групи",
-        pendQuests: "Квести, які очікують на підтвердження",
+        pendQuests: "Квести, що очікують на підтвердження",
         settings: "Налаштування",
         help: "Допомога",
         helpPage: "Справка",
@@ -366,7 +372,7 @@ export let strings = new LocalizedStrings({
         resetData: "Ваші дані були успішно змінені!",
         confirmation: "Підтвердження",
         changeEmail: "Щоб змінити пошту, Вам необхідно ввести пароль",
-        notFound: "404...Ця сторінка не знайдена",
+        notFound: "404... Ця сторінка не знайдена",
         homePage: "Перейти на головну сторінку",
         me: "Я",
         quests_participant: "Квести",
@@ -388,7 +394,10 @@ export let strings = new LocalizedStrings({
         answerProcess: "Ваша відповідь відправилась на обробку",
         alreadySentAnswer: "Ви вже відправили відповідь",
         sendAnswer: "Відправити відповідь",
-        sendPhoto: "Відправити світлину"
+        sendPhoto: "Відправити світлину",
+        COMPLETED_SUBQUEST_OWNER_NOTIFICATION: '{0} виконав підквест {1}',
+        COMPLETED_QUEST_OWNER_NOTIFICATION: '{0} завершив квест {1}',
+        SENT_ANSWER_NOTIFICATION: '{0} відправив відповідь на підквест {1}'
     }
 });
 
