@@ -162,9 +162,6 @@ export default function Authorization(props) {
             history.push("/login/user/");
             return;
         }
-        // if (loading) {
-        //     history.push("/login/user/");
-        // }
     }, [loading]);
 
     return (
@@ -174,7 +171,7 @@ export default function Authorization(props) {
     )
 }
 
-function getTokenRole(token) {
+export function getTokenRole(token) {
     let midTok = token.split('.')[1];
     console.log(midTok);
     if(midTok === undefined) {

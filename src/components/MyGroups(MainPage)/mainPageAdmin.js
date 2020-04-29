@@ -23,6 +23,7 @@ import {
     Route,
 } from "react-router-dom"
 import { strings } from "../../localization"
+import { getTokenRole } from "../authorization";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -149,74 +150,16 @@ export default function MainPageAdmin(props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const [loading, setLoading] = useState(true);
-
-    const [token, setToken] = useState("");
-
-    const checkToken = async () => {
-
-        let cookie = getLocalStorage("refreshToken");
-
-        if (cookie === undefined) {
-            history.push("/login/owner");
-            enqueueSnackbar(strings.sessionTimeout, {
-                variant: 'error',
-            });
-        }
-
-        console.dir(document.cookie);
-
-        var myHeaders = new Headers();
-
-        myHeaders.append("Content-Type", "application/json");
-
-        var raw = JSON.stringify({ "refreshToken": cookie });
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-
-        await fetch(path + "login/owner", requestOptions)
-            .then(response => {
-                if (response.status === 401) {
-                    console.log("Authorization error");
-                    console.log("RefreshToken: " + cookie);
-                    history.push("/login/owner");
-                    enqueueSnackbar(strings.sessionTimeout, {
-                        variant: 'error',
-                    });
-                    return;
-                }
-                return response.json();
-            })
-            .then(json => {
-                if (json === undefined) {
-                    return;
-                } else {
-                    console.dir(json.refreshToken + 'SUCCES');
-                    console.dir(json.token + ' - token');
-                    setLocalStorage("refreshToken", json.refreshToken, 30);
-                    setLocalStorage("id", json.owner.id, 30);
-                    setLocalStorage("token", json.token, 30);
-                    setLocalStorage("name", json.owner.name, 30);
-                    setLocalStorage("email", json.owner.email, 30);
-                    setLoading(false);
-                    setToken(getLocalStorage("token"));
-                    console.log(document.cookie);
-                }
-            })
-            .catch(err => {
-                console.log(err)
-                setLoading(true);
-            });
-    }
-
     let cookie = getLocalStorage("refreshToken");
 
     if (cookie === undefined) {
+        history.push("/login/owner");
+        enqueueSnackbar(strings.sessionTimeout, {
+            variant: 'error',
+        });
+    }
+
+    if(getTokenRole(cookie) !== "owner"){
         history.push("/login/owner");
         enqueueSnackbar(strings.sessionTimeout, {
             variant: 'error',
