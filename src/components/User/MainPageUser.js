@@ -17,6 +17,7 @@ import {
     Route,
 } from "react-router-dom"
 import { strings } from "../../localization"
+import { getTokenRole } from "../authorization"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -150,11 +151,17 @@ export default function MainPageAdmin() {
     let cookie = getLocalStorage("refreshToken");
 
     if (cookie === undefined) {
-        history.push("/login/owner");
+        history.push("/login/user");
         enqueueSnackbar(strings.sessionTimeout, {
             variant: 'error',
         });
-    }
+    } else
+        if (getTokenRole(cookie) !== "participant") {
+            history.push("/login/user");
+            enqueueSnackbar(strings.sessionTimeout, {
+                variant: 'error',
+            });
+        }
 
     return (
         <Router>

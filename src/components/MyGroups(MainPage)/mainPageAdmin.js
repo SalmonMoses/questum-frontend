@@ -55,8 +55,8 @@ const useStyles = makeStyles(theme => ({
         // flexGrow: 1,
         // padding: theme.spacing(3),
     },
-    
-    leadboard:{
+
+    leadboard: {
         width: "100%",
         height: theme.spacing(70),
         marginLeft: theme.spacing(0),
@@ -64,13 +64,13 @@ const useStyles = makeStyles(theme => ({
             width: theme.spacing(75),
             // width: "100%",
             // height: "50%",
-            marginLeft: theme.spacing(75), 
+            marginLeft: theme.spacing(75),
         },
         [theme.breakpoints.up("xl")]: {
             width: theme.spacing(75),
             // width: "100%",
             // height: "50%",
-            marginLeft: theme.spacing(100), 
+            marginLeft: theme.spacing(100),
         },
     },
     fabGreen: {
@@ -108,7 +108,7 @@ function MyGroups(props) {
     const { enqueueSnackbar } = useSnackbar();
 
     const theme = useTheme();
-    
+
     const matches = useMediaQuery(theme.breakpoints.down('xs') || theme.breakpoints.down('sm') || theme.breakpoints.down('md'));
 
     useEffect(() => {
@@ -152,19 +152,19 @@ export default function MainPageAdmin(props) {
 
     let cookie = getLocalStorage("refreshToken");
 
+
     if (cookie === undefined) {
         history.push("/login/owner");
         enqueueSnackbar(strings.sessionTimeout, {
             variant: 'error',
         });
-    }
-
-    if(getTokenRole(cookie) !== "owner"){
-        history.push("/login/owner");
-        enqueueSnackbar(strings.sessionTimeout, {
-            variant: 'error',
-        });
-    }
+    } else
+        if (getTokenRole(cookie) !== "owner") {
+            history.push("/login/owner");
+            enqueueSnackbar(strings.sessionTimeout, {
+                variant: 'error',
+            });
+        }
 
     return (
         <Router>
