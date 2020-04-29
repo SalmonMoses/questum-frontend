@@ -128,6 +128,11 @@ function ResponsiveDrawer(props) {
   const [avatar, setAvatar] = React.useState(null);
   const [isAvatarLoading, setAvatarLoading] = React.useState(true);
   const { enqueueSnackbar } = useSnackbar();
+  const [avatarLast, setAvatarLast] = React.useState(null);
+
+  const refresh = () =>{
+    setAvatarLast(avatar);
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

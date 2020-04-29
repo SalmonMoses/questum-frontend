@@ -126,7 +126,13 @@ export default function Sittings(props) {
 
   const [avatar, setAvatar] = useState(null);
 
+  const [avatarLast, setAvatarLast] = useState(null);
+
   const [isAvatarLoading, setAvatarLoading] = useState(true);
+
+  const refresh = () =>{
+    setAvatarLast(avatar);
+  }
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
@@ -349,10 +355,13 @@ export default function Sittings(props) {
         }
       })
       .catch(error => console.log('error', error));
+
+      refresh();
   }
 
+
   useEffect(() => {
-    fetchAvatar();
+      fetchAvatar();
   }, []);
 
   return (

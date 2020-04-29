@@ -24,6 +24,7 @@ import {
 } from "react-router-dom"
 import { strings } from "../../localization"
 import { getTokenRole } from "../authorization";
+import RestorePasswordOwner from "../MainComponents/restorePasswordOwner"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -105,7 +106,6 @@ function MyGroups(props) {
 
     let history = useHistory();
 
-    const { enqueueSnackbar } = useSnackbar();
 
     const theme = useTheme();
 

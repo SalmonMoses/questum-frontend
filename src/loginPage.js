@@ -156,7 +156,7 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <img src={`${process.env.PUBLIC_URL}/Qlogo.png`} class={classes.logo} />
+        <img alt="Questerium" src={`${process.env.PUBLIC_URL}/Qlogo.png`} class={classes.logo} />
         <Typography component="div" color="primary">
           <Box fontSize="h3.fontSize" m={1}>
             {strings.signIn}
@@ -241,6 +241,11 @@ export default function SignIn() {
             <Box textAlign="center" fontSize="h7.fontSize" m={1}>
               <Link href="/login/user" color="primary" >
                 {strings.signInAsParticipant}
+             </Link>
+            </Box>
+            <Box textAlign="center" fontSize="h7.fontSize" m={1}>
+              <Link href="/owner/restore-password" color="primary" >
+                {"Забыли пароль?"}
              </Link>
             </Box>
           </Typography>

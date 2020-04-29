@@ -83,29 +83,29 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(-3),
   },
   fab: {
+    position: 'absolute',
+    bottom: theme.spacing(10),
+    right: theme.spacing(10),
     [theme.breakpoints.down('xs')]: {
-      position: "fixed",
-      bottom: theme.spacing(10),
-      right: 30,
+      position: 'absolute',
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
     },
-    [theme.breakpoints.up('sm')]: {
-      position: "fixed",
-      botton: 100,
-      right: 50,
-    },
-    [theme.breakpoints.up('md')]: {
-      position: "fixed",
-      top: 580,
-      right: 90,
-    },
-    [theme.breakpoints.up('lg')]: {
-      position: "fixed",
-      top: 580,
-      right: 90,
-    },
-    position: "fixed",
-    top: 580,
-    right: 90,
+    // [theme.breakpoints.up('sm')]: {
+    //   position: "fixed",
+    //   botton: 100,
+    //   right: 50,
+    // },
+    // [theme.breakpoints.up('md')]: {
+    //   position: "fixed",
+    //   top: 580,
+    //   right: 90,
+    // },
+    // [theme.breakpoints.up('lg')]: {
+    //   position: "fixed",
+    //   top: 580,
+    //   right: 90,
+    // },
   },
   button: {
     marginLeft: 10,
@@ -411,13 +411,6 @@ export default function Leadboard(props) {
                     ))}
                   </List>
                 )}
-            {/* <List>
-              {values.map((item, count) => (
-                <ListItem key={count} fullWidth >
-                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
-                </ListItem>
-              ))}
-            </List> */}
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
