@@ -15,7 +15,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { deleteFromLocalStorage, clearLocalStorage } from "../../Cookie"
+import { deleteFromLocalStorage, clearLocalStorage, setLocalStorage } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -172,6 +172,7 @@ function ResponsiveDrawer(props) {
 
     const changeLanguage = (lang) =>{
         strings.setLanguage(lang);
+        setLocalStorage('lang', lang);
         handleClose();
     }
 
@@ -192,7 +193,7 @@ function ResponsiveDrawer(props) {
                 <ListItemLink
                     to={"/user/me"}
                     icon={<Icon color="primary">account_circle</Icon>}
-                    primary={strings.me} />
+                    primary={strings.profile} />
 
                 <ListItemLink
                     to={"/user/quests"}
@@ -241,6 +242,7 @@ function ResponsiveDrawer(props) {
                     </Typography>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
+                        <NotificationsParticipants />
                         <IconButton
                             className={classes.icons}
                             edge="end"
@@ -263,7 +265,6 @@ function ResponsiveDrawer(props) {
                             <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
                             <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
                         </Menu>
-                        <NotificationsParticipants />
                         <IconButton
                             href="/user/settings"
                             edge="end"
