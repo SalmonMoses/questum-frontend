@@ -245,7 +245,7 @@ export default function SignIn() {
             </Box>
             <Box textAlign="center" fontSize="h7.fontSize" m={1}>
               <Link href="/owner/restore-password" color="primary" >
-                {"Забыли пароль?"}
+                {strings.forgotPasswd}
              </Link>
             </Box>
           </Typography>
