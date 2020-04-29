@@ -15,6 +15,7 @@ import { getLocalStorage } from "../../../../../Cookie"
 import Chip from '@material-ui/core/Chip';
 import {path} from "../../../../consts"
 import { TextField } from '@material-ui/core';
+import { strings } from "../../../../../localization"
 
 const useStyles = makeStyles(theme => ({
     area: {
@@ -95,12 +96,12 @@ export default function EditSubquest(props) {
                 <Icon color="primary">edit</Icon>
             </IconButton>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Edit Subquest</DialogTitle>
+                <DialogTitle id="form-dialog-title">{strings.editSubquest}</DialogTitle>
                 <DialogContent className={classes.dialog}>
                     <Grid container direction="column" spacing={3}>
                         <Grid item>
                             <DialogContentText>
-                                Chose type of varification
+                                {strings.typeOfVarification}
                             </DialogContentText>
                             {/* <Chip
                                 onClick={() => handleType("IMAGE")}
@@ -126,7 +127,7 @@ export default function EditSubquest(props) {
                         </Grid>
                         <Grid item>
                             {/* <DialogContentText>
-                                Description
+                                {strings.enterDescription}
                             </DialogContentText> */}
                             <TextField
                                 variant="outlined"
@@ -159,10 +160,10 @@ export default function EditSubquest(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        Cancel
+                        {strings.CANCEL}
                     </Button>
                     <Button onClick={editSubQuest} color="primary">
-                        Edit
+                        {strings.EDIT}
                     </Button>
                 </DialogActions>
             </Dialog>

@@ -5,6 +5,7 @@ import { path } from "../../../consts"
 import { useSnackbar } from 'notistack';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Input from '@material-ui/core/Input';
+import { strings } from "../../../../localization"
 
 export default function SubmitAnswerPhoto(props) {
 
@@ -76,7 +77,7 @@ export default function SubmitAnswerPhoto(props) {
                 onChange={sendPhoto}
                 onClick={sendAnswer} />
             <label htmlFor="avatar-file-input">
-                <Button disabled={props.disabled} variant="contained" color="primary" component="span" startIcon={<CloudUploadIcon />}>Send an photo</Button>
+                <Button disabled={props.disabled} variant="contained" color="primary" component="span" startIcon={<CloudUploadIcon />}>{strings.sendPhoto}</Button>
             </label>
         </div>
     );

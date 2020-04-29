@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { getLocalStorage } from '../../Cookie';
 import { path } from '../consts';
 import { IconButton, Badge, Icon, Popover, Typography, makeStyles, Grid, Divider } from '@material-ui/core';
-import { NotificationComponent } from '../Notification';
+import { NotificationComponent, shortenString } from '../Notification';
 import Notifier from 'react-desktop-notification';
 import useInterval from 'react-useinterval';
+import { strings } from '../../localization'
 
 const useStyles = makeStyles(theme => ({
     grid: {
@@ -22,6 +23,29 @@ export function NotificationsAdmin() {
     const [notifications, setNotifications] = React.useState([]);
     const [isOpen, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const parseNotificationAdmin = n => {
+        let notification = {
+            id: n.id
+        }
+        switch (n.type) {
+            case "COMPLETED_SUBQUEST_OWNER":
+                notification.msg = strings.formatString(strings.COMPLETED_SUBQUEST_OWNER_NOTIFICATION, n.content.user, shortenString(n.content.subquest, 14));
+                notification.link = "https://questerium.herokuapp.com/"
+                break;
+            case "COMPLETED_QUEST_OWNER":
+                notification.msg = strings.formatString(strings.COMPLETED_QUEST_OWNER_NOTIFICATION, n.content.user, shortenString(n.content.quest, 14));
+                notification.link = "https://questerium.herokuapp.com/"
+                break;
+            case "SENT_ANSWER":
+                notification.msg = strings.formatString(strings.SENT_ANSWER_NOTIFICATION, n.content.user, shortenString(n.content.subquest, 14));
+                notification.link = "https://questerium.herokuapp.com/pending-quests"
+                break;
+            default:
+                break;
+        }
+        return notification;
+    }
 
     const fetchNotifications = async () => {
         let token = getLocalStorage("token");
@@ -49,7 +73,9 @@ export function NotificationsAdmin() {
                     console.log("error ")
                 } else {
                     console.log(result);
-                    setNotifications(result.items);
+                    let newNotifications = result.items.map(parseNotificationAdmin);
+                    console.dir(newNotifications);
+                    setNotifications(newNotifications);
                 }
             })
             .catch(error => console.log('error', error));
@@ -103,12 +129,14 @@ export function NotificationsAdmin() {
                     console.log("error ")
                 } else {
                     console.log(result);
-                    setNotifications([...notifications, ...result.items]);
+                    let newNotifications = result.items.map(parseNotificationAdmin);
+                    console.dir(newNotifications);
+                    setNotifications([...notifications, ...newNotifications]);
                     if (result.items.length > 0) {
-                        result.items.forEach(notification => {
+                        newNotifications.forEach(notification => {
                             Notifier.focus("Questerium",
-                                notification.type,
-                                "questerium.herokuapp.com",
+                                notification.msg,
+                                notification.link,
                                 process.env.PUBLIC_URL + "/logo512.png");
                         })
                     }
@@ -170,12 +198,12 @@ export function NotificationsAdmin() {
                     {notifications.length > 0
                         ? notifications.map((n, i) =>
                             (<Grid item>
-                                <Typography className={classes.typography}>{n.type}</Typography>
+                                <Typography className={classes.typography}>{n.msg}</Typography>
                                 {i < notifications.length - 1 && <Divider />}
                             </Grid>))
                         : (
                             <Grid item>
-                                <Typography className={classes.typography} variant="body2" display="block" gutterBottom>You have no unread notifications</Typography>
+                                <Typography className={classes.typography} variant="body2" display="block" gutterBottom>{strings.noNotifications}</Typography>
                             </Grid>
                         )}
                 </Grid>

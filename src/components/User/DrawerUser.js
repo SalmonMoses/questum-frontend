@@ -15,7 +15,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { deleteFromLocalStorage, clearLocalStorage } from "../../Cookie"
+import { deleteFromLocalStorage, clearLocalStorage, setLocalStorage } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -24,6 +24,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { useHistory } from "react-router-dom";
 import { NotificationsParticipants } from './NotificationsParticipants'
+import { strings } from "../../localization"
 
 const drawerWidth = 200;
 
@@ -166,13 +167,13 @@ function ResponsiveDrawer(props) {
     };
 
     const logout = () => {
-        // deleteFromLocalStorage("refreshToken");
-        // deleteFromLocalStorage("id");
-        // deleteFromLocalStorage("groupId");
-        // deleteFromLocalStorage("name");
-        // deleteFromLocalStorage("token");
-        // deleteFromLocalStorage("email");
         clearLocalStorage();
+    }
+
+    const changeLanguage = (lang) =>{
+        strings.setLanguage(lang);
+        setLocalStorage('lang', lang);
+        handleClose();
     }
 
     const menuId = 'primary-search-account-menu';
@@ -192,17 +193,17 @@ function ResponsiveDrawer(props) {
                 <ListItemLink
                     to={"/user/me"}
                     icon={<Icon color="primary">account_circle</Icon>}
-                    primary={"Me"} />
+                    primary={strings.profile} />
 
                 <ListItemLink
                     to={"/user/quests"}
                     icon={<Icon color="primary">assignment</Icon>}
-                    primary={"Quests"} />
+                    primary={strings.quests_participant} />
 
                 <ListItemLink
                     to={"/user/group"}
                     icon={<Icon color="primary">people_alt</Icon>}
-                    primary={"Group"} />
+                    primary={strings.group} />
 
             </List>
             <Divider />
@@ -210,17 +211,17 @@ function ResponsiveDrawer(props) {
                 <ListItemLink
                     to={"/user/settings"}
                     icon={<Icon color="primary">settings</Icon>}
-                    primary={"Settings"} />
+                    primary={strings.settings} />
 
                 <ListItemLink
                     to={"/user/help"}
                     icon={<Icon color="primary">help</Icon>}
-                    primary={"Help"} />
+                    primary={strings.help} />
 
                 <ListItemLink
                     to={"/login/user"}
                     icon={<Icon color="primary">exit_to_app</Icon>}
-                    primary={"Log out"}
+                    primary={strings.logOut}
                     onClick={logout}
                 />
             </List>
@@ -241,6 +242,7 @@ function ResponsiveDrawer(props) {
                     </Typography>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
+                        <NotificationsParticipants />
                         <IconButton
                             className={classes.icons}
                             edge="end"
@@ -259,10 +261,10 @@ function ResponsiveDrawer(props) {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem value={"Russian"} onClick={handleClose}>Russian</MenuItem>
-                            <MenuItem value={"English"} onClick={handleClose}>English</MenuItem>
+                            <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+                            <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
+                            <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
                         </Menu>
-                        {/* <NotificationsParticipants /> */}
                         <IconButton
                             href="/user/settings"
                             edge="end"
@@ -286,9 +288,9 @@ function ResponsiveDrawer(props) {
                     className={classes.navigation}
                 >
 
-                    <BottomNavigationAction href="/user/me" label="Me" icon={<Icon>account_circle</Icon>} />
-                    <BottomNavigationAction href="/user/quests" label="Quests" icon={<Icon>list</Icon>} />
-                    <BottomNavigationAction href="/user/group" label="Group" icon={<Icon>group</Icon>} />
+                    <BottomNavigationAction href="/user/me" label={strings.me} icon={<Icon>account_circle</Icon>} />
+                    <BottomNavigationAction href="/user/quests" label={strings.quests_participant} icon={<Icon>list</Icon>} />
+                    <BottomNavigationAction href="/user/group" label={strings.group} icon={<Icon>group</Icon>} />
                 </BottomNavigation>
                 <Hidden xsDown implementation="css">
                     <SwipeableDrawer

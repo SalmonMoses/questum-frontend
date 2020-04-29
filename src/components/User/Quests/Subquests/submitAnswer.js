@@ -23,6 +23,7 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import SendIcon from '@material-ui/icons/Send';
+import { strings } from "../../../../localization"
 
 const useStyles = makeStyles(theme => ({
     area: {
@@ -83,7 +84,7 @@ export default function SubmitAnswer(props) {
        await fetch(`${path}groups/${props.groupId}/submit`, requestOptions)
           .then(response => {
               if(response.status === 401){
-                enqueueSnackbar(`Что-то не так...`, {
+                enqueueSnackbar(strings.smthWrong, {
                     variant: 'error',
                 });
                 return;
@@ -93,7 +94,7 @@ export default function SubmitAnswer(props) {
               if(result === undefined){
                 return;
               }
-            enqueueSnackbar(`Ваш ответ отправился на обработку!`, {
+            enqueueSnackbar(strings.answerProcess, {
                 variant: 'success',
             });
           console.log(result)})
@@ -105,7 +106,7 @@ export default function SubmitAnswer(props) {
     return (
         <div>
         <FormControl>
-          <InputLabel htmlFor="standard-adornment-password">Answer</InputLabel>
+          <InputLabel htmlFor="standard-adornment-password">{strings.answer}</InputLabel>
           <Input
             disabled={props.disabled}
             id="standard-adornment-password"
@@ -124,7 +125,7 @@ export default function SubmitAnswer(props) {
               </InputAdornment>
             }
           />
-          {props.disabled ? "Вы уже отправили ответ" : "Отправьте ответ"}
+          {props.disabled ? strings.alreadySentAnswer : strings.sendAnswer}
         </FormControl>
             {/* <Button disabled={props.disabled} variant="contained" color="primary" onClick={handleClickOpen} >
                 Send an answer

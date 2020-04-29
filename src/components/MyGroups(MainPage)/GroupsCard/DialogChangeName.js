@@ -14,6 +14,7 @@ import { path } from "../../consts"
 import MenuItem from '@material-ui/core/MenuItem';
 import { Avatar, makeStyles, Input } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import { strings } from "../../../localization"
 
 const useStyles = makeStyles(theme => ({
   avatarSpan: {
@@ -85,7 +86,7 @@ export default function ChangeGroupName(props) {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка обработки изменений :(", {
+          enqueueSnackbar(strings.authorizationError, {
             variant: 'error',
           });
           return;
@@ -96,7 +97,7 @@ export default function ChangeGroupName(props) {
         if (result === undefined) {
           return;
         } else {
-          enqueueSnackbar('Аватар успешно обновлен (может понадобиться обновление страницы)', {
+          enqueueSnackbar(strings.resetAvatar, {
             variant: 'success'
           });
         }
@@ -107,7 +108,7 @@ export default function ChangeGroupName(props) {
   const handleChangeName = async (name, id) => {
 
     if (name.length < 3) {
-      enqueueSnackbar("Название группы должнго быть больше 3 символов", {
+      enqueueSnackbar(strings.longerGroupName, {
         variant: 'success',
       });
       handleCloseDialog();
@@ -158,10 +159,10 @@ export default function ChangeGroupName(props) {
         </IconButton>
         Edit */}
         <Icon>edit</Icon>
-        Edit
+        {strings.editMenu}
         </MenuItem>
       <Dialog maxWidth="sm" fullWidth open={open} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Edit group</DialogTitle>
+        <DialogTitle id="form-dialog-title">{strings.groupEdit}</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
             Enter a new name
@@ -184,7 +185,7 @@ export default function ChangeGroupName(props) {
             autoFocus
             margin="dense"
             id="name"
-            label="Group name"
+            label={strings.groupName}
             type="name"
             fullWidth
             value={values.name}
@@ -194,10 +195,10 @@ export default function ChangeGroupName(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
-            Cancel
+            {strings.CANCEL}
           </Button>
           <Button onClick={() => handleChangeName(values.name, props.id)} color="primary">
-            Save
+            {strings.EDIT}
           </Button>
         </DialogActions>
       </Dialog>

@@ -7,6 +7,7 @@ import { getLocalStorage} from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import { strings } from "../../localization"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -85,7 +86,7 @@ export default function Help() {
 
   if (cookie === undefined) {
     history.push("/login/owner");
-    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+    enqueueSnackbar(strings.sessionTimeout, {
       variant: 'error',
     });
   }
@@ -98,7 +99,7 @@ export default function Help() {
       <Paper className={classes.paper}>
         <Container className={classes.cont}>
         <Typography variant="h2">
-            Help page
+            {strings.helpPage}
         </Typography>
         <Divider />
         </Container>

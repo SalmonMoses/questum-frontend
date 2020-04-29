@@ -7,6 +7,7 @@ import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import { path } from "../../consts"
 import SubquestStepper from './Subquests/subquestStepper';
+import { strings } from "../../../localization"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -74,7 +75,7 @@ export default function QuestsUser() {
 
   if (cookie === undefined) {
     history.push("/login/user");
-    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+    enqueueSnackbar(strings.sessionTimeout, {
       variant: 'error',
     });
   }

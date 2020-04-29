@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import { deleteFromLocalStorage, getLocalStorage, clearLocalStorage } from "../../Cookie"
+import { deleteFromLocalStorage, getLocalStorage, clearLocalStorage, setLocalStorage } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -26,6 +26,7 @@ import { path } from '../consts'
 import { useSnackbar } from 'notistack';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { NotificationsAdmin } from './NotificationsAdmin';
+import { strings } from '../../localization'
 
 const drawerWidth = 200;
 
@@ -143,15 +144,13 @@ function ResponsiveDrawer(props) {
   };
 
   const logout = () => {
-    // deleteFromLocalStorage("refreshToken");
-    // deleteFromLocalStorage("id");
-    // deleteFromLocalStorage("groupId");
-    // deleteFromLocalStorage("name");
-    // deleteFromLocalStorage("token");
-    // deleteFromLocalStorage("email");
     clearLocalStorage();
-    // history.replace("/login/owner");
-    // document.location.reload(true);
+  }
+
+  const changeLanguage = (lang) => {
+    setLocalStorage("lang", lang);
+    handleClose();
+    document.location.reload();
   }
 
   const fetchAvatar = () => {
@@ -171,7 +170,7 @@ function ResponsiveDrawer(props) {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка загрузки аватара :(", {
+          enqueueSnackbar(strings.avatarError, {
             variant: 'error',
           });
           return;
@@ -217,12 +216,12 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/groups"}
           icon={<Icon color="primary">people_alt</Icon>}
-          primary={"My groups"} />
+          primary={strings.myGroups} />
 
         <ListItemLink
           to={"/pending-quests"}
           icon={<Icon color="primary">hourglass_full</Icon>}
-          primary={"Pending quests"} />
+          primary={strings.pendQuests} />
 
       </List>
       <Divider />
@@ -230,12 +229,12 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/settings"}
           icon={<Icon color="primary">settings</Icon>}
-          primary={"Settings"} />
+          primary={strings.settings} />
 
         <ListItemLink
           to={"/help"}
           icon={<Icon color="primary">help</Icon>}
-          primary={"Help"} />
+          primary={strings.help} />
 
         {/* <ListItem button key="Help">
           <ListItemIcon>
@@ -247,7 +246,7 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/login/owner"}
           icon={<Icon color="primary">exit_to_app</Icon>}
-          primary={"Log out"}
+          primary={strings.logOut}
           onClick={logout}
         />
       </List>
@@ -277,7 +276,7 @@ function ResponsiveDrawer(props) {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop2}>
-          <NotificationsAdmin className={classes.notifications} />
+            <NotificationsAdmin className={classes.notifications} />
           </div>
           <div className={classes.sectionDesktop}>
             <IconButton
@@ -299,8 +298,9 @@ function ResponsiveDrawer(props) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem value={"Russian"} onClick={handleClose}>Russian</MenuItem>
-              <MenuItem value={"English"} onClick={handleClose}>English</MenuItem>
+              <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+              <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
+              <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
             </Menu>
             <IconButton
               href="/settings"

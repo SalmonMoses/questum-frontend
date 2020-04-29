@@ -15,6 +15,7 @@ import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import {path} from "./components/consts"
+import { strings } from './localization'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -81,7 +82,7 @@ export default function SignIn() {
         let error = false;
 
         if (values.name.length < 3) {
-            enqueueSnackbar("Имя должно быть длинее 3 символов!", {
+            enqueueSnackbar(strings.longerName, {
                 variant: 'error',
             });
             setValues({ ...values, errorName: true });
@@ -91,7 +92,7 @@ export default function SignIn() {
         }
         if (!validateEmail(values.email)) {
             console.log("Incorrect email!");
-            enqueueSnackbar("Проверьте правильность вашей почты", {
+            enqueueSnackbar(strings.correctEmail, {
                 variant: 'error',
             });
             setValues({ ...values, errorEmail: true });
@@ -101,7 +102,7 @@ export default function SignIn() {
         }
         if (values.password.length < 5) {
             console.log("Password should be more the 5 simbols!");
-            enqueueSnackbar("Пароль должен быть длинее 5 символов!", {
+            enqueueSnackbar(strings.longerPasswd, {
                 variant: 'error',
             });
             setValues({ ...values, errorPassword: true });
@@ -111,7 +112,7 @@ export default function SignIn() {
         }
         if (values.password !== values.password2) {
             console.log("Passwords should be equal!");
-            enqueueSnackbar("Пароли не совпадают", {
+            enqueueSnackbar(strings.passwdMissmatch, {
                 variant: 'error',
             });
             setValues({ ...values, errorPassword: true });
@@ -141,7 +142,7 @@ export default function SignIn() {
         fetch(`${path}signup/owner`, requestOptions)
             .then(response => {
                 if (response.status === 409) {
-                    enqueueSnackbar("Данная почта уже зарегистрирована", {
+                    enqueueSnackbar(strings.registeredEmail, {
                         variant: 'warning',
                     });
                     setValues({ ...values, errorEmail: true });
@@ -157,7 +158,7 @@ export default function SignIn() {
                     // setValues({ ...values, errorEmail: true });
                 } else {
                     console.dir(result);
-                    enqueueSnackbar("Регистрация успешно завершена", {
+                    enqueueSnackbar(strings.completeRegistr, {
                         variant: 'success'
                     });
                     setValues({...values, logged: true });
@@ -177,7 +178,7 @@ export default function SignIn() {
             <div className={classes.paper}>
                 <Typography component="div" color="primary">
                     <Box fontSize="h3.fontSize" m={1}>
-                        SIGN UP
+                        {strings.sighUp}
                     </Box>
                 </Typography>
                 <form className={classes.form}>
@@ -187,7 +188,7 @@ export default function SignIn() {
                         error={values.errorName}
                         variant="outlined"
                         id="name"
-                        label="Name"
+                        label={strings.name}
                         fullWidth
                         margin="normal"
                         InputProps={{
@@ -206,7 +207,7 @@ export default function SignIn() {
                         error={values.errorEmail}
                         variant="outlined"
                         id="e-mail"
-                        label="E-mail"
+                        label={strings.eMail}
                         fullWidth
                         margin="normal"
                         InputProps={{
@@ -219,7 +220,7 @@ export default function SignIn() {
                     />
 
                     <FormControl className={classes.margin} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <InputLabel htmlFor="outlined-adornment-password">{strings.passwd}</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"
                             type={values.showPassword ? 'text' : 'password'}
@@ -243,7 +244,7 @@ export default function SignIn() {
                     </FormControl>
 
                     <FormControl className={classes.margin} variant="outlined" style={{ marginTop: 9 }} >
-                        <InputLabel htmlFor="outlined-adornment-password">Repeat your password</InputLabel>
+                        <InputLabel htmlFor="outlined-adornment-password">{strings.repeatPasswd}</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"
                             type={values.showPassword ? 'text' : 'password'}
@@ -273,7 +274,7 @@ export default function SignIn() {
                         fullWidth
                         color="primary"
                         onClick={signUp}
-                    >SIGN UP</Button>
+                    >{strings.SIGN_UP}</Button>
 
                 </form>
             </div>

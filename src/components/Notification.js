@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography, Divider, Grid, makeStyles } from '@material-ui/core';
+import {strings} from '../localization'
 
 const useStyles = makeStyles(theme => ({
     typography: {
@@ -13,4 +14,9 @@ export function NotificationComponent({ notification }) {
 
     return (<div></div>)
 
+}
+
+export function shortenString(str, len) {
+    if (str.length < len) return str;
+    else return str.substring(0, len - 3) + "...";
 }

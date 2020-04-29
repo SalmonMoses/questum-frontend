@@ -13,6 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import { path } from "../consts"
+import { strings } from '../../localization'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -112,7 +113,7 @@ export default function PendingQuests(props) {
 
     if (cookie === undefined) {
         history.push("/login/owner");
-        enqueueSnackbar("Время сессии истекло, войдите заново.", {
+        enqueueSnackbar(strings.sessionTimeout, {
             variant: 'error',
         });
     }
@@ -173,7 +174,7 @@ export default function PendingQuests(props) {
                      {values.length === 0 ? (
                         <Typography variant="h4" className={classes.text} align="center">
                             <Box className={classes.box}>
-                                You have no groups yet
+                                {strings.noGroups}
                             </Box>
                         </Typography>
                     ) : (

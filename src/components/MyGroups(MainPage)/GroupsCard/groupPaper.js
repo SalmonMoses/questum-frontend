@@ -21,6 +21,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Skeleton from '@material-ui/lab/Skeleton';
+import { strings } from "../../../localization"
 
 const useStyles = makeStyles(theme => ({
   area: {
@@ -100,6 +101,10 @@ const useStyles = makeStyles(theme => ({
       marginLeft: theme.spacing(0),
     },
   },
+  skeleton: {
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  }
 }));
 
 export default function GroupPaper(props) {
@@ -143,7 +148,7 @@ export default function GroupPaper(props) {
           //   });
           return;
         } else if (response.status === 500) {
-          console.log('No avatar for this user!');
+          console.log('No avatar for this group!');
           setAvatarLoading(false);
           return;
         }
@@ -256,7 +261,7 @@ export default function GroupPaper(props) {
           </MenuItem> */}
           <MenuItem onClick={() => handleGroupDelete()}>
             <Icon color="primary">delete</Icon>
-            Delete
+            {strings.deleteMenu}
           </MenuItem>
         </Menu>
       </Grid>

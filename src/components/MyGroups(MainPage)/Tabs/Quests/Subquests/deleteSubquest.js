@@ -9,6 +9,7 @@ import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import { getLocalStorage } from "../../../../../Cookie"
 import {path} from "../../../../consts"
+import { strings } from "../../../../../localization"
 
 export default function DeleteSubquest(props) {
     const [open, setOpen] = React.useState(false);
@@ -56,18 +57,19 @@ export default function DeleteSubquest(props) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Deleting Subquest"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{strings.deleteSubquest}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Do you want to delete this Subquest {props.name}?
+                        {strings.formatString(strings.doUWantToDeleteSub, props.name)}
+                        {/* {strings.doUWantToDeleteSub} */}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        CLOSE
+                        {strings.CANCEL}
                     </Button>
                     <Button variant="contained" onClick={deleteSubquest} color="primary" autoFocus>
-                        DELETE
+                        {strings.DELETE}
                     </Button>
                 </DialogActions>
             </Dialog>

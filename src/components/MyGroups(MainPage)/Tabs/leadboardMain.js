@@ -21,6 +21,7 @@ import ListItem from '@material-ui/core/ListItem';
 import DeleteMember from "./GroupMembers/deleteMember";
 import Paper from "@material-ui/core/Paper"
 import { path } from "../../consts"
+import { strings } from '../../../localization'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -377,9 +378,9 @@ export default function Leadboard(props) {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Members" {...a11yProps(0)} />
-          <Tab label="Quests" {...a11yProps(1)} />
-          <Tab label="Leaderboard" {...a11yProps(2)} />
+          <Tab label={strings.members} {...a11yProps(0)} />
+          <Tab label={strings.quests_owner} {...a11yProps(1)} />
+          <Tab label={strings.leaderboard} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -389,16 +390,14 @@ export default function Leadboard(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin}>
-            {history.location.search.slice(4) === "" ? (
-              <Typography variant="h3" className={classes.text}>
-                <Box className={classes.box}>
-                  Choose a group
-                </Box>
+            {values === undefined ? (
+              <Typography>
+                {strings.chooseGroup}
               </Typography>
             ) : values.length === 0 ? (
               <Typography variant="h4" className={classes.text}>
                 <Box className={classes.box}>
-                  You have no members yet
+                  {strings.noMembers}
                 </Box>
               </Typography>
             ) : (
@@ -424,7 +423,7 @@ export default function Leadboard(props) {
           {history.location.search.slice(4) === "" ? (
               <Typography variant="h3" className={classes.text}>
                 <Box className={classes.box}>
-                  Choose a group
+                  {strings.chooseGroup}
                 </Box>
               </Typography>
             ) : valuesQuests.length === 0 ? (
@@ -449,13 +448,13 @@ export default function Leadboard(props) {
           {history.location.search.slice(4) === "" ? (
               <Typography variant="h3" className={classes.text}>
                 <Box className={classes.box}>
-                  Choose a group
+                  {strings.chooseGroup}
                 </Box>
               </Typography>
             ) : values.length === 0 ? (
               <Typography variant="h4" className={classes.text}>
                 <Box className={classes.box}>
-                  You have no members yet
+                  {strings.noMembers}
                 </Box>
               </Typography>
             ) : (

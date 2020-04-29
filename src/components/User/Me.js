@@ -14,6 +14,7 @@ import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField'
 import Divider from '@material-ui/core/Divider';
+import { strings } from "../../localization"
 
 const useStyles = makeStyles(theme => ({
   area: {
@@ -113,7 +114,7 @@ export default function Me() {
 
   if (name === undefined) {
     history.push("/login/user");
-    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+    enqueueSnackbar(strings.sessionTimeout, {
       variant: 'error',
     });
   }
@@ -148,7 +149,7 @@ export default function Me() {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка обработки изменений :(", {
+          enqueueSnackbar(strings.authorizationError, {
             variant: 'error',
           });
           return;
@@ -194,7 +195,7 @@ export default function Me() {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка обработки изменений :(", {
+          enqueueSnackbar(strings.authorizationError, {
             variant: 'error',
           });
           return;
@@ -206,7 +207,7 @@ export default function Me() {
           return;
         } else {
           fetchAvatar();
-          enqueueSnackbar('Аватар успешно обновлен (может понадобиться обновление страницы)', {
+          enqueueSnackbar(strings.resetAvatar, {
             variant: 'success'
           });
         }
@@ -228,19 +229,19 @@ export default function Me() {
 
   function handleClick(type){
     if(type === "ava"){
-    enqueueSnackbar(`Изменить аватарку можно в Настройках. Здесь нельзя.`, {
+    enqueueSnackbar(strings.changeAvatar_Me, {
       variant: 'info',
     })}
     if(type === "email"){
-      enqueueSnackbar(`Изменить почту можно в Настройках. Здесь нельзя.`, {
+      enqueueSnackbar(strings.changeEmail_Me, {
         variant: 'info',
     })}
     if(type === "name"){
-      enqueueSnackbar(`Изменить имя можно в Настройках. Здесь нельзя.`, {
+      enqueueSnackbar(strings.changeName_Me, {
         variant: 'info',
     })}    
     if(type === "group"){
-      enqueueSnackbar(`Изменить свою группу нельзя даже в настройках.`, {
+      enqueueSnackbar(strings.changeGroup_Me, {
         variant: 'info',
     })}
 
@@ -277,7 +278,7 @@ export default function Me() {
                 fullWidth
                 onClick={() => handleClick("email")}
                 id="standard-disabled"
-                label="Email"
+                label={strings.eMail}
                 defaultValue={email}
                 disabled="true"
               />
@@ -288,7 +289,7 @@ export default function Me() {
                 fullWidth
                 onClick={() => handleClick("name")}
                 id="standard-disabled"
-                label="Name"
+                label={strings.name}
                 defaultValue={name}
                 disabled="true"
               />
@@ -299,7 +300,7 @@ export default function Me() {
                 fullWidth
                 onClick={() => handleClick("group")}
                 id="standard-disabled"
-                label="Group"
+                label={strings.group}
                 defaultValue={group}
                 disabled="true"
               />
@@ -311,7 +312,7 @@ export default function Me() {
                 color="primary" 
                 fullWidth
                 component="span">
-                  Delete my account
+                  {strings.DELETE_MY_ACCOUNT}
               </Button>
             </Grid>
         </Grid>

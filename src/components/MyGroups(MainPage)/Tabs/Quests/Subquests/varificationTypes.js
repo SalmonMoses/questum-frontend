@@ -4,6 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { strings } from "../../../../../localization"
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -28,16 +29,16 @@ export default function VarificationTypes(props) {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Type</InputLabel>
+        <InputLabel id="demo-simple-select-label">{strings.type}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={type}
           onChange={handleChange}
         >
-          <MenuItem value="NONE">None</MenuItem>
-          <MenuItem value="TEXT">Text</MenuItem>
-          <MenuItem value="IMAGE">Image</MenuItem>
+          <MenuItem value="NONE">{strings.none}</MenuItem>
+          <MenuItem value="TEXT">{strings.text}</MenuItem>
+          <MenuItem value="IMAGE">{strings.image}</MenuItem>
         </Select>
       </FormControl>
     </div>

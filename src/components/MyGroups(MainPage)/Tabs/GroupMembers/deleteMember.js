@@ -10,6 +10,7 @@ import { getLocalStorage } from "../../../../Cookie"
 import {path} from "../../../consts"
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
+import { strings } from '../../../../localization'
 
 const useStyles = makeStyles(theme => ({
   width:{
@@ -70,18 +71,18 @@ export default function DeleteMember(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Deleting"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{strings.deleteMember}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Name: {props.name} Email: {props.email} Do you want to delete {props.name} from this group?
+            {strings.formatString(strings.doUWantToDelete, props.name)}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            CLOSE
+            {strings.CANCEL}
           </Button>
           <Button disableElevation="true" variant="contained" onClick={deleteUser} color="primary" autoFocus>
-            DELETE
+            {strings.DELETE}
           </Button>
         </DialogActions>
       </Dialog>
