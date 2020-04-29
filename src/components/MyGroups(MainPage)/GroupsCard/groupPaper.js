@@ -22,6 +22,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Skeleton from '@material-ui/lab/Skeleton';
 import { strings } from "../../../localization"
+import ConfirmDeleting from "../../confirmDeleting"
 
 const useStyles = makeStyles(theme => ({
   area: {
@@ -117,6 +118,16 @@ export default function GroupPaper(props) {
   const [avatar, setAvatar] = useState(null);
   const [isAvatarLoading, setAvatarLoading] = useState(true);
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
   const handleClick = () => {
     if (matches) {
       history.push("/group?id=" + props.id);
@@ -185,7 +196,7 @@ export default function GroupPaper(props) {
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
-
+    handleCloseDialog();
     props.refresh();
   }
 
@@ -255,25 +266,19 @@ export default function GroupPaper(props) {
           onClose={handleClose}
         >
           <ChangeGroupName name={props.name} id={props.id} refresh={() => props.refresh()} handleClose={handleClose} />
-          {/* <MenuItem onClick={handleClose}>
-            <ChangeGroupName id={props.id} refresh={() => props.refresh()} />
-            Edit
-          </MenuItem> */}
-          <MenuItem onClick={() => handleGroupDelete()}>
+          <MenuItem onClick={handleClickOpen}>
             <Icon color="primary">delete</Icon>
             {strings.deleteMenu}
           </MenuItem>
+          <ConfirmDeleting 
+          open={open} 
+          close={handleCloseDialog} 
+          delete={handleGroupDelete} 
+          title={strings.DELETE_THE_GROUP}
+          text={strings.CONFIRM_DELETING}
+           />
         </Menu>
       </Grid>
-
-      {/* <Grid item className={classes.button}>
-        <ChangeGroupName id={props.id} refresh={() => props.refresh()} />
-      </Grid>
-      <Grid item className={classes.button2}>
-        <IconButton aria-label="edit" onClick={() => handleGroupDelete()}>
-          <Icon color="primary">delete</Icon>
-        </IconButton>
-      </Grid> */}
     </Grid>
   );
 }

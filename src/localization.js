@@ -149,6 +149,8 @@ export let strings = new LocalizedStrings({
         SENT_ANSWER_NOTIFICATION: '{0} submitted answer for subquest {1}',
         ANSWER_ACCEPTED:'Your answer on subquest "{0}" has been accepted!',
         ANSWER_REJECTED:'Your answer on subquest "{0}" has been rejected.',
+        DELETE_THE_GROUP: "Delete the group",
+        CONFIRM_DELETING: "Are you sure you want to delete this group?",
     },
     ru: {
         logIn: "Авторизация",
@@ -275,6 +277,8 @@ export let strings = new LocalizedStrings({
         SENT_ANSWER_NOTIFICATION: '{0} прислал ответ на подквест {1}',
         ANSWER_ACCEPTED:'Ваш ответ на подквест "{0}" был подтвержден!',
         ANSWER_REJECTED:'Ваш ответ на подквест "{0}" был откланен.',
+        DELETE_THE_GROUP: "Удалить группу",
+        CONFIRM_DELETING: "Вы уверены, что хотите удалить эту группу?",
     },
     ua: {
         logIn: "Авторизація",
@@ -399,8 +403,10 @@ export let strings = new LocalizedStrings({
         COMPLETED_SUBQUEST_OWNER_NOTIFICATION: '{0} виконав підквест {1}',
         COMPLETED_QUEST_OWNER_NOTIFICATION: '{0} завершив квест {1}',
         SENT_ANSWER_NOTIFICATION: '{0} відправив відповідь на підквест {1}',
-        ANSWER_ACCEPTED:'Ваша відповідь на підквест "{0}" была підтверждена!',
-        ANSWER_REJECTED:'Ваша відповідь на підквест "{0}" была відклонена.',
+        ANSWER_ACCEPTED:'Ваша відповідь на підквест "{0}" була підтверждена!',
+        ANSWER_REJECTED:'Ваша відповідь на підквест "{0}" була відхилена.',
+        DELETE_THE_GROUP: "Видалення групи",
+        CONFIRM_DELETING: "Ви впевнені, що хочете видалити цю групу?",
     }
 });
 
