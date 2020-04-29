@@ -23,6 +23,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Skeleton from '@material-ui/lab/Skeleton';
 import { strings } from "../../../localization"
 import ConfirmDeleting from "../../confirmDeleting"
+import {shortenString} from "../../Notification"
 
 const useStyles = makeStyles(theme => ({
   area: {
@@ -233,7 +234,7 @@ export default function GroupPaper(props) {
                   <CardContent>
                     {/* Длина не больше 15 символов!*/}
                     <Typography variant="h6" component="h2">
-                      {props.name}
+                      {shortenString(props.name, 17)}
                     </Typography>
                   </CardContent>
                 </Grid>

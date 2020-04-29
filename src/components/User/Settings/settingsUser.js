@@ -118,7 +118,7 @@ export default function SittingsUser(props) {
     password: "",
     password2: "",
     errorPassword: false,
-    lang: "Russian",
+    lang: getLocalStorage('lang'),
     showPassword: false,
     error: false,
     text: "",
@@ -151,6 +151,13 @@ export default function SittingsUser(props) {
   }
 
   const classes = useStyles();
+
+  const handleChangeLang = prop => event => {
+    setValues({ ...values, [prop]: event.target.value })
+    console.log(event.target.value);
+    setLocalStorage("lang", event.target.value);
+    document.location.reload();
+  }
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
@@ -482,11 +489,11 @@ export default function SittingsUser(props) {
                   id="demo-simple-select"
                   defaultValue="Russian"
                   value={values.lang}
-                  onChange={handleChange("lang")}
+                  onChange={handleChangeLang("lang")}
                 >
-                  <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
-                  <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
-                  <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
+                  <MenuItem value={"ru"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+                  <MenuItem value={"en"} onClick={() => changeLanguage('en')}>English</MenuItem>
+                  <MenuItem value={"ua"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

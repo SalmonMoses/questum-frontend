@@ -151,11 +151,16 @@ export default function Sittings(props) {
 
   const classes = useStyles();
 
-  const handleChange = prop => event => {
+  const handleChangeLang = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
     console.log(event.target.value);
     setLocalStorage("lang", event.target.value);
+    document.location.reload();
     // strings.setLanguage(event.target.value);
+  }
+
+  const handleChange = prop => event => {
+    setValues({ ...values, [prop]: event.target.value })
   }
 
   const [open, setOpen] = React.useState(false);
@@ -478,7 +483,7 @@ export default function Sittings(props) {
                   id="demo-simple-select"
                   defaultValue="en"
                   value={values.lang}
-                  onChange={handleChange("lang")}
+                  onChange={handleChangeLang("lang")}
                 >
                 <MenuItem value={'ru'} onClick={() => changeLanguage()}>Russian</MenuItem>
                 <MenuItem value={"en"} onClick={() => changeLanguage()}>English</MenuItem>
