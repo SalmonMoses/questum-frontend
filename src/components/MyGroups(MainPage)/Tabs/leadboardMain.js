@@ -137,13 +137,13 @@ const useStyles = makeStyles(theme => ({
   color: {
     background: theme.palette.primary.main,
   },
-  text:{
+  text: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: theme.spacing(21),
   },
-  box:{
+  box: {
     border: `1px solid ${theme.palette.primary.main}`,
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
@@ -390,9 +390,11 @@ export default function Leadboard(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin}>
-            {values === undefined ? (
-              <Typography>
-                {strings.chooseGroup}
+            {history.location.search.slice(4) === "" ? (
+              <Typography variant="h3" className={classes.text}>
+                <Box className={classes.box}>
+                  {strings.chooseGroup}
+                </Box>
               </Typography>
             ) : values.length === 0 ? (
               <Typography variant="h4" className={classes.text}>
@@ -401,14 +403,14 @@ export default function Leadboard(props) {
                 </Box>
               </Typography>
             ) : (
-                <List className={classes.width}>
-                  {values.map((item, count) => (
-                    <ListItem key={count} className={classes.width}>
-                      <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
-                    </ListItem>
-                  ))}
-                </List>
-              )}
+                  <List className={classes.width}>
+                    {values.map((item, count) => (
+                      <ListItem key={count} className={classes.width}>
+                        <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
             {/* <List>
               {values.map((item, count) => (
                 <ListItem key={count} fullWidth >
@@ -420,7 +422,7 @@ export default function Leadboard(props) {
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Box component="div" className={classes.margin2} display="block">
-          {history.location.search.slice(4) === "" ? (
+            {history.location.search.slice(4) === "" ? (
               <Typography variant="h3" className={classes.text}>
                 <Box className={classes.box}>
                   {strings.chooseGroup}
@@ -429,23 +431,23 @@ export default function Leadboard(props) {
             ) : valuesQuests.length === 0 ? (
               <Typography variant="h4" className={classes.text}>
                 <Box className={classes.box}>
-                  You have no quests yet
+                  {strings.noQuests}
                 </Box>
               </Typography>
             ) : (
-              <List className={classes.width}>
-              {valuesQuests.map((item, count) => (
-              <ListItem key={count}>
-                <Quests title={item.title} refresh={() => refresh()} id={item.id} />
-              </ListItem>
-            ))}
-              </List>
-            )}
+                  <List className={classes.width}>
+                    {valuesQuests.map((item, count) => (
+                      <ListItem key={count}>
+                        <Quests title={item.title} refresh={() => refresh()} id={item.id} />
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
           </Box>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
-          {history.location.search.slice(4) === "" ? (
+            {history.location.search.slice(4) === "" ? (
               <Typography variant="h3" className={classes.text}>
                 <Box className={classes.box}>
                   {strings.chooseGroup}
@@ -458,14 +460,14 @@ export default function Leadboard(props) {
                 </Box>
               </Typography>
             ) : (
-            <List className={classes.width}>
-              {leaderboard.map((item, count) => (
-                <ListItem key={count} className={classes.width} >
-                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
-                </ListItem>
-              ))}
-            </List>
-            )}
+                  <List className={classes.width}>
+                    {leaderboard.map((item, count) => (
+                      <ListItem key={count} className={classes.width} >
+                        <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
           </div>
         </TabPanel>
       </SwipeableViews>
