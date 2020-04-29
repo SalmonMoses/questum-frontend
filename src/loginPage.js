@@ -143,6 +143,14 @@ export default function SignIn() {
       .catch(console.log);
   }
 
+  document.onkeydown = function (e) {
+    e = e || window.event;
+    if (e.keyCode == 13) {
+        login();
+    }
+    return true;
+}
+
 
   return (
     <Container component="main" maxWidth="xs">

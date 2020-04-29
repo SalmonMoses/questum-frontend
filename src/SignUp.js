@@ -172,6 +172,14 @@ export default function SignIn() {
 
     }
 
+    document.onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode == 13) {
+            signUp();
+        }
+        return true;
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
