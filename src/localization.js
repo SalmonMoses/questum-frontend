@@ -152,7 +152,7 @@ export let strings = new LocalizedStrings({
         DELETE_THE_GROUP: "Delete the group",
         CONFIRM_DELETING: "Are you sure you want to delete this group?",
         PASSWORD_RECOVERY: "Password restore",
-        PASSWORD_RECOVERY_INFO: "To restore the password, enter the email from the account. We will send you an email with the new password generated. After, change the password in the settings.",
+        PASSWORD_RECOVERY_INFO: "To restore the password, enter the email of the account. We will send you an email with the new password generated. After, change the password in the settings.",
         PASSWORD_RECOVERY_CONFIRM: "Restore",
         BACK:"Back",
         PRIVACY: "You have not agreed to the user agreement",
