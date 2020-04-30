@@ -29,6 +29,6 @@ export default function DonateButton() {
 
 function CoffeeIcon(props) {
     return (
-        <img src={process.env.PUBLIC_URL + "/coffee.png"} alt="donate" width="30px"></img>
+        <img src={process.env.PUBLIC_URL + "/coffee.png"} alt="donate" width="30px" height="30px"></img>
     )
 }
