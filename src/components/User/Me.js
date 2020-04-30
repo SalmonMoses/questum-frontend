@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField'
 import Divider from '@material-ui/core/Divider';
 import { strings } from "../../localization"
+import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   area: {
@@ -105,6 +106,15 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
   },
 }));
+
+const DarkerDisabledTextField = withStyles({
+  root: {
+    marginRight: 8,
+    "& .MuiInputBase-root.Mui-disabled": {
+      color: "rgba(0, 0, 0, 0.8)" 
+    }
+  }
+})(TextField);
 
 export default function Me() {
 
@@ -274,7 +284,7 @@ export default function Me() {
 
         <Grid container spacing={4} direction="column">
           <Grid item className={classes.area}>
-              <TextField
+              <DarkerDisabledTextField
                 fullWidth
                 onClick={() => handleClick("email")}
                 id="standard-disabled"
@@ -285,7 +295,7 @@ export default function Me() {
           </Grid>  
 
           <Grid item className={classes.area}>
-              <TextField
+              <DarkerDisabledTextField
                 fullWidth
                 onClick={() => handleClick("name")}
                 id="standard-disabled"
@@ -296,7 +306,7 @@ export default function Me() {
             </Grid> 
 
             <Grid item className={classes.area}>
-              <TextField
+              <DarkerDisabledTextField
                 fullWidth
                 onClick={() => handleClick("group")}
                 id="standard-disabled"
