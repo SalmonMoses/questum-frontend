@@ -83,11 +83,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(-3),
   },
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(10),
     right: theme.spacing(10),
     [theme.breakpoints.down('xs')]: {
-      position: 'absolute',
+      position: 'fixed',
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },

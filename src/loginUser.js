@@ -269,6 +269,11 @@ export default function LoginUser() {
                             {strings.signInAsOwner}
                         </Link>
                     </Box>
+                    <Box textAlign="center" fontSize="h7.fontSize" m={1}>
+                        <Link href="/participant/restore-password" color="primary" >
+                            {strings.forgotPasswd}
+                        </Link>
+                    </Box>
                 </Typography>
 
             </Container>

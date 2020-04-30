@@ -151,6 +151,10 @@ export let strings = new LocalizedStrings({
         ANSWER_REJECTED:'Your answer on subquest "{0}" has been rejected.',
         DELETE_THE_GROUP: "Delete the group",
         CONFIRM_DELETING: "Are you sure you want to delete this group?",
+        PASSWORD_RECOVERY: "Password restore",
+        PASSWORD_RECOVERY_INFO: "To restore the password, enter the email from the account. We will send you an email with the new password generated. After, change the password in the settings.",
+        PASSWORD_RECOVERY_CONFIRM: "Restore",
+        BACK:"Back",
     },
     ru: {
         logIn: "Авторизация",
@@ -279,6 +283,10 @@ export let strings = new LocalizedStrings({
         ANSWER_REJECTED:'Ваш ответ на подквест "{0}" был откланен.',
         DELETE_THE_GROUP: "Удалить группу",
         CONFIRM_DELETING: "Вы уверены, что хотите удалить эту группу?",
+        PASSWORD_RECOVERY: "Восстановление пароля",
+        PASSWORD_RECOVERY_INFO: "Чтоб восстановить пароль введите почту от аккаунта. Мы пришлем вам письмо с новым сгенерированным паролем. После, поменяйте пароль в настройках.",
+        PASSWORD_RECOVERY_CONFIRM: "Восстановить",
+        BACK: "Назад"
     },
     ua: {
         logIn: "Авторизація",
@@ -407,6 +415,10 @@ export let strings = new LocalizedStrings({
         ANSWER_REJECTED:'Ваша відповідь на підквест "{0}" була відхилена.',
         DELETE_THE_GROUP: "Видалення групи",
         CONFIRM_DELETING: "Ви впевнені, що хочете видалити цю групу?",
+        PASSWORD_RECOVERY: "Відновлення паролю",
+        PASSWORD_RECOVERY_INFO: "Щоб відновити пароль введіть пошту від аккаунта. Ми надішлемо вам лист з новим згенерував паролем. Після, поміняйте пароль в налаштуваннях.",
+        PASSWORD_RECOVERY_CONFIRM: "Відновити",
+        BACK: "Назад"
     }
 });
 

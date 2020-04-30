@@ -20,6 +20,7 @@ import { EULA } from './components/Help/eula';
 import { getLocalStorage, setLocalStorage } from './Cookie';
 import { strings } from './localization'
 import RestorePasswordOwner from "./components/MainComponents/restorePasswordOwner"
+import RestorePasswordUser from "./components/User/restorePasswordUser"
 
 
 // Просто набросок, чтобы потом менять было удобнее. Тему удобно создавать с помощью вот этого: https://material.io/resources/color/#!/?view.left=0&view.right=0
@@ -121,6 +122,7 @@ function App() {
             <Route path="/login/owner" component={SignIn} />
             <Route path="/signup/owner" component={SignUp} />
             <Route exact path="/owner/restore-password" component={RestorePasswordOwner} />
+            <Route exact path="/participant/restore-password" component={RestorePasswordUser} />
             <Route path="*" component={NoMatch} />
           </Switch>
         </SnackbarProvider>

@@ -33,17 +33,14 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function RestorePasswordOwner() {
+export default function RestorePasswordUser() {
     const classes = useStyles();
 
     const { enqueueSnackbar } = useSnackbar();
 
     const [values, setValues] = React.useState({
         email: '',
-        token: '',
-        password: '',
-        showAlert: false,
-        showPassword: false,
+        id: '',
     });
 
     const handleChange = prop => event => {
@@ -52,31 +49,30 @@ export default function RestorePasswordOwner() {
 
     const submit = () => {
 
-        var raw = JSON.stringify({ "email": values.email });
+        var raw = JSON.stringify({"email": values.email, "group": values.id});
 
         var requestOptions = {
             method: 'PUT',
             body: raw,
             headers: {
                 'Content-Type': 'application/json'
-            },
+              },
             redirect: 'follow'
         };
 
-        fetch(`${path}restore-pswd/owner`, requestOptions)
+        fetch(`${path}restore-pswd/participant`, requestOptions)
             .then(response => response.text())
-            .then(result => {
+            .then(result => { 
                 console.log(result)
                 enqueueSnackbar("Вам отправленно письмо!)", {
                     variant: 'success',
-                });
+                  });
             })
             .catch(error => {
                 enqueueSnackbar("Что-то не так...", {
                     variant: 'error',
-                });
-                console.log('error', error)
-            });
+                  });
+                console.log('error', error)});
     }
 
 
@@ -105,6 +101,25 @@ export default function RestorePasswordOwner() {
                     </Box>
                 </Typography>
                 <TextField
+                        disabled={values.disabled}
+                        error={values.showAlert}
+                        onChange={handleChange('id')}
+                        value={values.id}
+                        fullWidth
+                        color="primary"
+                        variant="outlined"
+                        id="input-with-icon-textfield"
+                        label="Group ID"
+
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <Icon color="primary" fontSize="default">group</Icon>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                <TextField
                     className={classes.button}
                     onChange={handleChange('email')}
                     value={values.email}
@@ -129,8 +144,8 @@ export default function RestorePasswordOwner() {
                     color="primary"
                     onClick={submit}
                 >{strings.PASSWORD_RECOVERY_CONFIRM}</Button>
-                <Box textAlign="center" fontSize="h6.fontSize" m={1}>
-                    <Link href="/login/owner" color="primary" >
+                 <Box textAlign="center" fontSize="h6.fontSize" m={1}>
+                    <Link href="/login/user" color="primary" >
                         {strings.BACK}
                     </Link>
                 </Box>
