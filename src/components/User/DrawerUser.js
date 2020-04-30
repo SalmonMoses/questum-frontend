@@ -288,7 +288,7 @@ function ResponsiveDrawer(props) {
                     className={classes.navigation}
                 >
 
-                    <BottomNavigationAction href="/user/me" label={strings.me} icon={<Icon>account_circle</Icon>} />
+                    <BottomNavigationAction href="/user/me" label={strings.profile} icon={<Icon>account_circle</Icon>} />
                     <BottomNavigationAction href="/user/quests" label={strings.quests_participant} icon={<Icon>list</Icon>} />
                     <BottomNavigationAction href="/user/group" label={strings.group} icon={<Icon>group</Icon>} />
                 </BottomNavigation>
