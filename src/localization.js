@@ -155,6 +155,7 @@ export let strings = new LocalizedStrings({
         PASSWORD_RECOVERY_INFO: "To restore the password, enter the email from the account. We will send you an email with the new password generated. After, change the password in the settings.",
         PASSWORD_RECOVERY_CONFIRM: "Restore",
         BACK:"Back",
+        PRIVACY: "You have not agreed to the user agreement",
     },
     ru: {
         logIn: "Авторизация",
@@ -286,7 +287,12 @@ export let strings = new LocalizedStrings({
         PASSWORD_RECOVERY: "Восстановление пароля",
         PASSWORD_RECOVERY_INFO: "Чтоб восстановить пароль введите почту от аккаунта. Мы пришлем вам письмо с новым сгенерированным паролем. После, поменяйте пароль в настройках.",
         PASSWORD_RECOVERY_CONFIRM: "Восстановить",
-        BACK: "Назад"
+        BACK: "Назад",
+        PRIVACY: "Вы не подтвердили согласие на пользовательское соглашение",
+        I_AGREE: "Я согласен с",
+        AGREEMENT: "пользовательским соглашением",
+        AND: "и",
+        PRIVACY_POLICY: "политикой конфиденциальности",
     },
     ua: {
         logIn: "Авторизація",
@@ -418,7 +424,9 @@ export let strings = new LocalizedStrings({
         PASSWORD_RECOVERY: "Відновлення паролю",
         PASSWORD_RECOVERY_INFO: "Щоб відновити пароль введіть пошту від аккаунта. Ми надішлемо вам лист з новим згенерував паролем. Після, поміняйте пароль в налаштуваннях.",
         PASSWORD_RECOVERY_CONFIRM: "Відновити",
-        BACK: "Назад"
+        BACK: "Назад",
+        PRIVACY: "Ви не підтвердили згоду на угоду користувача",
+        I_AGREE: "Я згоден з",
     }
 });
 

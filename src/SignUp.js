@@ -11,11 +11,15 @@ import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import {path} from "./components/consts"
+import { path } from "./components/consts"
 import { strings } from './localization'
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -51,6 +55,7 @@ export default function SignIn() {
         showPassword: false,
         titleEror: false,
         logged: false,
+        checked: false,
     });
 
 
@@ -64,6 +69,10 @@ export default function SignIn() {
 
     const handleMouseDownPassword = event => {
         event.preventDefault();
+    };
+
+    const handleChangeCheckbox = (event) => {
+        setValues({ ...values, checked: event.target.checked });
     };
 
     function validateEmail(email) {
@@ -80,6 +89,12 @@ export default function SignIn() {
 
     const signUp = () => {
         let error = false;
+
+        if(!values.checked){
+            enqueueSnackbar(strings.PRIVACY, {
+                variant: 'error',
+            });
+        }
 
         if (values.name.length < 3) {
             enqueueSnackbar(strings.longerName, {
@@ -152,20 +167,13 @@ export default function SignIn() {
             })
             .then(result => {
                 if (result.owner === null) {
-                    // enqueueSnackbar("Данная почта уже зарегистрирована", {
-                    //     variant: 'warning',
-                    // });
-                    // setValues({ ...values, errorEmail: true });
                 } else {
                     console.dir(result);
                     enqueueSnackbar(strings.completeRegistr, {
                         variant: 'success'
                     });
-                    setValues({...values, logged: true });
+                    setValues({ ...values, logged: true });
                     history.push('/groups');
-                    // var url = document.getElementById('root');
-                    // console.log(url.value);
-                    // document.location.href = "http://localhost:3000/";
                 }
             })
             .catch(error => console.log('error', error));
@@ -274,7 +282,21 @@ export default function SignIn() {
                             labelWidth={160}
                         />
                     </FormControl>
-
+                    <Checkbox
+                        value={values.checked}
+                        onChange={handleChangeCheckbox}
+                        color="primary"
+                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                        checkedIcon={<CheckBoxIcon fontSize="small" />}
+                        name="checkedI"
+                    />
+                    {strings.I_AGREE} {' '}
+                    <Link color="primary" href="/docs/eula">
+                        {strings.AGREEMENT}
+                    </Link>{' ' + strings.AND + " "}
+                    <Link color="primary" href="/docs/privacy">
+                        {strings.PRIVACY_POLICY} Questerium
+                    </Link>{' '}
                     <Button
                         className={classes.submit}
                         type="button"

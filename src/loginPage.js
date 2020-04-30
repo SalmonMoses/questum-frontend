@@ -20,18 +20,18 @@ import { setLocalStorage } from "./Cookie";
 import { path } from "./components/consts"
 import { strings } from './localization'
 
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {'Copyright © '}
-//       <Link color="inherit" href="#">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
+function Copyright() {
+  return (
+    <Typography variant="body2" color="primary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://questerium.herokuapp.com/">
+        Questerium
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -249,7 +249,7 @@ export default function SignIn() {
              </Link>
             </Box>
           </Typography>
-
+          <Copyright />
         </form>
       </div>
     </Container>
