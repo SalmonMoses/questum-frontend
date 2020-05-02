@@ -76,7 +76,7 @@ export let strings = new LocalizedStrings({
         EDIT: "EDIT",
         //Edit subquest
         editSubquest: "Edit Subquest",
-        typeOfVarification: "Choose type of varification",
+        typeOfVarification: "Type of verification",
         type: "Type",
         none: "None",
         text: "Text",

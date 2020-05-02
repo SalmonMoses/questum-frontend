@@ -172,11 +172,11 @@ export default function SubquestStepper(props) {
               <Step key={item.id}>
                 <StepLabel>
                   {`Subquest ${index + 1}`}
-                  {index <= activeStep && <Typography>{`Описание: ${item.desc}`}</Typography>}
+                  {index <= activeStep && <Typography>{`${strings.description}: ${item.desc}`}</Typography>}
                 </StepLabel>
                 <StepContent>
 
-                  <Typography color="primary">{`Тип подтверждения: ${item.verificationType}`}</Typography>
+                  <Typography color="primary">{`${strings.typeOfVarification}: ${item.verificationType}`}</Typography>
                   <div className={classes.actionsContainer}>
                     <div>
                       
