@@ -11,7 +11,8 @@ import { strings } from "../../../localization"
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    minHeight: `calc(100% + ${theme.spacing(1)}px)`,
+    minHeight: theme.spacing(80),
+    height: `calc(100% + ${theme.spacing(1)}px)`,
     marginTop: theme.spacing(0),
     [theme.breakpoints.up('xs')]: { // xs - телефон
       paddingRight: theme.spacing(0),
