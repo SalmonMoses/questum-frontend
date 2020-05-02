@@ -171,7 +171,7 @@ export default function AddSubQuest(props) {
                             <TextField
                                 fullWidth
                                 id="standard-disabled"
-                                label={strings.expectAnswer}
+                                label={`${strings.expectAnswer}: `}
                                 variant="outlined"
                                 value={values.name}
                                 onChange={handleChange("expectedAnswer")}

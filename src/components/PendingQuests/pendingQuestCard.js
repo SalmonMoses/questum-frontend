@@ -147,7 +147,7 @@ export default function PendingQuestCard(props) {
                                             <Grid>
                                                 <Grid item>
                                                     <Typography variant="h6">
-                                                    {strings.description}
+                                                    {`${strings.description}: `}
                                                 </Typography>
                                                 </Grid>
                                                 <Grid item>
@@ -175,7 +175,7 @@ export default function PendingQuestCard(props) {
                                                 <Divider />
                                                 <Grid item>
                                                     <Typography variant="h6">
-                                                    {strings.expectAnswer}
+                                                    {`${strings.expectAnswer}: `}
                                                  </Typography>
                                                 </Grid>
                                                 <Grid item>

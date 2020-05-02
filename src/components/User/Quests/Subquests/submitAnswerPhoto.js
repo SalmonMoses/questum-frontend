@@ -31,42 +31,51 @@ export default function SubmitAnswerPhoto(props) {
             redirect: 'follow'
         };
 
+        let res;
+
         await fetch(`${path}groups/${props.groupId}/submit`, requestOptions)
             .then(response =>
                 response.json())
             .then(result => {
                 console.log(result);
+                res = result;
                 setValues({ ...values, "id": result.id });
             })
             .catch(error => console.log('error', error));
         props.refresh();
+        return res;
     }
 
     const sendPhoto = (e) => {
+        e.persist();
+
         if (e.target.files.length != 1) {
             return;
         }
 
-        let token = getLocalStorage("token");
+        sendAnswer().then(result => {
 
-        var myHeaders = new Headers();
+            let token = getLocalStorage("token");
 
-        myHeaders.append("Authorization", "Bearer " + token);
+            var myHeaders = new Headers();
 
-        let avatar = new FormData();
-        avatar.append('answer', e.target.files[0]);
+            myHeaders.append("Authorization", "Bearer " + token);
 
-        var requestOptions = {
-            method: 'PUT',
-            headers: myHeaders,
-            redirect: 'follow',
-            body: avatar
-        };
+            let avatar = new FormData();
+            avatar.append('answer', e.target.files[0]);
 
-        fetch(`${path}groups/${props.groupId}/submit?verification_id=${values.id}`, requestOptions)
-            .then(response => response.blob())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
+            var requestOptions = {
+                method: 'PUT',
+                headers: myHeaders,
+                redirect: 'follow',
+                body: avatar
+            };
+
+            fetch(`${path}groups/${props.groupId}/submit?verification_id=${result.id}`, requestOptions)
+                .then(response => response.blob())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        });
     }
 
     return (
@@ -78,7 +87,8 @@ export default function SubmitAnswerPhoto(props) {
                 type="file"
                 accept="image/*"
                 onChange={sendPhoto}
-                onClick={sendAnswer} />
+            // onClick={sendAnswer}
+            />
             <label htmlFor="avatar-file-input">
                 <Button disabled={props.disabled} variant="contained" color="primary" component="span" startIcon={<CloudUploadIcon />}>{strings.sendPhoto}</Button>
             </label>
