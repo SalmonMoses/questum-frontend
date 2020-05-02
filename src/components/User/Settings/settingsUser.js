@@ -308,6 +308,9 @@ export default function SittingsUser(props) {
   }
 
   const uploadAvatar = (e) => {
+    if(e.target.files.length != 1) {
+      return;
+    }
     let token = getLocalStorage("token");
 
     var myHeaders = new Headers();

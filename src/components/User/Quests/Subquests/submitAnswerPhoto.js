@@ -16,33 +16,36 @@ export default function SubmitAnswerPhoto(props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const sendAnswer =  async () =>{
+    const sendAnswer = async () => {
         var myHeaders = new Headers();
         let token = getLocalStorage("token");
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
         console.log(props.subquestId);
-        var raw = JSON.stringify({"subquestId": props.subquestId, "answer": ""});
-        
+        var raw = JSON.stringify({ "subquestId": props.subquestId, "answer": "" });
+
         var requestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          body: raw,
-          redirect: 'follow'
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
         };
-        
+
         await fetch(`${path}groups/${props.groupId}/submit`, requestOptions)
-          .then(response => 
-              response.json())
-          .then(result =>{
-            console.log(result);
-            setValues({...values, "id": result.id});
-        })
-          .catch(error => console.log('error', error));
-          props.refresh();
+            .then(response =>
+                response.json())
+            .then(result => {
+                console.log(result);
+                setValues({ ...values, "id": result.id });
+            })
+            .catch(error => console.log('error', error));
+        props.refresh();
     }
 
     const sendPhoto = (e) => {
+        if (e.target.files.length != 1) {
+            return;
+        }
 
         let token = getLocalStorage("token");
 

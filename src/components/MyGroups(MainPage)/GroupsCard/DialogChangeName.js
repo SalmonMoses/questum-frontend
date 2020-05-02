@@ -146,6 +146,9 @@ export default function ChangeGroupName(props) {
   }
 
   const changeAvatar = (e) => {
+    if (e.target.files.length != 1) {
+      return;
+    }
     setNewAvatarData(e.target.files[0]);
     setNewAvatar(URL.createObjectURL(e.target.files[0]));
     setAvatarChanged(true);
@@ -160,7 +163,7 @@ export default function ChangeGroupName(props) {
         Edit */}
         <Icon>edit</Icon>
         {strings.editMenu}
-        </MenuItem>
+      </MenuItem>
       <Dialog maxWidth="sm" fullWidth open={open} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{strings.groupEdit}</DialogTitle>
         <DialogContent>
@@ -178,7 +181,7 @@ export default function ChangeGroupName(props) {
               accept="image/*"
               onChange={changeAvatar} />
             <label htmlFor="avatar-file-input">
-              <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>Change avatar</Button>
+              <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>{strings.changeAvatar}</Button>
             </label>
           </div>
           <TextField
