@@ -172,7 +172,7 @@ export default function SubquestStepper(props) {
               <Step key={item.id}>
                 <StepLabel>
                   {`Subquest ${index + 1}`}
-                  {index <= activeStep && <Typography>{`${strings.description}: ${item.desc}`}</Typography>}
+                  {index <= activeStep && <Typography>{`${strings.description} ${item.desc}`}</Typography>}
                 </StepLabel>
                 <StepContent>
 

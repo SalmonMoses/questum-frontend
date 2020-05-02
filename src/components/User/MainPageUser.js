@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DrawerUser from "./DrawerUser"
-import Me from "./Me"
+import Me from "./Me/Me"
 import Group from "./Group"
 import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
