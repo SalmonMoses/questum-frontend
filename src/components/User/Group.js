@@ -142,6 +142,7 @@ export default function Group() {
   const [avatar, setAvatar] = useState(null);
 
   const [isAvatarLoading, setAvatarLoading] = useState(true);
+  const [groupName, setGroupName]=useState("");
   let history = useHistory();
 
   const fetchAvatar = () => {
@@ -157,7 +158,7 @@ export default function Group() {
       redirect: 'follow',
     };
 
-    fetch(`${path}participants/${getLocalStorage("id")}/avatar`, requestOptions)
+    fetch(`${path}groups/${getLocalStorage("groupID")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -203,7 +204,7 @@ export default function Group() {
 
     setAvatarLoading(true);
 
-    fetch(`${path}participants/${getLocalStorage("id")}/avatar`, requestOptions)
+    fetch(`${path}groups/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -285,11 +286,12 @@ export default function Group() {
                   {"name"}
                 </Box>
             </Typography>
+            <Divider style={{ marginTop: 15 }} />
             </Grid>
-            
-            <Grid item className={classes.area1}>
-               <hr/>
-            </Grid>
+
+           
+
+              
             <Grid item className={classes.area1}>
             <Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
