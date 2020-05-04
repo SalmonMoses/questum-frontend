@@ -315,6 +315,7 @@ export default function Sittings(props) {
   }
 
   const uploadAvatar = (e) => {
+    e.persist();
     if(e.target.files.length != 1) {
       return;
     }

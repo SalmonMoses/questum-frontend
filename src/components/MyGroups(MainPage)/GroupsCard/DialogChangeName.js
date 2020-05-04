@@ -146,6 +146,7 @@ export default function ChangeGroupName(props) {
   }
 
   const changeAvatar = (e) => {
+    e.persist();
     if (e.target.files.length != 1) {
       return;
     }
