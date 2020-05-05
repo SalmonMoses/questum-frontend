@@ -127,7 +127,7 @@ export default function Group() {
 
   let name = getLocalStorage("name");
   let email = getLocalStorage("email");
-  let group = getLocalStorage("group");
+ // let group = getLocalStorage("group");
 
   const handleClickOpen = () => {
     
@@ -142,7 +142,8 @@ export default function Group() {
   const [avatar, setAvatar] = useState(null);
 
   const [isAvatarLoading, setAvatarLoading] = useState(true);
-  const [groupName, setGroupName]=useState("");
+  const [isGroupLoading, setGroupLoading] = useState(true);
+  const [group, setGroup]=useState({});
   let history = useHistory();
 
   const fetchAvatar = () => {
@@ -179,6 +180,46 @@ export default function Group() {
         } else {
           setAvatar(URL.createObjectURL(result));
           setAvatarLoading(false);
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+
+  const fetchGroup = () => {
+    let token = getLocalStorage("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}groups/${getLocalStorage("groupID")}`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar(strings.authorizationError, {
+            variant: 'error',
+          });
+          return;
+        } else if (response.status === 500) {
+          console.log('No avatar for this user!');
+          setGroupLoading(false);
+          return;
+        }
+        return response.json();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+            setGroup(result)
+            setGroupLoading(false)
         }
       })
       .catch(error => console.log('error', error));
@@ -229,6 +270,7 @@ export default function Group() {
   }
 
   useEffect(() => {
+    fetchGroup();
     fetchAvatar();
   }, []);
 
@@ -281,11 +323,16 @@ export default function Group() {
               })()}
             </Grid>
             <Grid item className={classes.area1}>
-            <Typography color="primary">
+              {(() => {
+                if (isGroupLoading) return (<Skeleton variant="text" width={200} height={50}/>);
+                else {
+                  console.log(group);
+                  return (<Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
-                  {"name"}
+                  {group.name}
                 </Box>
-            </Typography>
+            </Typography> )}})()}
+            {/* */}
             <Divider style={{ marginTop: 15 }} />
             </Grid>
 
