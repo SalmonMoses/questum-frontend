@@ -24,10 +24,10 @@ export default function ConfirmDeleting(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.close} color="primary">
+          <Button onClick={props.close} color="primary" autoFocus>
            {strings.CANCEL}
           </Button>
-          <Button onClick={props.delete} color="primary" autoFocus>
+          <Button onClick={props.delete} color="inherit">
             {strings.DELETE}
           </Button>
         </DialogActions>

@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Paper, LinearProgress } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Container from '@material-ui/core/Container';
-import { getLocalStorage } from "../../../Cookie"
+import { getLocalStorage, deleteFromLocalStorage, clearLocalStorage } from "../../../Cookie"
 import { path } from "../../consts";
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
@@ -17,6 +17,7 @@ import Divider from '@material-ui/core/Divider';
 import { strings } from "../../../localization"
 import { withStyles } from '@material-ui/core/styles';
 import ScoreTable from "./scoreTable"
+import DeleteDialog from "../../confirmDeleting"
 
 const useStyles = makeStyles(theme => ({
   area: {
@@ -90,6 +91,41 @@ export default function Me() {
   const [avatar, setAvatar] = useState(null);
 
   const [isAvatarLoading, setAvatarLoading] = useState(true);
+
+  const [open, setOpen] = React.useState(false);
+
+  let history = useHistory();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
+  const deleteAccount = async () =>{
+
+    let token = getLocalStorage("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'DELETE',
+      redirect: 'follow',
+      headers: myHeaders,
+    };
+    
+    await fetch(`${path}participants/${getLocalStorage("id")}`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+      handleCloseDialog();
+      clearLocalStorage();
+      document.location.reload();
+  }
 
   const fetchAvatar = () => {
     let token = getLocalStorage("token");
@@ -166,8 +202,6 @@ export default function Me() {
       <div className={classes.toolbar} />
       <Paper className={classes.paper}>
         <Container className={classes.cont}>
-          {/* <Avatar alt="Remy Sharp" src="" className={classes.avatar} /> */}
-
 
           <Grid item className={classes.avatarArea} direction="column" >
             <Grid container spacing={2} direction="column" className={classes.avatarArea}>
@@ -210,18 +244,28 @@ export default function Me() {
               />
             </Grid>
 
-           <ScoreTable />
+            <ScoreTable />
 
-            
+
             <Divider style={{ marginTop: 15 }} />
             <Grid item className={classes.area}>
               <Button
                 variant="contained"
+                onClick={handleClickOpen}
                 color="primary"
                 fullWidth
                 component="span">
                 {strings.DELETE_MY_ACCOUNT}
               </Button>
+              <DeleteDialog
+                open={open}
+                close={handleCloseDialog}
+                delete={deleteAccount}
+                // title={"Удаление аккаунта"}
+                // text={"Вы уверены, что хотите удалить аккаут? Весь прогресс будет потерян!"}
+                title={strings.DELETING_ACCOUNT}
+                text={strings.DELETING_ACCOUNT_TEXT}
+              />
             </Grid>
           </Grid>
         </Container>

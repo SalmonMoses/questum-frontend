@@ -156,6 +156,8 @@ export let strings = new LocalizedStrings({
         PASSWORD_RECOVERY_CONFIRM: "Restore",
         BACK:"Back",
         PRIVACY: "You have not agreed to the user agreement",
+        DELETING_ACCOUNT: "Account deleting",
+        DELETING_ACCOUNT_TEXT: "Are you sure you want to delete your account? All progress will be lost!",
     },
     ru: {
         logIn: "Авторизация",
@@ -293,6 +295,9 @@ export let strings = new LocalizedStrings({
         AGREEMENT: "пользовательским соглашением",
         AND: "и",
         PRIVACY_POLICY: "политикой конфиденциальности",
+        DELETING_ACCOUNT: "Удаление аккаунта",
+        DELETING_ACCOUNT_TEXT: "Вы уверены, что хотите удалить аккаунт? Весь прогресс будет потерян!",
+
     },
     ua: {
         logIn: "Авторизація",
@@ -427,6 +432,8 @@ export let strings = new LocalizedStrings({
         BACK: "Назад",
         PRIVACY: "Ви не підтвердили згоду на угоду користувача",
         I_AGREE: "Я згоден з",
+        DELETING_ACCOUNT: "Видалення акаунту",
+        DELETING_ACCOUNT_TEXT: "Ви впевнені, що хочете видалити свій акаунт? Весь прогрес буде втрачений!",
     }
 });
 
