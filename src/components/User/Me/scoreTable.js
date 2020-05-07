@@ -11,6 +11,7 @@ import { getLocalStorage } from "../../../Cookie"
 import { path } from "../../../components/consts";
 import Skeleton from '@material-ui/lab/Skeleton';
 import { Typography } from '@material-ui/core';
+import { strings } from '../../../localization';
 
 const useStyles = makeStyles(theme => ({
     table: {
@@ -63,8 +64,8 @@ export default function ScoreTable(props) {
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Quests</TableCell>
-                            <TableCell align="right">Points</TableCell>
+                            <TableCell>{strings.quests}</TableCell>
+                            <TableCell align="right">{strings.points}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -79,7 +80,7 @@ export default function ScoreTable(props) {
                         <TableRow key="All">
                             <TableCell component="th" scope="row">
                                 <Typography color="primary">
-                                    Total Points
+                                    {strings.totalPoints}
                                 </Typography>
                             </TableCell>
                             <TableCell align="right">
