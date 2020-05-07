@@ -84,7 +84,7 @@ export default function ExpandableParticipant(props) {
     },[]);
 
     return (
-        <div className={classes.root}>
+        //<div className={classes.root}>
             <ExpansionPanel expanded={expanded === 'panel' + props.index} onChange={handleChange('panel' + props.index)}>
                 <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -108,6 +108,6 @@ export default function ExpandableParticipant(props) {
                 <ScoreTable id={props.id}/>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-        </div>
+        //</div>
     );
 }

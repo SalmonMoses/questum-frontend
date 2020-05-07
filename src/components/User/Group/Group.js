@@ -22,6 +22,7 @@ import LeadboardMain from "../../MyGroups(MainPage)/Tabs/leadboardMain"
 import MemberPaper from "../../MyGroups(MainPage)/Tabs/GroupMembers/member";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ExpandableParticipant from "./expandableParticipant"
 
 
 const useStyles = makeStyles(theme => ({
@@ -129,10 +130,53 @@ export default function Group() {
 
   const [isAvatarLoading, setAvatarLoading] = useState(true);
   const [isGroupLoading, setGroupLoading] = useState(true);
+  const [isParticipantsLoading, setParticipantsLoading] = useState(true);
   const [group, setGroup] = useState({});
   const [participants, setParticipants] = useState([])
 
   let history = useHistory();
+
+  const fetchParticipants = () => {
+    let token = getLocalStorage("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}groups/${getLocalStorage("groupID")}/participants`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar(strings.authorizationError, {
+            variant: 'error',
+          });
+          return;
+        } else if (response.status === 500) {
+          console.log('Error');
+          setAvatarLoading(false);
+          return;
+        }
+        return response.json();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          setParticipants(result);
+          setParticipantsLoading("false")
+          //  console.log(result)
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+
 
   const fetchAvatar = () => {
     let token = getLocalStorage("token");
@@ -217,6 +261,7 @@ export default function Group() {
   useEffect(() => {
     fetchGroup();
     fetchAvatar();
+    fetchParticipants();
   }, []);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -226,6 +271,15 @@ export default function Group() {
   ////////////////////////////////////
 
   const classes = useStyles();
+
+  // let expandableParticipants = participants.map((participant, index) => 
+  //   <ExpandableParticipant 
+  //     id={participant.id}
+  //     name={participant.name}
+  //     points={participant.points}
+  //     index={index}
+  //   />
+  //   ) 
 
   return (
     <main className={classes.content}>
@@ -279,30 +333,15 @@ export default function Group() {
 
           </Grid>
 
+          {participants.map((participant, index) =>
+            <ExpandableParticipant
+              id={participant.id}
+              name={participant.name}
+              points={participant.points}
+              index={index}
+            />
+          )}
 
-
-          <Grid container spacing={4} direction="column">
-
-
-            <Grid item className={classes.area}>
-              {/* <LeadboardMain/> */}
-              <List className={classes.width}>
-                <ListItem key={1} className={classes.width}>
-                  <MemberPaper onClick={handleClickOpen} name={"work in progress"} points={"0001"} email={"аааа"} id={"item.id"} />
-                </ListItem>
-
-              </List>
-            </Grid>
-            <Grid item className={classes.area}>
-              {/* <LeadboardMain/> */}
-              <List className={classes.width}>
-                <ListItem key={1} className={classes.width}>
-                  <MemberPaper onClick={handleClickOpen} name={"work in progress"} points={"0001"} email={"аааа"} id={"item.id"} />
-                </ListItem>
-
-              </List>
-            </Grid>
-          </Grid>
         </Container>
       </Paper>
     </main>
