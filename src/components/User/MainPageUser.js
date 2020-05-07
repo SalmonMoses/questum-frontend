@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DrawerUser from "./DrawerUser"
 import Me from "./Me/Me"
-import Group from "./Group"
+import Group from "./Group/Group"
 import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import NoMatch from "../MainComponents/NoMatch"
