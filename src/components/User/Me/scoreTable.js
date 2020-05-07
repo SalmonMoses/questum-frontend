@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ScoreTable() {
+export default function ScoreTable(props) {
     const classes = useStyles();
 
     const [loading, setLoading] = React.useState(true);
@@ -39,7 +39,7 @@ export default function ScoreTable() {
             headers: myHeaders,
         };
 
-        fetch(`${path}participants/${getLocalStorage("id")}/score`, requestOptions)
+        fetch(`${path}participants/${props.id}/score`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 setScore(result);
@@ -59,7 +59,7 @@ export default function ScoreTable() {
         );
     } else {
         return (
-            <TableContainer component={Paper} className={classes.area}>
+            <TableContainer component={props.component} className={classes.area}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>

@@ -244,7 +244,7 @@ export default function Me() {
               />
             </Grid>
 
-            <ScoreTable />
+            <ScoreTable id= {getLocalStorage("id")} component={Paper}/>
 
 
             <Divider style={{ marginTop: 15 }} />
