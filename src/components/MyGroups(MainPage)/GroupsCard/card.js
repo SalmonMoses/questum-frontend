@@ -8,17 +8,20 @@ import ListItem from '@material-ui/core/ListItem';
 import GroupPaper from './groupPaper';
 import IconButton from "@material-ui/core/IconButton"
 import Icon from "@material-ui/core/Icon"
-import { getCookie } from "../../../Cookie"
+import { getLocalStorage } from "../../../Cookie"
 import AddGroup from "./addGroup"
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from "react-router-dom";
 import { path } from "../../consts"
+import { strings } from '../../../localization'
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: theme.spacing(75),
     height: theme.spacing(70),
+    // width: "100%",
+    // height: "100%",
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     flexDirection: 'column',
@@ -31,6 +34,19 @@ const useStyles = makeStyles(theme => ({
       Left: 30,
       width: theme.spacing(75),
       height: theme.spacing(70),
+      backgroundColor: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      maxHeight: '100%',
+      overflow: 'auto',
+    },
+    [theme.breakpoints.up('xl')]: {
+      position: "fixed",
+      Top: 200,
+      Left: 30,
+      width: theme.spacing(100),
+      height: theme.spacing(100),
       backgroundColor: theme.palette.background.paper,
       display: 'flex',
       flexDirection: 'column',
@@ -88,7 +104,7 @@ export default function MediaCard(props) {
   useEffect(() => {
 
     const fetchData = async () => {
-      let token = getCookie("token");
+      let token = getLocalStorage("token");
       console.log("TOKEN: " + token);
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -98,7 +114,7 @@ export default function MediaCard(props) {
         redirect: 'follow',
         headers: myHeaders,
       };
-      await fetch(`${path}owners/${getCookie("id")}/groups`, requestOptions)
+      await fetch(`${path}owners/${getLocalStorage("id")}/groups`, requestOptions)
         .then(response => response.json())
         .then(data => {
           console.log(data);
@@ -123,23 +139,17 @@ export default function MediaCard(props) {
     <Card className={classes.root}>
       <CardContent >
         <Typography variant="h6">
-          Your groups:
+          {strings.yourGroups}
         </Typography>
       </CardContent>
-      {/* <IconButton className={classes.refresh} aria-label="edit" onClick={refresh} style={{ "marginLeft": 0 }}>
-        <Icon color="primary">cached</Icon>
-      </IconButton> */}
       {loading ? (
         <Backdrop className={classes.backdrop} open={loading}>
           <CircularProgress color="inherit" />
-          {/* <Typography>
-            Try to refresh the page
-          </Typography> */}
         </Backdrop>
       ) : (
           <List className={classes.width}>
             {values.map((item, count) => (
-              <ListItem key={count}>
+              <ListItem key={count} className={classes.width}>
                 <GroupPaper name={item.name} id={item.id} refresh={() => refresh()} />
               </ListItem>
             ))}

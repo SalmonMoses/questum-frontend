@@ -6,18 +6,45 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getCookie } from "../../../Cookie"
+import { getLocalStorage } from "../../../Cookie"
 import IconButton from "@material-ui/core/IconButton"
 import Icon from "@material-ui/core/Icon"
 import { useSnackbar } from 'notistack';
-import {path} from "../../consts"
+import { path } from "../../consts"
+import MenuItem from '@material-ui/core/MenuItem';
+import { Avatar, makeStyles, Input } from '@material-ui/core';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import { strings } from "../../../localization"
+
+const useStyles = makeStyles(theme => ({
+  avatarSpan: {
+    // width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  avatar: {
+    width: theme.spacing(20),
+    height: theme.spacing(20)
+  },
+  inputSpan: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: theme.spacing(1)
+  }
+}));
 
 export default function ChangeGroupName(props) {
   const [open, setOpen] = React.useState(false);
+  const [newAvatarData, setNewAvatarData] = React.useState(null);
+  const [newAvatar, setNewAvatar] = React.useState(props.avatar);
+  const [hasAvatarChanged, setAvatarChanged] = React.useState(false);
+  const classes = useStyles();
 
   const [values, setValues] = React.useState({
-      name: "",
-      id: "",
+    name: props.name,
+    id: "",
   });
 
   const { enqueueSnackbar } = useSnackbar();
@@ -25,28 +52,70 @@ export default function ChangeGroupName(props) {
   const handleClickOpen = () => {
     setOpen(true);
     props.refresh();
+    props.handleClose();
   };
 
-  const handleClose = () => {
+  const handleCloseDialog = () => {
     setOpen(false);
     props.refresh();
+    console.log("OPEN" + open);
   };
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
   }
 
+  const uploadAvatar = async (id) => {
+    let token = getLocalStorage("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    let avatar = new FormData();
+    avatar.append('avatar', newAvatarData)
+
+    var requestOptions = {
+      method: 'PUT',
+      headers: myHeaders,
+      redirect: 'follow',
+      body: avatar
+    };
+
+    fetch(`${path}groups/${id}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar(strings.authorizationError, {
+            variant: 'error',
+          });
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          enqueueSnackbar(strings.resetAvatar, {
+            variant: 'success'
+          });
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
   const handleChangeName = async (name, id) => {
 
-    if(name.length < 3){
-        enqueueSnackbar("Название группы должнго быть больше 3 символов", {
-            variant: 'success',
-          });
-          handleClose();
-          return;
+    if (name.length < 3) {
+      enqueueSnackbar(strings.longerGroupName, {
+        variant: 'success',
+      });
+      handleCloseDialog();
+      return;
     }
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -68,41 +137,75 @@ export default function ChangeGroupName(props) {
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
 
-      handleClose();
-      props.refresh();
+    if (hasAvatarChanged) {
+      uploadAvatar(id);
+    }
+
+    handleCloseDialog();
+    props.refresh();
+  }
+
+  const changeAvatar = (e) => {
+    e.persist();
+    if (e.target.files.length != 1) {
+      return;
+    }
+    setNewAvatarData(e.target.files[0]);
+    setNewAvatar(URL.createObjectURL(e.target.files[0]));
+    setAvatarChanged(true);
   }
 
   return (
-    <div>
-       <IconButton aria-label="edit" onClick={handleClickOpen}>
+    <>
+      <MenuItem onClick={handleClickOpen}>
+        {/* <IconButton aria-label="edit" onClick={handleClickOpen}>
           <Icon color="inherit">edit</Icon>
         </IconButton>
-      <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Group name changing</DialogTitle>
+        Edit */}
+        <Icon>edit</Icon>
+        {strings.editMenu}
+      </MenuItem>
+      <Dialog maxWidth="sm" fullWidth open={open} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">{strings.groupEdit}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/* <DialogContentText>
             Enter a new name
-          </DialogContentText>
+          </DialogContentText> */}
+          <div className={classes.avatarSpan}>
+            <Avatar src={newAvatar} className={classes.avatar}>{values.name.substring(0, 1)}</Avatar>
+          </div>
+          <div className={classes.inputSpan}>
+            <Input
+              style={{ display: 'none' }}
+              id="avatar-file-input"
+              type="file"
+              accept="image/*"
+              onChange={changeAvatar} />
+            <label htmlFor="avatar-file-input">
+              <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>{strings.changeAvatar}</Button>
+            </label>
+          </div>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Group name"
+            label={strings.groupName}
             type="name"
             fullWidth
             value={values.name}
             onChange={handleChange("name")}
+            variant="outlined"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
+          <Button onClick={handleCloseDialog} color="primary">
+            {strings.CANCEL}
           </Button>
           <Button onClick={() => handleChangeName(values.name, props.id)} color="primary">
-            Save
+            {strings.EDIT}
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

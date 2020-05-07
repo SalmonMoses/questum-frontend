@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import ResponsiveDrawer from "../MainComponents/ResponsiveDrawer";
+import DrawerUser from "./DrawerUser"
+import Me from "./Me/Me"
+import Group from "./Group/Group"
 import { makeStyles } from '@material-ui/core/styles';
-import MediaCard from "./GroupsCard/card";
 import { green } from '@material-ui/core/colors';
-import Settings from "../Settings/settings";
-import NoMatch from "../MainComponents/NoMatch";
-import GroupId from "../groupID"
-import { Grid } from '@material-ui/core';
-import LeadboardMain from "./Tabs/leadboardMain";
-import { getCookie, setCookie } from "../../Cookie"
+import NoMatch from "../MainComponents/NoMatch"
+import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import PendingQuests from "../PendingQuests/pendingQuests"
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
+import Help from "./helpUser"
+import QuestsUser from "./Quests/questsUser"
+import SittingsUser from "./Settings/settingsUser"
 import { path } from '../consts'
-import Help from "../Help/help"
 import {
     BrowserRouter as Router,
     Switch,
     Route,
 } from "react-router-dom"
+import { strings } from "../../localization"
+import { getTokenRole } from "../authorization"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,7 +26,7 @@ const useStyles = makeStyles(theme => ({
         width: "100%",
         [theme.breakpoints.up('xs')]: {
             width: "100%",
-            // display: 'flex',
+            display: 'flex',
         },
     },
     toolbar: theme.mixins.toolbar,
@@ -49,38 +47,14 @@ const useStyles = makeStyles(theme => ({
             flexGrow: 1,
             padding: theme.spacing(3),
         },
-        // flexGrow: 1,
-        // padding: theme.spacing(3),
     },
-    // [theme.breakpoints.down('sm')]: {
-    //     leadboard: {
-    //         // width: theme.spacing(75),
-    //         width: `calc(100% - ${50}px)`,
-    //         height: theme.spacing(70),
-    //         marginLeft: theme.spacing(0),
-    //     },
-    // },
-    // [theme.breakpoints.up('md')]: {
-    //     leadboard: {
-    //         width: theme.spacing(75),
-    //         height: theme.spacing(70),
-    //         marginLeft: theme.spacing(0),
-    //     },
-    // },
-    // [theme.breakpoints.up('lg')]: {
-    //     leadboard: {
-    //         width: theme.spacing(75),
-    //         height: theme.spacing(70),
-    //         marginLeft: theme.spacing(75),
-    //     },
-    // },
-    leadboard:{
+    leadboard: {
         width: "100%",
         height: theme.spacing(70),
         marginLeft: theme.spacing(0),
         [theme.breakpoints.up('lg')]: {
             width: theme.spacing(75),
-            marginLeft: theme.spacing(75), 
+            marginLeft: theme.spacing(75),
         },
     },
     fabGreen: {
@@ -118,7 +92,7 @@ export default function MainPageAdmin() {
 
     const checkToken = async () => {
 
-        let cookie = getCookie("refreshToken");
+        let cookie = getLocalStorage("refreshToken");
 
         console.dir(document.cookie);
 
@@ -135,14 +109,14 @@ export default function MainPageAdmin() {
             redirect: 'follow'
         };
 
-        await fetch(path + "login/owner", requestOptions)
+        await fetch(path + "login/user", requestOptions)
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error");
                     console.log("RefreshToken: " + cookie);
                     // alert("Время сессии истекло, войдите заново.");
                     history.push("/login/owner");
-                    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+                    enqueueSnackbar(strings.sessionTimeout, {
                         variant: 'error',
                     });
                     return;
@@ -155,17 +129,14 @@ export default function MainPageAdmin() {
                 } else {
                     console.dir(json.refreshToken + 'SUCCES');
                     console.dir(json.token + ' - token');
-                    setCookie("refreshToken", json.refreshToken, 30);
-                    setCookie("id", json.owner.id, 30);
-                    setCookie("token", json.token, 30);
-                    setCookie("name", json.owner.name, 30);
-                    setCookie("email", json.owner.email, 30);
+                    setLocalStorage("refreshToken", json.refreshToken, 30);
+                    setLocalStorage("id", json.user.id, 30);
+                    setLocalStorage("token", json.token, 30);
+                    setLocalStorage("name", json.user.name, 30);
+                    setLocalStorage("email", json.user.email, 30);
                     setLoading(false);
-                    setToken(getCookie("token"));
+                    setToken(getLocalStorage("token"));
                     console.log(document.cookie);
-                    enqueueSnackbar(document.cookie, {
-                      variant: 'success',
-                    });
                 }
             })
             .catch(err => {
@@ -178,28 +149,43 @@ export default function MainPageAdmin() {
         checkToken();
     }, [])
 
-    let cookie = getCookie("refreshToken");
+    let cookie = getLocalStorage("refreshToken");
 
     if (cookie === undefined) {
-        history.push("/login/owner");
-        enqueueSnackbar("Время сессии истекло, войдите заново.", {
+        history.push("/login/user");
+        enqueueSnackbar(strings.sessionTimeout, {
             variant: 'error',
         });
-    }
+    } else
+        if (getTokenRole(cookie) !== "participant") {
+            history.push("/login/user");
+            enqueueSnackbar(strings.sessionTimeout, {
+                variant: 'error',
+            });
+        }
 
     return (
         <Router>
             <div className={classes.root}>
-                <ResponsiveDrawer />
+                <DrawerUser />
                 <Switch>
+                    <Route path="/user/me">
+                        <Me/>
+                    </Route>
                     <Route exact path="/user/group">
-                    {/* <MyGroups loading={loading} /> */}
+                        <Group/>
                     </Route>
+
+                    <Route exact path="/user/quests">
+                        <QuestsUser />
+                    </Route>
+
                     <Route exact path="/user/settings">
-                        
+                        <SittingsUser name={getLocalStorage("name")} email={getLocalStorage("email")} />
                     </Route>
-                    {/* <Route path="/help" component={Help} /> */}
-                    {/* <Route path="/group" component={GroupId} /> */}
+
+                    <Route path="/user/help" component={Help} />
+
                     <Route path="*" component={NoMatch} />
                 </Switch>
             </div>

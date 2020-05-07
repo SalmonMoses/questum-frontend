@@ -15,12 +15,13 @@ import { green } from '@material-ui/core/colors';
 import AddMember from "./GroupMembers/addMember"
 import { useHistory } from "react-router-dom";
 import AddQuest from "./Quests/addQuest"
-import { getCookie } from "../../../Cookie"
+import { getLocalStorage } from "../../../Cookie"
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import DeleteMember from "./GroupMembers/deleteMember";
 import Paper from "@material-ui/core/Paper"
 import { path } from "../../consts"
+import { strings } from '../../../localization'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,38 +66,46 @@ const useStyles = makeStyles(theme => ({
       width: "100%",
       minHeight: theme.spacing(100),
     },
+    [theme.breakpoints.up('xl')]: {
+      backgroundColor: theme.palette.background.paper,
+      width: theme.spacing(100), //75
+      // width: "100%", //75
+      minHeight: theme.spacing(100), //70
+      maxHeight: '100%',
+      overflow: 'auto',
+    },
   },
   margin: {
-    marginTop: theme.spacing(0),
+    marginTop: theme.spacing(-3),
     width: "100%",
   },
   margin2: {
-    marginTop: theme.spacing(0),
+    marginTop: theme.spacing(-3),
   },
   fab: {
+    position: 'fixed',
+    bottom: theme.spacing(10),
+    right: theme.spacing(10),
     [theme.breakpoints.down('xs')]: {
-      position: "fixed",
-      Bottom: 10,
-      right: 30,
+      position: 'fixed',
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
     },
-    [theme.breakpoints.up('sm')]: {
-      position: "fixed",
-      botton: 100,
-      right: 50,
-    },
-    [theme.breakpoints.up('md')]: {
-      position: "fixed",
-      top: 580,
-      right: 90,
-    },
-    [theme.breakpoints.up('lg')]: {
-      position: "fixed",
-      top: 580,
-      right: 90,
-    },
-    position: "fixed",
-    top: 580,
-    right: 90,
+    // [theme.breakpoints.up('sm')]: {
+    //   position: "fixed",
+    //   botton: 100,
+    //   right: 50,
+    // },
+    // [theme.breakpoints.up('md')]: {
+    //   position: "fixed",
+    //   top: 580,
+    //   right: 90,
+    // },
+    // [theme.breakpoints.up('lg')]: {
+    //   position: "fixed",
+    //   top: 580,
+    //   right: 90,
+    // },
   },
   button: {
     marginLeft: 10,
@@ -128,11 +137,19 @@ const useStyles = makeStyles(theme => ({
   color: {
     background: theme.palette.primary.main,
   },
-  width: {
-    // width: `calc(100% + ${theme.spacing(4)}px)`,
-    // background: theme.palette.primary.main,
-    // background: theme.palette.secondary.main,
+  text: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: theme.spacing(21),
+  },
+  box: {
+    border: `1px solid ${theme.palette.primary.main}`,
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.primary.main,
   }
+
 }));
 
 export default function Leadboard(props) {
@@ -178,6 +195,8 @@ export default function Leadboard(props) {
 
   const [values, setValues] = useState([]);
 
+  const [leaderboard, setLeaderboard] = useState([]);
+
   const [valuesLast, setValuesLast] = useState([]);
 
   const [valuesQuests, setValuesQuests] = useState([]);
@@ -206,14 +225,14 @@ export default function Leadboard(props) {
 
     const fetchDataMembers = async () => {
 
-      let id = getCookie("groupId");
+      let id = getLocalStorage("groupId");
       console.log("Cookie id: " + id);
       if (history.location.search.slice(4) !== "") {
         id = history.location.search.slice(4);
       }
       console.log("ID: " + id);
 
-      let token = getCookie("token");
+      let token = getLocalStorage("token");
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -243,9 +262,48 @@ export default function Leadboard(props) {
         .catch(error => console.log('error', error));
     }
 
+    const fetchDataLeaderboard = async () => {
+
+      let id = getLocalStorage("groupId");
+      console.log("Cookie id: " + id);
+      if (history.location.search.slice(4) !== "") {
+        id = history.location.search.slice(4);
+      }
+      console.log("ID: " + id);
+
+      let token = getLocalStorage("token");
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Bearer " + token);
+
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: myHeaders,
+      };
+
+      await fetch(`${path}groups/${id}/leaderboard`, requestOptions)
+        .then(response => {
+          if (response.status === 400) {
+            return undefined;
+          } else {
+            return response.json();
+          }
+        })
+        .then(result => {
+          if (result === undefined) {
+            console.log("error ")
+          } else {
+            console.log(result);
+            setLeaderboard(result);
+          }
+        })
+        .catch(error => console.log('error', error));
+    }
+
     const fetchDataQuests = async () => {
 
-      let id = getCookie("groupId");
+      let id = getLocalStorage("groupId");
       console.log("Cookie id: " + id);
       if (history.location.search.slice(4) !== "") {
         id = history.location.search.slice(4);
@@ -253,7 +311,7 @@ export default function Leadboard(props) {
       console.log("ID: " + id);
 
 
-      let token = getCookie("token");
+      let token = getLocalStorage("token");
       var myHeaders = new Headers();
       // myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "Bearer " + token);
@@ -284,6 +342,7 @@ export default function Leadboard(props) {
     }
     fetchDataMembers();
     fetchDataQuests();
+    fetchDataLeaderboard();
   }, [history.location.search, valuesLast, valuesLastQuests]);
 
   const fabs = [
@@ -319,9 +378,9 @@ export default function Leadboard(props) {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Members" {...a11yProps(0)} />
-          <Tab label="Quests" {...a11yProps(1)} />
-          <Tab label="Leaderboard" {...a11yProps(2)} />
+          <Tab label={strings.members} {...a11yProps(0)} />
+          <Tab label={strings.quests_owner} {...a11yProps(1)} />
+          <Tab label={strings.leaderboard} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -331,46 +390,77 @@ export default function Leadboard(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <div className={classes.margin}>
-            {values === undefined ? (
-              <Typography>
-                Chose group
+            {history.location.search.slice(4) === "" ? (
+              <Typography variant="h3" className={classes.text}>
+                <Box className={classes.box}>
+                  {strings.chooseGroup}
+                </Box>
+              </Typography>
+            ) : values.length === 0 ? (
+              <Typography variant="h4" className={classes.text}>
+                <Box className={classes.box}>
+                  {strings.noMembers}
+                </Box>
               </Typography>
             ) : (
-                <List className={classes.width}>
-                  {values.map((item, count) => (
-                    <ListItem key={count} className={classes.width}>
-                      <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
-                    </ListItem>
-                  ))}
-                </List>
-              )}
-            {/* <List>
-              {values.map((item, count) => (
-                <ListItem key={count} fullWidth >
-                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
-                </ListItem>
-              ))}
-            </List> */}
+                  <List className={classes.width}>
+                    {values.map((item, count) => (
+                      <ListItem key={count} className={classes.width}>
+                        <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
           </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Box component="div" className={classes.margin2} display="block">
-            {valuesQuests.map((item, count) => (
-              <ListItem key={count}>
-                <Quests title={item.title} refresh={() => refresh()} id={item.id} />
-              </ListItem>
-            ))}
+            {history.location.search.slice(4) === "" ? (
+              <Typography variant="h3" className={classes.text}>
+                <Box className={classes.box}>
+                  {strings.chooseGroup}
+                </Box>
+              </Typography>
+            ) : valuesQuests.length === 0 ? (
+              <Typography variant="h4" className={classes.text}>
+                <Box className={classes.box}>
+                  {strings.noQuests}
+                </Box>
+              </Typography>
+            ) : (
+                  <List className={classes.width}>
+                    {valuesQuests.map((item, count) => (
+                      <ListItem key={count}>
+                        <Quests title={item.title} refresh={() => refresh()} id={item.id} />
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
           </Box>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <div className={classes.margin}>
-            <List className={classes.width}>
-              {values.sort((a, b) => b.points - a.points).map((item, count) => (
-                <ListItem key={count} className={classes.width} >
-                  <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
-                </ListItem>
-              ))}
-            </List>
+            {history.location.search.slice(4) === "" ? (
+              <Typography variant="h3" className={classes.text}>
+                <Box className={classes.box}>
+                  {strings.chooseGroup}
+                </Box>
+              </Typography>
+            ) : values.length === 0 ? (
+              <Typography variant="h4" className={classes.text}>
+                <Box className={classes.box}>
+                  {strings.noMembers}
+                </Box>
+              </Typography>
+            ) : (
+                  <List className={classes.width}>
+                    {leaderboard.map((item, count) => (
+                      <ListItem key={count} className={classes.width} >
+                        <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
           </div>
         </TabPanel>
       </SwipeableViews>

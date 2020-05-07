@@ -6,15 +6,17 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import {path} from "../../../consts"
+import { strings } from '../../../../localization'
 
 export default function EditQuest(props) {
 
     const [values, setValues] = useState({
-        title: "",
+        title: props.questTitle,
+        points: 0
     });
 
     const [open, setOpen] = React.useState(false);
@@ -33,7 +35,7 @@ export default function EditQuest(props) {
 
     const editQuest = async () => {
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -64,28 +66,40 @@ export default function EditQuest(props) {
                 <Icon color="primary">edit</Icon>
             </IconButton>
             <Dialog open={open} fullWidth onClose={handleClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Edit Quest</DialogTitle>
+                <DialogTitle id="form-dialog-title">{strings.editQuest}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
+                    {/* <DialogContentText>
                         Enter a new name.
-            </DialogContentText>
+            </DialogContentText> */}
                     <TextField
                         autoFocus
-                        margin="dense"
+                        margin="normal"
                         id="title"
-                        label="Title"
+                        label={strings.title}
                         type="title"
                         fullWidth
                         value={values.title}
                         onChange={handleChange('title')}
+                        variant="outlined"
+                    />
+                    <TextField
+                        // autoFocus
+                        margin="normal"
+                        id="title"
+                        label={strings.points}
+                        type="title"
+                        fullWidth
+                        value={values.points}
+                        onChange={handleChange('points')}
+                        variant="outlined"
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        close
+                        {strings.CANCEL}
                     </Button>
                     <Button onClick={editQuest} color="primary">
-                        Edit
+                        {strings.EDIT}
                     </Button>
                 </DialogActions>
             </Dialog>

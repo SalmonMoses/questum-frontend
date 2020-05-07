@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -11,24 +11,36 @@ import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from "react-router-dom";
-import { getCookie } from "../../../Cookie"
+import { getLocalStorage } from "../../../Cookie"
 import ChangeGroupName from "./DialogChangeName"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import {path} from "../../consts"
+import { path } from "../../consts"
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import Skeleton from '@material-ui/lab/Skeleton';
+import { strings } from "../../../localization"
+import ConfirmDeleting from "../../confirmDeleting"
+import {shortenString} from "../../Notification"
 
 const useStyles = makeStyles(theme => ({
   area: {
     marginTop: theme.spacing(0),
     margin: theme.spacing(2),
-    width: theme.spacing(52),
-    // width: "100%",
+    width: theme.spacing(60),
     height: theme.spacing(7),
     [theme.breakpoints.down('xs')]: {
-      // width: theme.spacing(30),
       width: "100%",
       marginLeft: theme.spacing(0)
-      },
+    },
+    [theme.breakpoints.up('xl')]: {
+      marginTop: theme.spacing(0),
+      margin: theme.spacing(2),
+      width: theme.spacing(65),
+      height: theme.spacing(7),
+    },
   },
   area2: {
     maxWidth: theme.spacing(66),
@@ -50,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: theme.palette.background.paper,
   },
   icon: {
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(2),
   },
   paper: {
     backgroundColor: theme.palette.background.default,
@@ -62,29 +74,39 @@ const useStyles = makeStyles(theme => ({
   action: {
     width: theme.spacing(62),
   },
-  button:{
+  button: {
     marginLeft: theme.spacing(5),
     [theme.breakpoints.down('xs')]: {
       marginRight: theme.spacing(0),
       marginLeft: theme.spacing(0),
-      width:'15%',
-      },
+      width: '15%',
+    },
     // marginLeft: theme.spacing(-1),
   },
-  button2:{
+  button2: {
     marginLeft: theme.spacing(0),
     [theme.breakpoints.down('xs')]: {
       marginRight: theme.spacing(0),
-      width:'15%',
-      },
+      width: '10%',
+    },
   },
   color: {
     // background: theme.palette.secondary.main,
     width: "100%",
-},
-width:{
-  width:'70%',
-},
+  },
+  width: {
+    width: '70%',
+  },
+  menu: {
+    marginLeft: theme.spacing(3),
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: theme.spacing(0),
+    },
+  },
+  skeleton: {
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  }
 }));
 
 export default function GroupPaper(props) {
@@ -94,23 +116,70 @@ export default function GroupPaper(props) {
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('xs'));
+  const [avatar, setAvatar] = useState(null);
+  const [isAvatarLoading, setAvatarLoading] = useState(true);
 
-//   window.onload = function(){
-//     history.push("/groups");
-//  }
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
 
   const handleClick = () => {
-    if(matches){
+    if (matches) {
       history.push("/group?id=" + props.id);
-    }else{
+    } else {
       history.push("/groups?id=" + props.id);
-    props.refresh();
+      props.refresh();
     }
   }
 
-  const handleGroupDelete = async () =>{
+  const fetchAvatar = () => {
+    let token = getLocalStorage("token");
 
-    let token = getCookie("token");
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}groups/${props.id}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          //   enqueueSnackbar("Ошибка обработки изменений :(", {
+          //     variant: 'error',
+          //   });
+          return;
+        } else if (response.status === 500) {
+          console.log('No avatar for this group!');
+          setAvatarLoading(false);
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          setAvatar(URL.createObjectURL(result));
+          setAvatarLoading(false);
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  const handleGroupDelete = async () => {
+
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -123,61 +192,93 @@ export default function GroupPaper(props) {
       redirect: 'follow',
       headers: myHeaders,
     };
-    
-   await fetch(`${path}groups/${props.id}`, requestOptions)
+
+    await fetch(`${path}groups/${props.id}`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
-
-      props.refresh();
+    handleCloseDialog();
+    props.refresh();
   }
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClickMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    fetchAvatar()
+  }, []);
 
   return (
     <Grid container direction="row" className={classes.color}>
-      <Grid item className={classes.width}>
-      <Card className={classes.area}>
-      <CardActionArea onClick={handleClick}>
-        <Paper className={classes.paper}>
-          <Grid container spacing={0}>
-            <Grid item className={classes.margin}>
-              <CardContent>
-                <Avatar className={classes.purple}>{props.name[0]}</Avatar>
-              </CardContent>
-            </Grid>
-            <Grid item className={classes.margin2} xs={9}>
-              <CardContent>
-                {/* Длина не больше 15 символов!*/}
-                <Typography variant="h6" component="h2">
-                  {props.name}
-             </Typography>
-              </CardContent>
-            </Grid>
-            <Grid item className={classes.icon}>
-              <CardContent>
-                <Icon color="inherit">people_alt</Icon>
-              </CardContent>
-            </Grid>
-            {/* <Grid item className={classes.margin2}>
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  0/4
-             </Typography>
-              </CardContent>
-            </Grid> */}
-            <Grid item className={classes.margin3}>
-            </Grid>
-          </Grid>
-        </Paper>
-      </CardActionArea>
-    </Card>
+      <Grid item className={classes.width} xs={10}>
+        <Card className={classes.area} >
+          <CardActionArea onClick={handleClick}>
+            <Paper className={classes.paper}>
+              <Grid container spacing={0}>
+                <Grid item className={classes.margin}>
+                  <CardContent>
+                    {(() => {
+                      if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.skeleton} />);
+                      else return (<Avatar alt={props.name} src={avatar}>{(props.name)[0]}</Avatar>)
+                    })()}
+                  </CardContent>
+                </Grid>
+                <Grid item className={classes.margin2} xs={9}>
+                  <CardContent>
+                    {/* Длина не больше 15 символов!*/}
+                    <Typography variant="h6" component="h2">
+                      {shortenString(props.name, 17)}
+                    </Typography>
+                  </CardContent>
+                </Grid>
+                <Grid item className={classes.icon}>
+                  <CardContent>
+                    <Icon color="inherit">people_alt</Icon>
+                  </CardContent>
+                </Grid>
+                <Grid item className={classes.margin3}>
+                </Grid>
+              </Grid>
+            </Paper>
+          </CardActionArea>
+        </Card>
       </Grid>
-      <Grid item className={classes.button}>
-      <ChangeGroupName id={props.id} refresh={() => props.refresh()}/>
-      </Grid>
-      <Grid item className={classes.button2}>
-      <IconButton aria-label="edit" onClick={() => handleGroupDelete()}>
-          <Icon color="primary">delete</Icon>
+      <Grid item className={classes.menu}>
+        <IconButton
+          aria-label="more"
+          aria-controls="menu"
+          aria-haspopup="false"
+          onClick={handleClickMenu}
+        >
+          <MoreVertIcon />
         </IconButton>
+        <Menu
+          id="menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <ChangeGroupName name={props.name} id={props.id} refresh={() => props.refresh()} handleClose={handleClose} />
+          <MenuItem onClick={handleClickOpen}>
+            <Icon color="primary">delete</Icon>
+            {strings.deleteMenu}
+          </MenuItem>
+          <ConfirmDeleting 
+          open={open} 
+          close={handleCloseDialog} 
+          delete={handleGroupDelete} 
+          title={strings.DELETE_THE_GROUP}
+          text={strings.CONFIRM_DELETING}
+           />
+        </Menu>
       </Grid>
     </Grid>
   );

@@ -11,9 +11,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Icon from '@material-ui/core/Icon';
-import { getCookie, setCookie } from "../../Cookie"
+import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import {path} from "../consts"
+import { strings } from '../../localization'
 
 function sha512(str) {
     return crypto.subtle.digest("SHA-512", new TextEncoder("utf-8").encode(str)).then(buf => {
@@ -44,7 +45,7 @@ export default function PasswordConfirm(props) {
 
     const handleClick = () => {
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         let ob = {
             email: props.email,
@@ -62,17 +63,15 @@ export default function PasswordConfirm(props) {
             redirect: 'follow'
         };
 
-        console.log(values.password + getCookie("email"));
+        console.log(values.password + getLocalStorage("email"));
 
-        sha512(values.password + getCookie("email")).then(value => {
+        sha512(values.password + getLocalStorage("email")).then(value => {
             fetch(`${path}check/password?hash=${value}`, requestOptions2)
             .then(response => response.json())
             .then(result => {
                 console.log(result)
                 if (result.correct === false) {
-                    enqueueSnackbar("Пароль введен неправильно", {
-                        variant: 'error',
-                    });
+                    enqueueSnackbar(strings.passwdError, {variant: 'error',});
                     console.log("Password Error");
                 }
                 else {
@@ -90,12 +89,39 @@ export default function PasswordConfirm(props) {
                         redirect: 'follow',
 
                     };
-
-                    fetch(`${path}owners/${getCookie("id")}`, requestOptions)
+                    if(props.user){
+                        fetch(`${path}participants/${getLocalStorage("id")}`, requestOptions)
                         .then(response => {
                             if (response.status === 401) {
                                 console.log("Authorization error");
-                                enqueueSnackbar("Ошибка обработки изменений :(", {
+                                enqueueSnackbar(strings.authorizationError, {variant: 'error',});
+                                return;
+                            }
+                            return response.json();
+                        })
+                        .then(result => {
+                            if (result === undefined) {
+                                return;
+                            } else {
+                                console.log(result);
+                                setLocalStorage("name", result.name, 30);
+                                setLocalStorage("email", result.email, 30);
+                                enqueueSnackbar(strings.resetData, {
+                                    variant: 'success',
+                                });
+                                console.log(sha512(values.password + values.email));
+                                props.onClick();
+                                document.location.reload();
+                            }
+                        })
+                        .catch(error => console.log('error', error));
+                    }else
+                    if(props.owner){
+                    fetch(`${path}owners/${getLocalStorage("id")}`, requestOptions)
+                        .then(response => {
+                            if (response.status === 401) {
+                                console.log("Authorization error");
+                                enqueueSnackbar(strings.authorizationError, {
                                     variant: 'error',
                                 });
                                 return;
@@ -107,9 +133,9 @@ export default function PasswordConfirm(props) {
                                 return;
                             } else {
                                 console.log(result);
-                                setCookie("name", result.name, 30);
-                                setCookie("email", result.email, 30);
-                                enqueueSnackbar("Данные успешно изменены", {
+                                setLocalStorage("name", result.name, 30);
+                                setLocalStorage("email", result.email, 30);
+                                enqueueSnackbar(strings.resetData, {
                                     variant: 'success',
                                 });
                                 console.log(sha512(values.password + values.email));
@@ -118,6 +144,7 @@ export default function PasswordConfirm(props) {
                             }
                         })
                         .catch(error => console.log('error', error));
+                    }
                     /////////////////////////////////////////////////////////////////////////
                 }
             })
@@ -131,13 +158,13 @@ export default function PasswordConfirm(props) {
     return (
         <div>
             <Dialog open={props.open} onClose={props.onClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Confirm</DialogTitle>
+                <DialogTitle id="form-dialog-title">{strings.confirmation}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To change email you should enter your password
+                        {strings.changeEmail}
           </DialogContentText>
                     <FormControl fullWidth >
-                        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                        <InputLabel htmlFor="standard-adornment-password">{strings.passwd}</InputLabel>
                         <Input
                             id="standard-adornment-password"
                             type={values.showPassword ? 'text' : 'password'}
@@ -159,10 +186,10 @@ export default function PasswordConfirm(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={props.onClick} color="primary">
-                        Cancel
+                        {strings.CANCEL}
                     </Button>
                     <Button onClick={handleClick} color="primary">
-                        Confirm
+                        {strings.CONFIRM}
                     </Button>
                 </DialogActions>
             </Dialog>

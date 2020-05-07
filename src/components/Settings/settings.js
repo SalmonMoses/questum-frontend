@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
+import { Paper, Avatar } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import { getCookie, setCookie } from "../../Cookie"
+import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { useSnackbar } from 'notistack';
@@ -21,7 +21,10 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import {path} from "../consts";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import { path } from "../consts";
+import Skeleton from '@material-ui/lab/Skeleton';
+import { strings } from '../../localization'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -29,16 +32,16 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     [theme.breakpoints.up('xs')]: {
       paddingRight: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       paddingRight: theme.spacing(0),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       paddingRight: theme.spacing(4),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       paddingRight: theme.spacing(4),
-  },
+    },
     // paddingRight: theme.spacing(4),
     // paddingTop: theme.spacing(3)
   },
@@ -47,33 +50,33 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('xs')]: {
       flexGrow: 1,
       padding: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       flexGrow: 1,
       padding: theme.spacing(2),
-  },
+    },
   },
   cont: {
     [theme.breakpoints.up('xs')]: {
       marginLeft: theme.spacing(0),
-  },
-  [theme.breakpoints.up('sm')]: {
+    },
+    [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(0),
-  },
-  [theme.breakpoints.up('md')]: {
+    },
+    [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(2),
-  },
-  [theme.breakpoints.up('lg')]: {
+    },
+    [theme.breakpoints.up('lg')]: {
       marginLeft: theme.spacing(2),
-  },
+    },
   },
   area: {
     marginLeft: theme.spacing(2),
@@ -87,6 +90,21 @@ const useStyles = makeStyles(theme => ({
   },
   area3: {
     height: theme.spacing(10)
+  },
+  avatar: {
+    width: theme.spacing(20),
+    height: theme.spacing(20),
+  },
+  avatarArea: {
+    // marginLeft: theme.spacing(2),
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  avatarSkeleton: {
+    width: theme.spacing(20),
+    height: theme.spacing(20),
   }
 }));
 
@@ -99,12 +117,22 @@ export default function Sittings(props) {
     password: "",
     password2: "",
     errorPassword: false,
-    lang: "Russian",
+    lang: getLocalStorage("lang"),
     showPassword: false,
     error: false,
     text: "",
     dis: "",
   });
+
+  const [avatar, setAvatar] = useState(null);
+
+  const [avatarLast, setAvatarLast] = useState(null);
+
+  const [isAvatarLoading, setAvatarLoading] = useState(true);
+
+  const refresh = () =>{
+    setAvatarLast(avatar);
+  }
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
@@ -118,16 +146,24 @@ export default function Sittings(props) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  let cookie = getCookie("refreshToken");
+  let cookie = getLocalStorage("refreshToken");
 
   if (cookie === undefined) {
     history.push("/login/owner");
-    enqueueSnackbar("Время сессии истекло, войдите заново.", {
+    enqueueSnackbar(strings.sessionTimeout, {
       variant: 'error',
     });
   }
 
   const classes = useStyles();
+
+  const handleChangeLang = prop => event => {
+    setValues({ ...values, [prop]: event.target.value })
+    console.log(event.target.value);
+    setLocalStorage("lang", event.target.value);
+    document.location.reload();
+    // strings.setLanguage(event.target.value);
+  }
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
@@ -143,9 +179,14 @@ export default function Sittings(props) {
     setOpen(false);
   };
 
+  const changeLanguage = () => {
+    strings.setLanguage(values.lang);
+    handleClose();
+  }
+
   const fetching = (ob, string) => {
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -163,11 +204,11 @@ export default function Sittings(props) {
 
     };
 
-    fetch(`${path}owners/${getCookie("id")}`, requestOptions)
+    fetch(`${path}owners/${getLocalStorage("id")}`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar("Ошибка обработки изменений :(", {
+          enqueueSnackbar(strings.authorizationError, {
             variant: 'error',
           });
           return;
@@ -179,11 +220,51 @@ export default function Sittings(props) {
           return;
         } else {
           console.log(result);
-          setCookie("name", result.name, 30);
-          setCookie("email", result.email, 30);
+          setLocalStorage("name", result.name, 30);
+          setLocalStorage("email", result.email, 30);
           enqueueSnackbar(string, {
             variant: 'success',
           });
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  const fetchAvatar = () => {
+    let token = getLocalStorage("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}owners/${getLocalStorage("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar(strings.authorizationError, {
+            variant: 'error',
+          });
+          return;
+        } else if (response.status === 500) {
+          console.log('No avatar for this user!');
+          setAvatarLoading(false);
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          console.log(URL.createObjectURL(result));
+          setAvatar(URL.createObjectURL(result));
+          setAvatarLoading(false);
         }
       })
       .catch(error => console.log('error', error));
@@ -199,12 +280,12 @@ export default function Sittings(props) {
 
       ob.name = values.name;
 
-      fetching(ob, "Имя успешно изменено");
+      fetching(ob, strings.nameReset);
     }
     if (values.password !== "" && values.password2 !== "") {
       if (values.password.length < 5) {
         console.log("Password should be more the 5 simbols!");
-        enqueueSnackbar("Пароль должен быть длинее 5 символов!", {
+        enqueueSnackbar(strings.longerPasswd, {
           variant: 'error',
         });
         setValues({ ...values, errorPassword: true });
@@ -214,7 +295,7 @@ export default function Sittings(props) {
       }
       if (values.password !== values.password2) {
         console.log("Passwords should be equal!");
-        enqueueSnackbar("Пароли не совпадают", {
+        enqueueSnackbar(strings.passwdMissmatch, {
           variant: 'error',
         });
         setValues({ ...values, errorPassword: true });
@@ -224,8 +305,8 @@ export default function Sittings(props) {
       }
 
       if (!error) {
-        fetching({ "password": values.password }, "Пароль успешно изменен");
-        document.location.reload()
+        fetching({ "password": values.password }, strings.resetPasswd);
+        // document.location.reload()
       }
     }
     if (values.email !== props.email) {
@@ -233,6 +314,59 @@ export default function Sittings(props) {
     }
   }
 
+  const uploadAvatar = (e) => {
+    e.persist();
+    if(e.target.files.length != 1) {
+      return;
+    }
+    let token = getLocalStorage("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    let avatar = new FormData();
+    avatar.append('avatar', e.target.files[0])
+
+    var requestOptions = {
+      method: 'PUT',
+      headers: myHeaders,
+      redirect: 'follow',
+      body: avatar
+    };
+
+    setAvatarLoading(true);
+
+    fetch(`${path}owners/${getLocalStorage("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar(strings.authorizationError, {
+            variant: 'error',
+          });
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          fetchAvatar();
+          enqueueSnackbar(strings.resetAvatar, {
+            variant: 'success'
+          });
+        }
+      })
+      .catch(error => console.log('error', error));
+
+      refresh();
+  }
+
+
+  useEffect(() => {
+      fetchAvatar();
+  }, []);
 
   return (
     <main className={classes.content}>
@@ -244,17 +378,39 @@ export default function Sittings(props) {
             <Grid item className={classes.area1}>
               <Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
-                  Account settings
+                  {strings.accSettings}
                 </Box>
               </Typography>
             </Grid>
             <Divider />
 
+            <Grid item className={classes.avatarArea}>
+              <Grid container spacing={2} direction="column" className={classes.avatarArea}>
+                <Grid item>
+                  {(() => {
+                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton} />);
+                    else return (<Avatar alt={getLocalStorage("name")} src={avatar} className={classes.avatar}>{getLocalStorage("name").charAt(0)}</Avatar>)
+                  })()}
+                </Grid>
+                <Grid item>
+                  <Input
+                    style={{ display: 'none' }}
+                    id="avatar-file-input"
+                    type="file"
+                    accept="image/*"
+                    onChange={uploadAvatar} />
+                  <label htmlFor="avatar-file-input">
+                <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>{strings.changeAvatar}</Button>
+                  </label>
+                </Grid>
+              </Grid>
+            </Grid>
+
             <Grid item className={classes.area}>
               <TextField
                 fullWidth
                 id="standard-disabled"
-                label="Name"
+                label={strings.name}
                 defaultValue="имя"
                 value={values.name}
                 onChange={handleChange("name")}
@@ -264,7 +420,7 @@ export default function Sittings(props) {
             <Grid item className={classes.area}>
 
               <FormControl error={values.error} fullWidth>
-                <InputLabel htmlFor="component-error">Email</InputLabel>
+                <InputLabel htmlFor="component-error">{strings.eMail}</InputLabel>
                 <Input
                   id="component-error"
                   value={values.email}
@@ -277,7 +433,7 @@ export default function Sittings(props) {
             <Divider />
             <Grid item className={classes.area}>
               <FormControl fullWidth disabled={values.dis}>
-                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                <InputLabel htmlFor="standard-adornment-password">{strings.newPasswd}</InputLabel>
                 <Input
                   error={values.errorPassword}
                   id="standard-adornment-password"
@@ -300,7 +456,7 @@ export default function Sittings(props) {
             </Grid>
             <Grid item className={classes.area}>
               <FormControl fullWidth disabled={values.dis}>
-                <InputLabel htmlFor="standard-adornment-password">Repeat Password</InputLabel>
+                <InputLabel htmlFor="standard-adornment-password">{strings.repeatNewPasswd}</InputLabel>
                 <Input
                   error={values.errorPassword}
                   id="standard-adornment-password"
@@ -327,33 +483,33 @@ export default function Sittings(props) {
             <Grid item className={classes.area1}>
               <Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
-                  General settings
+                  {strings.generalSettings}
                 </Box>
               </Typography>
             </Grid>
             <Divider />
             <Grid item className={classes.area}>
-              <FormControl className={classes.formControl} fullWidth>
-                <InputLabel id="demo-simple-select-label">Language</InputLabel>
-                <Select
+              <InputLabel id="demo-simple-select-label">{strings.language}</InputLabel>
+              <Select
+                  fullWidth
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  defaultValue="Russian"
+                  defaultValue="en"
                   value={values.lang}
-                  onChange={handleChange("lang")}
+                  onChange={handleChangeLang("lang")}
                 >
-                  <MenuItem value={"Russian"}>Russian</MenuItem>
-                  <MenuItem value={"English"}>English</MenuItem>
-                </Select>
-              </FormControl>
+                <MenuItem value={'ru'} onClick={() => changeLanguage()}>Russian</MenuItem>
+                <MenuItem value={"en"} onClick={() => changeLanguage()}>English</MenuItem>
+                <MenuItem value={"ua"} onClick={() => changeLanguage()}>Ukrainian</MenuItem>
+              </Select>
             </Grid>
             <Grid item>
-              <Button onClick={handleClick} variant="contained" color="primary">Save changes</Button>
+              <Button onClick={handleClick} variant="contained" color="primary">{strings.SAVE_CHANGES}</Button>
             </Grid>
           </Grid>
         </Container>
       </Paper>
-      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} />
+      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false} />
     </main>
   );
 }

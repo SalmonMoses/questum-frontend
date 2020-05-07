@@ -7,8 +7,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import {path} from "../../../consts"
+import { strings } from '../../../../localization'
 
 export default function DeleteQuest(props) {
     const [open, setOpen] = React.useState(false);
@@ -23,7 +24,7 @@ export default function DeleteQuest(props) {
 
     const deleteQuest = async () => {
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
 
@@ -56,18 +57,18 @@ export default function DeleteQuest(props) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Deleting"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{strings.deleteQuest}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Do you want to delete {props.name}?
+                        {strings.formatString(strings.doUWantToDeleteQuest, props.questTitle)}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        CLOSE
+                        {strings.CANCEL}
                     </Button>
                     <Button variant="contained" onClick={deleteQuest} color="primary" autoFocus>
-                        DELETE
+                        {strings.DELETE}
                     </Button>
                 </DialogActions>
             </Dialog>

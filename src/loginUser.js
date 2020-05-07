@@ -15,14 +15,16 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Slide from '@material-ui/core/Slide';
 import Link from '@material-ui/core/Link'
 import { useSnackbar } from 'notistack';
-import {path} from "./components/consts"
+import { path } from "./components/consts"
 import { useHistory } from "react-router-dom";
+import { setLocalStorage } from "./Cookie";
+import { strings } from './localization'
 
 
 
 const useStyles = makeStyles(theme => ({
     paper: {
-        marginTop: theme.spacing(10),
+        marginTop: theme.spacing(7),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -42,14 +44,15 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexWrap: 'wrap',
         '& > *': {
-
             marginTop: theme.spacing(10),
             marginLeft: theme.spacing(70),
             width: theme.spacing(50),
             height: theme.spacing(70),
         },
     },
-
+    logo: {
+        marginBottom: theme.spacing(2)
+    }
 }));
 
 
@@ -65,7 +68,7 @@ export default function LoginUser() {
         password: '',
         showPassword: false,
         showAlert: false,
-        error: 'Token',
+        error: 'Group ID',
         disabled: false,
         login: false,
     });
@@ -93,9 +96,9 @@ export default function LoginUser() {
                 if (result.exists) {
                     setChecked(prev => true);
                     setButton({ label: 'LOG IN', icon: 'how_to_reg' });
-                    setValues({ ...values, showAlert: false, error: 'Token', disabled: true });
+                    setValues({ ...values, showAlert: false, error: 'Group ID', disabled: true });
                 } else {
-                    setValues({ ...values, showAlert: true, error: 'Token has not found', disabled: false });
+                    setValues({ ...values, showAlert: true, error: 'Group ID has not found', disabled: false });
                 }
             })
             .catch(error => console.log('error', error));
@@ -120,7 +123,7 @@ export default function LoginUser() {
             .then(response => {
                 if (response.status === 401) {
                     console.log("Authorization error")
-                    enqueueSnackbar("Убедитесь, что вы правильно ввели почту или пароль", {
+                    enqueueSnackbar(strings.correctEmailPasswd, {
                         variant: 'error',
                     });
                     return;
@@ -132,10 +135,15 @@ export default function LoginUser() {
                 if (result === undefined) {
                     return;
                 } else {
-                    enqueueSnackbar(`Вы вошли как ${result.user.name}`, {
-                        variant: 'success',
-                    });
-                    history.push("/");
+                    console.dir(result.refreshToken);
+                    setLocalStorage("refreshToken", result.refreshToken, 10);
+                    setLocalStorage("token", result.token, 30);
+                    setLocalStorage("groupID", values.token, 30);
+                    console.dir(document.cookie);
+                    // enqueueSnackbar(`Вы вошли как ${result.user.name}`, {
+                    //     variant: 'success',
+                    // });
+                    history.push("/user");
                 }
             })
             .catch(error => console.log('error', error));
@@ -153,14 +161,28 @@ export default function LoginUser() {
     const handleMouseDownPassword = event => {
         event.preventDefault();
     };
+
+    document.onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode == 13) {
+            if (values.disabled) {
+                handleSubmitFull();
+            } else {
+                handleSubmit();
+            }
+        }
+        return true;
+    }
+
     return (
         <div className={classes.paper}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
+                    <img src={`${process.env.PUBLIC_URL}/Qlogo.png`} className={classes.logo} />
                     <Typography component="div" color="primary">
                         <Box fontSize="h4.fontSize" m={2}>
-                            Log in
+                            {strings.logIn}
                         </Box>
                     </Typography>
                     <TextField
@@ -193,7 +215,7 @@ export default function LoginUser() {
                                 color="primary"
                                 variant="outlined"
                                 id="email"
-                                label="Email"
+                                label={strings.eMail}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -204,7 +226,7 @@ export default function LoginUser() {
                             />
 
                             <FormControl className={classes.margin} variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <InputLabel htmlFor="outlined-adornment-password">{strings.passwd}</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
                                     type={values.showPassword ? 'text' : 'password'}
@@ -243,14 +265,14 @@ export default function LoginUser() {
                 >{button.label}</Button>
                 <Typography component='div'>
                     <Box textAlign="center" fontSize="h7.fontSize" m={0}>
-                        {/* <Router>
-              <Link to="/loginOwner" >
-                Sing in as a group owner.
-             </Link>
-             </Router> */}
                         <Link href="/login/owner" >
-                            Sing in as a group owner.
-                         </Link>
+                            {strings.signInAsOwner}
+                        </Link>
+                    </Box>
+                    <Box textAlign="center" fontSize="h7.fontSize" m={1}>
+                        <Link href="/participant/restore-password" color="primary" >
+                            {strings.forgotPasswd}
+                        </Link>
                     </Box>
                 </Typography>
 

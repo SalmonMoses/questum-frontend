@@ -16,25 +16,26 @@ import FormControl from '@material-ui/core/FormControl';
 import { OutlinedInput } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
-import { setCookie } from "./Cookie";
-import {path} from "./components/consts"
+import { setLocalStorage } from "./Cookie";
+import { path } from "./components/consts"
+import { strings } from './localization'
 
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {'Copyright © '}
-//       <Link color="inherit" href="#">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
+function Copyright() {
+  return (
+    <Typography variant="body2" color="primary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://questerium.herokuapp.com/">
+        Questerium
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(15),
+    marginTop: theme.spacing(12),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -45,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing(1),
+    // marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 0),
@@ -69,6 +70,9 @@ const useStyles = makeStyles(theme => ({
       marginLeft: theme.spacing(2),
     },
   },
+  logo: {
+    marginBottom: theme.spacing(2)
+  }
 }));
 
 export default function SignIn() {
@@ -114,7 +118,7 @@ export default function SignIn() {
       .then(res => {
         if (res.status === 401) {
           console.log("Authorization error")
-          enqueueSnackbar("Убедитесь, что вы правильно ввели почту или пароль", {
+          enqueueSnackbar(strings.correctEmailPasswd, {
             variant: 'error',
           });
           return;
@@ -126,11 +130,11 @@ export default function SignIn() {
           return;
         } else {
           console.dir(json.refreshToken);
-          setCookie("refreshToken", json.refreshToken, 10);
-          setCookie("token", json.token, 30);
+          setLocalStorage("refreshToken", json.refreshToken, 10);
+          setLocalStorage("token", json.token, 30);
           console.dir(document.cookie);
           setValues({ ...values, showAlert: false });
-          enqueueSnackbar(`Вы вошли как ${json.owner.name}`, {
+          enqueueSnackbar(strings.loggedIn + json.owner.name, {
             variant: 'success',
           });
           history.push('/');
@@ -139,14 +143,23 @@ export default function SignIn() {
       .catch(console.log);
   }
 
+  document.onkeydown = function (e) {
+    e = e || window.event;
+    if (e.keyCode == 13) {
+        login();
+    }
+    return true;
+}
+
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+        <img alt="Questerium" src={`${process.env.PUBLIC_URL}/Qlogo.png`} class={classes.logo} />
         <Typography component="div" color="primary">
           <Box fontSize="h3.fontSize" m={1}>
-            Sign In
+            {strings.signIn}
        </Box>
         </Typography>
         <form className={classes.form}>
@@ -161,7 +174,7 @@ export default function SignIn() {
                 error={values.showAlert}
                 variant="outlined"
                 id="e-mail"
-                label="E-mail"
+                label={strings.eMail}
                 fullWidth
                 margin="normal"
                 InputProps={{
@@ -182,7 +195,7 @@ export default function SignIn() {
             </Grid> */}
             <Grid item className={classes.input}>
               <FormControl className={classes.margin} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-password">{strings.passwd}</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
                   type={values.showPassword ? 'text' : 'password'}
@@ -213,25 +226,30 @@ export default function SignIn() {
             fullWidth
             color="primary"
             onClick={login}
-          >Sign In</Button>
+          >{strings.SIGN_IN}</Button>
           <Typography component='div' className={classes.submit}>
             <Box textAlign="center" fontSize="h7.fontSize" m={0}>
               <Link href="#" color="primary">
-                Forgot password?
+                {strings.forgorPasswd}
              </Link>
             </Box>
             <Box textAlign="center" fontSize="h7.fontSize" m={1}>
               <Link href="/signup/owner" color="primary" >
-                Don`t have a group-creater account?
+                {strings.noGroupCreaterAcc}
              </Link>
             </Box>
             <Box textAlign="center" fontSize="h7.fontSize" m={1}>
               <Link href="/login/user" color="primary" >
-                Sign in as a Participant
+                {strings.signInAsParticipant}
+             </Link>
+            </Box>
+            <Box textAlign="center" fontSize="h7.fontSize" m={1}>
+              <Link href="/owner/restore-password" color="primary" >
+                {strings.forgotPasswd}
              </Link>
             </Box>
           </Typography>
-
+          <Copyright />
         </form>
       </div>
     </Container>

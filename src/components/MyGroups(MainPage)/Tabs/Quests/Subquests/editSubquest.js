@@ -11,9 +11,11 @@ import Grid from "@material-ui/core/Grid"
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core/styles';
 import VarificationTypes from "./varificationTypes"
-import { getCookie } from "../../../../../Cookie"
+import { getLocalStorage } from "../../../../../Cookie"
 import Chip from '@material-ui/core/Chip';
 import {path} from "../../../../consts"
+import { TextField } from '@material-ui/core';
+import { strings } from "../../../../../localization"
 
 const useStyles = makeStyles(theme => ({
     area: {
@@ -24,6 +26,9 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         width: theme.spacing(59),
+    },
+    dialog: {
+        overflow: 'hidden !important'
     }
 }));
 
@@ -56,7 +61,7 @@ export default function EditSubquest(props) {
     const editSubQuest = async () => {
         console.log(values.type);
 
-        let token = getCookie("token");
+        let token = getLocalStorage("token");
 
         var myHeaders = new Headers();
 
@@ -91,12 +96,12 @@ export default function EditSubquest(props) {
                 <Icon color="primary">edit</Icon>
             </IconButton>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Edit Subquest</DialogTitle>
-                <DialogContent>
-                    <Grid container direction="column" spacing={5}>
+                <DialogTitle id="form-dialog-title">{strings.editSubquest}</DialogTitle>
+                <DialogContent className={classes.dialog}>
+                    <Grid container direction="column" spacing={3}>
                         <Grid item>
                             <DialogContentText>
-                                Chose type of varification
+                                {strings.typeOfVarification}
                             </DialogContentText>
                             {/* <Chip
                                 onClick={() => handleType("IMAGE")}
@@ -121,25 +126,44 @@ export default function EditSubquest(props) {
                             <VarificationTypes type={type} />
                         </Grid>
                         <Grid item>
-                            <DialogContentText>
-                                Enter description.
-                            </DialogContentText>
-                            <TextareaAutosize
+                            {/* <DialogContentText>
+                                {strings.enterDescription}
+                            </DialogContentText> */}
+                            <TextField
+                                variant="outlined"
                                 value={values.desc}
+                                multiline
                                 onChange={handleChange("desc")}
                                 className={classes.area}
                                 aria-label="minimum height"
-                                rowsMin={10}
-                                placeholder="Your text.." />
+                                // rowsMin={10}
+                                label={strings.description} />
+                            {/* <TextField
+                                fullWidth
+                                label="Description"
+                                variant="outlined"
+                                value={values.desc}
+                                onChange={handleChange("desc")} */}
+                            {/* /> */}
                         </Grid>
+                        {values.type === "TEXT" && (<Grid item>
+                            <TextField
+                                fullWidth
+                                id="standard-disabled"
+                                label="Expected answer"
+                                variant="outlined"
+                                value={values.name}
+                                onChange={handleChange("expectedAnswer")}
+                            />
+                        </Grid>)}
                     </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        Cancel
+                        {strings.CANCEL}
                     </Button>
                     <Button onClick={editSubQuest} color="primary">
-                        Edit
+                        {strings.EDIT}
                     </Button>
                 </DialogActions>
             </Dialog>

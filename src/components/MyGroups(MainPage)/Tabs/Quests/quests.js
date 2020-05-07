@@ -3,11 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import AddSubQuest from "./Subquests/addSubQuest";
 import { Divider, Grid, ExpansionPanelActions } from '@material-ui/core';
-import { getCookie } from "../../../../Cookie";
+import { getLocalStorage } from "../../../../Cookie";
 import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -17,6 +18,7 @@ import DeleteSubquest from "./Subquests/deleteSubquest";
 import EditSubquest from "./Subquests/editSubquest"
 import EditQuest from "./editQuest"
 import { path } from "../../../consts"
+import { strings } from '../../../../localization'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -105,7 +107,7 @@ export default function Quests(props) {
 
         const fetchAllQuests = async () => {
 
-            let token = getCookie("token");
+            let token = getLocalStorage("token");
 
             var myHeaders = new Headers();
 
@@ -145,10 +147,10 @@ export default function Quests(props) {
                             </Typography>
                         </Grid>
                         <Grid item className={classes.icon}>
-                            <DeleteQuest questId={props.id} refresh={() => props.refresh()} />
+                            <DeleteQuest questTitle={props.title} questId={props.id} refresh={() => props.refresh()} />
                         </Grid>
                         <Grid item>
-                            <EditQuest questId={props.id} refresh={() => props.refresh()} />
+                            <EditQuest questTitle={props.title} questId={props.id} refresh={() => props.refresh()} />
                         </Grid>
                     </Grid>
                     {valuesSubQuests.map((item, count) => (
@@ -160,16 +162,23 @@ export default function Quests(props) {
                                     aria-controls="panel1bh-content"
                                     id="panel1bh-header"
                                 >
-                                    <Typography className={classes.heading}>Quest {item.order + 1}</Typography>
+                                    <Typography className={classes.heading}>{strings.quest}{item.order + 1}</Typography>
                                     <Typography className={classes.secondaryHeading}>{item.verificationType}</Typography>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
-                                    <Typography>
-                                        {item.desc}
+                                <div fullWidth>
+                                <Typography variant="h6" component="h2"  gutterBottom>
+                                {`${strings.description}: ${item.desc}`}
                                     </Typography>
+                               
+                                    {item.expectedAnswer && <Typography variant="h6" gutterBottom>
+                                        {`${strings.expectAnswer}: ${item.expectedAnswer} \n`}
+                                    </Typography>}
+                                </div>
+        
                                 </ExpansionPanelDetails>
                                 <ExpansionPanelActions>
-                                    <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()} />
+                                    <DeleteSubquest subquestId={item.id} refresh={() => refreshNew()} name={strings.quest + " " + (item.order + 1)}/>
                                     <EditSubquest subquestId={item.id} refresh={() => refreshNew()} verificationType={item.verificationType} desc={item.desc} />
                                 </ExpansionPanelActions>
                             </ExpansionPanel>

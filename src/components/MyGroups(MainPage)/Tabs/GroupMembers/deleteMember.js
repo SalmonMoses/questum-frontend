@@ -6,10 +6,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MemberPaper from "./member"
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import {path} from "../../../consts"
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
+import { strings } from '../../../../localization'
 
 const useStyles = makeStyles(theme => ({
   width:{
@@ -35,7 +36,7 @@ export default function DeleteMember(props) {
 
   const deleteUser = async () =>{
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -63,25 +64,25 @@ export default function DeleteMember(props) {
       {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open alert dialog
       </Button> */}
-      <MemberPaper onClick={handleClickOpen} name={props.name} points={props.points} email={props.email} refresh={() => props.refresh()} id={history.location.search.slice(4)}/>
+      <MemberPaper onClick={handleClickOpen} userId={props.id} name={props.name} points={props.points} email={props.email} refresh={() => props.refresh()} id={history.location.search.slice(4)}/>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Deleting"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{strings.deleteMember}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Name: {props.name} Email: {props.email} Do you want to delete {props.name} from this group?
+            {strings.formatString(strings.doUWantToDelete, props.name)}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            CLOSE
+            {strings.CANCEL}
           </Button>
           <Button disableElevation="true" variant="contained" onClick={deleteUser} color="primary" autoFocus>
-            DELETE
+            {strings.DELETE}
           </Button>
         </DialogActions>
       </Dialog>

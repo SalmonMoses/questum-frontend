@@ -16,11 +16,17 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import { deleteCookie } from "../../Cookie"
+import { deleteFromLocalStorage, getLocalStorage, clearLocalStorage, setLocalStorage } from "../../Cookie"
 import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import DonateButton from './DonateButton';
+import { Avatar, CircularProgress } from '@material-ui/core';
+import { path } from '../consts'
+import { useSnackbar } from 'notistack';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { NotificationsAdmin } from './NotificationsAdmin';
+import { strings } from '../../localization'
 
 const drawerWidth = 200;
 
@@ -56,18 +62,18 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
   },
   title: {
-    [theme.breakpoints.up('xs')]: {
+    [theme.breakpoints.down('xs')]: {
       marginTop: theme.spacing(-7),
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: theme.spacing(-7),
-    },
-    [theme.breakpoints.up('md')]: {
       marginTop: theme.spacing(-9),
     },
-    [theme.breakpoints.up('lg')]: {
-      marginTop: theme.spacing(-9),
-    },
+    // [theme.breakpoints.up('md')]: {
+    //   marginTop: theme.spacing(-9),
+    // },
+    // [theme.breakpoints.up('lg')]: {
+    //   marginTop: theme.spacing(-9),
+    // },
   },
   sectionDesktop: {
     display: 'none',
@@ -75,9 +81,16 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
     },
   },
+  sectionDesktop2: {
+    display: 'flex',
+  },
   grow: {
     flexGrow: 1,
   },
+  notifications: {
+    height: '100%',
+    marginRight: theme.spacing(1),
+  }
 }));
 
 //Компенет, заменяющий ListItem, чтоб можно было просто указать путь ссылки
@@ -112,6 +125,14 @@ function ResponsiveDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [avatar, setAvatar] = React.useState(null);
+  const [isAvatarLoading, setAvatarLoading] = React.useState(true);
+  const { enqueueSnackbar } = useSnackbar();
+  const [avatarLast, setAvatarLast] = React.useState(null);
+
+  const refresh = () =>{
+    setAvatarLast(avatar);
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -128,15 +149,57 @@ function ResponsiveDrawer(props) {
   };
 
   const logout = () => {
-    deleteCookie("refreshToken");
-    deleteCookie("id");
-    deleteCookie("groupId");
-    deleteCookie("name");
-    deleteCookie("token");
-    deleteCookie("email");
-    // history.replace("/login/owner");
-    // document.location.reload(true);
+    clearLocalStorage();
   }
+
+  const changeLanguage = (lang) => {
+    setLocalStorage("lang", lang);
+    handleClose();
+    document.location.reload();
+  }
+
+  const fetchAvatar = () => {
+    let token = getLocalStorage("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${path}owners/${getLocalStorage("id")}/avatar`, requestOptions)
+      .then(response => {
+        if (response.status === 401) {
+          console.log("Authorization error");
+          enqueueSnackbar(strings.avatarError, {
+            variant: 'error',
+          });
+          return;
+        } else if (response.status === 500) {
+          console.log('No avatar for this user!');
+          setAvatarLoading(false);
+          return;
+        }
+        return response.blob();
+      })
+      .then(result => {
+        if (result === undefined) {
+          return;
+        } else {
+          setAvatar(URL.createObjectURL(result));
+          setAvatarLoading(false);
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  React.useEffect(() => {
+    fetchAvatar();
+  }, []);
 
 
   const menuId = 'primary-search-account-menu';
@@ -158,12 +221,12 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/groups"}
           icon={<Icon color="primary">people_alt</Icon>}
-          primary={"My groups"} />
+          primary={strings.myGroups} />
 
         <ListItemLink
           to={"/pending-quests"}
           icon={<Icon color="primary">hourglass_full</Icon>}
-          primary={"Pending quests"} />
+          primary={strings.pendQuests} />
 
       </List>
       <Divider />
@@ -171,12 +234,12 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/settings"}
           icon={<Icon color="primary">settings</Icon>}
-          primary={"Settings"} />
+          primary={strings.settings} />
 
         <ListItemLink
           to={"/help"}
           icon={<Icon color="primary">help</Icon>}
-          primary={"Help"} />
+          primary={strings.help} />
 
         {/* <ListItem button key="Help">
           <ListItemIcon>
@@ -188,7 +251,7 @@ function ResponsiveDrawer(props) {
         <ListItemLink
           to={"/login/owner"}
           icon={<Icon color="primary">exit_to_app</Icon>}
-          primary={"Log out"}
+          primary={strings.logOut}
           onClick={logout}
         />
       </List>
@@ -217,9 +280,13 @@ function ResponsiveDrawer(props) {
             Questerium
           </Typography>
           <div className={classes.grow} />
+          <div className={classes.sectionDesktop2}>
+            <NotificationsAdmin className={classes.notifications} />
+          </div>
           <div className={classes.sectionDesktop}>
             <IconButton
               className={classes.icons}
+              fullWidth
               edge="end"
               aria-label="change language"
               aria-controls="lang"
@@ -236,14 +303,10 @@ function ResponsiveDrawer(props) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem value={"Russian"} onClick={handleClose}>Russian</MenuItem>
-              <MenuItem value={"English"} onClick={handleClose}>English</MenuItem>
+              <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+              <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
+              <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
             </Menu>
-            <IconButton className={classes.icons} edge="end" aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <Icon>notifications</Icon>
-              </Badge>
-            </IconButton>
             <IconButton
               href="/settings"
               edge="end"
@@ -252,7 +315,10 @@ function ResponsiveDrawer(props) {
               aria-haspopup="true"
               color="inherit"
             >
-              <Icon>account_circle</Icon>
+              {(() => {
+                if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatar} />);
+                else return (<Avatar alt={getLocalStorage("name")} src={avatar} className={classes.avatar}>{getLocalStorage("name").charAt(0)}</Avatar>)
+              })()}
             </IconButton>
           </div>
         </Toolbar>

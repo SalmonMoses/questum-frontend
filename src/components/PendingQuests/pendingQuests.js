@@ -3,15 +3,17 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { getCookie, setCookie } from "../../Cookie"
+import { getLocalStorage, setLocalStorage } from "../../Cookie"
 import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import PendingQuestCard from "./pendingQuestCard"
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import { path } from "../consts"
+import { strings } from '../../localization'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -84,6 +86,20 @@ const useStyles = makeStyles(theme => ({
         fontWeight: theme.typography.fontWeightRegular,
         // background: theme.palette.primary.main,
     },
+    text:{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        // marginTop: theme.spacing(21),
+        paddingTop: theme.spacing(30),
+      },
+      box:{
+        border: `1px solid ${theme.palette.primary.main}`,
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.primary.main,
+        alignItems: 'center',
+      }
 }));
 
 
@@ -93,11 +109,11 @@ export default function PendingQuests(props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    let cookie = getCookie("refreshToken");
+    let cookie = getLocalStorage("refreshToken");
 
     if (cookie === undefined) {
         history.push("/login/owner");
-        enqueueSnackbar("Время сессии истекло, войдите заново.", {
+        enqueueSnackbar(strings.sessionTimeout, {
             variant: 'error',
         });
     }
@@ -121,7 +137,7 @@ export default function PendingQuests(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            let token = getCookie("token");
+            let token = getLocalStorage("token");
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             myHeaders.append("Authorization", "Bearer " + token);
@@ -130,7 +146,7 @@ export default function PendingQuests(props) {
                 redirect: 'follow',
                 headers: myHeaders,
             };
-            await fetch(`${path}owners/${getCookie("id")}/groups`, requestOptions)
+            await fetch(`${path}owners/${getLocalStorage("id")}/groups`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     if (data === valuesLast) {
@@ -155,31 +171,26 @@ export default function PendingQuests(props) {
             <div className={classes.toolbar} />
             <Paper className={classes.paper}>
                 <Container className={classes.cont}>
-                    <List>
-                        {values.map((item, count) => (
-                            <Card className={classes.card}>
-                                <ListItem key={count}>
-                                    <Typography className={classes.heading} variant="h2" component="h2">
-                                        {item.name}
-                                        <PendingQuestCard groupId={item.id} refresh={() => refresh()} />
-                                    </Typography>
-                                </ListItem>
-                            </Card>
-                        ))}
-                    </List>
-                    {/* <List>
-                        {values.map((item, count) => (
-                            <Card className={classes.card}>
-                            <ListItem key={count}>
-                                <Typography variant="h2" component="h2">
-                                    {item.name}
-                                    <PendingQuestCard groupId={item.id} refresh={() => refresh()}/>
-                                    <Divider />
-                                </Typography>
-                            </ListItem>
-                            </Card>
-                        ))}
-                    </List> */}
+                     {values.length === 0 ? (
+                        <Typography variant="h4" className={classes.text} align="center">
+                            <Box className={classes.box}>
+                                {strings.noGroups}
+                            </Box>
+                        </Typography>
+                    ) : (
+                                <List>
+                                    {values.map((item, count) => (
+                                        <Card className={classes.card}>
+                                            <ListItem key={count}>
+                                                <Typography className={classes.heading} variant="h2" component="h2">
+                                                    {item.name}
+                                                    <PendingQuestCard groupId={item.id} refresh={() => refresh()} />
+                                                </Typography>
+                                            </ListItem>
+                                        </Card>
+                                    ))}
+                                </List>
+                    )}
                 </Container>
             </Paper>
         </main>

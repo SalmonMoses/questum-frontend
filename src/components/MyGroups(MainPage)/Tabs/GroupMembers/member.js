@@ -8,11 +8,10 @@ import { Divider } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import CardActionArea from '@material-ui/core/CardActionArea';
-import {path} from "../../../consts"
+import { path } from "../../../consts"
+import Skeleton from '@material-ui/lab/Skeleton';
 
 
 const useStyles = makeStyles(theme => ({
@@ -33,7 +32,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('xs')]: {
             marginLeft: theme.spacing(-4),
             width: `calc(100% + ${theme.spacing(8)}px)`,
-            },
+        },
 
     },
     area2: {
@@ -55,10 +54,10 @@ const useStyles = makeStyles(theme => ({
     },
     score: {
         margin: theme.spacing(-0.5, -1),
-        marginLeft: theme.spacing(10),
+        marginLeft: theme.spacing(5),
         [theme.breakpoints.down('xs')]: {
             marginLeft: theme.spacing(0),
-            },
+        },
     },
     email: {
         marginTop: theme.spacing(-2),
@@ -69,77 +68,108 @@ const useStyles = makeStyles(theme => ({
     color: {
         background: theme.palette.primary.main,
     },
+    skeleton: {
+        width: theme.spacing(5),
+        height: theme.spacing(5),
+      },
 }));
 
 export default function MemberPaper(props) {
     const classes = useStyles();
 
-    const handleMemberDelete = async () =>{
+    const [avatar, setAvatar] = React.useState(null);
 
-        let token = getCookie("token");
-    
+    const [isAvatarLoading, setAvatarLoading] = React.useState(true);
+
+    const fetchAvatar = () => {
+        let token = getLocalStorage("token");
+
         var myHeaders = new Headers();
-    
-        myHeaders.append("Content-Type", "application/json");
-    
+
         myHeaders.append("Authorization", "Bearer " + token);
 
         var requestOptions = {
-            method: 'DELETE',
-            redirect: 'follow',
+            method: 'GET',
             headers: myHeaders,
-          };
-          
-          await fetch(`${path}participants/${props.id}`, requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-    
-          props.refresh();
-      }
+            redirect: 'follow',
+        };
 
-      const handleClick = () =>{
-          props.onClick();
-      }
+        fetch(`${path}participants/${props.userId}/avatar`, requestOptions)
+            .then(response => {
+                if (response.status === 401) {
+                    console.log("Authorization error");
+                    //   enqueueSnackbar("Ошибка обработки изменений :(", {
+                    //     variant: 'error',
+                    //   });
+                    return;
+                } else if (response.status === 500) {
+                    console.log('No avatar for this user!');
+                    setAvatarLoading(false);
+                    return;
+                }
+                return response.blob();
+            })
+            .then(result => {
+                if (result === undefined) {
+                    return;
+                } else {
+                    setAvatar(URL.createObjectURL(result));
+                    setAvatarLoading(false);
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    const handleClick = () => {
+        props.onClick();
+    }
+
+    React.useEffect(() => {
+        fetchAvatar();
+    }, [])
 
     return (
         <Card className={classes.area}>
-         <CardActionArea onClick={handleClick}>
-            <Paper className={classes.paper}>
-                <Grid container spacing={0} >
-                    <Grid item className={classes.margin}>
-                        <CardContent>
-                            <Avatar className={classes.orange}>N</Avatar>
-                        </CardContent>
-                    </Grid>
-                    <Grid item className={classes.margin2} xs={8}>
-                        <CardContent>
-                            {/* Длина не больше 15 символов!*/}
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {props.name}
-                            </Typography>
-                            <div className={classes.email}>
-                                <Typography  variant="h6" component="h2" >
-                                    {props.email}
+            <CardActionArea onClick={handleClick}>
+                <Paper className={classes.paper}>
+                    <Grid container spacing={0} >
+                        <Grid item className={classes.margin}>
+                            <CardContent>
+                                {(() => {
+                                    if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.skeleton} />);
+                                    else return (<Avatar alt={props.name} src={avatar} className={classes.orange}>{(props.name)[0]}</Avatar>)
+                                })()}
+                                {/* <Avatar alt={props.name} src={avatar} className={classes.orange}></Avatar> */}
+                            </CardContent>
+                        </Grid>
+                        <Grid item className={classes.margin2} xs={8}>
+                            <CardContent>
+                                {/* Длина не больше 15 символов!*/}
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {props.name}
                                 </Typography>
-                            </div>
-                        </CardContent>
-                    </Grid>
-                    <Divider orientation="vertical" />
-                    <Grid item className={classes.score}>
-                        <CardContent>
-                            <Typography variant="h5" component="h2">
-                                {props.points}
-                            </Typography>
-                        </CardContent>
-                    </Grid>
-                    {/* <Grid item>
+                                <div className={classes.email}>
+                                    <Typography variant="h6" component="h2" >
+                                        {props.email}
+                                    </Typography>
+                                </div>
+                            </CardContent>
+                        </Grid>
+                        <Divider orientation="vertical" />
+                        <Grid item className={classes.score}>
+                            <CardContent>
+                                <Typography variant="h5" component="h2">
+                                    {props.points}
+                                </Typography>
+                            </CardContent>
+                        </Grid>
+                        {/* <Grid item>
                         <IconButton onClick={() => handleMemberDelete()}>
                             <Icon color="primary">delete</Icon>
                         </IconButton>
                     </Grid> */}
-                </Grid>
-            </Paper>
+                    </Grid>
+                </Paper>
             </CardActionArea>
         </Card>
     );

@@ -7,11 +7,20 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from "@material-ui/core/Grid"
-import { getCookie } from "../../../../Cookie"
+import { getLocalStorage } from "../../../../Cookie"
 import { useHistory } from "react-router-dom";
-import {path} from '../../../consts'
+import { path } from '../../../consts';
+import { makeStyles } from '@material-ui/core';
+import { strings } from '../../../../localization'
+
+const useStyles = makeStyles(theme => ({
+  dialog: {
+    overflow: 'hidden !important'
+  }
+}));
 
 export default function AddMember(props) {
+  const classes = useStyles();
 
   const [values, setValues] = useState({
     name: "",
@@ -26,7 +35,7 @@ export default function AddMember(props) {
 
   const handleClick = async () => {
 
-    let token = getCookie("token");
+    let token = getLocalStorage("token");
 
     var myHeaders = new Headers();
 
@@ -43,7 +52,7 @@ export default function AddMember(props) {
       redirect: 'follow'
     };
 
-    let id = getCookie("groupId");
+    let id = getLocalStorage("groupId");
     if (history.location.search.slice(4) !== "") {
       id = history.location.search.slice(4)
     }
@@ -56,42 +65,38 @@ export default function AddMember(props) {
 
     props.onClick();
     props.refresh();
+    setValues({ ...values, name: "", email: "" });
   }
 
   return (
     <div>
       <Dialog open={props.open} onClose={props.onClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
-        <DialogContent>
+        <DialogTitle id="form-dialog-title">{strings.addMember}</DialogTitle>
+        <DialogContent className={classes.dialog}>
           <Grid container direction="row" spacing={5}>
             <Grid item>
-              <DialogContentText>
-                Enter a name of a new member.
-            </DialogContentText>
               <TextField
                 autoFocus
                 margin="dense"
                 id="name"
-                label="Name"
+                label={strings.name}
                 type="name"
                 fullWidth
                 value={values.name}
                 onChange={handleChange("name")}
+                variant="outlined"
               />
             </Grid>
             <Grid item>
-              <DialogContentText>
-                Enter email of a new member.
-            </DialogContentText>
               <TextField
-                autoFocus
                 margin="dense"
                 id="email"
-                label="E-Mail"
+                label={strings.eMail}
                 type="email"
                 fullWidth
                 value={values.email}
                 onChange={handleChange("email")}
+                variant="outlined"
               />
             </Grid>
           </Grid>
@@ -99,10 +104,10 @@ export default function AddMember(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClick} color="primary">
-            Cancel
+            {strings.CANCEL}
             </Button>
           <Button onClick={handleClick} color="primary">
-            ADD
+            {strings.ADD}
             </Button>
         </DialogActions>
       </Dialog>
