@@ -355,7 +355,7 @@ export let strings = new LocalizedStrings({
         deleteMember: "Видалення учасника",
         doUWantToDelete: "Ви впевнені, що хочете видалити учасника {0} із цієї групи?",
         DELETE: "ВИДАЛИТИ",
-        quest: "Підквест",
+        quest: "Підквест ",
         description: "Опис",
         expectAnswer: "Очікувана відповідь",
         addNewSubquest: "ДОДАТИ НОВИЙ ПІДКВЕСТ",
