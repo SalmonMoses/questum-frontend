@@ -104,7 +104,7 @@ export default function Me() {
     setOpen(false);
   };
 
-  const deleteAccount = async () =>{
+  const deleteAccount = async () => {
 
     let token = getLocalStorage("token");
 
@@ -117,14 +117,14 @@ export default function Me() {
       redirect: 'follow',
       headers: myHeaders,
     };
-    
+
     await fetch(`${path}participants/${getLocalStorage("id")}`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
-      handleCloseDialog();
-      clearLocalStorage();
-      document.location.reload();
+    handleCloseDialog();
+    clearLocalStorage();
+    document.location.reload();
   }
 
   const fetchAvatar = () => {
@@ -244,7 +244,7 @@ export default function Me() {
               />
             </Grid>
 
-            <ScoreTable id= {getLocalStorage("id")} component={Paper}/>
+            <ScoreTable id={getLocalStorage("id")} component={Paper} />
 
 
             <Divider style={{ marginTop: 15 }} />
