@@ -258,7 +258,7 @@ export default function Group() {
               <Grid item className={classes.area1}>
                 <Typography color="primary">
                   <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
-                    {"LEADERBOARD"}
+                    {strings.leaderboard}
                   </Box>
                 </Typography>
               </Grid>
