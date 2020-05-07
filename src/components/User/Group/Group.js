@@ -241,7 +241,6 @@ export default function Group() {
                 {(() => {
                   if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton} />);
                   else return (<Avatar
-                    onClick={() => handleClick("ava")}
                     alt={getLocalStorage("name")}
                     src={avatar}
                     className={classes.avatar}
