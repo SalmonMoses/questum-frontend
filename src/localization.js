@@ -133,6 +133,8 @@ export let strings = new LocalizedStrings({
         changeEmail_Me: "You can change your E-mail in Settings. Not here",
         changeName_Me: "You can change your name in Settings. Not here",
         changeGroup_Me: "You cannot change your group even in Settings",
+        quests: "Quests",
+        totalPoints: "Total Points",
         //Quests 
         progress: "Progress: ",
         subquest: "Subquest",
@@ -158,6 +160,10 @@ export let strings = new LocalizedStrings({
         PRIVACY: "You have not agreed to the user agreement",
         DELETING_ACCOUNT: "Account deleting",
         DELETING_ACCOUNT_TEXT: "Are you sure you want to delete your account? All progress will be lost!",
+        I_AGREE: "I agree with",
+        AGREEMENT: "End User License Agreement",
+        AND: "and",
+        PRIVACY_POLICY: "Privacy Policy",
     },
     ru: {
         logIn: "Авторизация",
@@ -297,7 +303,8 @@ export let strings = new LocalizedStrings({
         PRIVACY_POLICY: "политикой конфиденциальности",
         DELETING_ACCOUNT: "Удаление аккаунта",
         DELETING_ACCOUNT_TEXT: "Вы уверены, что хотите удалить аккаунт? Весь прогресс будет потерян!",
-
+        quests: "Квесты",
+        totalPoints: "Всего очков",
     },
     ua: {
         logIn: "Авторизація",
@@ -352,7 +359,7 @@ export let strings = new LocalizedStrings({
         deleteMember: "Видалення учасника",
         doUWantToDelete: "Ви впевнені, що хочете видалити учасника {0} із цієї групи?",
         DELETE: "ВИДАЛИТИ",
-        quest: "Підквест",
+        quest: "Підквест ",
         description: "Опис",
         expectAnswer: "Очікувана відповідь",
         addNewSubquest: "ДОДАТИ НОВИЙ ПІДКВЕСТ",
@@ -434,6 +441,8 @@ export let strings = new LocalizedStrings({
         I_AGREE: "Я згоден з",
         DELETING_ACCOUNT: "Видалення акаунту",
         DELETING_ACCOUNT_TEXT: "Ви впевнені, що хочете видалити свій акаунт? Весь прогрес буде втрачений!",
+        quests: "Квести",
+        totalPoints: "Загальна кількість балів",
     }
 });
 

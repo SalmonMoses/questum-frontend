@@ -137,7 +137,7 @@ export default function EditSubquest(props) {
                                 className={classes.area}
                                 aria-label="minimum height"
                                 // rowsMin={10}
-                                label="Description" />
+                                label={strings.description} />
                             {/* <TextField
                                 fullWidth
                                 label="Description"

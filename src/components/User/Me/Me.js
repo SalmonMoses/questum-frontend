@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, LinearProgress } from '@material-ui/core';
+import { Paper, LinearProgress, Typography, Box } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Container from '@material-ui/core/Container';
 import { getLocalStorage, deleteFromLocalStorage, clearLocalStorage } from "../../../Cookie"
@@ -21,7 +21,7 @@ import DeleteDialog from "../../confirmDeleting"
 
 const useStyles = makeStyles(theme => ({
   area: {
-    marginLeft: theme.spacing(2),
+    // marginLeft: theme.spacing(2),
     width: theme.spacing(40),
   },
   cont: {
@@ -104,7 +104,7 @@ export default function Me() {
     setOpen(false);
   };
 
-  const deleteAccount = async () =>{
+  const deleteAccount = async () => {
 
     let token = getLocalStorage("token");
 
@@ -117,14 +117,14 @@ export default function Me() {
       redirect: 'follow',
       headers: myHeaders,
     };
-    
+
     await fetch(`${path}participants/${getLocalStorage("id")}`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
-      handleCloseDialog();
-      clearLocalStorage();
-      document.location.reload();
+    handleCloseDialog();
+    clearLocalStorage();
+    document.location.reload();
   }
 
   const fetchAvatar = () => {
@@ -205,7 +205,7 @@ export default function Me() {
 
           <Grid item className={classes.avatarArea} direction="column" >
             <Grid container spacing={2} direction="column" className={classes.avatarArea}>
-              <Grid item>
+              <Grid item style={{alignSelf: 'center'}}>
                 {(() => {
                   if (isAvatarLoading) return (<Skeleton variant="circle" className={classes.avatarSkeleton} />);
                   else return (<Avatar
@@ -216,57 +216,20 @@ export default function Me() {
                   >{getLocalStorage("name").charAt(0)}</Avatar>)
                 })()}
               </Grid>
+              <Grid item className={classes.area} style={{alignSelf: 'center'}}>
+                <Typography color="primary" align='center'>
+                  <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
+                    {name}
+                  </Box>
+                </Typography>
+              </Grid>
 
             </Grid>
 
           </Grid>
 
           <Grid container spacing={4} direction="column">
-            <Grid item className={classes.area}>
-              <DarkerDisabledTextField
-                fullWidth
-                onClick={() => handleClick("email")}
-                id="standard-disabled"
-                label={strings.eMail}
-                defaultValue={email}
-                disabled="true"
-              />
-            </Grid>
-
-            <Grid item className={classes.area}>
-              <DarkerDisabledTextField
-                fullWidth
-                onClick={() => handleClick("name")}
-                id="standard-disabled"
-                label={strings.name}
-                defaultValue={name}
-                disabled="true"
-              />
-            </Grid>
-
-            <ScoreTable id= {getLocalStorage("id")} component={Paper}/>
-
-
-            <Divider style={{ marginTop: 15 }} />
-            <Grid item className={classes.area}>
-              <Button
-                variant="contained"
-                onClick={handleClickOpen}
-                color="primary"
-                fullWidth
-                component="span">
-                {strings.DELETE_MY_ACCOUNT}
-              </Button>
-              <DeleteDialog
-                open={open}
-                close={handleCloseDialog}
-                delete={deleteAccount}
-                // title={"Удаление аккаунта"}
-                // text={"Вы уверены, что хотите удалить аккаут? Весь прогресс будет потерян!"}
-                title={strings.DELETING_ACCOUNT}
-                text={strings.DELETING_ACCOUNT_TEXT}
-              />
-            </Grid>
+            <ScoreTable id={getLocalStorage("id")} component={Paper} />
           </Grid>
         </Container>
       </Paper>

@@ -25,6 +25,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Input from '@material-ui/core/Input';
 import { strings } from "../../../localization"
+import DeleteDialog from "../../confirmDeleting"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -176,6 +177,39 @@ export default function SittingsUser(props) {
   const changeLanguage = (lang) => {
     strings.setLanguage(lang);
     handleClose();
+  };
+
+  const [openDelete, setOpenDelete] = React.useState(false);
+
+  const handleDeleteClickOpen = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const deleteAccount = async () => {
+
+    let token = getLocalStorage("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'DELETE',
+      redirect: 'follow',
+      headers: myHeaders,
+    };
+
+    await fetch(`${path}participants/${getLocalStorage("id")}`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+    handleCloseDelete();
+    clearLocalStorage();
+    document.location.reload();
   }
 
   const fetching = (ob, string) => {
@@ -309,7 +343,7 @@ export default function SittingsUser(props) {
 
   const uploadAvatar = (e) => {
     e.persist();
-    if(e.target.files.length != 1) {
+    if (e.target.files.length != 1) {
       return;
     }
     let token = getLocalStorage("token");
@@ -397,7 +431,7 @@ export default function SittingsUser(props) {
                     accept="image/*"
                     onChange={uploadAvatar} />
                   <label htmlFor="avatar-file-input">
-                <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>{strings.changeAvatar}</Button>
+                    <Button variant="contained" color="primary" className={classes.iconButton} component="span" startIcon={<CloudUploadIcon />}>{strings.changeAvatar}</Button>
                   </label>
                 </Grid>
               </Grid>
@@ -506,6 +540,26 @@ export default function SittingsUser(props) {
             </Grid>
             <Grid item style={{ alignSelf: "center" }}>
               <Button onClick={logout} color="primary" variant="outlined" endIcon={<Icon>logout</Icon>}>{strings.LOG_OUT}</Button>
+            </Grid>
+            <Divider style={{ marginTop: 15 }} />
+            <Grid item className={classes.area} style={{ alignSelf: "center" }}>
+              <Button
+                variant="contained"
+                onClick={handleDeleteClickOpen}
+                color="primary"
+                fullWidth
+                component="span">
+                {strings.DELETE_MY_ACCOUNT}
+              </Button>
+              <DeleteDialog
+                open={openDelete}
+                close={handleCloseDelete}
+                delete={deleteAccount}
+                // title={"Удаление аккаунта"}
+                // text={"Вы уверены, что хотите удалить аккаут? Весь прогресс будет потерян!"}
+                title={strings.DELETING_ACCOUNT}
+                text={strings.DELETING_ACCOUNT_TEXT}
+              />
             </Grid>
           </Grid>
         </Container>

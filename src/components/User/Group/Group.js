@@ -13,6 +13,7 @@ import { strings } from "../../../localization"
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ExpandableParticipant from "./expandableParticipant"
+import AdminInfo from './AdminInfo'
 
 
 const useStyles = makeStyles(theme => ({
@@ -242,11 +243,14 @@ export default function Group() {
                   if (isGroupLoading) return (<Skeleton variant="text" width={200} height={50} />);
                   else {
                     console.log(group);
-                    return (<Typography color="primary">
-                      <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
-                        {group.name}
-                      </Box>
-                    </Typography>)
+                    return (<>
+                      <Typography color="primary" align='center'>
+                        <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
+                          {group.name}
+                        </Box>
+                      </Typography>
+                      <AdminInfo adminId={group.owner.id}></AdminInfo>
+                    </>)
                   }
                 })()}
                 <Divider style={{ marginTop: 15 }} />
@@ -254,7 +258,7 @@ export default function Group() {
               <Grid item className={classes.area1}>
                 <Typography color="primary">
                   <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
-                    {"LEADERBOARD"}
+                    {strings.leaderboard}
                   </Box>
                 </Typography>
               </Grid>

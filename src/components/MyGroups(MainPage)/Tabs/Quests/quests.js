@@ -168,12 +168,12 @@ export default function Quests(props) {
                                 <ExpansionPanelDetails>
                                 <div fullWidth>
                                 <Typography variant="h6" component="h2"  gutterBottom>
-                                {"Description: " + item.desc}
+                                {`${strings.description}: ${item.desc}`}
                                     </Typography>
                                
-                                    <Typography variant="h6" gutterBottom>
-                                        {`Expected answer: ${item.expectedAnswer} \n`}
-                                    </Typography>
+                                    {item.expectedAnswer && <Typography variant="h6" gutterBottom>
+                                        {`${strings.expectAnswer}: ${item.expectedAnswer} \n`}
+                                    </Typography>}
                                 </div>
         
                                 </ExpansionPanelDetails>
