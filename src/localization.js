@@ -160,6 +160,10 @@ export let strings = new LocalizedStrings({
         PRIVACY: "You have not agreed to the user agreement",
         DELETING_ACCOUNT: "Account deleting",
         DELETING_ACCOUNT_TEXT: "Are you sure you want to delete your account? All progress will be lost!",
+        I_AGREE: "I agree with",
+        AGREEMENT: "End User License Agreement",
+        AND: "and",
+        PRIVACY_POLICY: "Privacy Policy",
     },
     ru: {
         logIn: "Авторизация",
