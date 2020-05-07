@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
     },
     score: {
         margin: theme.spacing(-0.5, -1),
-        marginLeft: theme.spacing(10),
+        marginLeft: theme.spacing(5),
         [theme.breakpoints.down('xs')]: {
             marginLeft: theme.spacing(0),
         },
