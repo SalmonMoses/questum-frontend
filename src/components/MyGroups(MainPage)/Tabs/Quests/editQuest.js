@@ -65,7 +65,7 @@ export default function EditQuest(props) {
             <IconButton aria-label="edit" onClick={handleClickOpen}>
                 <Icon color="primary">edit</Icon>
             </IconButton>
-            <Dialog open={open} fullWidth onClose={handleClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
+            <Dialog open={open} fullWidth maxWidth={"sm"} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">{strings.editQuest}</DialogTitle>
                 <DialogContent>
                     {/* <DialogContentText>

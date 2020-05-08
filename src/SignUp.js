@@ -20,6 +20,7 @@ import { useHistory } from "react-router-dom";
 import { path } from "./components/consts"
 import { strings } from './localization'
 import Link from '@material-ui/core/Link';
+import { setLocalStorage } from "./Cookie"
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -173,7 +174,9 @@ export default function SignIn() {
                         variant: 'success'
                     });
                     setValues({ ...values, logged: true });
-                    history.push('/groups');
+                    setLocalStorage("refreshToken", result.refreshToken, 10);
+                    setLocalStorage("token", result.token, 30);
+                    history.push('/');
                 }
             })
             .catch(error => console.log('error', error));

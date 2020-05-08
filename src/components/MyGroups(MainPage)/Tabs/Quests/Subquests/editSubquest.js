@@ -95,7 +95,7 @@ export default function EditSubquest(props) {
             <IconButton aria-label="edit" onClick={handleClickOpen}>
                 <Icon color="primary">edit</Icon>
             </IconButton>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={open} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">{strings.editSubquest}</DialogTitle>
                 <DialogContent className={classes.dialog}>
                     <Grid container direction="column" spacing={3}>
