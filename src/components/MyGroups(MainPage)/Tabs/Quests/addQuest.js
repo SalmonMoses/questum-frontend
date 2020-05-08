@@ -41,7 +41,7 @@ export default function AddQuest(props) {
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
 
-    var raw = JSON.stringify({ "title": values.title, "desc": "Just some more testing", points: values.points });
+    var raw = JSON.stringify({ "title": values.title, "desc": "", points: values.points });
 
     var requestOptions = {
       method: 'POST',
