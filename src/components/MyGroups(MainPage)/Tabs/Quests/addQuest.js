@@ -69,7 +69,7 @@ export default function AddQuest(props) {
             {strings.enterTitle}
             </DialogContentText>
           <TextField
-            autoFocus
+            // autoFocus
             // margin="dense"
             id="title"
             label={strings.title}

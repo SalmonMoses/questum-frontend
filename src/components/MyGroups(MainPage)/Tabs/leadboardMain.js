@@ -91,21 +91,6 @@ const useStyles = makeStyles(theme => ({
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },
-    // [theme.breakpoints.up('sm')]: {
-    //   position: "fixed",
-    //   botton: 100,
-    //   right: 50,
-    // },
-    // [theme.breakpoints.up('md')]: {
-    //   position: "fixed",
-    //   top: 580,
-    //   right: 90,
-    // },
-    // [theme.breakpoints.up('lg')]: {
-    //   position: "fixed",
-    //   top: 580,
-    //   right: 90,
-    // },
   },
   button: {
     marginLeft: 10,

@@ -76,7 +76,7 @@ export default function AddMember(props) {
           <Grid container direction="row" spacing={5}>
             <Grid item>
               <TextField
-                autoFocus
+                // autoFocus
                 margin="dense"
                 id="name"
                 label={strings.name}

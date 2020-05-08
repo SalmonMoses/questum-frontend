@@ -150,7 +150,7 @@ export default function Quests(props) {
                             <DeleteQuest questTitle={props.title} questId={props.id} refresh={() => props.refresh()} />
                         </Grid>
                         <Grid item>
-                            <EditQuest questTitle={props.title} questId={props.id} refresh={() => props.refresh()} />
+                            <EditQuest points={0} questTitle={props.title} questId={props.id} refresh={() => props.refresh()} />
                         </Grid>
                     </Grid>
                     {valuesSubQuests.map((item, count) => (

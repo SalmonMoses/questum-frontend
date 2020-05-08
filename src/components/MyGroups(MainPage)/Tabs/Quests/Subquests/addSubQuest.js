@@ -157,15 +157,7 @@ export default function AddSubQuest(props) {
                                 onChange={handleChange("desc")}
                                 className={classes.area}
                                 aria-label="minimum height"
-                                // rowsMin={10}
                                 label={strings.description} />
-                            {/* <TextField
-                                fullWidth
-                                label="Description"
-                                variant="outlined"
-                                value={values.desc}
-                                onChange={handleChange("desc")} */}
-                            {/* /> */}
                         </Grid>
                         {values.type === "TEXT" && (<Grid item>
                             <TextField

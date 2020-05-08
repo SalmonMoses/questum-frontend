@@ -186,7 +186,7 @@ export default function ChangeGroupName(props) {
             </label>
           </div>
           <TextField
-            autoFocus
+            // autoFocus
             margin="dense"
             id="name"
             label={strings.groupName}

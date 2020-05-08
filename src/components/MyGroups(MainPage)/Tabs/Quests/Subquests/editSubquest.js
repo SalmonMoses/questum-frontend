@@ -126,9 +126,6 @@ export default function EditSubquest(props) {
                             <VarificationTypes type={type} />
                         </Grid>
                         <Grid item>
-                            {/* <DialogContentText>
-                                {strings.enterDescription}
-                            </DialogContentText> */}
                             <TextField
                                 variant="outlined"
                                 value={values.desc}
@@ -138,13 +135,6 @@ export default function EditSubquest(props) {
                                 aria-label="minimum height"
                                 // rowsMin={10}
                                 label={strings.description} />
-                            {/* <TextField
-                                fullWidth
-                                label="Description"
-                                variant="outlined"
-                                value={values.desc}
-                                onChange={handleChange("desc")} */}
-                            {/* /> */}
                         </Grid>
                         {values.type === "TEXT" && (<Grid item>
                             <TextField

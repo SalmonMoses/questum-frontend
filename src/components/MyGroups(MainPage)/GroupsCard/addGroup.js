@@ -74,7 +74,7 @@ export default function AddGroup(props) {
             {strings.enterGroupName}
             </DialogContentText>
           <TextField
-            autoFocus
+            // autoFocus
             margin="dense"
             id="name"
             label={strings.groupName}

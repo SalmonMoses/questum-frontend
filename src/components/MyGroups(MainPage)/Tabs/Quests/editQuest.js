@@ -16,7 +16,7 @@ export default function EditQuest(props) {
 
     const [values, setValues] = useState({
         title: props.questTitle,
-        points: 0
+        points: props.points,
     });
 
     const [open, setOpen] = React.useState(false);
@@ -68,11 +68,8 @@ export default function EditQuest(props) {
             <Dialog open={open} fullWidth maxWidth={"sm"} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">{strings.editQuest}</DialogTitle>
                 <DialogContent>
-                    {/* <DialogContentText>
-                        Enter a new name.
-            </DialogContentText> */}
                     <TextField
-                        autoFocus
+                        // autoFocus
                         margin="normal"
                         id="title"
                         label={strings.title}
