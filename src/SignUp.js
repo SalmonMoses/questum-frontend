@@ -305,7 +305,6 @@ export default function SignIn() {
                         color="primary"
                         onClick={signUp}
                     >{strings.SIGN_UP}</Button>
-
                 </form>
             </div>
         </Container>

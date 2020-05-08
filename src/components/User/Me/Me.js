@@ -22,7 +22,7 @@ import DeleteDialog from "../../confirmDeleting"
 const useStyles = makeStyles(theme => ({
   area: {
     // marginLeft: theme.spacing(2),
-    width: theme.spacing(40),
+    // width: theme.spacing(40),
   },
   cont: {
     [theme.breakpoints.down('sm')]: {
@@ -220,6 +220,13 @@ export default function Me() {
                 <Typography color="primary" align='center'>
                   <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
                     {name}
+                  </Box>
+                </Typography>
+              </Grid>
+              <Grid item className={classes.area} style={{alignSelf: 'center'}}>
+                <Typography color="primary" align='center'>
+                  <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
+                    {email}
                   </Box>
                 </Typography>
               </Grid>

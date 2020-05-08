@@ -67,7 +67,7 @@ export default function AddGroup(props) {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         {strings.createNewGroup}
       </Button>
-      <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog fullWidth open={open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{strings.newGroupCreate}</DialogTitle>
         <DialogContent>
           <DialogContentText>

@@ -62,7 +62,7 @@ export default function AddQuest(props) {
 
   return (
     <div>
-      <Dialog open={props.open} fullWidth onClose={props.onClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
+      <Dialog open={props.open} fullWidth maxWidth={"sm"} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{strings.createNewQuest}</DialogTitle>
         <DialogContent>
           <DialogContentText>
