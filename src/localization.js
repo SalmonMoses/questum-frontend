@@ -164,6 +164,7 @@ export let strings = new LocalizedStrings({
         AGREEMENT: "End User License Agreement",
         AND: "and",
         PRIVACY_POLICY: "Privacy Policy",
+        IMAGE_INPUT: "Make sure you select an image."
     },
     ru: {
         logIn: "Авторизация",
@@ -305,6 +306,7 @@ export let strings = new LocalizedStrings({
         DELETING_ACCOUNT_TEXT: "Вы уверены, что хотите удалить аккаунт? Весь прогресс будет потерян!",
         quests: "Квесты",
         totalPoints: "Всего очков",
+        IMAGE_INPUT: "Убедитесь, что вы выбрали изображение."
     },
     ua: {
         logIn: "Авторизація",
@@ -443,6 +445,7 @@ export let strings = new LocalizedStrings({
         DELETING_ACCOUNT_TEXT: "Ви впевнені, що хочете видалити свій акаунт? Весь прогрес буде втрачений!",
         quests: "Квести",
         totalPoints: "Загальна кількість балів",
+        IMAGE_INPUT: "Переконайтеся, що ви вибрали зображення."
     }
 });
 

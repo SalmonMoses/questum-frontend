@@ -343,7 +343,13 @@ export default function SittingsUser(props) {
 
   const uploadAvatar = (e) => {
     e.persist();
-    if (e.target.files.length != 1) {
+    if (e.target.files.length !== 1) {
+      return;
+    }
+    if(e.target.files[0].type.slice(0, 5) !== "image"){
+      enqueueSnackbar(strings.IMAGE_INPUT, {
+        variant: 'error',
+      });
       return;
     }
     let token = getLocalStorage("token");
