@@ -441,7 +441,7 @@ export default function Leadboard(props) {
                   <List className={classes.width}>
                     {leaderboard.map((item, count) => (
                       <ListItem key={count} className={classes.width} >
-                        <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+                        <DeleteMember index={count} name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
                       </ListItem>
                     ))}
                   </List>

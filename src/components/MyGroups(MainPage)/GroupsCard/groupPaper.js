@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { Icon } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import { deepOrange, deepPurple } from '@material-ui/core/colors';
+import { deepOrange, deepPurple, grey } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from "react-router-dom";
@@ -91,8 +91,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   color: {
-    // background: theme.palette.secondary.main,
-    width: "100%",
+    background: grey[500],
   },
   width: {
     width: '70%',
@@ -211,16 +210,18 @@ export default function GroupPaper(props) {
     setAnchorEl(null);
   };
 
+  console.log(history.location.search.slice(4) + " " + props.id);
+
   useEffect(() => {
     fetchAvatar()
   }, []);
 
   return (
-    <Grid container direction="row" className={classes.color}>
+    <Grid container direction="row">
       <Grid item className={classes.width} xs={10}>
-        <Card className={classes.area} >
+        <Card className={classes.area}>
           <CardActionArea onClick={handleClick}>
-            <Paper className={classes.paper}>
+            <Paper className={props.id == history.location.search.slice(4) ? classes.color : classes.paper}>
               <Grid container spacing={0}>
                 <Grid item className={classes.margin}>
                   <CardContent>

@@ -12,6 +12,7 @@ import { getLocalStorage } from "../../../../Cookie"
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { path } from "../../../consts"
 import Skeleton from '@material-ui/lab/Skeleton';
+import StarIcon from '@material-ui/icons/Star';
 
 
 const useStyles = makeStyles(theme => ({
@@ -72,6 +73,10 @@ const useStyles = makeStyles(theme => ({
         width: theme.spacing(5),
         height: theme.spacing(5),
       },
+      star:{
+          marginLeft: theme.spacing(1),
+        //   color: "#ffd600"
+      }
 }));
 
 export default function MemberPaper(props) {
@@ -160,14 +165,24 @@ export default function MemberPaper(props) {
                             <CardContent>
                                 <Typography variant="h5" component="h2">
                                     {props.points}
+                                    {(() =>{
+                                        console.log("props.index: " + props.index)
+                                        if(props.index === 0)
+                                        return(
+                                            <StarIcon className={classes.star} style={{color:"#ffd600"}}/>
+                                        );
+                                        if(props.index === 1)
+                                        return(
+                                            <StarIcon className={classes.star} style={{color:"#bdbdbd"}}/>
+                                        );
+                                        if(props.index === 2)
+                                        return(
+                                            <StarIcon className={classes.star} style={{color:"#d84315"}}/>
+                                        );
+                                    })()}
                                 </Typography>
                             </CardContent>
                         </Grid>
-                        {/* <Grid item>
-                        <IconButton onClick={() => handleMemberDelete()}>
-                            <Icon color="primary">delete</Icon>
-                        </IconButton>
-                    </Grid> */}
                     </Grid>
                 </Paper>
             </CardActionArea>
