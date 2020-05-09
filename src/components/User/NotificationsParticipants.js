@@ -29,17 +29,23 @@ const useStyles = makeStyles(theme => ({
     green: {
         color: green[800],
     },
+    popover: {
+        height: '50%'
+    }
 }));
 
 export function NotificationsParticipants() {
     const classes = useStyles();
     const [notifications, setNotifications] = React.useState([]);
+    const [newNotificationsNumber, setNewNotificationsNumber] = React.useState(0);
     const [isOpen, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const parseNotificationParticipant = (n) => {
         let notification = {
-            id: n.id
+            id: n.id,
+            time: n.time,
+            isRead: n.read
         }
         switch (n.type) {
             case "ANSWER_ACCEPTED":
@@ -109,6 +115,7 @@ export function NotificationsParticipants() {
                     let newNotifications = result.items.map(parseNotificationParticipant);
                     console.dir(newNotifications);
                     setNotifications(newNotifications);
+                    setNewNotificationsNumber(notifications.filter(n => !n.isRead).length);
                 }
             })
             .catch(error => console.log('error', error));
@@ -122,7 +129,9 @@ export function NotificationsParticipants() {
         myHeaders.append("Authorization", "Bearer " + token);
 
         let body = JSON.stringify({
-            "items": notifications.map(n => n.id)
+            "items": notifications
+                .filter(n => !n.isRead)
+                .map(n => n.id)
         })
 
         var requestOptions = {
@@ -132,8 +141,9 @@ export function NotificationsParticipants() {
             body
         };
 
-        fetch(`${path}notifications/participants/${id}/markRead`, requestOptions)
-        setNotifications([]);
+        fetch(`${path}notifications/participants/${id}/markRead`, requestOptions);
+        fetchNotifications();
+        // setNotifications([]);
     }
 
     const updateNotifications = async () => {
@@ -167,10 +177,11 @@ export function NotificationsParticipants() {
                     if (result.items.length > 0) {
                         newNotifications.forEach(notification => {
                             Notifier.focus("Questerium",
-                            notification.msg,
-                            notification.link,
-                            process.env.PUBLIC_URL + "/logo512.png");
-                        })
+                                notification.msg,
+                                notification.link,
+                                process.env.PUBLIC_URL + "/logo512.png");
+                        });
+                        setNewNotificationsNumber(newNotificationsNumber + result.items.length);
                     }
                 }
             })
@@ -199,7 +210,7 @@ export function NotificationsParticipants() {
     return (
         <span className={classes.span}>
             <IconButton className={classes.span} aria-label="show 11 new notifications" color="inherit" onClick={handleOpen}>
-                <Badge badgeContent={notifications.length} color="secondary">
+                <Badge badgeContent={newNotificationsNumber} color="secondary">
                     <Icon>notifications</Icon>
                 </Badge>
             </IconButton>
@@ -225,7 +236,7 @@ export function NotificationsParticipants() {
                     {notifications.length > 0
                         ? notifications.map((n, i) =>
                             (<Grid item>
-                                <Typography className={classes.typography}>{n.msg}</Typography>
+                                <Typography className={classes.typography}>{`${n.msg}`}</Typography>
                                 {i < notifications.length - 1 && <Divider />}
                             </Grid>))
                         : (
