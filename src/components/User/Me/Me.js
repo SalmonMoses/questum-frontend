@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, LinearProgress, Typography, Box } from '@material-ui/core';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import { Paper,  Typography, Box } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import { getLocalStorage, deleteFromLocalStorage, clearLocalStorage } from "../../../Cookie"
+import { getLocalStorage } from "../../../Cookie"
 import { path } from "../../consts";
 import { useSnackbar } from 'notistack';
-import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import { Grid } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField'
-import Divider from '@material-ui/core/Divider';
 import { strings } from "../../../localization"
-import { withStyles } from '@material-ui/core/styles';
 import ScoreTable from "./scoreTable"
-import DeleteDialog from "../../confirmDeleting"
 
 const useStyles = makeStyles(theme => ({
-  area: {
-    // marginLeft: theme.spacing(2),
-    // width: theme.spacing(40),
-  },
   cont: {
     [theme.breakpoints.down('sm')]: {
       marginLeft: theme.spacing(0),
@@ -72,16 +60,13 @@ const useStyles = makeStyles(theme => ({
   container2: {
     marginTop: theme.spacing(2),
   },
+  table:{
+    [theme.breakpoints.up('xl')]: {
+      width: theme.spacing(200),
+    },
+  }
 }));
 
-const DarkerDisabledTextField = withStyles({
-  root: {
-    marginRight: 8,
-    "& .MuiInputBase-root.Mui-disabled": {
-      color: "rgba(0, 0, 0, 0.8)"
-    }
-  }
-})(TextField);
 
 export default function Me() {
 
@@ -91,41 +76,6 @@ export default function Me() {
   const [avatar, setAvatar] = useState(null);
 
   const [isAvatarLoading, setAvatarLoading] = useState(true);
-
-  const [open, setOpen] = React.useState(false);
-
-  let history = useHistory();
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpen(false);
-  };
-
-  const deleteAccount = async () => {
-
-    let token = getLocalStorage("token");
-
-    var myHeaders = new Headers();
-
-    myHeaders.append("Authorization", "Bearer " + token);
-
-    var requestOptions = {
-      method: 'DELETE',
-      redirect: 'follow',
-      headers: myHeaders,
-    };
-
-    await fetch(`${path}participants/${getLocalStorage("id")}`, requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-    handleCloseDialog();
-    clearLocalStorage();
-    document.location.reload();
-  }
 
   const fetchAvatar = () => {
     let token = getLocalStorage("token");
@@ -202,8 +152,7 @@ export default function Me() {
       <div className={classes.toolbar} />
       <Paper className={classes.paper}>
         <Container className={classes.cont}>
-
-          <Grid item className={classes.avatarArea} direction="column" >
+          <Grid item className={classes.table} direction="column" >
             <Grid container spacing={2} direction="column" className={classes.avatarArea}>
               <Grid item style={{alignSelf: 'center'}}>
                 {(() => {
@@ -230,12 +179,7 @@ export default function Me() {
                   </Box>
                 </Typography>
               </Grid>
-
             </Grid>
-
-          </Grid>
-
-          <Grid container spacing={4} direction="column">
             <ScoreTable id={getLocalStorage("id")} component={Paper} />
           </Grid>
         </Container>
