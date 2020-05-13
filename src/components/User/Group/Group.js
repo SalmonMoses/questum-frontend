@@ -78,6 +78,12 @@ const useStyles = makeStyles(theme => ({
   container2: {
     marginTop: theme.spacing(2),
   },
+  table: {
+    paddingTop: theme.spacing(2),
+    [theme.breakpoints.up('xl')]: {
+      width: theme.spacing(200),
+    },
+  },
 }));
 
 
@@ -226,7 +232,7 @@ export default function Group() {
       <div className={classes.toolbar} />
       <Paper className={classes.paper}>
         <Container className={classes.cont}>
-          <Grid item className={classes.avatarArea} direction="column" >
+          <Grid item className={classes.table} direction="column" >
             <Grid container spacing={2} direction="column" className={classes.avatarArea}>
               <Grid item>
                 {(() => {
@@ -263,15 +269,15 @@ export default function Group() {
                 </Typography>
               </Grid>
             </Grid>
+            {participants.map((participant, index) =>
+              <ExpandableParticipant
+                id={participant.id}
+                name={participant.name}
+                points={participant.points}
+                index={index}
+              />
+            )}
           </Grid>
-          {participants.map((participant, index) =>
-            <ExpandableParticipant
-              id={participant.id}
-              name={participant.name}
-              points={participant.points}
-              index={index}
-            />
-          )}
         </Container>
       </Paper>
     </main>

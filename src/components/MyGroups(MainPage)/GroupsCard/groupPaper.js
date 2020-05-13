@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('xl')]: {
       marginTop: theme.spacing(0),
       margin: theme.spacing(2),
-      width: theme.spacing(65),
+      width: theme.spacing(80),
       height: theme.spacing(7),
     },
   },
@@ -95,6 +95,7 @@ const useStyles = makeStyles(theme => ({
   },
   width: {
     width: '70%',
+    // backgroundColor: theme.palette.primary.main,
   },
   menu: {
     marginLeft: theme.spacing(3),

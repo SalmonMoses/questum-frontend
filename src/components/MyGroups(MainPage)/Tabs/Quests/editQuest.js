@@ -41,7 +41,7 @@ export default function EditQuest(props) {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
 
-        var raw = JSON.stringify({ "title": values.title });
+        var raw = JSON.stringify({ "title": values.title, "points": Number(values.points) });
 
         var requestOptions = {
             method: 'PUT',

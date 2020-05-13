@@ -416,7 +416,7 @@ export default function Leadboard(props) {
                   <List className={classes.width}>
                     {valuesQuests.map((item, count) => (
                       <ListItem key={count}>
-                        <Quests title={item.title} refresh={() => refresh()} id={item.id} />
+                        <Quests points={item.points} title={item.title} refresh={() => refresh()} id={item.id} />
                       </ListItem>
                     ))}
                   </List>

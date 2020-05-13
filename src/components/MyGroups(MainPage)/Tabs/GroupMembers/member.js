@@ -57,7 +57,10 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(-0.5, -1),
         marginLeft: theme.spacing(5),
         [theme.breakpoints.down('xs')]: {
-            marginLeft: theme.spacing(0),
+            marginLeft: theme.spacing(-1),
+        },
+        [theme.breakpoints.up('xl')]: {
+            marginLeft: theme.spacing(10),
         },
     },
     email: {
@@ -73,10 +76,15 @@ const useStyles = makeStyles(theme => ({
         width: theme.spacing(5),
         height: theme.spacing(5),
       },
-      star:{
-          marginLeft: theme.spacing(1),
+    star:{
+        //   marginRight:theme.spacing(0),
+          marginLeft: theme.spacing(0),
         //   color: "#ffd600"
-      }
+    },
+    divider:{
+        background: theme.palette.primary.main,
+        color:theme.palette.primary.main,
+    }
 }));
 
 export default function MemberPaper(props) {
@@ -150,21 +158,28 @@ export default function MemberPaper(props) {
                         <Grid item className={classes.margin2} xs={8}>
                             <CardContent>
                                 {/* Длина не больше 15 символов!*/}
-                                <Typography gutterBottom variant="h5" component="h2">
+                                <Typography gutterBottom variant="h6">
                                     {props.name}
                                 </Typography>
                                 <div className={classes.email}>
-                                    <Typography variant="h6" component="h2" >
+                                    <Typography variant="subtitle1">
                                         {props.email}
                                     </Typography>
                                 </div>
                             </CardContent>
                         </Grid>
                         <Divider orientation="vertical" />
-                        <Grid item className={classes.score}>
+                        <Grid item className={classes.score} xs={1}>
+                            <CardContent>
+                                <Typography variant="h6" component="h2">
+                                    {props.points}
+                                </Typography>
+                            </CardContent>
+                        </Grid>
+                        <Divider orientation="vertical" className={classes.divider}/>
+                        <Grid item xs={1} className={classes.star}>
                             <CardContent>
                                 <Typography variant="h5" component="h2">
-                                    {props.points}
                                     {(() =>{
                                         console.log("props.index: " + props.index)
                                         if(props.index === 0)

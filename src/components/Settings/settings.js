@@ -105,6 +105,11 @@ const useStyles = makeStyles(theme => ({
   avatarSkeleton: {
     width: theme.spacing(20),
     height: theme.spacing(20),
+  },
+  table:{
+    [theme.breakpoints.up('xl')]: {
+      width: theme.spacing(200),
+    },
   }
 }));
 
@@ -381,7 +386,7 @@ export default function Sittings(props) {
       <Paper className={classes.paper}>
         <Container className={classes.cont}>
 
-          <Grid container spacing={4} direction="column">
+          <Grid container spacing={4} direction="column" className={classes.table}>
             <Grid item className={classes.area1}>
               <Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
