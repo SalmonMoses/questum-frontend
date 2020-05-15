@@ -123,7 +123,7 @@ export default function EditSubquest(props) {
                                 label="NONE"
                                 color="primary"
                                 icon={<Icon>radio_button_unchecked</Icon>} /> */}
-                            <VarificationTypes type={type} />
+                            <VarificationTypes type={type} typename={values.type}/>
                         </Grid>
                         <Grid item>
                             <TextField

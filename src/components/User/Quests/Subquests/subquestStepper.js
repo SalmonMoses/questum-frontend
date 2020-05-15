@@ -17,6 +17,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { strings } from "../../../../localization"
+import useInterval from 'react-useinterval';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,39 +105,41 @@ export default function SubquestStepper(props) {
     console.log("refreshhhhhh.......");
   }
 
+  const fetchAllQuests = async () => {
+
+    let token = getLocalStorage("token");
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+      headers: myHeaders,
+    };
+
+    await fetch(`${path}participants/${getLocalStorage("id")}/progress/${props.id}`, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        console.log("all subquests: ")
+        console.log(result);
+        setValuesSubQuests(result.subquests);
+        setProgress({ ...progress, prog: result.progress, length: result.subquests.length, result: result.percentage * 100 });
+        if ((result.progress ^ 0) === result.progress) {
+          setActiveStep(result.progress);
+        } else {
+          setActiveStep(Math.floor(result.progress));
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  useInterval(fetchAllQuests, 15000);
+
   useEffect(() => {
-
-    const fetchAllQuests = async () => {
-
-      let token = getLocalStorage("token");
-
-      var myHeaders = new Headers();
-
-      myHeaders.append("Content-Type", "application/json");
-
-      myHeaders.append("Authorization", "Bearer " + token);
-
-      var requestOptions = {
-        method: 'GET',
-        redirect: 'follow',
-        headers: myHeaders,
-      };
-
-      await fetch(`${path}participants/${getLocalStorage("id")}/progress/${props.id}`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          console.log("all subquests: ")
-          console.log(result);
-          setValuesSubQuests(result.subquests);
-          setProgress({ ...progress, prog: result.progress, length: result.subquests.length, result: result.percentage * 100 });
-          if ((result.progress ^ 0) === result.progress) {
-            setActiveStep(result.progress);
-          } else {
-            setActiveStep(Math.floor(result.progress));
-          }
-        })
-        .catch(error => console.log('error', error));
-    }
     fetchAllQuests();
 
   }, [props.id, progressLast]);
