@@ -116,7 +116,7 @@ export default function AddSubQuest(props) {
             <Button className={classes.add} variant="outlined" color="primary" onClick={handleClickOpen} >
                 {strings.addNewSubquest}
             </Button>
-            <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog maxWidth="sm" fullWidth open={open} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">{strings.addSubquest}</DialogTitle>
                 <DialogContent className={classes.dialog}>
                     <Grid container direction="column" spacing={3}>
@@ -157,15 +157,7 @@ export default function AddSubQuest(props) {
                                 onChange={handleChange("desc")}
                                 className={classes.area}
                                 aria-label="minimum height"
-                                // rowsMin={10}
                                 label={strings.description} />
-                            {/* <TextField
-                                fullWidth
-                                label="Description"
-                                variant="outlined"
-                                value={values.desc}
-                                onChange={handleChange("desc")} */}
-                            {/* /> */}
                         </Grid>
                         {values.type === "TEXT" && (<Grid item>
                             <TextField

@@ -95,7 +95,7 @@ export default function EditSubquest(props) {
             <IconButton aria-label="edit" onClick={handleClickOpen}>
                 <Icon color="primary">edit</Icon>
             </IconButton>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={open} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">{strings.editSubquest}</DialogTitle>
                 <DialogContent className={classes.dialog}>
                     <Grid container direction="column" spacing={3}>
@@ -126,9 +126,6 @@ export default function EditSubquest(props) {
                             <VarificationTypes type={type} />
                         </Grid>
                         <Grid item>
-                            {/* <DialogContentText>
-                                {strings.enterDescription}
-                            </DialogContentText> */}
                             <TextField
                                 variant="outlined"
                                 value={values.desc}
@@ -138,13 +135,6 @@ export default function EditSubquest(props) {
                                 aria-label="minimum height"
                                 // rowsMin={10}
                                 label={strings.description} />
-                            {/* <TextField
-                                fullWidth
-                                label="Description"
-                                variant="outlined"
-                                value={values.desc}
-                                onChange={handleChange("desc")} */}
-                            {/* /> */}
                         </Grid>
                         {values.type === "TEXT" && (<Grid item>
                             <TextField

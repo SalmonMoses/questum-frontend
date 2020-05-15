@@ -61,10 +61,7 @@ export default function DeleteMember(props) {
 
   return (
     <div className={classes.width}>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button> */}
-      <MemberPaper onClick={handleClickOpen} userId={props.id} name={props.name} points={props.points} email={props.email} refresh={() => props.refresh()} id={history.location.search.slice(4)}/>
+      <MemberPaper index={props.index} onClick={handleClickOpen} userId={props.id} name={props.name} points={props.points} email={props.email} refresh={() => props.refresh()} id={history.location.search.slice(4)}/>
       <Dialog
         open={open}
         onClose={handleClose}

@@ -91,21 +91,6 @@ const useStyles = makeStyles(theme => ({
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },
-    // [theme.breakpoints.up('sm')]: {
-    //   position: "fixed",
-    //   botton: 100,
-    //   right: 50,
-    // },
-    // [theme.breakpoints.up('md')]: {
-    //   position: "fixed",
-    //   top: 580,
-    //   right: 90,
-    // },
-    // [theme.breakpoints.up('lg')]: {
-    //   position: "fixed",
-    //   top: 580,
-    //   right: 90,
-    // },
   },
   button: {
     marginLeft: 10,
@@ -431,7 +416,7 @@ export default function Leadboard(props) {
                   <List className={classes.width}>
                     {valuesQuests.map((item, count) => (
                       <ListItem key={count}>
-                        <Quests title={item.title} refresh={() => refresh()} id={item.id} />
+                        <Quests points={item.points} title={item.title} refresh={() => refresh()} id={item.id} />
                       </ListItem>
                     ))}
                   </List>
@@ -456,7 +441,7 @@ export default function Leadboard(props) {
                   <List className={classes.width}>
                     {leaderboard.map((item, count) => (
                       <ListItem key={count} className={classes.width} >
-                        <DeleteMember name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
+                        <DeleteMember index={count} name={item.name} points={item.points} email={item.email} refresh={() => refresh()} id={item.id} />
                       </ListItem>
                     ))}
                   </List>

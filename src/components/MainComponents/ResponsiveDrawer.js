@@ -175,9 +175,9 @@ function ResponsiveDrawer(props) {
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
-          enqueueSnackbar(strings.avatarError, {
-            variant: 'error',
-          });
+          // enqueueSnackbar(strings.avatarError, {
+          //   variant: 'error',
+          // });
           return;
         } else if (response.status === 500) {
           console.log('No avatar for this user!');

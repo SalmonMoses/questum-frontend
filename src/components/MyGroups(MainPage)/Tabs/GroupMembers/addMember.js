@@ -70,13 +70,13 @@ export default function AddMember(props) {
 
   return (
     <div>
-      <Dialog open={props.open} onClose={props.onClose} aria-labelledby="form-dialog-title">
+      <Dialog open={props.open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{strings.addMember}</DialogTitle>
         <DialogContent className={classes.dialog}>
           <Grid container direction="row" spacing={5}>
             <Grid item>
               <TextField
-                autoFocus
+                // autoFocus
                 margin="dense"
                 id="name"
                 label={strings.name}

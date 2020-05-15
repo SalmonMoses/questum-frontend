@@ -12,6 +12,7 @@ import { getLocalStorage } from "../../../../Cookie"
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { path } from "../../../consts"
 import Skeleton from '@material-ui/lab/Skeleton';
+import StarIcon from '@material-ui/icons/Star';
 
 
 const useStyles = makeStyles(theme => ({
@@ -56,7 +57,10 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(-0.5, -1),
         marginLeft: theme.spacing(5),
         [theme.breakpoints.down('xs')]: {
-            marginLeft: theme.spacing(0),
+            marginLeft: theme.spacing(-1),
+        },
+        [theme.breakpoints.up('xl')]: {
+            marginLeft: theme.spacing(10),
         },
     },
     email: {
@@ -72,6 +76,15 @@ const useStyles = makeStyles(theme => ({
         width: theme.spacing(5),
         height: theme.spacing(5),
       },
+    star:{
+        //   marginRight:theme.spacing(0),
+          marginLeft: theme.spacing(0),
+        //   color: "#ffd600"
+    },
+    divider:{
+        background: theme.palette.primary.main,
+        color:theme.palette.primary.main,
+    }
 }));
 
 export default function MemberPaper(props) {
@@ -145,29 +158,46 @@ export default function MemberPaper(props) {
                         <Grid item className={classes.margin2} xs={8}>
                             <CardContent>
                                 {/* Длина не больше 15 символов!*/}
-                                <Typography gutterBottom variant="h5" component="h2">
+                                <Typography gutterBottom variant="h6">
                                     {props.name}
                                 </Typography>
                                 <div className={classes.email}>
-                                    <Typography variant="h6" component="h2" >
+                                    <Typography variant="subtitle1">
                                         {props.email}
                                     </Typography>
                                 </div>
                             </CardContent>
                         </Grid>
                         <Divider orientation="vertical" />
-                        <Grid item className={classes.score}>
+                        <Grid item className={classes.score} xs={1}>
                             <CardContent>
-                                <Typography variant="h5" component="h2">
+                                <Typography variant="h6" component="h2">
                                     {props.points}
                                 </Typography>
                             </CardContent>
                         </Grid>
-                        {/* <Grid item>
-                        <IconButton onClick={() => handleMemberDelete()}>
-                            <Icon color="primary">delete</Icon>
-                        </IconButton>
-                    </Grid> */}
+                        <Divider orientation="vertical" className={classes.divider}/>
+                        <Grid item xs={1} className={classes.star}>
+                            <CardContent>
+                                <Typography variant="h5" component="h2">
+                                    {(() =>{
+                                        console.log("props.index: " + props.index)
+                                        if(props.index === 0)
+                                        return(
+                                            <StarIcon className={classes.star} style={{color:"#ffd600"}}/>
+                                        );
+                                        if(props.index === 1)
+                                        return(
+                                            <StarIcon className={classes.star} style={{color:"#bdbdbd"}}/>
+                                        );
+                                        if(props.index === 2)
+                                        return(
+                                            <StarIcon className={classes.star} style={{color:"#d84315"}}/>
+                                        );
+                                    })()}
+                                </Typography>
+                            </CardContent>
+                        </Grid>
                     </Grid>
                 </Paper>
             </CardActionArea>

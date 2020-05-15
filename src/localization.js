@@ -25,7 +25,7 @@ export let strings = new LocalizedStrings({
         longerName: "Your name must be longer than 3 characters",
         correctEmail: "Make sure your E-mail is correct",
         registeredEmail: "This E-mail has already been registered",
-        completeRegistr: "Registration completed successfully!",
+        completeRegistr: "Registration completed successfully! Now sign in!",
         //Group owner page (left side)
         myGroups: "My groups",
         pendQuests: "Pending quests",
@@ -164,6 +164,7 @@ export let strings = new LocalizedStrings({
         AGREEMENT: "End User License Agreement",
         AND: "and",
         PRIVACY_POLICY: "Privacy Policy",
+        IMAGE_INPUT: "Make sure you select an image."
     },
     ru: {
         logIn: "Авторизация",
@@ -185,7 +186,7 @@ export let strings = new LocalizedStrings({
         longerName: "Имя должно быть длиннее 3 символов",
         correctEmail: "Проверьте правильность Вашей почты",
         registeredEmail: "Данная почта уже зарегистрирована",
-        completeRegistr: "Регистрация успешно завершена!",
+        completeRegistr: "Регистрация успешно завершена! Войдите в аккаунт!",
         myGroups: "Мои группы",
         pendQuests: "Квесты, ожидающие подтверждения",
         settings: "Настройки",
@@ -305,6 +306,7 @@ export let strings = new LocalizedStrings({
         DELETING_ACCOUNT_TEXT: "Вы уверены, что хотите удалить аккаунт? Весь прогресс будет потерян!",
         quests: "Квесты",
         totalPoints: "Всего очков",
+        IMAGE_INPUT: "Убедитесь, что вы выбрали изображение."
     },
     ua: {
         logIn: "Авторизація",
@@ -326,7 +328,7 @@ export let strings = new LocalizedStrings({
         longerName: "Ім'я повинно бути довшим за 3 символи",
         correctEmail: "Перевірте правильність уведеної пошти",
         registeredEmail: "Дана пошта вже зареєстрована",
-        completeRegistr: "Реєстрація успішно завершена!",
+        completeRegistr: "Реєстрація успішно завершена! Вам треба увійти в акаунт!",
         myGroups: "Мої групи",
         pendQuests: "Квести, що очікують підтвердження",
         settings: "Налаштування",
@@ -443,6 +445,7 @@ export let strings = new LocalizedStrings({
         DELETING_ACCOUNT_TEXT: "Ви впевнені, що хочете видалити свій акаунт? Весь прогрес буде втрачений!",
         quests: "Квести",
         totalPoints: "Загальна кількість балів",
+        IMAGE_INPUT: "Переконайтеся, що ви вибрали зображення."
     }
 });
 

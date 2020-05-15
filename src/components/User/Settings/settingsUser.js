@@ -107,6 +107,11 @@ const useStyles = makeStyles(theme => ({
   avatarSkeleton: {
     width: theme.spacing(20),
     height: theme.spacing(20),
+  },
+  table:{
+    [theme.breakpoints.up('xl')]: {
+      width: theme.spacing(200),
+    },
   }
 }));
 
@@ -343,7 +348,13 @@ export default function SittingsUser(props) {
 
   const uploadAvatar = (e) => {
     e.persist();
-    if (e.target.files.length != 1) {
+    if (e.target.files.length !== 1) {
+      return;
+    }
+    if(e.target.files[0].type.slice(0, 5) !== "image"){
+      enqueueSnackbar(strings.IMAGE_INPUT, {
+        variant: 'error',
+      });
       return;
     }
     let token = getLocalStorage("token");
@@ -390,7 +401,6 @@ export default function SittingsUser(props) {
 
   const logout = () => {
     clearLocalStorage();
-    // history.push("/login/user")
     document.location.reload();
   }
 
@@ -405,7 +415,7 @@ export default function SittingsUser(props) {
       <Paper className={classes.paper}>
         <Container className={classes.cont}>
 
-          <Grid container spacing={4} direction="column">
+          <Grid container className={classes.table} spacing={4} direction="column">
             <Grid item className={classes.area1}>
               <Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >
@@ -413,6 +423,7 @@ export default function SittingsUser(props) {
                 </Box>
               </Typography>
             </Grid>
+
             <Divider />
 
             <Grid item className={classes.avatarArea}>
@@ -518,7 +529,6 @@ export default function SittingsUser(props) {
                 </Box>
               </Typography>
             </Grid>
-            {/* <Divider /> */}
             <Grid item className={classes.area}>
               <FormControl className={classes.formControl} fullWidth>
                 <InputLabel id="demo-simple-select-label">{strings.language}</InputLabel>
@@ -555,8 +565,6 @@ export default function SittingsUser(props) {
                 open={openDelete}
                 close={handleCloseDelete}
                 delete={deleteAccount}
-                // title={"Удаление аккаунта"}
-                // text={"Вы уверены, что хотите удалить аккаут? Весь прогресс будет потерян!"}
                 title={strings.DELETING_ACCOUNT}
                 text={strings.DELETING_ACCOUNT_TEXT}
               />

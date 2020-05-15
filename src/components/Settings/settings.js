@@ -105,6 +105,11 @@ const useStyles = makeStyles(theme => ({
   avatarSkeleton: {
     width: theme.spacing(20),
     height: theme.spacing(20),
+  },
+  table:{
+    [theme.breakpoints.up('xl')]: {
+      width: theme.spacing(200),
+    },
   }
 }));
 
@@ -316,10 +321,17 @@ export default function Sittings(props) {
 
   const uploadAvatar = (e) => {
     e.persist();
-    if(e.target.files.length != 1) {
+    if(e.target.files.length !== 1) {
+      return;
+    }
+    if(e.target.files[0].type.slice(0, 5) !== "image"){
+      enqueueSnackbar(strings.IMAGE_INPUT, {
+        variant: 'error',
+      });
       return;
     }
     let token = getLocalStorage("token");
+    console.log(e.target.files[0].type);
 
     var myHeaders = new Headers();
 
@@ -374,7 +386,7 @@ export default function Sittings(props) {
       <Paper className={classes.paper}>
         <Container className={classes.cont}>
 
-          <Grid container spacing={4} direction="column">
+          <Grid container spacing={4} direction="column" className={classes.table}>
             <Grid item className={classes.area1}>
               <Typography color="primary">
                 <Box fontSize="h4.fontSize" fontWeight="fontWeightMedium" >

@@ -127,36 +127,6 @@ export default function SubmitAnswer(props) {
           />
           {props.disabled ? strings.alreadySentAnswer : strings.sendAnswer}
         </FormControl>
-            {/* <Button disabled={props.disabled} variant="contained" color="primary" onClick={handleClickOpen} >
-                Send an answer
-            </Button>
-            <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Send an answer</DialogTitle>
-                <DialogContent>
-                    <Grid container direction="column" spacing={5}>
-                        <Grid item>
-                            <DialogContentText>
-                                Enter an answer.
-                            </DialogContentText>
-                            <TextareaAutosize
-                                value={values.answer}
-                                onChange={handleChange("answer")}
-                                className={classes.area}
-                                aria-label="minimum height"
-                                rowsMin={10}
-                                placeholder="Your answer.." />
-                        </Grid>
-                    </Grid>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={sendAnswer} color="primary">
-                        SEND
-                    </Button>
-                </DialogActions>
-            </Dialog> */}
         </div>
     );
 }

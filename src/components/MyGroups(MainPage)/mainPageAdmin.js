@@ -155,15 +155,15 @@ export default function MainPageAdmin(props) {
 
     if (cookie === undefined) {
         history.push("/login/owner");
-        enqueueSnackbar(strings.sessionTimeout, {
-            variant: 'error',
-        });
+        // enqueueSnackbar(strings.sessionTimeout, {
+        //     variant: 'error',
+        // });
     } else
         if (getTokenRole(cookie) !== "owner") {
             history.push("/login/owner");
-            enqueueSnackbar(strings.sessionTimeout, {
-                variant: 'error',
-            });
+            // enqueueSnackbar(strings.sessionTimeout, {
+            //     variant: 'error',
+            // });
         }
 
     return (

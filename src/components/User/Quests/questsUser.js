@@ -63,6 +63,11 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(2),
     },
   },
+  table:{
+    [theme.breakpoints.up('xl')]: {
+      width: theme.spacing(200),
+    },
+  }
 }));
 
 export default function QuestsUser() {
@@ -134,16 +139,11 @@ export default function QuestsUser() {
       <div className={classes.toolbar} />
       <Paper className={classes.paper}>
         <Container className={classes.cont}>
-
-
-          {valuesQuests.map((item, count) => (
-            
-              <SubquestStepper id={item.id} title={item.title} desc={item.desc} count={count}/> 
-
-          ))}
-
-
-
+          <div className={classes.table}>
+            {valuesQuests.map((item, count) => (
+              <SubquestStepper id={item.id} title={item.title} desc={item.desc} count={count} />
+            ))}
+          </div>
         </Container>
       </Paper>
     </main>

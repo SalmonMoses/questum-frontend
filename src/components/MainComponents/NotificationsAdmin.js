@@ -16,17 +16,23 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2),
         // color: theme.palette.primary.contrastText,
     },
+    popover: {
+        height: '50%'
+    }
 }));
 
 export function NotificationsAdmin() {
     const classes = useStyles();
     const [notifications, setNotifications] = React.useState([]);
+    const [newNotificationsNumber, setNewNotificationsNumber] = React.useState(0);
     const [isOpen, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const parseNotificationAdmin = n => {
         let notification = {
-            id: n.id
+            id: n.id,
+            time: n.time,
+            isRead: n.read
         }
         switch (n.type) {
             case "COMPLETED_SUBQUEST_OWNER":
@@ -76,6 +82,7 @@ export function NotificationsAdmin() {
                     let newNotifications = result.items.map(parseNotificationAdmin);
                     console.dir(newNotifications);
                     setNotifications(newNotifications);
+                    setNewNotificationsNumber(notifications.filter(n => !n.isRead).length);
                 }
             })
             .catch(error => console.log('error', error));
@@ -89,7 +96,9 @@ export function NotificationsAdmin() {
         myHeaders.append("Authorization", "Bearer " + token);
 
         let body = JSON.stringify({
-            "items": notifications.map(n => n.id)
+            "items": notifications
+                .filter(n => !n.isRead)
+                .map(n => n.id)
         })
 
         var requestOptions = {
@@ -100,7 +109,8 @@ export function NotificationsAdmin() {
         };
 
         fetch(`${path}notifications/owner/${id}/markRead`, requestOptions)
-        setNotifications([]);
+        fetchNotifications();
+        // setNotifications([]);
     }
 
     const updateNotifications = async () => {
@@ -138,7 +148,8 @@ export function NotificationsAdmin() {
                                 notification.msg,
                                 notification.link,
                                 process.env.PUBLIC_URL + "/logo512.png");
-                        })
+                        });
+                        setNewNotificationsNumber(newNotificationsNumber + result.items.length);
                     }
                 }
             })
@@ -166,8 +177,8 @@ export function NotificationsAdmin() {
 
     return (
         <>
-            <IconButton aria-label="show 11 new notifications" color="inherit" onClick={handleOpen}>
-                <Badge badgeContent={notifications.length} color="secondary">
+            <IconButton aria-label="show new notifications" color="inherit" onClick={handleOpen}>
+                <Badge badgeContent={newNotificationsNumber} color="secondary">
                     <Icon>notifications</Icon>
                 </Badge>
             </IconButton>
@@ -198,7 +209,7 @@ export function NotificationsAdmin() {
                     {notifications.length > 0
                         ? notifications.map((n, i) =>
                             (<Grid item>
-                                <Typography className={classes.typography}>{n.msg}</Typography>
+                                <Typography className={classes.typography}>{`${n.msg}`}</Typography>
                                 {i < notifications.length - 1 && <Divider />}
                             </Grid>))
                         : (

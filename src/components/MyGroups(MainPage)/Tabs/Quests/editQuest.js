@@ -16,7 +16,7 @@ export default function EditQuest(props) {
 
     const [values, setValues] = useState({
         title: props.questTitle,
-        points: 0
+        points: props.points,
     });
 
     const [open, setOpen] = React.useState(false);
@@ -41,7 +41,7 @@ export default function EditQuest(props) {
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
 
-        var raw = JSON.stringify({ "title": values.title });
+        var raw = JSON.stringify({ "title": values.title, "points": Number(values.points) });
 
         var requestOptions = {
             method: 'PUT',
@@ -65,14 +65,11 @@ export default function EditQuest(props) {
             <IconButton aria-label="edit" onClick={handleClickOpen}>
                 <Icon color="primary">edit</Icon>
             </IconButton>
-            <Dialog open={open} fullWidth onClose={handleClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
+            <Dialog open={open} fullWidth maxWidth={"sm"} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">{strings.editQuest}</DialogTitle>
                 <DialogContent>
-                    {/* <DialogContentText>
-                        Enter a new name.
-            </DialogContentText> */}
                     <TextField
-                        autoFocus
+                        // autoFocus
                         margin="normal"
                         id="title"
                         label={strings.title}

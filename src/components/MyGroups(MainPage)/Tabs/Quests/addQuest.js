@@ -41,7 +41,7 @@ export default function AddQuest(props) {
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
 
-    var raw = JSON.stringify({ "title": values.title, "desc": "Just some more testing", points: values.points });
+    var raw = JSON.stringify({ "title": values.title, "desc": "", points: values.points });
 
     var requestOptions = {
       method: 'POST',
@@ -62,14 +62,14 @@ export default function AddQuest(props) {
 
   return (
     <div>
-      <Dialog open={props.open} fullWidth onClose={props.onClose} maxWidth={"sm"} aria-labelledby="form-dialog-title">
+      <Dialog open={props.open} fullWidth maxWidth={"sm"} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{strings.createNewQuest}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             {strings.enterTitle}
             </DialogContentText>
           <TextField
-            autoFocus
+            // autoFocus
             // margin="dense"
             id="title"
             label={strings.title}
