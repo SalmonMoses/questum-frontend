@@ -522,7 +522,7 @@ export default function Sittings(props) {
           </Grid>
         </Container>
       </Paper>
-      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false} />
+      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={false} owner={true} />
     </main>
   );
 }
