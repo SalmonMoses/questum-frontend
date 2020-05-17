@@ -18,6 +18,9 @@ import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 import { path } from "../consts"
 import { strings } from "../../localization"
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { setLocalStorage } from "../../Cookie"
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -29,7 +32,13 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         width: "100%"
-    }
+    },
+    lang: {
+        position: 'fixed',
+        top: theme.spacing(2),
+        right: theme.spacing(4),
+        color: theme.palette.primary.main,
+    },
 
 }));
 
@@ -49,6 +58,22 @@ export default function RestorePasswordOwner() {
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
     };
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = event => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const changeLanguage = (lang) => {
+        setLocalStorage("lang", lang);
+        handleClose();
+        document.location.reload();
+    }
+
 
     const submit = () => {
 
@@ -91,6 +116,29 @@ export default function RestorePasswordOwner() {
 
     return (
         <Container component="main" maxWidth="xs">
+            <Button
+                className={classes.lang}
+
+                edge="end"
+                aria-label="change language"
+                aria-controls="lang"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleClick}
+            >
+                Language<Icon>translate</Icon>
+            </Button>
+            <Menu
+                id="lang"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+                <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
+                <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
+            </Menu>
             <CssBaseline />
             <div className={classes.paper}>
                 <img alt="Questerium" src={`${process.env.PUBLIC_URL}/Qlogo.png`} class={classes.logo} />

@@ -91,6 +91,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   color: {
+    //background: theme.palette.secondary.light,
     background: grey[500],
   },
   width: {
