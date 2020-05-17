@@ -180,7 +180,7 @@ export default function Me() {
                 </Typography>
               </Grid>
             </Grid>
-            <ScoreTable id={getLocalStorage("id")} component={Paper} />
+            <ScoreTable id={getLocalStorage("id")} />
           </Grid>
         </Container>
       </Paper>

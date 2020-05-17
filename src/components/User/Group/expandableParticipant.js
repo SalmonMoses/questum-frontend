@@ -1,16 +1,45 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+//import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+//import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { getLocalStorage } from '../../../Cookie';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { Avatar } from '@material-ui/core';
+import { Avatar, Divider } from '@material-ui/core';
 import { path } from "../../consts";
 import ScoreTable from "../Me/scoreTable"
+import { withStyles } from '@material-ui/core/styles';
+import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
+import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+
+const ExpansionPanel = withStyles({
+  root: {
+    border: '0px solid rgba(0, 0, 0, .125)',
+    //borderBottom: '1px solid rgba(0, 0, 0, .125)',
+    boxShadow: 'none',
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    '&:before': {
+      display: 'none',
+    },
+    '&$expanded': {
+      margin: 'auto',
+    },
+  },
+  expanded: {},
+})(MuiExpansionPanel);
+
+const ExpansionPanelSummary = withStyles((theme) => ({
+    root: {
+      //padding: theme.spacing(2),
+      borderBottom: '1px solid rgba(0, 0, 0, .125)',
+    },
+  }))(MuiExpansionPanelSummary);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -84,7 +113,7 @@ export default function ExpandableParticipant(props) {
     },[]);
 
     return (
-        //<div className={classes.root}>
+        <>
             <ExpansionPanel expanded={expanded === 'panel' + props.index} onChange={handleChange('panel' + props.index)}>
                 <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -108,6 +137,7 @@ export default function ExpandableParticipant(props) {
                 <ScoreTable id={props.id}/>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-        //</div>
+            {/* <Divider/> */}
+        </>
     );
 }

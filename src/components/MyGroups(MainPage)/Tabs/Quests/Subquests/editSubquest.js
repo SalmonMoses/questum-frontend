@@ -18,9 +18,9 @@ import { TextField } from '@material-ui/core';
 import { strings } from "../../../../../localization"
 
 const useStyles = makeStyles(theme => ({
-    area: {
-        width: theme.spacing(60),
-    },
+    // area: {
+    //     // width: theme.spacing(60),
+    // },
     chip: {
         marginLeft: theme.spacing(1),
     },
@@ -95,7 +95,7 @@ export default function EditSubquest(props) {
             <IconButton aria-label="edit" onClick={handleClickOpen}>
                 <Icon color="primary">edit</Icon>
             </IconButton>
-            <Dialog open={open} aria-labelledby="form-dialog-title">
+            <Dialog fullWidth maxWidth='sm' open={open} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">{strings.editSubquest}</DialogTitle>
                 <DialogContent className={classes.dialog}>
                     <Grid container direction="column" spacing={3}>
@@ -127,11 +127,12 @@ export default function EditSubquest(props) {
                         </Grid>
                         <Grid item>
                             <TextField
+                            fullWidth
                                 variant="outlined"
                                 value={values.desc}
                                 multiline
                                 onChange={handleChange("desc")}
-                                className={classes.area}
+                                // className={classes.area}
                                 aria-label="minimum height"
                                 // rowsMin={10}
                                 label={strings.description} />
