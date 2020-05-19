@@ -21,6 +21,8 @@ import { path } from "./components/consts"
 import { strings } from './localization'
 import Link from '@material-ui/core/Link';
 import { setLocalStorage } from "./Cookie"
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -39,6 +41,12 @@ const useStyles = makeStyles(theme => ({
     margin: {
         margin: theme.spacing(0),
         width: '100%',
+    },
+    lang: {
+        position: 'fixed',
+        top: theme.spacing(2),
+        right: theme.spacing(4),
+        color: theme.palette.primary.main,
     },
 }));
 
@@ -82,6 +90,21 @@ export default function SignIn() {
         return r.test(String(email).toLowerCase());
     }
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = event => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const changeLanguage = (lang) => {
+        setLocalStorage("lang", lang);
+        handleClose();
+        document.location.reload();
+    }
+
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -91,7 +114,7 @@ export default function SignIn() {
     const signUp = () => {
         let error = false;
 
-        if(!values.checked){
+        if (!values.checked) {
             enqueueSnackbar(strings.PRIVACY, {
                 variant: 'error',
             });
@@ -193,6 +216,29 @@ export default function SignIn() {
 
     return (
         <Container component="main" maxWidth="xs">
+            <Button
+                className={classes.lang}
+
+                edge="end"
+                aria-label="change language"
+                aria-controls="lang"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleClick}
+            >
+                Language<Icon>translate</Icon>
+            </Button>
+            <Menu
+                id="lang"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+                <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
+                <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
+            </Menu>
             <CssBaseline />
             <div className={classes.paper}>
                 <Typography component="div" color="primary">

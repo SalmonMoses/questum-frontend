@@ -69,7 +69,7 @@ export default function ScoreTable(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {score.scorings.map((row) => (
+                        {score.scorings.sort((a,b)=> b.points - a.points).map((row) => (
                             <TableRow key={row.title}>
                                 <TableCell component="th" scope="row">
                                     {row.title}

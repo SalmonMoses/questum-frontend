@@ -319,7 +319,7 @@ export default function Sittings(props) {
     }
   }
 
-  const uploadAvatar = (e) => {
+  const uploadAvatar = async (e) => {
     e.persist();
     if(e.target.files.length !== 1) {
       return;
@@ -349,7 +349,7 @@ export default function Sittings(props) {
 
     setAvatarLoading(true);
 
-    fetch(`${path}owners/${getLocalStorage("id")}/avatar`, requestOptions)
+    await fetch(`${path}owners/${getLocalStorage("id")}/avatar`, requestOptions)
       .then(response => {
         if (response.status === 401) {
           console.log("Authorization error");
@@ -373,6 +373,7 @@ export default function Sittings(props) {
       .catch(error => console.log('error', error));
 
       refresh();
+      document.location.reload();
   }
 
 
@@ -521,7 +522,7 @@ export default function Sittings(props) {
           </Grid>
         </Container>
       </Paper>
-      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={true} owner={false} />
+      <PasswordConfirm open={open} onClick={handleClose} onClose={handleClose} name={values.name} email={values.email} user={false} owner={true} />
     </main>
   );
 }
