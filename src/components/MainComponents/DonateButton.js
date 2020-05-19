@@ -19,7 +19,7 @@ export default function DonateButton() {
             color="primary"
             className={classes.button}
             startIcon={<CoffeeIcon />}
-            href="https://www.buymeacoffee.com/Questerium"
+            href="https://www.buymeacoffee.com/questeriumteam"
         >
             Buy Us a Coffee
         </Button>
