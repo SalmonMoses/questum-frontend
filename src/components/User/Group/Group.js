@@ -269,7 +269,7 @@ export default function Group() {
                 </Typography>
               </Grid>
             </Grid>
-            {participants.map((participant, index) =>
+            {participants.sort((a,b) => b.points - a.points).map((participant, index) =>
               <ExpandableParticipant
                 id={participant.id}
                 name={participant.name}

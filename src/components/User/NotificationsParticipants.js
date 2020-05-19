@@ -9,6 +9,7 @@ import { strings } from '../../localization';
 import DoneIcon from "@material-ui/icons/CheckCircle"
 import CloseIcon from "@material-ui/icons/Cancel"
 import { green } from '@material-ui/core/colors';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles(theme => ({
     span: {
@@ -31,6 +32,10 @@ const useStyles = makeStyles(theme => ({
     },
     popover: {
         height: '50%'
+    },
+    dot:{
+        paddingTop: theme.spacing(1),
+        color: theme.palette.secondary.main,
     }
 }));
 
@@ -236,7 +241,10 @@ export function NotificationsParticipants() {
                     {notifications.length > 0
                         ? notifications.map((n, i) =>
                             (<Grid item>
-                                <Typography className={classes.typography}>{`${n.msg}`}</Typography>
+                                <Typography className={classes.typography}>
+                                {!n.isRead && <FiberManualRecordIcon className={classes.dot} />}
+                                {`${n.msg}`}
+                                </Typography>
                                 {i < notifications.length - 1 && <Divider />}
                             </Grid>))
                         : (

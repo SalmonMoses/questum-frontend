@@ -92,7 +92,7 @@ export default function PasswordConfirm(props) {
                     if(props.user){
                         fetch(`${path}participants/${getLocalStorage("id")}`, requestOptions)
                         .then(response => {
-                            if (response.status === 401) {
+                            if (response.status >= 400) {
                                 console.log("Authorization error");
                                 enqueueSnackbar(strings.authorizationError, {variant: 'error',});
                                 return;
@@ -119,7 +119,7 @@ export default function PasswordConfirm(props) {
                     if(props.owner){
                     fetch(`${path}owners/${getLocalStorage("id")}`, requestOptions)
                         .then(response => {
-                            if (response.status === 401) {
+                            if (response.status >= 400) {
                                 console.log("Authorization error");
                                 enqueueSnackbar(strings.authorizationError, {
                                     variant: 'error',

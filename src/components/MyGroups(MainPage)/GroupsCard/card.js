@@ -77,6 +77,7 @@ const useStyles = makeStyles(theme => ({
   },
   width:{
     width: "100%",
+    paddingLeft:theme.spacing(2),
     // width: `calc(100% + ${theme.spacing(2)}px)`,
   },
   color: {
@@ -149,9 +150,9 @@ export default function MediaCard(props) {
       ) : (
           <List className={classes.width}>
             {values.map((item, count) => (
-              <ListItem key={count} className={classes.width}>
+              //<ListItem key={count} className={classes.width}>
                 <GroupPaper name={item.name} id={item.id} refresh={() => refresh()} />
-              </ListItem>
+              //</ListItem>
             ))}
           </List>
         )}

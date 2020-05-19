@@ -19,6 +19,8 @@ import { path } from "./components/consts"
 import { useHistory } from "react-router-dom";
 import { setLocalStorage } from "./Cookie";
 import { strings } from './localization'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 
@@ -52,7 +54,13 @@ const useStyles = makeStyles(theme => ({
     },
     logo: {
         marginBottom: theme.spacing(2)
-    }
+    },
+    lang: {
+        position: 'fixed',
+        top: theme.spacing(2),
+        right: theme.spacing(4),
+        color: theme.palette.primary.main,
+    },
 }));
 
 
@@ -174,9 +182,47 @@ export default function LoginUser() {
         return true;
     }
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = event => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const changeLanguage = (lang) => {
+        setLocalStorage("lang", lang);
+        handleClose();
+        document.location.reload();
+    }
+
     return (
         <div className={classes.paper}>
             <Container component="main" maxWidth="xs">
+                <Button
+                    className={classes.lang}
+
+                    edge="end"
+                    aria-label="change language"
+                    aria-controls="lang"
+                    aria-haspopup="true"
+                    color="inherit"
+                    onClick={handleClick}
+                >
+                    Language<Icon>translate</Icon>
+                </Button>
+                <Menu
+                    id="lang"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem value={"Russian"} onClick={() => changeLanguage('ru')}>Russian</MenuItem>
+                    <MenuItem value={"English"} onClick={() => changeLanguage('en')}>English</MenuItem>
+                    <MenuItem value={"Ukrainian"} onClick={() => changeLanguage('ua')}>Ukrainian</MenuItem>
+                </Menu>
                 <CssBaseline />
                 <div className={classes.paper}>
                     <img src={`${process.env.PUBLIC_URL}/Qlogo.png`} className={classes.logo} />

@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 export default function VarificationTypes(props) {
   const classes = useStyles();
 
-  const [type, setType] = React.useState('');
+  const [type, setType] = React.useState(props.typename);
 
   const handleChange = event => {
     setType(event.target.value);
