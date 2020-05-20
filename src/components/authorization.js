@@ -50,7 +50,7 @@ export default function Authorization(props) {
 
         await fetch(path + "login/user", requestOptions)
             .then(response => {
-                if (response.status === 401) {
+                if (response.status === 401 || response.status === 500 || response.status === 400) {
                     console.log("Authorization error");
                     console.log("RefreshToken: " + refTok);
                     // alert("Время сессии истекло, войдите заново.");
@@ -107,7 +107,7 @@ export default function Authorization(props) {
 
         await fetch(path + "login/owner", requestOptions)
             .then(response => {
-                if (response.status === 401) {
+                if (response.status === 401 || response.status === 500 || response.status === 400) {
                     console.log("Authorization error");
                     console.log("RefreshToken: " + refTok);
                     // alert("Время сессии истекло, войдите заново.");
@@ -149,7 +149,7 @@ export default function Authorization(props) {
 
     useEffect(() => {
         let refreshTok = getLocalStorage("refreshToken");
-        if(refreshTok === undefined) {
+        if (refreshTok === undefined) {
             history.push("/login/user/");
             return;
         }
@@ -174,7 +174,7 @@ export default function Authorization(props) {
 export function getTokenRole(token) {
     let midTok = token.split('.')[1];
     console.log(midTok);
-    if(midTok === undefined) {
+    if (midTok === undefined) {
         return '';
     }
     let tokJson = atob(midTok.replace('-', '+').replace('_', '/'));
