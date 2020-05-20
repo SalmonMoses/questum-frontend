@@ -122,7 +122,7 @@ export default function PendingQuestCard(props) {
             {loading ? (
                 <CircularProgress />
             ) : values.length === 0 ? (
-                <Typography variant="h4" align="center">
+                <Typography variant="h5" align="center">
                     <Box>
                         {strings.noPendingQuests}
                     </Box>
