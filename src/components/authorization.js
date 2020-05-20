@@ -50,7 +50,7 @@ export default function Authorization(props) {
 
         await fetch(path + "login/user", requestOptions)
             .then(response => {
-                if (response.status === 401) {
+                if (response.status === 401 || response.status === 500) {
                     console.log("Authorization error");
                     console.log("RefreshToken: " + refTok);
                     // alert("Время сессии истекло, войдите заново.");
@@ -107,7 +107,7 @@ export default function Authorization(props) {
 
         await fetch(path + "login/owner", requestOptions)
             .then(response => {
-                if (response.status === 401) {
+                if (response.status === 401 || response.status === 500) {
                     console.log("Authorization error");
                     console.log("RefreshToken: " + refTok);
                     // alert("Время сессии истекло, войдите заново.");
