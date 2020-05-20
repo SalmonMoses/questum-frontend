@@ -50,7 +50,7 @@ export default function Authorization(props) {
 
         await fetch(path + "login/user", requestOptions)
             .then(response => {
-                if (response.status === 401 || response.status === 500 || response.status === 400) {
+                if (response.status === 401) {
                     console.log("Authorization error");
                     console.log("RefreshToken: " + refTok);
                     // alert("Время сессии истекло, войдите заново.");
@@ -85,7 +85,7 @@ export default function Authorization(props) {
             })
             .catch(err => {
                 console.log(err)
-                setLoading(true);
+                history.push("/login/user");
             });
     }
 
@@ -107,7 +107,7 @@ export default function Authorization(props) {
 
         await fetch(path + "login/owner", requestOptions)
             .then(response => {
-                if (response.status === 401 || response.status === 500 || response.status === 400) {
+                if (response.status === 401) {
                     console.log("Authorization error");
                     console.log("RefreshToken: " + refTok);
                     // alert("Время сессии истекло, войдите заново.");
@@ -143,7 +143,7 @@ export default function Authorization(props) {
             })
             .catch(err => {
                 console.log(err)
-                setLoading(true);
+                history.push("/login/owner");
             });
     }
 
