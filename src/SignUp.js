@@ -344,7 +344,7 @@ export default function SignIn() {
                         {strings.AGREEMENT}
                     </Link>{' ' + strings.AND + " "}
                     <Link color="primary" href="/docs/privacy">
-                        {strings.PRIVACY_POLICY} Questerium
+                        {strings.PRIVACY_POLICY}
                     </Link>{' '}
                     <Button
                         className={classes.submit}

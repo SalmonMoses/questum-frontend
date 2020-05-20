@@ -85,7 +85,7 @@ export default function Authorization(props) {
             })
             .catch(err => {
                 console.log(err)
-                setLoading(true);
+                history.push("/login/user");
             });
     }
 
@@ -143,13 +143,13 @@ export default function Authorization(props) {
             })
             .catch(err => {
                 console.log(err)
-                setLoading(true);
+                history.push("/login/owner");
             });
     }
 
     useEffect(() => {
         let refreshTok = getLocalStorage("refreshToken");
-        if(refreshTok === undefined) {
+        if (refreshTok === undefined) {
             history.push("/login/user/");
             return;
         }
@@ -174,7 +174,7 @@ export default function Authorization(props) {
 export function getTokenRole(token) {
     let midTok = token.split('.')[1];
     console.log(midTok);
-    if(midTok === undefined) {
+    if (midTok === undefined) {
         return '';
     }
     let tokJson = atob(midTok.replace('-', '+').replace('_', '/'));
